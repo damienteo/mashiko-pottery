@@ -1,0 +1,71 @@
+// prisma/schema.prisma
+datasource db {
+provider = "postgresql"
+url      = env("DATABASE\_URL")
+}
+
+generator client {
+provider = "prisma-client-js"
+}
+
+model User {
+id       Int      @id @default(autoincrement())
+email    String   @unique
+password String
+role     String
+orders   Order\[]
+}
+
+model Potter {
+id       Int       @id @default(autoincrement())
+name     String
+bio      String
+style    String
+active   Boolean
+products Product\[]
+payouts  Payout\[]  // Added opposite relation field for Payout
+}
+
+model Product {
+id          Int         @id @default(autoincrement())
+potterId    Int
+potter      Potter      @relation(fields: \[potterId], references: \[id])
+title       String
+description String
+price       Float
+stock       Int
+weight      Float
+photos      String\[]
+category    String
+orderItems  OrderItem\[]
+}
+
+model Order {
+id             Int         @id @default(autoincrement())
+userId         Int
+user           User        @relation(fields: \[userId], references: \[id])
+status         String
+total          Float
+address        String
+trackingNumber String?
+items          OrderItem\[]
+}
+
+model OrderItem {
+id        Int     @id @default(autoincrement())
+orderId   Int
+order     Order   @relation(fields: \[orderId], references: \[id])
+productId Int
+product   Product @relation(fields: \[productId], references: \[id])
+quantity  Int
+price     Float
+}
+
+model Payout {
+id             Int     @id @default(autoincrement())
+potterId       Int
+potter         Potter  @relation(fields: \[potterId], references: \[id])
+month          String
+amount         Float
+commissionRate Float
+}
