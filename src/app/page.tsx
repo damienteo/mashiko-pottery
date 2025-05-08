@@ -1,3 +1,6 @@
+"use client";
+import { useTranslations } from "next-intl";
+
 export const metadata = {
   title: "Home – Mashiko Pottery",
   description:
@@ -5,11 +8,10 @@ export const metadata = {
 };
 
 export default function HomePage() {
+  const t = useTranslations();
   return (
     <main className="min-h-screen flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-600">
-        🏺 Welcome to Mashiko Pottery
-      </h1>
+      <h1 className="text-4xl font-bold text-blue-600">{t("home.heading")}</h1>
     </main>
   );
 }
