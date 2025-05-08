@@ -1,5 +1,30 @@
 {
-  "home.title": "益子焼へようこそ",
-  "cart.empty": "カートに商品はありません。",
-  "checkout.button": "購入を完了"
+  "home": {
+    "heading": "🏺 益子焼へようこそ"
+  },
+  "cart": {
+    "title": "カート",
+    "empty": "カートに商品はありません。",
+    "reAdd": "カートに再追加"
+  },
+  "checkout": {
+    "button": "購入を完了",
+    "redirecting": "ログインへリダイレクト中…"
+  },
+  "product": {
+    "loading": "読み込み中…",
+    "addToCart": "カートに追加"
+  },
+  "admin": {
+    "nav": {
+      "products": "商品",
+      "orders": "注文",
+      "payouts": "支払い"
+    },
+    "pages": {
+      "productsTitle": "管理者: 商品管理",
+      "ordersTitle": "管理者: 注文管理",
+      "payoutsTitle": "管理者: 支払いレポート"
+    }
+  }
 }

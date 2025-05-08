@@ -1,5 +1,57 @@
 {
-  "home.title": "欢迎来到益子陶器",
-  "cart.empty": "您的购物车中没有商品。",
-  "checkout.button": "完成购买"
+  "meta": {
+    "home": {
+      "title": "首页 – 益子陶器",
+      "description": "探索我们本地工匠精心手工制作的益子陶器系列。"
+    },
+    "cart": {
+      "title": "购物车 – 益子陶器",
+      "description": "在结账前查看购物车中的商品。"
+    },
+    "checkout": {
+      "title": "结账 – 益子陶器",
+      "description": "输入您的信息并安全完成购买。"
+    },
+    "product": {
+      "title": "商品详情 – 益子陶器",
+      "description": "查看此手工陶器的详细信息并购买。"
+    },
+    "potter": {
+      "title": "陶艺师简介 – 益子陶器",
+      "description": "了解工匠及其作品。"
+    },
+    "admin": {
+      "pages": {
+        "productsTitle": "管理员: 管理商品",
+        "ordersTitle": "管理员: 管理订单",
+        "payoutsTitle": "管理员: 支付报告"
+      }
+    }
+  },
+  "home": {
+    "heading": "🏺 欢迎来到益子陶器"
+  },
+  "cart": {
+    "title": "购物车",
+    "empty": "您的购物车中没有商品。",
+    "reAdd": "重新添加到购物车"
+  },
+  "checkout": {
+    "button": "完成购买",
+    "redirecting": "正在重定向到登录…"
+  },
+  "product": {
+    "loading": "加载中…",
+    "addToCart": "添加到购物车"
+  },
+  "potter": {
+    "loading": "加载中…"
+  },
+  "admin": {
+    "nav": {
+      "products": "商品",
+      "orders": "订单",
+      "payouts": "支付"
+    }
+  }
 }

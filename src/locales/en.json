@@ -1,5 +1,57 @@
 {
-  "home.title": "Welcome to Mashiko Pottery",
-  "cart.empty": "Your cart is empty",
-  "checkout.button": "Complete Purchase"
+  "meta": {
+    "home": {
+      "title": "ホーム – 益子焼",
+      "description": "地元職人による手作り益子焼コレクションをご覧ください。"
+    },
+    "cart": {
+      "title": "カート – 益子焼",
+      "description": "チェックアウト前にカート内の商品を確認してください。"
+    },
+    "checkout": {
+      "title": "チェックアウト – 益子焼",
+      "description": "お客様情報を入力して安全に購入を完了します。"
+    },
+    "product": {
+      "title": "商品詳細 – 益子焼",
+      "description": "この手作り陶器の詳細を確認し、ご購入いただけます。"
+    },
+    "potter": {
+      "title": "作家プロフィール – 益子焼",
+      "description": "職人とその作品についてご覧ください。"
+    },
+    "admin": {
+      "pages": {
+        "productsTitle": "管理者: 商品管理",
+        "ordersTitle": "管理者: 注文管理",
+        "payoutsTitle": "管理者: 支払いレポート"
+      }
+    }
+  },
+  "home": {
+    "heading": "🏺 益子焼へようこそ"
+  },
+  "cart": {
+    "title": "カート",
+    "empty": "カートに商品はありません。",
+    "reAdd": "カートに再追加"
+  },
+  "checkout": {
+    "button": "購入を完了",
+    "redirecting": "ログインへリダイレクト中…"
+  },
+  "product": {
+    "loading": "読み込み中…",
+    "addToCart": "カートに追加"
+  },
+  "potter": {
+    "loading": "読み込み中…"
+  },
+  "admin": {
+    "nav": {
+      "products": "商品",
+      "orders": "注文",
+      "payouts": "支払い"
+    }
+  }
 }
