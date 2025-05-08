@@ -1,57 +1,57 @@
 {
   "meta": {
     "home": {
-      "title": "ホーム – 益子焼",
-      "description": "地元職人による手作り益子焼コレクションをご覧ください。"
+      "title": "Home – Mashiko Pottery",
+      "description": "Explore our curated collection of handmade Mashiko pottery from local artisans."
     },
     "cart": {
-      "title": "カート – 益子焼",
-      "description": "チェックアウト前にカート内の商品を確認してください。"
+      "title": "Your Cart – Mashiko Pottery",
+      "description": "Review the items in your shopping cart before checkout."
     },
     "checkout": {
-      "title": "チェックアウト – 益子焼",
-      "description": "お客様情報を入力して安全に購入を完了します。"
+      "title": "Checkout – Mashiko Pottery",
+      "description": "Enter your details and complete your purchase securely."
     },
     "product": {
-      "title": "商品詳細 – 益子焼",
-      "description": "この手作り陶器の詳細を確認し、ご購入いただけます。"
+      "title": "Product Details – Mashiko Pottery",
+      "description": "View details and purchase this handmade pottery."
     },
     "potter": {
-      "title": "作家プロフィール – 益子焼",
-      "description": "職人とその作品についてご覧ください。"
+      "title": "Potter Profile – Mashiko Pottery",
+      "description": "Learn about the artisan and their work."
     },
     "admin": {
       "pages": {
-        "productsTitle": "管理者: 商品管理",
-        "ordersTitle": "管理者: 注文管理",
-        "payoutsTitle": "管理者: 支払いレポート"
+        "productsTitle": "Admin: Manage Products",
+        "ordersTitle": "Admin: Manage Orders",
+        "payoutsTitle": "Admin: Payout Reports"
       }
     }
   },
   "home": {
-    "heading": "🏺 益子焼へようこそ"
+    "heading": "🏺 Welcome to Mashiko Pottery"
   },
   "cart": {
-    "title": "カート",
-    "empty": "カートに商品はありません。",
-    "reAdd": "カートに再追加"
+    "title": "Your Cart",
+    "empty": "Your cart is empty.",
+    "reAdd": "Re-add to Cart"
   },
   "checkout": {
-    "button": "購入を完了",
-    "redirecting": "ログインへリダイレクト中…"
+    "button": "Complete Purchase",
+    "redirecting": "Redirecting to login…"
   },
   "product": {
-    "loading": "読み込み中…",
-    "addToCart": "カートに追加"
+    "loading": "Loading…",
+    "addToCart": "Add to Cart"
   },
   "potter": {
-    "loading": "読み込み中…"
+    "loading": "Loading…"
   },
   "admin": {
     "nav": {
-      "products": "商品",
-      "orders": "注文",
-      "payouts": "支払い"
+      "products": "Products",
+      "orders": "Orders",
+      "payouts": "Payouts"
     }
   }
 }
