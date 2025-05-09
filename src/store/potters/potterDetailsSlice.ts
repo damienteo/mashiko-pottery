@@ -7,8 +7,8 @@ export interface Potter {
   bio: string;
 }
 
-// Async thunk: fetch one potter
-export const fetchPotterDetail = createAsyncThunk<Potter, string>(
+// Async thunk: fetch a single potter by ID
+export const fetchPotterDetails = createAsyncThunk<Potter, string>(
   "potterDetails/fetchById",
   async (id) => {
     const res = await fetch(`/api/potters/${id}`);
@@ -17,40 +17,40 @@ export const fetchPotterDetail = createAsyncThunk<Potter, string>(
   }
 );
 
-interface PotterDetailState {
-  entity: Potter | null;
+interface PotterDetailsState {
+  details: Potter | null;
   isLoading: boolean;
   isSuccess: boolean;
   error: string | null;
 }
 
-const initialState: PotterDetailState = {
-  entity: null,
+const initialState: PotterDetailsState = {
+  details: null,
   isLoading: false,
   isSuccess: false,
   error: null,
 };
 
-const potterDetailSlice = createSlice({
+const potterDetailsSlice = createSlice({
   name: "potterDetails",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPotterDetail.pending, (state) => {
+      .addCase(fetchPotterDetails.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.error = null;
       })
       .addCase(
-        fetchPotterDetail.fulfilled,
+        fetchPotterDetails.fulfilled,
         (state, action: PayloadAction<Potter>) => {
           state.isLoading = false;
           state.isSuccess = true;
-          state.entity = action.payload;
+          state.details = action.payload;
         }
       )
-      .addCase(fetchPotterDetail.rejected, (state, action) => {
+      .addCase(fetchPotterDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.error.message ?? "Unknown error";
@@ -59,7 +59,7 @@ const potterDetailSlice = createSlice({
 });
 
 export const selectPotterDetails = (state: RootState) =>
-  state.potterDetails.entity;
+  state.potterDetails.details;
 export const selectPotterDetailsIsLoading = (state: RootState) =>
   state.potterDetails.isLoading;
 export const selectPotterDetailsIsSuccess = (state: RootState) =>
@@ -67,4 +67,4 @@ export const selectPotterDetailsIsSuccess = (state: RootState) =>
 export const selectPotterDetailsError = (state: RootState) =>
   state.potterDetails.error;
 
-export default potterDetailSlice.reducer;
+export default potterDetailsSlice.reducer;
