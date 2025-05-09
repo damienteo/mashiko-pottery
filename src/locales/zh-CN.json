@@ -22,9 +22,18 @@
     },
     "admin": {
       "pages": {
-        "productsTitle": "管理员: 管理商品",
-        "ordersTitle": "管理员: 管理订单",
-        "payoutsTitle": "管理员: 支付报告"
+        "products": {
+          "title": "管理员: 管理商品",
+          "description": "创建、编辑和删除商品。"
+        },
+        "orders": {
+          "title": "管理员: 管理订单",
+          "description": "查看并处理客户订单。"
+        },
+        "payouts": {
+          "title": "管理员: 支付报告",
+          "description": "生成并查看工匠的月度付款。"
+        }
       }
     }
   },

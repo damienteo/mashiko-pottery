@@ -22,9 +22,18 @@
     },
     "admin": {
       "pages": {
-        "productsTitle": "Admin: Manage Products",
-        "ordersTitle": "Admin: Manage Orders",
-        "payoutsTitle": "Admin: Payout Reports"
+        "products": {
+          "title": "Admin: Manage Products",
+          "description": "Create, edit, and remove products."
+        },
+        "orders": {
+          "title": "Admin: Manage Orders",
+          "description": "View and process customer orders."
+        },
+        "payouts": {
+          "title": "Admin: Payout Reports",
+          "description": "Generate and review monthly payouts for potters."
+        }
       }
     }
   },
