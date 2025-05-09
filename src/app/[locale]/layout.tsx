@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import Analytics from "./ClientAnalytics";
 import StoreProvider from "./StoreProvider";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 // Pre-render all locale variants
@@ -58,6 +59,7 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <StoreProvider>
             <Analytics />
+            <Navbar />
             {children}
           </StoreProvider>
         </NextIntlClientProvider>
