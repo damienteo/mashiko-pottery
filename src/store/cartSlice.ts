@@ -1,5 +1,5 @@
-// src/store/cartSlice.ts
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "./store";
 
 export interface CartItem {
   id: number;
@@ -10,9 +10,27 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  isLoading: boolean;
+  isSuccess: boolean;
+  error: string | null;
 }
 
-const initialState: CartState = { items: [] };
+const initialState: CartState = {
+  items: [],
+  isLoading: false,
+  isSuccess: false,
+  error: null,
+};
+
+// NEW: fetch the cart from /api/cart
+export const fetchCart = createAsyncThunk<CartItem[], void>(
+  "cart/fetchCart",
+  async () => {
+    const res = await fetch("/api/cart");
+    if (!res.ok) throw new Error("Failed to fetch cart");
+    return (await res.json()) as CartItem[];
+  }
+);
 
 const cartSlice = createSlice({
   name: "cart",
@@ -26,15 +44,37 @@ const cartSlice = createSlice({
     removeFromCart(state, action: PayloadAction<number>) {
       state.items = state.items.filter((i) => i.id !== action.payload);
     },
-    replaceCart(state, action: PayloadAction<CartItem[]>) {
-      state.items = action.payload;
-    },
     clearCart(state) {
       state.items = [];
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCart.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(
+        fetchCart.fulfilled,
+        (state, action: PayloadAction<CartItem[]>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.items = action.payload;
+        }
+      )
+      .addCase(fetchCart.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = action.error.message ?? "Unknown error";
+      });
+  },
 });
 
-export const { addToCart, removeFromCart, replaceCart, clearCart } =
-  cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
+
+export const selectCartItems = (state: RootState) => state.cart.items;
+export const selectCartLoading = (state: RootState) => state.cart.isLoading;
+export const selectCartError = (state: RootState) => state.cart.error;
+
 export default cartSlice.reducer;
