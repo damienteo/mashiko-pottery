@@ -1,25 +1,30 @@
-// src/app/product/[id]/metadata.ts
-
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: { locale: string; id: string };
 }): Promise<Metadata> {
-  // Fetch minimal data just for head
+  const { id } = await params;
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${params.id}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`,
+    { next: { revalidate: 60 } }
   );
-  const product = await res.json();
+  if (!res.ok) notFound();
+  const product: { title: string; description: string; photos: string[] } =
+    await res.json();
+
+  const shortDesc = product.description?.slice(0, 150) ?? "";
+  const title = `${product.title} – Mashiko Pottery`;
 
   return {
-    title: `${product.title} – Mashiko Pottery`,
-    description: product.description.slice(0, 150),
+    title,
+    description: shortDesc,
     openGraph: {
-      title: product.title,
-      description: product.description.slice(0, 150),
-      images: product.photos.map((url: string) => ({ url })),
+      title,
+      description: shortDesc,
+      images: product.photos.map((url) => ({ url })),
     },
   };
 }
