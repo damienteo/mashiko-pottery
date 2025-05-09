@@ -1,44 +1,37 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface Notification {
-  id: string;
-  type: "success" | "error" | "info";
-  message: string;
-}
+import { createSlice } from "@reduxjs/toolkit";
+import type { RootState } from "./store";
 
 interface UIState {
-  isSidebarOpen: boolean;
-  theme: "light" | "dark";
-  notifications: Notification[];
+  sidebarOpen: boolean;
+  modalOpen: boolean;
 }
 
 const initialState: UIState = {
-  isSidebarOpen: false,
-  theme: "light",
-  notifications: [],
+  sidebarOpen: false,
+  modalOpen: false,
 };
 
 const uiSlice = createSlice({
   name: "ui",
   initialState,
   reducers: {
-    toggleSidebar(state) {
-      state.isSidebarOpen = !state.isSidebarOpen;
+    openSidebar(state) {
+      state.sidebarOpen = true;
     },
-    setTheme(state, action: PayloadAction<"light" | "dark">) {
-      state.theme = action.payload;
+    closeSidebar(state) {
+      state.sidebarOpen = false;
     },
-    addNotification(state, action: PayloadAction<Notification>) {
-      state.notifications.push(action.payload);
+    openModal(state) {
+      state.modalOpen = true;
     },
-    removeNotification(state, action: PayloadAction<string>) {
-      state.notifications = state.notifications.filter(
-        (n) => n.id !== action.payload
-      );
+    closeModal(state) {
+      state.modalOpen = false;
     },
   },
 });
 
-export const { toggleSidebar, setTheme, addNotification, removeNotification } =
+export const { openSidebar, closeSidebar, openModal, closeModal } =
   uiSlice.actions;
+export const selectUI = (state: RootState) => state.ui;
+
 export default uiSlice.reducer;
