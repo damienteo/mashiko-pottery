@@ -1,13 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 import productsListReducer from "./products/productsListSlice";
-import productDetailReducer from "./products/productDetailSlice";
+import productDetailReducer from "./products/productDetailsSlice";
 import pottersListReducer from "./potters/pottersListSlice";
-import potterDetailReducer from "./potters/potterDetailSlice";
+import potterDetailReducer from "./potters/potterDetailsSlice";
 import authReducer from "./authSlice";
 import uiReducer from "./uiSlice";
 import settingsReducer from "./settingsSlice";
 import notificationReducer from "./notificationSlice";
+import ordersListReducer from "./orders/ordersListSlice";
+import orderDetailsReducer from "./orders/orderDetailsSlice";
+import payoutsListReducer from "./payouts/payoutsListSlice";
+import payoutDetailsReducer from "./payouts/payoutDetailsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,17 +19,25 @@ export const store = configureStore({
 
     // products feature
     productsList: productsListReducer,
-    productDetail: productDetailReducer,
+    productDetails: productDetailReducer,
 
     // potters feature
     pottersList: pottersListReducer,
-    potterDetail: potterDetailReducer,
+    potterDetails: potterDetailReducer,
 
     // other features
     auth: authReducer,
     ui: uiReducer,
     settings: settingsReducer,
     notification: notificationReducer,
+
+    // orders feature split into list and detail
+    ordersList: ordersListReducer,
+    orderDetails: orderDetailsReducer,
+
+    // payouts feature split into list and detail
+    payoutsList: payoutsListReducer,
+    payoutDetails: payoutDetailsReducer,
   },
   // ... preloadedState & subscribe() for cart remains unchanged
 });

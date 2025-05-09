@@ -10,8 +10,8 @@ export interface Product {
 }
 
 // Async thunk: fetch one product
-export const fetchProductDetail = createAsyncThunk<Product, string>(
-  "productDetail/fetchById",
+export const fetchProductDetails = createAsyncThunk<Product, string>(
+  "productDetails/fetchById",
   async (id) => {
     const res = await fetch(`/api/products/${id}`);
     if (!res.ok) throw new Error("Failed to load product");
@@ -33,26 +33,26 @@ const initialState: ProductDetailState = {
   error: null,
 };
 
-const productDetailSlice = createSlice({
-  name: "productDetail",
+const productDetailsSlice = createSlice({
+  name: "productDetails",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProductDetail.pending, (state) => {
+      .addCase(fetchProductDetails.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.error = null;
       })
       .addCase(
-        fetchProductDetail.fulfilled,
+        fetchProductDetails.fulfilled,
         (state, action: PayloadAction<Product>) => {
           state.isLoading = false;
           state.isSuccess = true;
           state.entity = action.payload;
         }
       )
-      .addCase(fetchProductDetail.rejected, (state, action) => {
+      .addCase(fetchProductDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.error.message ?? "Unknown error";
@@ -61,12 +61,12 @@ const productDetailSlice = createSlice({
 });
 
 export const selectProductDetail = (state: RootState) =>
-  state.productDetail.entity;
+  state.productDetails.entity;
 export const selectProductDetailIsLoading = (state: RootState) =>
-  state.productDetail.isLoading;
+  state.productDetails.isLoading;
 export const selectProductDetailIsSuccess = (state: RootState) =>
-  state.productDetail.isSuccess;
+  state.productDetails.isSuccess;
 export const selectProductDetailError = (state: RootState) =>
-  state.productDetail.error;
+  state.productDetails.error;
 
-export default productDetailSlice.reducer;
+export default productDetailsSlice.reducer;

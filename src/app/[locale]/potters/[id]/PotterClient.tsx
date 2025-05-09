@@ -10,7 +10,7 @@ import {
   selectPotterDetailIsLoading,
   selectPotterDetailIsSuccess,
   selectPotterDetailError,
-} from "@/store/potters/potterDetailSlice";
+} from "@/store/potters/potterDetailsSlice";
 
 export default function PotterClient() {
   const t = useTranslations();

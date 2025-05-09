@@ -9,7 +9,7 @@ export interface Potter {
 
 // Async thunk: fetch one potter
 export const fetchPotterDetail = createAsyncThunk<Potter, string>(
-  "potterDetail/fetchById",
+  "potterDetails/fetchById",
   async (id) => {
     const res = await fetch(`/api/potters/${id}`);
     if (!res.ok) throw new Error("Failed to load potter");
@@ -32,7 +32,7 @@ const initialState: PotterDetailState = {
 };
 
 const potterDetailSlice = createSlice({
-  name: "potterDetail",
+  name: "potterDetails",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -58,13 +58,13 @@ const potterDetailSlice = createSlice({
   },
 });
 
-export const selectPotterDetail = (state: RootState) =>
-  state.potterDetail.entity;
-export const selectPotterDetailIsLoading = (state: RootState) =>
-  state.potterDetail.isLoading;
-export const selectPotterDetailIsSuccess = (state: RootState) =>
-  state.potterDetail.isSuccess;
-export const selectPotterDetailError = (state: RootState) =>
-  state.potterDetail.error;
+export const selectPotterDetails = (state: RootState) =>
+  state.potterDetails.entity;
+export const selectPotterDetailsIsLoading = (state: RootState) =>
+  state.potterDetails.isLoading;
+export const selectPotterDetailsIsSuccess = (state: RootState) =>
+  state.potterDetails.isSuccess;
+export const selectPotterDetailsError = (state: RootState) =>
+  state.potterDetails.error;
 
 export default potterDetailSlice.reducer;

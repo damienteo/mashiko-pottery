@@ -1,4 +1,4 @@
-import type { Potter } from "@/store/potters/potterDetailSlice";
+import type { Potter } from "@/store/potters/potterDetailsSlice";
 
 export const mockPotters: Potter[] = [
   {

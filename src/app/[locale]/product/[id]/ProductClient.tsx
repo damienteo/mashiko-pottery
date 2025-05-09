@@ -10,7 +10,7 @@ import {
   selectProductDetailIsLoading,
   selectProductDetailIsSuccess,
   selectProductDetailError,
-} from "@/store/products/productDetailSlice";
+} from "@/store/products/productDetailsSlice";
 import { logViewItem } from "@/lib/analytics";
 import { addToCart } from "@/store/cartSlice";
 

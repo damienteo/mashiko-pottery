@@ -1,0 +1,68 @@
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../store";
+
+export interface OrderSummary {
+  id: string;
+  status: string;
+}
+
+interface OrdersListState {
+  items: OrderSummary[];
+  isLoading: boolean;
+  isSuccess: boolean;
+  error: string | null;
+}
+
+const initialState: OrdersListState = {
+  items: [],
+  isLoading: false,
+  isSuccess: false,
+  error: null,
+};
+
+// Async thunk to fetch all orders
+export const fetchOrdersList = createAsyncThunk<OrderSummary[]>(
+  "orders/fetchAll",
+  async () => {
+    const res = await fetch("/api/orders");
+    if (!res.ok) throw new Error("Failed to fetch orders");
+    return (await res.json()) as OrderSummary[];
+  }
+);
+
+const ordersListSlice = createSlice({
+  name: "ordersList",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrdersList.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(
+        fetchOrdersList.fulfilled,
+        (state, action: PayloadAction<OrderSummary[]>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.items = action.payload;
+        }
+      )
+      .addCase(fetchOrdersList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = action.error.message ?? "Unknown error";
+      });
+  },
+});
+
+export const selectAllOrders = (state: RootState) => state.ordersList.items;
+export const selectOrdersListIsLoading = (state: RootState) =>
+  state.ordersList.isLoading;
+export const selectOrdersListIsSuccess = (state: RootState) =>
+  state.ordersList.isSuccess;
+export const selectOrdersListError = (state: RootState) =>
+  state.ordersList.error;
+
+export default ordersListSlice.reducer;
