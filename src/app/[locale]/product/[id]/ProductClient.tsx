@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchProductDetail,
-  selectProductDetail,
-  selectProductDetailIsLoading,
-  selectProductDetailIsSuccess,
-  selectProductDetailError,
+  fetchProductDetails,
+  selectProductDetails,
+  selectProductDetailsIsLoading,
+  selectProductDetailsIsSuccess,
+  selectProductDetailsError,
 } from "@/store/products/productDetailsSlice";
 import { logViewItem } from "@/lib/analytics";
 import { addToCart } from "@/store/cartSlice";
@@ -18,14 +18,14 @@ export default function ProductClient() {
   const t = useTranslations();
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
-  const product = useAppSelector(selectProductDetail);
-  const isLoading = useAppSelector(selectProductDetailIsLoading);
-  const isSuccess = useAppSelector(selectProductDetailIsSuccess);
-  const error = useAppSelector(selectProductDetailError);
+  const product = useAppSelector(selectProductDetails);
+  const isLoading = useAppSelector(selectProductDetailsIsLoading);
+  const isSuccess = useAppSelector(selectProductDetailsIsSuccess);
+  const error = useAppSelector(selectProductDetailsError);
 
   useEffect(() => {
     if (id && !isLoading && !isSuccess) {
-      dispatch(fetchProductDetail(id));
+      dispatch(fetchProductDetails(id));
     }
   }, [dispatch, id, isLoading, isSuccess]);
 

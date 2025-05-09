@@ -40,6 +40,15 @@
   "home": {
     "heading": "🏺 欢迎来到益子陶器"
   },
+  "login": {
+    "title": "登录",
+    "description": "请登录以继续。",
+    "username": "用户名",
+    "password": "密码",
+    "submit": "登录",
+    "error": "登录失败，请检查您的凭据。",
+    "loading": "正在登录…"
+  },
   "cart": {
     "title": "购物车",
     "empty": "您的购物车中没有商品。",
@@ -61,6 +70,24 @@
       "products": "商品",
       "orders": "订单",
       "payouts": "支付"
-    }
-  }
+    },
+    "pages": {
+      "products": {
+        "title": "管理员: 管理商品",
+        "description": "创建、编辑和删除商品。"
+      },
+      "orders": {
+        "title": "管理员: 管理订单",
+        "description": "查看并处理客户订单。"
+      },
+      "payouts": {
+        "title": "管理员: 支付报告",
+        "description": "生成并查看工匠的月度付款。"
+      }
+    },
+    "loading": "加载中…",
+    "error": "发生错误"
+  },
+  "loading": "加载中…",
+  "error": "发生错误"
 }

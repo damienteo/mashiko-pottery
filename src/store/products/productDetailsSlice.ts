@@ -60,13 +60,13 @@ const productDetailsSlice = createSlice({
   },
 });
 
-export const selectProductDetail = (state: RootState) =>
+export const selectProductDetails = (state: RootState) =>
   state.productDetails.entity;
-export const selectProductDetailIsLoading = (state: RootState) =>
+export const selectProductDetailsIsLoading = (state: RootState) =>
   state.productDetails.isLoading;
-export const selectProductDetailIsSuccess = (state: RootState) =>
+export const selectProductDetailsIsSuccess = (state: RootState) =>
   state.productDetails.isSuccess;
-export const selectProductDetailError = (state: RootState) =>
+export const selectProductDetailsError = (state: RootState) =>
   state.productDetails.error;
 
 export default productDetailsSlice.reducer;

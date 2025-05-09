@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchPotterDetail,
-  selectPotterDetail,
-  selectPotterDetailIsLoading,
-  selectPotterDetailIsSuccess,
-  selectPotterDetailError,
+  fetchPotterDetails,
+  selectPotterDetails,
+  selectPotterDetailsIsLoading,
+  selectPotterDetailsIsSuccess,
+  selectPotterDetailsError,
 } from "@/store/potters/potterDetailsSlice";
 
 export default function PotterClient() {
@@ -17,15 +17,15 @@ export default function PotterClient() {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
 
-  const potter = useAppSelector(selectPotterDetail);
-  const isLoading = useAppSelector(selectPotterDetailIsLoading);
-  const isSuccess = useAppSelector(selectPotterDetailIsSuccess);
-  const error = useAppSelector(selectPotterDetailError);
+  const potter = useAppSelector(selectPotterDetails);
+  const isLoading = useAppSelector(selectPotterDetailsIsLoading);
+  const isSuccess = useAppSelector(selectPotterDetailsIsSuccess);
+  const error = useAppSelector(selectPotterDetailsError);
 
   useEffect(() => {
     if (id && !isLoading && !isSuccess) {
       if (typeof id === "string") {
-        dispatch(fetchPotterDetail(id));
+        dispatch(fetchPotterDetails(id));
       }
     }
   }, [dispatch, id, isLoading, isSuccess]);

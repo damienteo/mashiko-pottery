@@ -12,7 +12,7 @@ import {
 import type { OrderSummary } from "@/store/orders/ordersListSlice";
 
 export default function OrdersClient() {
-  const t = useTranslations();
+  const t = useTranslations("admin");
   const dispatch = useAppDispatch();
   const orders = useAppSelector(selectAllOrders);
   const isLoading = useAppSelector(selectOrdersListIsLoading);
@@ -29,7 +29,7 @@ export default function OrdersClient() {
 
   return (
     <div className="p-8 space-y-4">
-      <h1 className="text-2xl font-bold">{t("title")}</h1>
+      <h1 className="text-2xl font-bold">{t("pages.orders.title")}</h1>
       {orders.map((o: OrderSummary) => (
         <div key={o.id} className="border p-4 rounded">
           <p>

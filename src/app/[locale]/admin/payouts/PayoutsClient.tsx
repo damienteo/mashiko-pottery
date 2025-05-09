@@ -11,7 +11,7 @@ import {
 } from "@/store/payouts/payoutsListSlice";
 
 export default function PayoutsClient() {
-  const t = useTranslations();
+  const t = useTranslations("admin");
   const dispatch = useAppDispatch();
   const payouts = useAppSelector(selectAllPayouts);
   const isLoading = useAppSelector(selectPayoutsListIsLoading);
@@ -28,7 +28,7 @@ export default function PayoutsClient() {
 
   return (
     <div className="p-8 space-y-4">
-      <h1 className="text-2xl font-bold">{t("title")}</h1>
+      <h1 className="text-2xl font-bold">{t("pages.payouts.title")}</h1>
       {payouts.map((p) => (
         <div key={`${p.month}-${p.potterId}`} className="border p-4 rounded">
           <p>

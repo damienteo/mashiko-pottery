@@ -11,7 +11,8 @@ import {
 } from "@/store/products/productsListSlice";
 
 export default function ProductsClient() {
-  const t = useTranslations();
+  // Using admin messages (provided by AdminLayout), so t() looks in admin namespace
+  const t = useTranslations("admin");
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectAllProducts);
   const isLoading = useAppSelector(selectProductsListIsLoading);
@@ -28,7 +29,7 @@ export default function ProductsClient() {
 
   return (
     <div className="p-8 space-y-4">
-      <h1 className="text-2xl font-bold">{t("title")}</h1>
+      <h1 className="text-2xl font-bold">{t("pages.products.title")}</h1>
       {products.map((p) => (
         <div key={p.id} className="border p-4 rounded">
           <p>
