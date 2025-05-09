@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { notFound } from "next/navigation";
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: { locale: string; id: string };
 }): Promise<Metadata> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/potters/${params.id}`
-  );
-  const potter = await res.json();
+  const { locale } = await params;
+  if (!routing.locales.includes(locale as "en" | "ja" | "zh-CN")) notFound();
+
+  const t = await getTranslations({ locale, namespace: "meta.potter" });
   return {
-    title: `${potter.name} – Potter Profile`,
-    description: potter.bio.slice(0, 150),
+    title: t("title"),
+    description: t("description"),
   };
 }
