@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 import Analytics from "./ClientAnalytics";
 import StoreProvider from "./StoreProvider";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import "./globals.css";
 // Font imports
 import {
@@ -102,12 +103,16 @@ export default async function RootLayout({
       lang={locale}
       className={`${inter.variable} ${playfair.variable} ${merriweather.variable} ${fontClass} antialiased`}
     >
-      <body className="min-h-screen bg-gray-50 text-gray-800">
+      <body className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <NextIntlClientProvider>
           <StoreProvider>
             <Analytics />
-            <Navbar />
-            {children}
+            {/* main content grows to push footer to bottom */}
+            <main className="flex-grow">
+              <Navbar />
+              {children}
+            </main>
+            <Footer />
           </StoreProvider>
         </NextIntlClientProvider>
       </body>
