@@ -7,8 +7,7 @@ export async function GET(
 ) {
   // Must await params in Next.js 15+
   const { id } = await context.params;
-  const idNum = Number(id);
-  const potter = mockPotters.find((p) => p.id === idNum);
+  const potter = mockPotters.find((p) => p.id === id);
 
   if (!potter) {
     return new NextResponse(null, { status: 404 });

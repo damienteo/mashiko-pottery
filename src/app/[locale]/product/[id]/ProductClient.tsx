@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchProductDetails,
@@ -13,9 +13,11 @@ import {
 } from "@/store/products/productDetailsSlice";
 import { logViewItem } from "@/lib/analytics";
 import { addToCart } from "@/store/cartSlice";
+import { formatYen } from "@/utils/format";
 
 export default function ProductClient() {
-  const t = useTranslations();
+  const t = useTranslations("product");
+  const locale = useLocale();
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const product = useAppSelector(selectProductDetails);
@@ -33,27 +35,33 @@ export default function ProductClient() {
     if (isSuccess && product) {
       logViewItem({
         id: product.id,
-        title: product.title,
+        title: product.title[locale as keyof typeof product.title],
         price: product.price,
       });
     }
   }, [isSuccess, product]);
 
-  if (isLoading) return <p className="p-8">{t("product.loading")}</p>;
+  if (isLoading) return <p className="p-8">{t("loading")}</p>;
   if (!isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>;
-  if (!product) return <p className="p-8">{t("product.loading")}</p>;
+  if (!product) return <p className="p-8">{t("loading")}</p>;
+
+  // Typed accessors for localized fields
+  const title = product.title[locale as keyof typeof product.title];
+  const description =
+    product.description?.[locale as keyof typeof product.description];
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-semibold">{product.title}</h1>
-      <p className="mt-2 text-gray-700">¥{product.price.toLocaleString()}</p>
+      <h1 className="text-3xl font-semibold">{title}</h1>
+      {description && <p className="mt-2 text-gray-700">{description}</p>}
+      <p className="mt-2 text-gray-700">{formatYen(product.price)}</p>
       <button
         onClick={() =>
           dispatch(
             addToCart({
               id: product.id,
-              title: product.title,
+              title: title,
               price: product.price,
               quantity: 1,
             })
@@ -61,7 +69,7 @@ export default function ProductClient() {
         }
         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
       >
-        {t("product.addToCart")}
+        {t("addToCart")}
       </button>
     </div>
   );

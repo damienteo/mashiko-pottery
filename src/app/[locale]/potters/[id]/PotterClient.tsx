@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchPotterDetails,
@@ -13,7 +13,8 @@ import {
 } from "@/store/potters/potterDetailsSlice";
 
 export default function PotterClient() {
-  const t = useTranslations();
+  const t = useTranslations("potter");
+  const locale = useLocale();
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
 
@@ -30,15 +31,15 @@ export default function PotterClient() {
     }
   }, [dispatch, id, isLoading, isSuccess]);
 
-  if (isLoading) return <p className="p-8">{t("potter.loading")}</p>;
+  if (isLoading) return <p className="p-8">{t("loading")}</p>;
   if (!isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>;
-  if (!potter) return <p className="p-8">{t("potter.loading")}</p>;
+  if (!potter) return <p className="p-8">{t("loading")}</p>;
 
   return (
     <div className="p-8">
       <h1 className="text-3xl font-semibold">{potter.name}</h1>
-      <p className="mt-2 text-gray-700">{potter.bio}</p>
+      <p className="mt-2 text-gray-700">{potter.bio[locale]}</p>
     </div>
   );
 }
