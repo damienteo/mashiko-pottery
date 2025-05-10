@@ -20,6 +20,10 @@
       "title": "Potter Profile – Mashiko Pottery",
       "description": "Learn about the artisan and their work."
     },
+    "potters": {
+      "title": "Potter Spotlights – Mashiko Pottery",
+      "description": "Meet the talented potters behind our handmade Mashiko ceramics."
+    },
     "admin": {
       "pages": {
         "products": {

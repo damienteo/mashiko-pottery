@@ -20,6 +20,10 @@
       "title": "陶艺师简介 – Mashiko Pottery",
       "description": "了解这位艺术家及其作品。"
     },
+    "potters": {
+      "title": "陶艺师聚焦 – Mashiko Pottery",
+      "description": "与您见面的是我们手工制作的Mashiko陶艺背后的才华横溢的陶艺师。"
+    },
     "admin": {
       "pages": {
         "products": {

@@ -9,6 +9,8 @@ import {
   selectProductsListIsLoading,
   selectProductsListError,
 } from "@/store/products/productsListSlice";
+import Image from "next/image";
+import { formatYen } from "@/utils/format";
 
 export default function ProductsClient() {
   // Using admin messages (provided by AdminLayout), so t() looks in admin namespace
@@ -32,11 +34,30 @@ export default function ProductsClient() {
     <div className="p-8 space-y-4">
       <h1 className="text-2xl font-bold">{t("pages.products.title")}</h1>
       {products.map((p) => (
-        <div key={p.id} className="border p-4 rounded">
-          <p>
-            {p.title[locale as keyof typeof p.title] || String(p.title)} — ¥
-            {p.price.toLocaleString()}
-          </p>
+        <div
+          key={p.id}
+          className="flex items-start space-x-4 border p-4 rounded"
+        >
+          <div className="w-24 h-24 relative flex-shrink-0 overflow-hidden rounded">
+            <Image
+              src={p.photos[0]}
+              alt={p.title[locale as keyof typeof p.title] || String(p.title)}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          <div className="flex-grow">
+            <p className="font-medium">
+              {p.title[locale as keyof typeof p.title] || String(p.title)} —{" "}
+              {formatYen(p.price)}
+            </p>
+            {p.description && (
+              <p className="mt-1 text-sm text-gray-600">
+                {p.description[locale as keyof typeof p.description]}
+              </p>
+            )}
+          </div>
         </div>
       ))}
     </div>

@@ -36,7 +36,7 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
 - **Multi-Role**
 
   - **Consumers:** Browse, filter, cart, checkout, order history
-  - **Admins:** Product/Order/Payout management, CSV/batch uploads, reporting
+  - **Admins:** products/Order/Payout management, CSV/batch uploads, reporting
   - **Potters (coming soon):** Inventory & sales stats, profile updates, payouts
 
 - **Multi-Locale**: English, 日本語, 简体中文

@@ -21,7 +21,7 @@ export default function FeaturedCollections() {
         {featured.map((p) => (
           <Link
             key={p.id}
-            href={`/${locale}/product/${p.id}`}
+            href={`/${locale}/products/${p.id}`}
             className="border p-4 rounded hover:shadow"
           >
             <div className="w-full aspect-square mb-4 relative overflow-hidden rounded-lg">

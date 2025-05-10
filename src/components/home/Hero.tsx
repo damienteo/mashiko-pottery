@@ -27,7 +27,7 @@ export default function Hero() {
         </h1>
         <div className="flex flex-col md:flex-row gap-2 md:space-x-4">
           <Link
-            href={`/${locale}/product`}
+            href={`/${locale}/products`}
             className="bg-white text-black px-4 py-2 rounded"
           >
             {t("home.cta.shop")}
