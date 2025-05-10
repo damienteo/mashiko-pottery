@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { mockProducts } from "@/mocks/products";
 import { formatYen } from "@/utils/format";
@@ -23,10 +24,22 @@ export default function FeaturedCollections() {
             href={`/${locale}/product/${p.id}`}
             className="border p-4 rounded hover:shadow"
           >
+            <div className="w-full aspect-square mb-4 relative overflow-hidden rounded-lg">
+              <Image
+                src={p.photos[0]}
+                alt={String(p.title[locale as keyof typeof p.title])}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
             <h3 className="font-medium text-lg">
               {String(p.title[locale as keyof typeof p.title])}
             </h3>
             <p className="mt-1 text-gray-700">{formatYen(p.price)}</p>
+            <p className="mt-2 text-sm text-gray-600">
+              {p.description[locale as keyof typeof p.description]}
+            </p>
           </Link>
         ))}
       </div>
