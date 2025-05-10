@@ -12,11 +12,12 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const { locale } = await params;
   // Fetch localized messages for the login page
   const t = await getTranslations({
-    locale: params.locale,
+    locale: locale,
     namespace: "login",
   });
   return {
@@ -25,16 +26,14 @@ export async function generateMetadata({
   };
 }
 
-export default function LoginPage({
-  params,
-  searchParams,
-}: {
-  params: { locale: string };
-  searchParams: { callback?: string };
+export default async function LoginPage(context: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ callback?: string }>;
 }) {
-  // Decode the callback or fall back to root of this locale.
-  const raw = searchParams.callback ?? `/${params.locale}`;
-  const callback = decodeURIComponent(raw);
+  const { locale } = await context.params;
+  const { callback: raw } = await context.searchParams;
+  const rawCallback = raw ?? `/${locale}`;
+  const callback = decodeURIComponent(rawCallback);
 
   return <LoginClient callback={callback} />;
 }

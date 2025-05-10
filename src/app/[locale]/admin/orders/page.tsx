@@ -1,3 +1,5 @@
+// src/app/[locale]/admin/orders/page.tsx
+
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import OrdersClient from "./OrdersClient";
@@ -7,14 +9,19 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(context: {
-  params: { locale: string };
+export async function generateMetadata({
+  params,
+}: {
+  // Next 15 passes params as a Promise<{locale:string}>
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const locale = context.params.locale;
+  // await the promise to get the real params
+  const { locale } = await params;
   const t = await getTranslations({
     locale,
     namespace: "meta.admin.pages.orders",
   });
+
   return {
     title: t("title"),
     description: t("description"),
