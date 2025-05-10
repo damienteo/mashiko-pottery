@@ -47,7 +47,7 @@
     "reAdd": "Re-add to Cart"
   },
   "checkout": {
-    "button": "Complete Purchase",
+    "button": "Checkout",
     "redirecting": "Redirecting to login…"
   },
   "product": {

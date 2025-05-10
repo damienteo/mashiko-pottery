@@ -13,48 +13,20 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
           {/* Logo / Site Title */}
-          <Link href={`/${locale}`} className="text-xl font-bold">
+          <Link
+            href={`/${locale}`}
+            className="text-xl font-[var(--font-playfair)]"
+          >
             {t("site.title")}
           </Link>
-          {/* Hamburger button for mobile */}
+          {/* Menu toggle for mobile */}
           <button
             type="button"
-            className="sm:hidden flex items-center space-x-1 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="sm:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             aria-label={t("menu")}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
             <span className="text-base font-medium">{t("menu")}</span>
-            <span className="w-6 h-6">
-              {menuOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </span>
           </button>
           {/* Desktop menu items */}
           <ul className="hidden sm:flex sm:space-x-6 items-center">
@@ -96,73 +68,85 @@ export default function Navbar() {
               <LanguageSelector />
             </li>
           </ul>
-          {/* Mobile slide-in menu */}
-          <div
-            className={`fixed inset-0 bg-white z-20 transform transition-transform duration-300 ease-in-out ${
-              menuOpen ? "translate-x-0" : "translate-x-full"
-            } sm:hidden`}
-          >
-            <nav className="p-6">
-              <ul className="space-y-4">
-                <li>
-                  <Link
-                    href={`/${locale}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-lg"
-                  >
-                    {t("home.link")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/${locale}/cart`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-lg"
-                  >
-                    {t("cart.title")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/${locale}/checkout`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-lg"
-                  >
-                    {t("checkout.button")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/${locale}/admin/products`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-lg"
-                  >
-                    {t("admin.nav.products")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/${locale}/admin/orders`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-lg"
-                  >
-                    {t("admin.nav.orders")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={`/${locale}/admin/payouts`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block text-lg"
-                  >
-                    {t("admin.nav.payouts")}
-                  </Link>
-                </li>
-                <li>
-                  <LanguageSelector />
-                </li>
-              </ul>
-            </nav>
+          {/* Mobile slide-in menu (always mounted for transitions) */}
+          <div className="fixed inset-0 z-20 sm:hidden pointer-events-none">
+            {/* Overlay: click to close */}
+            <div
+              className={`fixed inset-0 bg-black/30 transition-opacity duration-300 ${
+                menuOpen
+                  ? "opacity-100 pointer-events-auto"
+                  : "opacity-0 pointer-events-none"
+              }`}
+              onClick={() => setMenuOpen(false)}
+            />
+            {/* Drawer panel */}
+            <div
+              className={`fixed top-0 right-0 h-full w-48 bg-white p-6 shadow transform transition-transform duration-300 ease-in-out ${
+                menuOpen ? "translate-x-0" : "translate-x-full"
+              }`}
+            >
+              <nav>
+                <ul className="space-y-4">
+                  <li>
+                    <Link
+                      href={`/${locale}`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("home.link")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/cart`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("cart.title")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/checkout`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("checkout.button")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/admin/products`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("admin.nav.products")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/admin/orders`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("admin.nav.orders")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/admin/payouts`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("admin.nav.payouts")}
+                    </Link>
+                  </li>
+                  <li>
+                    <LanguageSelector />
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </nav>

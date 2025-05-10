@@ -47,7 +47,7 @@
     "reAdd": "カートに戻す"
   },
   "checkout": {
-    "button": "購入を完了する",
+    "button": "チェックアウト",
     "redirecting": "ログインにリダイレクト中…"
   },
   "product": {

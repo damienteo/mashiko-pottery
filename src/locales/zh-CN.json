@@ -47,7 +47,7 @@
     "reAdd": "重新添加"
   },
   "checkout": {
-    "button": "完成购买",
+    "button": "结账",
     "redirecting": "正在重定向到登录…"
   },
   "product": {
