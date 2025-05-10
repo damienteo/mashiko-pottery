@@ -9,6 +9,43 @@ import Analytics from "./ClientAnalytics";
 import StoreProvider from "./StoreProvider";
 import Navbar from "@/components/Navbar";
 import "./globals.css";
+// Font imports
+import {
+  Inter,
+  Playfair_Display,
+  Merriweather,
+  Noto_Sans_JP,
+  Noto_Serif_SC,
+} from "next/font/google";
+
+// Primary fonts with CSS variable injection
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-inter",
+});
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-playfair",
+});
+const merriweather = Merriweather({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-merriweather",
+});
+// Locale-specific font fallbacks (reuse Inter variable)
+const notoSansJP = Noto_Sans_JP({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-inter",
+});
+const notoSerifSC = Noto_Serif_SC({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-inter",
+});
 
 // Pre-render all locale variants
 export function generateStaticParams() {
@@ -53,9 +90,19 @@ export default async function RootLayout({
     notFound();
   }
 
+  // Choose font variable based on locale (default to Inter)
+  const localeFonts: Record<string, string> = {
+    ja: notoSansJP.variable,
+    "zh-CN": notoSerifSC.variable,
+  };
+  const fontClass = localeFonts[locale] ?? inter.variable;
+
   return (
-    <html lang={locale}>
-      <body className="bg-gray-50 text-gray-800">
+    <html
+      lang={locale}
+      className={`${inter.variable} ${playfair.variable} ${merriweather.variable} ${fontClass} antialiased`}
+    >
+      <body className="min-h-screen bg-gray-50 text-gray-800">
         <NextIntlClientProvider>
           <StoreProvider>
             <Analytics />
