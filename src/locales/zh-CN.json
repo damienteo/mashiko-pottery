@@ -2,11 +2,11 @@
   "meta": {
     "home": {
       "title": "主页 – Mashiko Pottery",
-      "description": "探索我们精心策划的本地陶艺家手工益子烧系列。"
+      "description": "探索我们精选的益子手工陶艺作品。"
     },
     "cart": {
       "title": "购物车",
-      "description": "在结账前查看购物车中的商品。"
+      "description": "在结算前，请查看购物车中的商品。"
     },
     "checkout": {
       "title": "结账 – Mashiko Pottery",
@@ -14,37 +14,42 @@
     },
     "product": {
       "title": "产品详情 – Mashiko Pottery",
-      "description": "查看并购买这件手工陶瓷。"
+      "description": "查看并购买这款手工陶艺。"
     },
     "potter": {
-      "title": "陶艺家简介 – Mashiko Pottery",
-      "description": "了解艺术家及其作品。"
+      "title": "匠人档案 – Mashiko Pottery",
+      "description": "了解这位艺术家及其作品。"
     },
     "admin": {
       "pages": {
         "products": {
-          "title": "管理: 商品管理",
+          "title": "管理：商品管理",
           "description": "创建、编辑和删除商品。"
         },
         "orders": {
-          "title": "管理: 订单管理",
+          "title": "管理：订单管理",
           "description": "查看并处理客户订单。"
         },
         "payouts": {
-          "title": "管理: 支付报告",
-          "description": "生成并查看陶艺家月度支付。"
+          "title": "管理：支付报告",
+          "description": "为匠人生成和审阅月度付款。"
         }
       }
     }
   },
   "home": {
     "heading": "🏺 欢迎来到 Mashiko Pottery",
-    "link": "首页"
+    "link": "主页",
+    "tagline": "益子手工陶艺，全球直送。",
+    "cta": {
+      "shop": "🛍️ 选购系列",
+      "meet": "📖 认识匠人"
+    }
   },
   "cart": {
     "title": "购物车",
-    "empty": "购物车中没有商品。",
-    "reAdd": "重新添加"
+    "empty": "您的购物车是空的。",
+    "reAdd": "重新添加到购物车"
   },
   "checkout": {
     "button": "结账",
@@ -65,34 +70,73 @@
     },
     "pages": {
       "products": {
-        "title": "管理: 商品管理",
+        "title": "管理：商品管理",
         "description": "创建、编辑和删除商品。"
       },
       "orders": {
-        "title": "管理: 订单管理",
+        "title": "管理：订单管理",
         "description": "查看并处理客户订单。"
       },
       "payouts": {
-        "title": "管理: 支付报告",
-        "description": "生成并查看陶艺家月度支付。"
+        "title": "管理：支付报告",
+        "description": "为匠人生成和审阅月度付款。"
       }
     },
     "loading": "加载中…",
-    "error": "发生错误"
+    "error": "发生了错误"
   },
   "login": {
     "title": "登录",
-    "description": "请登录以继续。",
+    "description": "请先登录以继续。",
     "username": "用户名",
     "password": "密码",
     "submit": "登录",
-    "error": "登录失败。请检查您的凭据。",
+    "error": "登录失败，请检查您的凭证。",
     "loading": "正在登录…"
   },
   "loading": "加载中…",
-  "error": "发生错误",
+  "error": "发生了错误",
   "menu": "菜单",
   "site": {
     "title": "Mashiko Pottery"
+  },
+  "howItWorks": {
+    "title": "操作流程",
+    "step1": "与益子匠人直接合作",
+    "step2": "每件作品精心拍摄与称重",
+    "step3": "在益子手工安全包装",
+    "step4": "全球直邮，无中间商"
+  },
+  "featured": {
+    "title": "精选系列",
+    "season": "2025秋季节日新品—现已上线",
+    "viewAll": "查看所有作品"
+  },
+  "potters": {
+    "spotlightTitle": "匠人风采",
+    "exploreAll": "浏览所有匠人"
+  },
+  "testimonials": {
+    "title": "用户评价"
+  },
+  "shipping": {
+    "title": "配送与保障",
+    "line1": "日本全球直邮",
+    "line2": "每件作品安全包装并投保",
+    "line3": "如有破损或错发，7天内支持退换"
+  },
+  "newsletter": {
+    "title": "不要错过下一次上新，立即订阅",
+    "placeholder": "您的邮箱地址",
+    "submit": "订阅",
+    "thanks": "感谢您的订阅！"
+  },
+  "footer": {
+    "nav": {
+      "shop": "商城",
+      "about": "关于我们",
+      "faq": "常见问题",
+      "contact": "联系我们"
+    }
   }
 }

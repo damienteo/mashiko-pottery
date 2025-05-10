@@ -38,8 +38,13 @@
     }
   },
   "home": {
+    "tagline": "Handmade in Mashiko. Delivered worldwide.",
     "heading": "🏺 Welcome to Mashiko Pottery",
-    "link": "Home"
+    "link": "Home",
+    "cta": {
+      "shop": "🛍️ Shop the Collection",
+      "meet": "📖 Meet the Potters"
+    }
   },
   "cart": {
     "title": "Your Cart",
@@ -94,5 +99,44 @@
   "menu": "Menu",
   "site": {
     "title": "Mashiko Pottery"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "step1": "We partner directly with potters in Mashiko",
+    "step2": "Each piece is carefully photographed and weighed",
+    "step3": "Packaged securely by hand in Mashiko",
+    "step4": "Shipped worldwide, no middlemen"
+  },
+  "featured": {
+    "title": "Featured Collections",
+    "season": "Autumn Festival 2025 Drop – Now Live",
+    "viewAll": "View All Pieces"
+  },
+  "potters": {
+    "spotlightTitle": "Potter Spotlights",
+    "exploreAll": "Explore All Potters"
+  },
+  "testimonials": {
+    "title": "What Our Customers Say"
+  },
+  "shipping": {
+    "title": "Shipping & Guarantee",
+    "line1": "Worldwide shipping from Japan",
+    "line2": "Each item is securely packed and insured",
+    "line3": "Returns accepted for damage or wrong item (within 7 days)"
+  },
+  "newsletter": {
+    "title": "Don’t miss our next drop — get notified first.",
+    "placeholder": "Your email address",
+    "submit": "Subscribe",
+    "thanks": "Thank you for subscribing!"
+  },
+  "footer": {
+    "nav": {
+      "shop": "Shop",
+      "about": "About",
+      "faq": "FAQ",
+      "contact": "Contact"
+    }
   }
 }

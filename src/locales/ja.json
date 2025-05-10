@@ -2,49 +2,54 @@
   "meta": {
     "home": {
       "title": "ホーム – Mashiko Pottery",
-      "description": "地元の陶芸家による手作り益子焼コレクションをご覧ください。"
+      "description": "益子の陶芸作家による手作り作品を厳選してご紹介。"
     },
     "cart": {
       "title": "カート",
-      "description": "購入前にカート内の商品を確認してください。"
+      "description": "購入手続きを開始する前に、カート内の商品をご確認ください。"
     },
     "checkout": {
       "title": "チェックアウト – Mashiko Pottery",
-      "description": "情報を入力して安全に購入を完了してください。"
+      "description": "必要事項を入力して、安全に購入を完了してください。"
     },
     "product": {
       "title": "商品詳細 – Mashiko Pottery",
-      "description": "手作りの益子焼の詳細を確認して購入できます。"
+      "description": "この手作り陶器の詳細を確認し、購入できます。"
     },
     "potter": {
       "title": "作家プロフィール – Mashiko Pottery",
-      "description": "職人とその作品について学びましょう。"
+      "description": "作家とその作品についてご覧ください。"
     },
     "admin": {
       "pages": {
         "products": {
           "title": "管理: 商品管理",
-          "description": "商品を作成、編集、削除します。"
+          "description": "商品を作成、編集、削除できます。"
         },
         "orders": {
           "title": "管理: 注文管理",
-          "description": "顧客の注文を表示して処理します。"
+          "description": "顧客の注文を確認・処理できます。"
         },
         "payouts": {
           "title": "管理: 支払いレポート",
-          "description": "作家への月次支払いを生成・確認します。"
+          "description": "作家への月次支払いを生成・確認できます。"
         }
       }
     }
   },
   "home": {
-    "heading": "🏺 Mashiko Pottery へようこそ",
-    "link": "ホーム"
+    "heading": "🏺 Mashiko Potteryへようこそ",
+    "link": "ホーム",
+    "tagline": "益子焼を、世界中へお届け。",
+    "cta": {
+      "shop": "🛍️ コレクションを見る",
+      "meet": "📖 作家を見る"
+    }
   },
   "cart": {
     "title": "カート",
-    "empty": "カートに商品がありません。",
-    "reAdd": "カートに戻す"
+    "empty": "カートは空です。",
+    "reAdd": "再度カートに追加"
   },
   "checkout": {
     "button": "チェックアウト",
@@ -66,15 +71,15 @@
     "pages": {
       "products": {
         "title": "管理: 商品管理",
-        "description": "商品を作成、編集、削除します。"
+        "description": "商品を作成、編集、削除できます。"
       },
       "orders": {
         "title": "管理: 注文管理",
-        "description": "顧客の注文を表示して処理します。"
+        "description": "顧客の注文を確認・処理できます。"
       },
       "payouts": {
         "title": "管理: 支払いレポート",
-        "description": "作家への月次支払いを生成・確認します。"
+        "description": "作家への月次支払いを生成・確認できます。"
       }
     },
     "loading": "読み込み中…",
@@ -94,5 +99,44 @@
   "menu": "メニュー",
   "site": {
     "title": "Mashiko Pottery"
+  },
+  "howItWorks": {
+    "title": "ご利用の流れ",
+    "step1": "益子の作家と直接提携",
+    "step2": "一品ずつ丁寧に写真撮影と計量",
+    "step3": "益子で手作業で安全に梱包",
+    "step4": "中間業者なしで世界発送"
+  },
+  "featured": {
+    "title": "特集コレクション",
+    "season": "2025年秋祭りコレクション—公開中",
+    "viewAll": "全ての作品を見る"
+  },
+  "potters": {
+    "spotlightTitle": "作家紹介",
+    "exploreAll": "全作家を見る"
+  },
+  "testimonials": {
+    "title": "お客様の声"
+  },
+  "shipping": {
+    "title": "配送と保証",
+    "line1": "日本からの世界配送",
+    "line2": "一品ずつ安全に梱包・保険付き",
+    "line3": "破損・誤配送の場合7日以内返品可"
+  },
+  "newsletter": {
+    "title": "次の入荷情報をいち早くお届け",
+    "placeholder": "メールアドレス",
+    "submit": "登録する",
+    "thanks": "ご登録ありがとうございます！"
+  },
+  "footer": {
+    "nav": {
+      "shop": "ショップ",
+      "about": "会社概要",
+      "faq": "FAQ",
+      "contact": "お問い合わせ"
+    }
   }
 }
