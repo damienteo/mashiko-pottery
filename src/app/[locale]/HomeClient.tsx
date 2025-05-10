@@ -36,7 +36,7 @@ export default function HomeClient() {
           href={`/${locale}/product/${product.id}`}
           className="border p-4 rounded hover:shadow"
         >
-          <h2 className="font-semibold text-xl">{product.title}</h2>
+          <h2 className="font-semibold text-xl">{product.title.toString()}</h2>
           <p className="mt-2">¥{product.price.toLocaleString()}</p>
         </Link>
       ))}
