@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 
 import Analytics from "./ClientAnalytics";
 import StoreProvider from "./StoreProvider";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 // Font imports
 import {
