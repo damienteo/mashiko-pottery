@@ -1,58 +1,50 @@
 {
   "meta": {
     "home": {
-      "title": "首页 – 益子陶器",
-      "description": "探索我们本地工匠精心手工制作的益子陶器系列。"
+      "title": "主页 – Mashiko Pottery",
+      "description": "探索我们精心策划的本地陶艺家手工益子烧系列。"
     },
     "cart": {
       "title": "购物车",
       "description": "在结账前查看购物车中的商品。"
     },
     "checkout": {
-      "title": "结账 – 益子陶器",
+      "title": "结账 – Mashiko Pottery",
       "description": "输入您的信息并安全完成购买。"
     },
     "product": {
-      "title": "商品详情 – 益子陶器",
-      "description": "查看此手工陶器的详细信息并购买。"
+      "title": "产品详情 – Mashiko Pottery",
+      "description": "查看并购买这件手工陶瓷。"
     },
     "potter": {
-      "title": "陶艺师简介 – 益子陶器",
-      "description": "了解工匠及其作品。"
+      "title": "陶艺家简介 – Mashiko Pottery",
+      "description": "了解艺术家及其作品。"
     },
     "admin": {
       "pages": {
         "products": {
-          "title": "管理员: 管理商品",
+          "title": "管理: 商品管理",
           "description": "创建、编辑和删除商品。"
         },
         "orders": {
-          "title": "管理员: 管理订单",
+          "title": "管理: 订单管理",
           "description": "查看并处理客户订单。"
         },
         "payouts": {
-          "title": "管理员: 支付报告",
-          "description": "生成并查看工匠的月度付款。"
+          "title": "管理: 支付报告",
+          "description": "生成并查看陶艺家月度支付。"
         }
       }
     }
   },
   "home": {
-    "heading": "🏺 欢迎来到益子陶器"
-  },
-  "login": {
-    "title": "登录",
-    "description": "请登录以继续。",
-    "username": "用户名",
-    "password": "密码",
-    "submit": "登录",
-    "error": "登录失败，请检查您的凭据。",
-    "loading": "正在登录…"
+    "heading": "🏺 欢迎来到 Mashiko Pottery",
+    "link": "首页"
   },
   "cart": {
     "title": "购物车",
-    "empty": "您的购物车中没有商品。",
-    "reAdd": "重新添加到购物车"
+    "empty": "购物车中没有商品。",
+    "reAdd": "重新添加"
   },
   "checkout": {
     "button": "完成购买",
@@ -60,7 +52,7 @@
   },
   "product": {
     "loading": "加载中…",
-    "addToCart": "添加到购物车"
+    "addToCart": "加入购物车"
   },
   "potter": {
     "loading": "加载中…"
@@ -73,21 +65,34 @@
     },
     "pages": {
       "products": {
-        "title": "管理员: 管理商品",
+        "title": "管理: 商品管理",
         "description": "创建、编辑和删除商品。"
       },
       "orders": {
-        "title": "管理员: 管理订单",
+        "title": "管理: 订单管理",
         "description": "查看并处理客户订单。"
       },
       "payouts": {
-        "title": "管理员: 支付报告",
-        "description": "生成并查看工匠的月度付款。"
+        "title": "管理: 支付报告",
+        "description": "生成并查看陶艺家月度支付。"
       }
     },
     "loading": "加载中…",
     "error": "发生错误"
   },
+  "login": {
+    "title": "登录",
+    "description": "请登录以继续。",
+    "username": "用户名",
+    "password": "密码",
+    "submit": "登录",
+    "error": "登录失败。请检查您的凭据。",
+    "loading": "正在登录…"
+  },
   "loading": "加载中…",
-  "error": "发生错误"
+  "error": "发生错误",
+  "menu": "菜单",
+  "site": {
+    "title": "Mashiko Pottery"
+  }
 }

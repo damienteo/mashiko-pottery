@@ -38,16 +38,8 @@
     }
   },
   "home": {
-    "heading": "🏺 Welcome to Mashiko Pottery"
-  },
-  "login": {
-    "title": "Login",
-    "description": "Please sign in to continue.",
-    "username": "Username",
-    "password": "Password",
-    "submit": "Sign In",
-    "error": "Login failed. Please check your credentials.",
-    "loading": "Signing in..."
+    "heading": "🏺 Welcome to Mashiko Pottery",
+    "link": "Home"
   },
   "cart": {
     "title": "Your Cart",
@@ -88,6 +80,19 @@
     "loading": "Loading…",
     "error": "An error occurred"
   },
+  "login": {
+    "title": "Login",
+    "description": "Please sign in to continue.",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign In",
+    "error": "Login failed. Please check your credentials.",
+    "loading": "Signing in..."
+  },
   "loading": "Loading…",
-  "error": "An error occurred"
+  "error": "An error occurred",
+  "menu": "Menu",
+  "site": {
+    "title": "Mashiko Pottery"
+  }
 }

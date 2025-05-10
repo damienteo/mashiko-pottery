@@ -2,19 +2,19 @@
   "meta": {
     "home": {
       "title": "ホーム – Mashiko Pottery",
-      "description": "地元の職人による厳選された Mashiko 陶器のコレクションを探索しましょう。"
+      "description": "地元の陶芸家による手作り益子焼コレクションをご覧ください。"
     },
     "cart": {
       "title": "カート",
-      "description": "購入前にショッピングカート内の商品を確認してください。"
+      "description": "購入前にカート内の商品を確認してください。"
     },
     "checkout": {
       "title": "チェックアウト – Mashiko Pottery",
-      "description": "詳細を入力して安全に購入を完了してください。"
+      "description": "情報を入力して安全に購入を完了してください。"
     },
     "product": {
       "title": "商品詳細 – Mashiko Pottery",
-      "description": "この手作り陶器の詳細を表示して購入できます。"
+      "description": "手作りの益子焼の詳細を確認して購入できます。"
     },
     "potter": {
       "title": "作家プロフィール – Mashiko Pottery",
@@ -23,40 +23,32 @@
     "admin": {
       "pages": {
         "products": {
-          "title": "管理: 商品の管理",
+          "title": "管理: 商品管理",
           "description": "商品を作成、編集、削除します。"
         },
         "orders": {
-          "title": "管理: 注文の管理",
-          "description": "顧客の注文を表示し、処理します。"
+          "title": "管理: 注文管理",
+          "description": "顧客の注文を表示して処理します。"
         },
         "payouts": {
           "title": "管理: 支払いレポート",
-          "description": "作家への月次支払いを生成および確認します。"
+          "description": "作家への月次支払いを生成・確認します。"
         }
       }
     }
   },
   "home": {
-    "heading": "🏺 益子焼へようこそ"
-  },
-  "login": {
-    "title": "ログイン",
-    "description": "続行するにはサインインしてください。",
-    "username": "ユーザー名",
-    "password": "パスワード",
-    "submit": "サインイン",
-    "error": "ログインに失敗しました。資格情報を確認してください。",
-    "loading": "サインイン中…"
+    "heading": "🏺 Mashiko Pottery へようこそ",
+    "link": "ホーム"
   },
   "cart": {
     "title": "カート",
-    "empty": "カートに商品はありません。",
-    "reAdd": "カートに再追加"
+    "empty": "カートに商品がありません。",
+    "reAdd": "カートに戻す"
   },
   "checkout": {
-    "button": "購入を完了",
-    "redirecting": "ログインへリダイレクト中…"
+    "button": "購入を完了する",
+    "redirecting": "ログインにリダイレクト中…"
   },
   "product": {
     "loading": "読み込み中…",
@@ -73,21 +65,34 @@
     },
     "pages": {
       "products": {
-        "title": "管理: 商品の管理",
+        "title": "管理: 商品管理",
         "description": "商品を作成、編集、削除します。"
       },
       "orders": {
-        "title": "管理: 注文の管理",
-        "description": "顧客の注文を表示し、処理します。"
+        "title": "管理: 注文管理",
+        "description": "顧客の注文を表示して処理します。"
       },
       "payouts": {
         "title": "管理: 支払いレポート",
-        "description": "作家への月次支払いを生成および確認します。"
+        "description": "作家への月次支払いを生成・確認します。"
       }
     },
     "loading": "読み込み中…",
     "error": "エラーが発生しました"
   },
+  "login": {
+    "title": "ログイン",
+    "description": "続行するにはサインインしてください。",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "submit": "サインイン",
+    "error": "ログインに失敗しました。資格情報を確認してください。",
+    "loading": "サインイン中…"
+  },
   "loading": "読み込み中…",
-  "error": "エラーが発生しました"
+  "error": "エラーが発生しました",
+  "menu": "メニュー",
+  "site": {
+    "title": "Mashiko Pottery"
+  }
 }
