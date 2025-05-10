@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { mockProducts } from "@/mocks/products";
+import { formatYen } from "@/utils/format";
 
 export default function FeaturedCollections() {
   const t = useTranslations();
@@ -25,7 +26,7 @@ export default function FeaturedCollections() {
             <h3 className="font-medium text-lg">
               {String(p.title[locale as keyof typeof p.title])}
             </h3>
-            <p className="mt-1 text-gray-700">¥{p.price.toLocaleString()}</p>
+            <p className="mt-1 text-gray-700">{formatYen(p.price)}</p>
           </Link>
         ))}
       </div>
