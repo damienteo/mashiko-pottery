@@ -131,6 +131,11 @@
     "submit": "Subscribe",
     "thanks": "Thank you for subscribing!"
   },
+  "shippingGuarantee": {
+    "iconAlt": "Shipping guarantee icon",
+    "title": "Fast & Secure Shipping",
+    "description": "We guarantee your pottery arrives safely within 5 business days, or your money back."
+  },
   "footer": {
     "nav": {
       "shop": "Shop",

@@ -131,6 +131,11 @@
     "submit": "订阅",
     "thanks": "感谢您的订阅！"
   },
+  "shippingGuarantee": {
+    "iconAlt": "运输保证图标",
+    "title": "快速且安全的配送",
+    "description": "我们保证您的陶器在5个工作日内安全送达，否则全额退款。"
+  },
   "footer": {
     "nav": {
       "shop": "商城",
