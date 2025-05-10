@@ -3,7 +3,7 @@ export function formatWithCommas(value: number): string {
 }
 
 export function formatYen(value: number): string {
-  return new Intl.NumberFormat("ja‑JP", {
+  return new Intl.NumberFormat("ja-JP", {
     style: "currency",
     currency: "JPY",
     minimumFractionDigits: 0,
