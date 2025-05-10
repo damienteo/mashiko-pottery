@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
@@ -44,7 +45,7 @@ export default function ProductClient() {
   if (isLoading) return <p className="p-8">{t("loading")}</p>;
   if (!isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>;
-  if (!product) return <p className="p-8">{t("loading")}</p>;
+  if (!product) return <p className="p-8 text-red-600">{error}</p>;
 
   // Typed accessors for localized fields
   const title = product.title[locale as keyof typeof product.title];
@@ -52,7 +53,16 @@ export default function ProductClient() {
     product.description?.[locale as keyof typeof product.description];
 
   return (
-    <div className="p-8">
+    <div className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12 max-w-3xl mx-auto">
+      <div className="w-full aspect-square relative mb-6 overflow-hidden rounded-lg">
+        <Image
+          src={product.photos[0]}
+          alt={title}
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
       <h1 className="text-3xl font-semibold">{title}</h1>
       {description && <p className="mt-2 text-gray-700">{description}</p>}
       <p className="mt-2 text-gray-700">{formatYen(product.price)}</p>

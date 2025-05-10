@@ -45,7 +45,7 @@ export default function FeaturedCollections() {
       </div>
 
       <div className="mt-6 text-center">
-        <Link href={`/${locale}/product`} className="text-blue-600 underline">
+        <Link href={`/${locale}/products`} className="text-blue-600 underline">
           {t("featured.viewAll")}
         </Link>
       </div>
