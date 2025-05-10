@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
+import LanguageSelector from "./LanguageSelector";
 
 export default function Navbar() {
   const locale = useLocale();
@@ -41,6 +42,10 @@ export default function Navbar() {
             <Link href={`/${locale}/admin/payouts`} className="hover:underline">
               {t("admin.nav.payouts")}
             </Link>
+          </li>
+          <li>
+            {/* Language selector */}
+            <LanguageSelector />
           </li>
         </ul>
       </nav>
