@@ -13,7 +13,7 @@ import {
 } from "@/store/potters/pottersListSlice";
 
 export default function PotterSpotlights() {
-  const t = useTranslations("home");
+  const t = useTranslations("");
   const locale = useLocale();
   const dispatch = useAppDispatch();
 

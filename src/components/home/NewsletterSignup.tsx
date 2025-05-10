@@ -20,7 +20,7 @@ const schema = yup
   .required();
 
 export default function NewsletterSignup() {
-  const t = useTranslations("home");
+  const t = useTranslations("");
   const {
     register,
     handleSubmit,

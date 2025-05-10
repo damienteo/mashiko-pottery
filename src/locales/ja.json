@@ -2,58 +2,58 @@
   "meta": {
     "home": {
       "title": "ホーム – Mashiko Pottery",
-      "description": "益子の陶芸作家による手作り作品を厳選してご紹介。"
+      "description": "地元の職人による手作りの益子焼コレクションをご覧ください。"
     },
     "cart": {
       "title": "カート",
-      "description": "購入手続きを開始する前に、カート内の商品をご確認ください。"
+      "description": "チェックアウト前にカート内の商品を確認してください。"
     },
     "checkout": {
       "title": "チェックアウト – Mashiko Pottery",
-      "description": "必要事項を入力して、安全に購入を完了してください。"
+      "description": "情報を入力して安全に購入を完了してください。"
     },
     "product": {
       "title": "商品詳細 – Mashiko Pottery",
-      "description": "この手作り陶器の詳細を確認し、購入できます。"
+      "description": "この手作りの陶器の詳細を見て購入してください。"
     },
     "potter": {
-      "title": "作家プロフィール – Mashiko Pottery",
-      "description": "作家とその作品についてご覧ください。"
+      "title": "陶芸家プロフィール – Mashiko Pottery",
+      "description": "職人とその作品について学びましょう。"
     },
     "admin": {
       "pages": {
         "products": {
-          "title": "管理: 商品管理",
-          "description": "商品を作成、編集、削除できます。"
+          "title": "管理者: 商品管理",
+          "description": "商品を作成、編集、削除します。"
         },
         "orders": {
-          "title": "管理: 注文管理",
-          "description": "顧客の注文を確認・処理できます。"
+          "title": "管理者: 注文管理",
+          "description": "顧客の注文を表示および処理します。"
         },
         "payouts": {
-          "title": "管理: 支払いレポート",
-          "description": "作家への月次支払いを生成・確認できます。"
+          "title": "管理者: 支払いレポート",
+          "description": "陶芸家の月次支払いを生成および確認します。"
         }
       }
     }
   },
   "home": {
+    "tagline": "益子で手作り。世界中へお届け。",
     "heading": "🏺 Mashiko Potteryへようこそ",
     "link": "ホーム",
-    "tagline": "益子焼を、世界中へお届け。",
     "cta": {
       "shop": "🛍️ コレクションを見る",
-      "meet": "📖 作家を見る"
+      "meet": "📖 陶芸家に会う"
     }
   },
   "cart": {
     "title": "カート",
     "empty": "カートは空です。",
-    "reAdd": "再度カートに追加"
+    "reAdd": "カートに再追加"
   },
   "checkout": {
     "button": "チェックアウト",
-    "redirecting": "ログインにリダイレクト中…"
+    "redirecting": "ログインへリダイレクト中…"
   },
   "product": {
     "loading": "読み込み中…",
@@ -70,16 +70,16 @@
     },
     "pages": {
       "products": {
-        "title": "管理: 商品管理",
-        "description": "商品を作成、編集、削除できます。"
+        "title": "管理者: 商品管理",
+        "description": "商品を作成、編集、削除します。"
       },
       "orders": {
-        "title": "管理: 注文管理",
-        "description": "顧客の注文を確認・処理できます。"
+        "title": "管理者: 注文管理",
+        "description": "顧客の注文を表示および処理します。"
       },
       "payouts": {
-        "title": "管理: 支払いレポート",
-        "description": "作家への月次支払いを生成・確認できます。"
+        "title": "管理者: 支払いレポート",
+        "description": "陶芸家の月次支払いを生成および確認します。"
       }
     },
     "loading": "読み込み中…",
@@ -101,46 +101,53 @@
     "title": "Mashiko Pottery"
   },
   "howItWorks": {
-    "title": "ご利用の流れ",
-    "step1": "益子の作家と直接提携",
-    "step2": "一品ずつ丁寧に写真撮影と計量",
-    "step3": "益子で手作業で安全に梱包",
-    "step4": "中間業者なしで世界発送"
+    "title": "ご利用方法",
+    "step1": "益子の陶芸家と直接提携しています",
+    "step2": "各作品を丁寧に撮影し、重さを測ります",
+    "step3": "益子で手作業で安全に梱包します",
+    "step4": "中間業者なしで世界中へ発送します"
   },
   "featured": {
-    "title": "特集コレクション",
-    "season": "2025年秋祭りコレクション—公開中",
-    "viewAll": "全ての作品を見る"
+    "title": "注目のコレクション",
+    "season": "2025年秋祭りコレクション – 現在公開中",
+    "viewAll": "すべての作品を見る"
   },
   "potters": {
-    "spotlightTitle": "作家紹介",
-    "exploreAll": "全作家を見る"
+    "spotlightTitle": "陶芸家スポットライト",
+    "exploreAll": "すべての陶芸家を見る"
   },
   "testimonials": {
     "title": "お客様の声"
   },
   "shipping": {
     "title": "配送と保証",
-    "line1": "日本からの世界配送",
-    "line2": "一品ずつ安全に梱包・保険付き",
-    "line3": "破損・誤配送の場合7日以内返品可"
-  },
-  "newsletter": {
-    "title": "次の入荷情報をいち早くお届け",
-    "placeholder": "メールアドレス",
-    "submit": "登録する",
-    "thanks": "ご登録ありがとうございます！"
+    "line1": "日本から世界中へ配送",
+    "line2": "各商品は安全に梱包され、保険付きです",
+    "line3": "破損や誤配送の場合は返品可能（7日以内）"
   },
   "shippingGuarantee": {
     "iconAlt": "配送保証アイコン",
     "title": "迅速かつ安全な配送",
-    "description": "ご注文の陶器を5営業日以内に安全にお届けすることを保証します。万が一の場合は返金いたします。"
+    "description": "商品が5営業日以内に安全に届くことを保証します。届かない場合は返金します。"
+  },
+  "potterSpotlights": {
+    "title": "陶芸家スポットライト",
+    "loading": "陶芸家を読み込み中…",
+    "error": "陶芸家の読み込みに失敗しました。"
+  },
+  "newsletter": {
+    "title": "次のドロップを見逃さないように、まず通知を受け取りましょう。",
+    "description": "最新のドロップやプロモーション情報をお届けします。",
+    "placeholder": "メールアドレス",
+    "button": "購読する",
+    "loading": "送信中…",
+    "thanks": "ご購読ありがとうございます！"
   },
   "footer": {
     "nav": {
       "shop": "ショップ",
-      "about": "会社概要",
-      "faq": "FAQ",
+      "about": "私たちについて",
+      "faq": "よくある質問",
       "contact": "お問い合わせ"
     }
   }

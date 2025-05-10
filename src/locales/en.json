@@ -129,13 +129,22 @@
     "title": "Don’t miss our next drop — get notified first.",
     "placeholder": "Your email address",
     "submit": "Subscribe",
-    "thanks": "Thank you for subscribing!"
+    "thanks": "Thank you for subscribing!",
+    "description": "Stay updated with our latest drops and promotions.",
+    "button": "Subscribe",
+    "loading": "Submitting..."
   },
   "shippingGuarantee": {
     "iconAlt": "Shipping guarantee icon",
     "title": "Fast & Secure Shipping",
     "description": "We guarantee your pottery arrives safely within 5 business days, or your money back."
   },
+  "potterSpotlights": {
+    "title": "Potter Spotlights",
+    "loading": "Loading potters…",
+    "error": "Failed to load potters."
+  },
+
   "footer": {
     "nav": {
       "shop": "Shop",
