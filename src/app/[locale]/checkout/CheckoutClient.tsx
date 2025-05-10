@@ -24,7 +24,7 @@ export default function CheckoutClient() {
     } else if (user) {
       logBeginCheckout(items);
     }
-  }, [user, isLoading, items, router]);
+  }, [user, isLoading, items, router, pathname]);
 
   if (!user) return <p className="p-8">{t("checkout.redirecting")}</p>;
 

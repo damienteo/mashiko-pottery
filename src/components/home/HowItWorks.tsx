@@ -3,23 +3,23 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 export default function HowItWorks() {
-  const t = useTranslations("home");
+  const t = useTranslations();
 
   const steps = [
     {
       icon: "/icons/step1.svg",
-      title: t("howItWorks.steps.1.title"),
-      description: t("howItWorks.steps.1.description"),
+      title: t("howItWorks.step1"),
+      description: t("howItWorks.step1"),
     },
     {
       icon: "/icons/step2.svg",
-      title: t("howItWorks.steps.2.title"),
-      description: t("howItWorks.steps.2.description"),
+      title: t("howItWorks.step2"),
+      description: t("howItWorks.step2"),
     },
     {
       icon: "/icons/step3.svg",
-      title: t("howItWorks.steps.3.title"),
-      description: t("howItWorks.steps.3.description"),
+      title: t("howItWorks.step3"),
+      description: t("howItWorks.step3"),
     },
   ];
 

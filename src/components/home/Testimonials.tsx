@@ -46,7 +46,7 @@ const mockTestimonials: Testimonial[] = [
 ];
 
 export default function Testimonials() {
-  const t = useTranslations("home");
+  const t = useTranslations();
   const locale = useLocale();
 
   return (

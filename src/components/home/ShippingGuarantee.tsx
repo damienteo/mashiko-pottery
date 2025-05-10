@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 export default function ShippingGuarantee() {
-  const t = useTranslations("home");
+  const t = useTranslations();
 
   return (
     <section className="py-10 bg-gray-50 flex items-center justify-center">
