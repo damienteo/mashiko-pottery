@@ -3,7 +3,7 @@ import type { RootState } from "../store";
 
 export interface Potter {
   id: string;
-  name: string;
+  name: Record<string, string>;
   image: string;
   bio: Record<string, string>;
 }

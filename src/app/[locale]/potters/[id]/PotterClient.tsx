@@ -11,6 +11,7 @@ import {
   selectPotterDetailsIsSuccess,
   selectPotterDetailsError,
 } from "@/store/potters/potterDetailsSlice";
+import Image from "next/image";
 
 export default function PotterClient() {
   const t = useTranslations("potter");
@@ -38,7 +39,18 @@ export default function PotterClient() {
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-semibold">{potter.name}</h1>
+      <div className="w-full h-64 relative mb-6 rounded-lg overflow-hidden">
+        <Image
+          src={potter.image}
+          alt={potter.name[locale as keyof typeof potter.name]}
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+      <h1 className="text-3xl font-semibold">
+        {potter.name[locale as keyof typeof potter.name]}
+      </h1>
       <p className="mt-2 text-gray-700">{potter.bio[locale]}</p>
     </div>
   );

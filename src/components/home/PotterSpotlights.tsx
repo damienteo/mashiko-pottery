@@ -13,7 +13,7 @@ import {
 } from "@/store/potters/pottersListSlice";
 
 export default function PotterSpotlights() {
-  const t = useTranslations("");
+  const t = useTranslations();
   const locale = useLocale();
   const dispatch = useAppDispatch();
 
@@ -54,17 +54,17 @@ export default function PotterSpotlights() {
               href={`/${locale}/potters/${potter.id}`}
               className="block"
             >
-              <div className="w-full h-48 mb-4 relative rounded-full overflow-hidden">
+              <div className="w-full aspect-square mb-4 relative rounded-lg overflow-hidden">
                 <Image
                   src={potter.image}
-                  alt={potter.name}
+                  alt={potter.name[locale as keyof typeof potter.name]}
                   fill
                   className="object-cover"
                   priority
                 />
               </div>
               <h3 className="text-xl md:text-2xl font-semibold text-center mb-2">
-                {potter.name}
+                {potter.name[locale as keyof typeof potter.name]}
               </h3>
               <p className="text-gray-600 text-center">
                 {potter.bio[locale as keyof typeof potter.bio]}
