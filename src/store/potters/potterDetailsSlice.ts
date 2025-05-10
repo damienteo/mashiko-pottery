@@ -2,9 +2,10 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 export interface Potter {
-  id: number;
+  id: string;
   name: string;
-  bio: string;
+  image: string;
+  bio: Record<string, string>;
 }
 
 // Async thunk: fetch a single potter by ID
