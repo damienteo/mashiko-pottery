@@ -10,7 +10,7 @@ import {
   selectCartLoading,
   selectCartError,
   removeFromCart,
-  addToCart,
+  updateQuantity,
   selectCartTotal,
   selectCartCount,
   clearCart,
@@ -95,30 +95,40 @@ export default function CartClient() {
                 <span>
                   {t("cart.unitPrice")}: ¥{item.price.toLocaleString()}
                 </span>
-                <span>
-                  {t("cart.quantity")}: {item.quantity}
-                </span>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() =>
+                      dispatch(
+                        updateQuantity({
+                          id: item.id,
+                          quantity: item.quantity - 1,
+                        })
+                      )
+                    }
+                    className="px-2"
+                  >
+                    –
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button
+                    onClick={() =>
+                      dispatch(
+                        updateQuantity({
+                          id: item.id,
+                          quantity: item.quantity + 1,
+                        })
+                      )
+                    }
+                    className="px-2"
+                  >
+                    +
+                  </button>
+                </div>
                 <span>
                   {t("cart.lineTotal")}: ¥
                   {(item.price * item.quantity).toLocaleString()}
                 </span>
                 <div className="mt-2 space-x-2">
-                  <button
-                    onClick={() =>
-                      dispatch(
-                        addToCart({
-                          id: item.id,
-                          title: item.title,
-                          price: item.price,
-                          quantity: 1,
-                          image: item.image,
-                        })
-                      )
-                    }
-                    className="text-green-600 hover:underline"
-                  >
-                    {t("cart.reAdd")}
-                  </button>
                   <button
                     onClick={() => dispatch(removeFromCart(item.id))}
                     className="text-red-600 hover:underline"
