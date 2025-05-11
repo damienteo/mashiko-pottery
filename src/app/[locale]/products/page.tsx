@@ -82,6 +82,7 @@ export default function ProductsPage() {
                           title,
                           price: p.price,
                           quantity: 1,
+                          image: p.photos[0],
                         })
                       );
                       success("Added to cart");

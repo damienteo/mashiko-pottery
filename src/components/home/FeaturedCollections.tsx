@@ -59,6 +59,7 @@ export default function FeaturedCollections() {
                     title: String(p.title[locale as keyof typeof p.title]),
                     price: p.price,
                     quantity: 1,
+                    image: p.photos[0],
                   })
                 );
                 success("Added to cart");

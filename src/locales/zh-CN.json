@@ -51,9 +51,14 @@
     }
   },
   "cart": {
+    "unitPrice": "单价",
+    "quantity": "数量",
+    "lineTotal": "小计",
+    "remove": "删除",
     "title": "购物车",
     "empty": "您的购物车为空。",
-    "reAdd": "重新加入购物车"
+    "reAdd": "重新加入购物车",
+    "total": "总计"
   },
   "checkout": {
     "button": "结账",

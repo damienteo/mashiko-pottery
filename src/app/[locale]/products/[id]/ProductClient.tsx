@@ -78,6 +78,7 @@ export default function ProductClient() {
                 title: title,
                 price: product.price,
                 quantity: 1,
+                image: product.photos[0],
               })
             );
             success("Added to cart");

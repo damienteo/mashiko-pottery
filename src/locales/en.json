@@ -51,9 +51,14 @@
     }
   },
   "cart": {
+    "unitPrice": "Unit Price",
+    "quantity": "Quantity",
+    "lineTotal": "Line Total",
+    "remove": "Remove",
     "title": "Cart",
     "empty": "Your cart is empty.",
-    "reAdd": "Re-add to Cart"
+    "reAdd": "Re-add to Cart",
+    "total": "Total"
   },
   "checkout": {
     "button": "Checkout",
