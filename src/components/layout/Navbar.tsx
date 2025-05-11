@@ -3,11 +3,14 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import LanguageSelector from "./LanguageSelector";
 import { useState } from "react";
+import { useAppSelector } from "@/store/hooks";
+import { selectCartCount } from "@/store/cartSlice";
 
 export default function Navbar() {
   const locale = useLocale();
   const t = useTranslations();
   const [menuOpen, setMenuOpen] = useState(false);
+  const cartCount = useAppSelector(selectCartCount);
   return (
     <header className="sticky top-0 bg-white shadow z-10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,7 +45,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link href={`/${locale}/cart`} className="hover:underline">
-                {t("cart.title")}
+                {`${t("cart.title")} (${cartCount})`}
               </Link>
             </li>
             <li>
@@ -126,7 +129,7 @@ export default function Navbar() {
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
-                      {t("cart.title")}
+                      {`${t("cart.title")} (${cartCount})`}
                     </Link>
                   </li>
                   <li>
