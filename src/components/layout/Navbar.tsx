@@ -75,6 +75,11 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
+              <Link href={`/${locale}/login`} className="hover:underline">
+                {t("login.title")}
+              </Link>
+            </li>
+            <li>
               <LanguageSelector />
             </li>
           </ul>
@@ -158,6 +163,15 @@ export default function Navbar() {
                       className="block text-lg text-red-600"
                     >
                       {t("admin.nav.payouts")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/login`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("login.title")}
                     </Link>
                   </li>
                   <li>
