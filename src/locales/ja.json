@@ -58,7 +58,8 @@
     "title": "カート",
     "empty": "カートは空です。",
     "reAdd": "カートに再追加",
-    "total": "合計"
+    "total": "合計",
+    "continueShopping": "お買い物を続ける"
   },
   "checkout": {
     "button": "チェックアウト",

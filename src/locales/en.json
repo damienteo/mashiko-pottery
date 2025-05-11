@@ -58,7 +58,8 @@
     "title": "Cart",
     "empty": "Your cart is empty.",
     "reAdd": "Re-add to Cart",
-    "total": "Total"
+    "total": "Total",
+    "continueShopping": "Continue Shopping"
   },
   "checkout": {
     "button": "Checkout",

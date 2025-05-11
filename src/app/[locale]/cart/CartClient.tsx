@@ -164,7 +164,16 @@ export default function CartClient() {
           </div>
         </>
       ) : (
-        <p>{t("cart.empty")}</p>
+        <section
+          className="flex flex-col items-center justify-center py-20"
+          aria-live="polite"
+        >
+          {/* Optional illustration could go here */}
+          <p className="text-lg mb-4">{t("cart.empty")}</p>
+          <Link href={`/${locale}/products`}>
+            <Button variant="primary">{t("cart.continueShopping")}</Button>
+          </Link>
+        </section>
       )}
     </div>
   );
