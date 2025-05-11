@@ -31,6 +31,16 @@ export default function Navbar() {
           {/* Desktop menu items */}
           <ul className="hidden sm:flex sm:space-x-6 items-center">
             <li>
+              <Link href={`/${locale}/products`} className="hover:underline">
+                {t("products.title")}
+              </Link>
+            </li>
+            <li>
+              <Link href={`/${locale}/potters`} className="hover:underline">
+                {t("potters.title")}
+              </Link>
+            </li>
+            <li>
               <Link href={`/${locale}/cart`} className="hover:underline">
                 {t("cart.title")}
               </Link>
@@ -43,7 +53,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/${locale}/admin/products`}
-                className="hover:underline"
+                className="hover:underline text-red-600"
               >
                 {t("admin.nav.products")}
               </Link>
@@ -51,7 +61,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/${locale}/admin/orders`}
-                className="hover:underline"
+                className="hover:underline text-red-600"
               >
                 {t("admin.nav.orders")}
               </Link>
@@ -59,7 +69,7 @@ export default function Navbar() {
             <li>
               <Link
                 href={`/${locale}/admin/payouts`}
-                className="hover:underline"
+                className="hover:underline text-red-600"
               >
                 {t("admin.nav.payouts")}
               </Link>
@@ -89,11 +99,20 @@ export default function Navbar() {
                 <ul className="space-y-4">
                   <li>
                     <Link
-                      href={`/${locale}`}
+                      href={`/${locale}/products`}
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
-                      {t("home.link")}
+                      {t("featured.title")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={`/${locale}/potters`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg"
+                    >
+                      {t("potters.spotlightTitle")}
                     </Link>
                   </li>
                   <li>
@@ -118,7 +137,7 @@ export default function Navbar() {
                     <Link
                       href={`/${locale}/admin/products`}
                       onClick={() => setMenuOpen(false)}
-                      className="block text-lg"
+                      className="block text-lg text-red-600"
                     >
                       {t("admin.nav.products")}
                     </Link>
@@ -127,7 +146,7 @@ export default function Navbar() {
                     <Link
                       href={`/${locale}/admin/orders`}
                       onClick={() => setMenuOpen(false)}
-                      className="block text-lg"
+                      className="block text-lg text-red-600"
                     >
                       {t("admin.nav.orders")}
                     </Link>
@@ -136,7 +155,7 @@ export default function Navbar() {
                     <Link
                       href={`/${locale}/admin/payouts`}
                       onClick={() => setMenuOpen(false)}
-                      className="block text-lg"
+                      className="block text-lg text-red-600"
                     >
                       {t("admin.nav.payouts")}
                     </Link>

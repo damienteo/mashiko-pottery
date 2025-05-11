@@ -51,7 +51,7 @@
     }
   },
   "cart": {
-    "title": "Your Cart",
+    "title": "Cart",
     "empty": "Your cart is empty.",
     "reAdd": "Re-add to Cart"
   },
@@ -68,7 +68,7 @@
   },
   "admin": {
     "nav": {
-      "products": "Products",
+      "products": "Admin: Products",
       "orders": "Orders",
       "payouts": "Payouts"
     },
@@ -116,7 +116,11 @@
     "season": "Autumn Festival 2025 Drop – Now Live",
     "viewAll": "View All Pieces"
   },
+  "products": {
+    "title": "Products"
+  },
   "potters": {
+    "title": "Potters",
     "spotlightTitle": "Potter Spotlights",
     "exploreAll": "Explore All Potters"
   },
@@ -129,15 +133,6 @@
     "line2": "Each item is securely packed and insured",
     "line3": "Returns accepted for damage or wrong item (within 7 days)"
   },
-  "newsletter": {
-    "title": "Don’t miss our next drop — get notified first.",
-    "placeholder": "Your email address",
-    "submit": "Subscribe",
-    "thanks": "Thank you for subscribing!",
-    "description": "Stay updated with our latest drops and promotions.",
-    "button": "Subscribe",
-    "loading": "Submitting..."
-  },
   "shippingGuarantee": {
     "iconAlt": "Shipping guarantee icon",
     "title": "Fast & Secure Shipping",
@@ -148,7 +143,14 @@
     "loading": "Loading potters…",
     "error": "Failed to load potters."
   },
-
+  "newsletter": {
+    "title": "Don’t miss our next drop — get notified first.",
+    "description": "Stay updated with our latest drops and promotions.",
+    "placeholder": "Your email address",
+    "button": "Subscribe",
+    "loading": "Submitting...",
+    "thanks": "Thank you for subscribing!"
+  },
   "footer": {
     "nav": {
       "shop": "Shop",

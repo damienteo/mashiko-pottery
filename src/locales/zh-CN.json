@@ -2,10 +2,10 @@
   "meta": {
     "home": {
       "title": "首页 – Mashiko Pottery",
-      "description": "探索我们由本地工匠精心制作的 Mashiko 手工陶艺精选系列。"
+      "description": "探索我们精心策划的本地工匠手工制作的 Mashiko 陶艺系列。"
     },
     "cart": {
-      "title": "购物车",
+      "title": "您的购物车",
       "description": "在结账前查看购物车中的商品。"
     },
     "checkout": {
@@ -21,22 +21,22 @@
       "description": "了解这位艺术家及其作品。"
     },
     "potters": {
-      "title": "陶艺师聚焦 – Mashiko Pottery",
-      "description": "与您见面的是我们手工制作的Mashiko陶艺背后的才华横溢的陶艺师。"
+      "title": "Potter Spotlights – Mashiko Pottery",
+      "description": "与您见面的是我们手工制作的 Mashiko 陶艺背后的才华横溢的陶艺师。"
     },
     "admin": {
       "pages": {
         "products": {
-          "title": "管理：商品管理",
+          "title": "管理: 管理商品",
           "description": "创建、编辑和删除商品。"
         },
         "orders": {
-          "title": "管理：订单管理",
+          "title": "管理: 管理订单",
           "description": "查看并处理客户订单。"
         },
         "payouts": {
-          "title": "管理：支付报告",
-          "description": "生成并查看陶艺师的月度支付。"
+          "title": "管理: 支付报告",
+          "description": "生成并查看陶艺师的月度付款报告。"
         }
       }
     }
@@ -52,11 +52,11 @@
   },
   "cart": {
     "title": "购物车",
-    "empty": "购物车为空。",
+    "empty": "您的购物车为空。",
     "reAdd": "重新加入购物车"
   },
   "checkout": {
-    "button": "去结账",
+    "button": "结账",
     "redirecting": "正在重定向到登录…"
   },
   "product": {
@@ -68,23 +68,9 @@
   },
   "admin": {
     "nav": {
-      "products": "商品",
-      "orders": "订单",
-      "payouts": "支付"
-    },
-    "pages": {
-      "products": {
-        "title": "管理：商品管理",
-        "description": "创建、编辑和删除商品。"
-      },
-      "orders": {
-        "title": "管理：订单管理",
-        "description": "查看并处理客户订单。"
-      },
-      "payouts": {
-        "title": "管理：支付报告",
-        "description": "生成并查看陶艺师的月度支付。"
-      }
+      "products": "管理: 管理商品",
+      "orders": "管理: 管理订单",
+      "payouts": "管理: 支付报告"
     },
     "loading": "加载中…",
     "error": "发生错误"
@@ -95,7 +81,7 @@
     "username": "用户名",
     "password": "密码",
     "submit": "登录",
-    "error": "登录失败，请检查凭证。",
+    "error": "登录失败，请检查您的凭证。",
     "loading": "登录中…"
   },
   "loading": "加载中…",
@@ -116,7 +102,11 @@
     "season": "2025 秋祭系列 – 现已上线",
     "viewAll": "查看全部"
   },
+  "products": {
+    "title": "商品"
+  },
   "potters": {
+    "title": "陶艺师",
     "spotlightTitle": "陶艺师聚焦",
     "exploreAll": "查看所有陶艺师"
   },
@@ -127,7 +117,7 @@
     "title": "配送与保证",
     "line1": "日本直邮全球",
     "line2": "每件商品均安全包装并投保",
-    "line3": "7日内破损或错发可退货"
+    "line3": "7天内破损或错发可退货"
   },
   "shippingGuarantee": {
     "iconAlt": "配送保证图标",
@@ -135,14 +125,14 @@
     "description": "我们保证您的陶器在5个工作日内安全送达，否则全额退款。"
   },
   "potterSpotlights": {
-    "title": "陶艺师聚焦",
+    "title": "Potter Spotlights",
     "loading": "正在加载陶艺师…",
     "error": "加载陶艺师失败。"
   },
   "newsletter": {
     "title": "不要错过我们的下一个新品发布，先人一步获取通知。",
     "description": "获取最新产品发布和促销资讯。",
-    "placeholder": "请输入您的邮箱",
+    "placeholder": "您的邮箱地址",
     "button": "订阅",
     "loading": "提交中…",
     "thanks": "感谢您的订阅！"
