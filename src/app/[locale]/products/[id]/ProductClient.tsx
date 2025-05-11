@@ -15,7 +15,7 @@ import {
 import { logViewItem } from "@/lib/analytics";
 import { addToCart } from "@/store/cartSlice";
 import { formatYen } from "@/utils/format";
-import { ToasterContainer, useToast } from "@/components/ui/Toast";
+import { useToast } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 
 export default function ProductClient() {
@@ -57,7 +57,6 @@ export default function ProductClient() {
 
   return (
     <>
-      <ToasterContainer />
       <div className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12 max-w-3xl mx-auto">
         <div className="w-full aspect-square relative mb-6 overflow-hidden rounded-lg">
           <Image

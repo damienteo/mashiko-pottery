@@ -9,8 +9,9 @@ import Analytics from "./ClientAnalytics";
 import StoreProvider from "./StoreProvider";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { ToasterContainer } from "@/components/ui/Toast";
 import "./globals.css";
-// Font imports
+
 import {
   Inter,
   Playfair_Display,
@@ -19,7 +20,6 @@ import {
   Noto_Serif_SC,
 } from "next/font/google";
 
-// Primary fonts with CSS variable injection
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "600", "700"],
@@ -110,6 +110,7 @@ export default async function RootLayout({
             {/* main content grows to push footer to bottom */}
             <main className="flex-grow">
               <Navbar />
+              <ToasterContainer />
               {children}
             </main>
             <Footer />

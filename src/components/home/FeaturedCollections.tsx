@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { mockProducts } from "@/mocks/products";
 import { formatYen } from "@/utils/format";
 import { useAppDispatch } from "@/store/hooks";
-import { ToasterContainer, useToast } from "@/components/ui/Toast";
+import { useToast } from "@/components/ui/Toast";
 import { addToCart } from "@/store/cartSlice";
 
 export default function FeaturedCollections() {
@@ -19,7 +19,6 @@ export default function FeaturedCollections() {
 
   return (
     <section className="py-12 px-4">
-      <ToasterContainer />
       <h2 className="text-2xl font-semibold mb-4">{t("featured.title")}</h2>
       <p className="mb-6 italic text-gray-600">{t("featured.season")}</p>
 

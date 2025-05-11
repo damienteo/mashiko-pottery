@@ -14,6 +14,7 @@ import {
 import { formatYen } from "@/utils/format";
 import { addToCart } from "@/store/cartSlice";
 import { useToast } from "@/components/ui/Toast";
+import Button from "@/components/ui/Button";
 
 export default function ProductsPage() {
   const t = useTranslations();
@@ -51,33 +52,29 @@ export default function ProductsPage() {
             const desc = p.description?.[locale as keyof typeof p.description];
 
             return (
-              <Link
-                key={p.id}
-                href={`/${locale}/products/${p.id}`}
-                className="block"
-              >
-                <div className="w-full aspect-square relative mb-4 overflow-hidden rounded-lg">
-                  <Image
-                    src={p.photos[0]}
-                    alt={title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-                <h2 className="text-xl font-medium text-center">{title}</h2>
-                <p className="mt-1 text-gray-700 text-center">
-                  {formatYen(p.price)}
-                </p>
-                {desc && (
-                  <p className="mt-2 text-sm text-gray-600 text-center">
-                    {desc}
+              <div key={p.id} className="block">
+                <Link href={`/${locale}/products/${p.id}`} className="block">
+                  <div className="w-full aspect-square relative mb-4 overflow-hidden rounded-lg">
+                    <Image
+                      src={p.photos[0]}
+                      alt={title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  <h2 className="text-xl font-medium text-center">{title}</h2>
+                  <p className="mt-1 text-gray-700 text-center">
+                    {formatYen(p.price)}
                   </p>
-                )}
+                  {desc && (
+                    <p className="mt-2 text-sm text-gray-600 text-center">
+                      {desc}
+                    </p>
+                  )}
+                </Link>
                 <div className="flex justify-center">
-                  <button
-                    type="button"
-                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded transition-colors hover:bg-blue-700 active:bg-blue-800"
+                  <Button
                     onClick={() => {
                       dispatch(
                         addToCart({
@@ -89,11 +86,13 @@ export default function ProductsPage() {
                       );
                       success("Added to cart");
                     }}
+                    variant="primary"
+                    className="mt-4"
                   >
                     {t("product.addToCart")}
-                  </button>
+                  </Button>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>
