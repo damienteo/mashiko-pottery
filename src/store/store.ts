@@ -1,5 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import cartReducer from "./cartSlice";
+import cartReducer, { cartPersistenceMiddleware } from "./cartSlice";
+import { loadCartFromStorage } from "./localStorage";
+import { initialState as cartInitialState } from "./cartSlice";
 import productsListReducer from "./products/productsListSlice";
 import productDetailReducer from "./products/productDetailsSlice";
 import pottersListReducer from "./potters/pottersListSlice";
@@ -41,6 +43,14 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
+  preloadedState: {
+    cart: {
+      ...cartInitialState,
+      items: loadCartFromStorage(),
+    },
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(cartPersistenceMiddleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

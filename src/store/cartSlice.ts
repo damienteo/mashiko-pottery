@@ -1,4 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import type { Middleware, MiddlewareAPI, Action } from "@reduxjs/toolkit";
+import type { Dispatch } from "redux";
+import type { RootState } from "./store"; // adjust path if needed
+import { saveCartToStorage } from "./localStorage";
+import { selectCurrentUser } from "./authSlice";
 
 export interface CartItem {
   id: number;
@@ -122,3 +127,27 @@ export const selectCartTotal = (state: RootState): number =>
   );
 
 export default cartSlice.reducer;
+
+/**
+ * Middleware to persist cart to localStorage on cart actions when user is not logged in.
+ */
+export const cartPersistenceMiddleware: Middleware<unknown, RootState> =
+  (storeAPI) => (next) => (action) => {
+    const result = next(action);
+    const cartActionTypes: string[] = [
+      addToCart.type,
+      removeFromCart.type,
+      updateQuantity.type,
+      clearCart.type,
+    ];
+    // Cast action.type to string to satisfy includes()
+    const isCartAction = cartActionTypes.includes(
+      (action as { type: string }).type
+    );
+    const state = storeAPI.getState();
+    const user = selectCurrentUser(state);
+    if (isCartAction && !user) {
+      saveCartToStorage(state);
+    }
+    return result;
+  };
