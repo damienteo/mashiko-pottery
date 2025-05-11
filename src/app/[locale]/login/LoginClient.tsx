@@ -6,6 +6,11 @@ import { useTranslations } from "next-intl";
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/authSlice";
 import { useToast } from "@/components/ui/Toast";
+import {
+  loadCartFromStorage,
+  clearCartFromStorage,
+} from "@/store/localStorage";
+import { mergeCart, fetchCart } from "@/store/cartSlice";
 
 interface Props {
   callback: string;
@@ -32,7 +37,15 @@ export default function LoginClient({ callback }: Props) {
       const resultAction = await dispatch(login({ email: username, password }));
       if (login.fulfilled.match(resultAction)) {
         // Successful login
-        success(t("login.submit") + " successful");
+        success(t("login.success"));
+        // Merge guest cart if present
+        const guestItems = loadCartFromStorage();
+        if (guestItems.length > 0) {
+          await dispatch(mergeCart(guestItems));
+          clearCartFromStorage();
+        }
+        // Refresh cart from server
+        await dispatch(fetchCart());
         router.push(callback);
       } else {
         // Thunk was rejected—will be handled by slice

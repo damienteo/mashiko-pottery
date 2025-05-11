@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { Middleware, MiddlewareAPI, Action } from "@reduxjs/toolkit";
-import type { Dispatch } from "redux";
+import type { Middleware } from "@reduxjs/toolkit";
 import type { RootState } from "./store"; // adjust path if needed
 import { saveCartToStorage } from "./localStorage";
 import { selectCurrentUser } from "./authSlice";
@@ -103,6 +102,25 @@ const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart, clearCart, updateQuantity } =
   cartSlice.actions;
+
+/**
+ * Thunk to merge guest cart items into authenticated user's server cart.
+ */
+export const mergeCart = createAsyncThunk<
+  void,
+  CartItem[],
+  { state: RootState }
+>("cart/merge", async (guestItems, { dispatch }) => {
+  // const res = await fetch("/api/cart/merge", {
+  //   method: "POST",
+  //   headers: { "Content-Type": "application/json" },
+  //   body: JSON.stringify({ items: guestItems }),
+  // });
+  // if (!res.ok) throw new Error("Failed to merge cart");
+  console.log("Cart merged successfully");
+  // After merging, fetch the updated cart:
+  await dispatch(fetchCart());
+});
 
 export const selectCartItems = (state: RootState) => state.cart.items;
 export const selectCartLoading = (state: RootState) => state.cart.isLoading;

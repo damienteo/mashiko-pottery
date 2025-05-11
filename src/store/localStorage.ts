@@ -20,3 +20,10 @@ export function loadCartFromStorage() {
     return [];
   }
 }
+export function clearCartFromStorage() {
+  try {
+    localStorage.removeItem(CART_KEY);
+  } catch {
+    // ignore
+  }
+}
