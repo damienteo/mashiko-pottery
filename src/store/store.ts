@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import cartReducer from "./cartSlice";
 import productsListReducer from "./products/productsListSlice";
 import productDetailReducer from "./products/productDetailsSlice";
@@ -13,34 +13,35 @@ import orderDetailsReducer from "./orders/orderDetailsSlice";
 import payoutsListReducer from "./payouts/payoutsListSlice";
 import payoutDetailsReducer from "./payouts/payoutDetailsSlice";
 
-export const store = configureStore({
-  reducer: {
-    cart: cartReducer,
+const rootReducer = combineReducers({
+  cart: cartReducer,
 
-    // products feature
-    productsList: productsListReducer,
-    productDetails: productDetailReducer,
+  // products feature
+  productsList: productsListReducer,
+  productDetails: productDetailReducer,
 
-    // potters feature
-    pottersList: pottersListReducer,
-    potterDetails: potterDetailReducer,
+  // potters feature
+  pottersList: pottersListReducer,
+  potterDetails: potterDetailReducer,
 
-    // other features
-    auth: authReducer,
-    ui: uiReducer,
-    settings: settingsReducer,
-    notification: notificationReducer,
+  // other features
+  auth: authReducer,
+  ui: uiReducer,
+  settings: settingsReducer,
+  notification: notificationReducer,
 
-    // orders feature split into list and detail
-    ordersList: ordersListReducer,
-    orderDetails: orderDetailsReducer,
+  // orders feature split into list and detail
+  ordersList: ordersListReducer,
+  orderDetails: orderDetailsReducer,
 
-    // payouts feature split into list and detail
-    payoutsList: payoutsListReducer,
-    payoutDetails: payoutDetailsReducer,
-  },
-  // ... preloadedState & subscribe() for cart remains unchanged
+  // payouts feature split into list and detail
+  payoutsList: payoutsListReducer,
+  payoutDetails: payoutDetailsReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export const store = configureStore({
+  reducer: rootReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
