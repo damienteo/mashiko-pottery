@@ -62,7 +62,9 @@
   },
   "checkout": {
     "button": "Checkout",
-    "redirecting": "Redirecting to login…"
+    "redirecting": "Redirecting to login…",
+    "success": "Order placed successfully!",
+    "error": "Failed to place order. Please try again."
   },
   "product": {
     "loading": "Loading…",

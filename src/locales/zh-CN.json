@@ -62,7 +62,9 @@
   },
   "checkout": {
     "button": "结账",
-    "redirecting": "正在重定向到登录…"
+    "redirecting": "正在重定向到登录…",
+    "success": "订单下单成功！",
+    "error": "下单失败，请重试。"
   },
   "product": {
     "loading": "加载中…",

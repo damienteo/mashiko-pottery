@@ -52,11 +52,7 @@ export default function Navbar() {
                 {`${t("cart.title")} (${cartCount})`}
               </Link>
             </li>
-            <li>
-              <Link href={`/${locale}/checkout`} className="hover:underline">
-                {t("checkout.button")}
-              </Link>
-            </li>
+
             <li>
               <Link
                 href={`/${locale}/admin/products`}
@@ -146,15 +142,6 @@ export default function Navbar() {
                       className="block text-lg"
                     >
                       {`${t("cart.title")} (${cartCount})`}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href={`/${locale}/checkout`}
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg"
-                    >
-                      {t("checkout.button")}
                     </Link>
                   </li>
                   <li>

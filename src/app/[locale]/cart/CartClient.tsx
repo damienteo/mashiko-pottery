@@ -10,9 +10,18 @@ import {
   selectCartLoading,
   selectCartError,
   removeFromCart,
+  addToCart,
+  selectCartTotal,
+  selectCartCount,
+  clearCart,
 } from "@/store/cartSlice";
-import { addToCart } from "@/store/cartSlice";
-import { selectCartTotal, selectCartCount } from "@/store/cartSlice";
+import { selectCurrentUser } from "@/store/authSlice";
+import Link from "next/link";
+import { useLocale } from "next-intl";
+import Button from "@/components/ui/Button";
+// import { useRouter } from "next/navigation";
+import { logPurchase } from "@/lib/analytics";
+import { useToast } from "@/components/ui/Toast";
 
 export default function CartClient() {
   const t = useTranslations();
@@ -23,11 +32,35 @@ export default function CartClient() {
   const error = useAppSelector(selectCartError);
   const cartCount = useAppSelector(selectCartCount);
   const cartTotal = useAppSelector(selectCartTotal);
+  const user = useAppSelector(selectCurrentUser);
+  const locale = useLocale();
+
+  // const router = useRouter();
+  const { success, error: toastError } = useToast();
 
   // On mount, load the cart from /api/cart
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);
+
+  const handlePurchase = async () => {
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+      });
+      if (!res.ok) throw new Error("Purchase failed");
+      const order = await res.json();
+
+      logPurchase(order);
+      dispatch(clearCart());
+      success(t("checkout.success"));
+      // router.push(`/order-confirmation/${order.id}`);
+    } catch {
+      toastError(t("checkout.error"));
+    }
+  };
 
   if (isLoading) return <p className="p-8 text-center">{t("loading")}</p>;
   if (error)
@@ -99,6 +132,21 @@ export default function CartClient() {
             <p className="mt-1 text-lg">
               {t("cart.total")}: ¥{cartTotal.toLocaleString()}
             </p>
+          </div>
+          <div className="mt-6 flex justify-center space-x-4">
+            {user ? (
+              <Button variant="primary" onClick={handlePurchase}>
+                {t("checkout.button")}
+              </Button>
+            ) : (
+              <Link
+                href={`/${locale}/login?callback=${encodeURIComponent(
+                  `/${locale}/cart`
+                )}`}
+              >
+                <Button variant="primary">{t("login.title")}</Button>
+              </Link>
+            )}
           </div>
         </>
       ) : (
