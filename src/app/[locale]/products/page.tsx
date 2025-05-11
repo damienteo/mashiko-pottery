@@ -12,11 +12,14 @@ import {
   selectProductsListError,
 } from "@/store/products/productsListSlice";
 import { formatYen } from "@/utils/format";
+import { addToCart } from "@/store/cartSlice";
+import { useToast } from "@/components/ui/Toast";
 
 export default function ProductsPage() {
   const t = useTranslations();
   const locale = useLocale();
   const dispatch = useAppDispatch();
+  const { success } = useToast();
 
   const products = useAppSelector(selectAllProducts);
   const isLoading = useAppSelector(selectProductsListIsLoading);
@@ -71,6 +74,25 @@ export default function ProductsPage() {
                     {desc}
                   </p>
                 )}
+                <div className="flex justify-center">
+                  <button
+                    type="button"
+                    className="mt-4 bg-blue-600 text-white px-4 py-2 rounded transition-colors hover:bg-blue-700 active:bg-blue-800"
+                    onClick={() => {
+                      dispatch(
+                        addToCart({
+                          id: p.id,
+                          title,
+                          price: p.price,
+                          quantity: 1,
+                        })
+                      );
+                      success("Added to cart");
+                    }}
+                  >
+                    {t("product.addToCart")}
+                  </button>
+                </div>
               </Link>
             );
           })}
