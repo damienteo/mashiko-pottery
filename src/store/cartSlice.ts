@@ -77,4 +77,16 @@ export const selectCartItems = (state: RootState) => state.cart.items;
 export const selectCartLoading = (state: RootState) => state.cart.isLoading;
 export const selectCartError = (state: RootState) => state.cart.error;
 
+/**
+ * Total number of items in the cart.
+ */
+export const selectCartCount = (state: RootState): number =>
+  state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+
+/**
+ * Total price of all items in the cart.
+ */
+export const selectCartTotal = (state: RootState): number =>
+  state.cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
+
 export default cartSlice.reducer;

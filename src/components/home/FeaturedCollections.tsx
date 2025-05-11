@@ -5,42 +5,69 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { mockProducts } from "@/mocks/products";
 import { formatYen } from "@/utils/format";
+import { useAppDispatch } from "@/store/hooks";
+import { ToasterContainer, useToast } from "@/components/ui/Toast";
+import { addToCart } from "@/store/cartSlice";
 
 export default function FeaturedCollections() {
   const t = useTranslations();
   const locale = useLocale();
+  const dispatch = useAppDispatch();
+  const { success } = useToast();
   // Display first 6 featured products
   const featured = mockProducts.slice(0, 6);
 
   return (
     <section className="py-12 px-4">
+      <ToasterContainer />
       <h2 className="text-2xl font-semibold mb-4">{t("featured.title")}</h2>
       <p className="mb-6 italic text-gray-600">{t("featured.season")}</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {featured.map((p) => (
-          <Link
+          <div
             key={p.id}
-            href={`/${locale}/products/${p.id}`}
-            className="border p-4 rounded hover:shadow"
+            className="border p-4 rounded hover:shadow flex flex-col"
           >
-            <div className="w-full aspect-square mb-4 relative overflow-hidden rounded-lg">
-              <Image
-                src={p.photos[0]}
-                alt={String(p.title[locale as keyof typeof p.title])}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            <h3 className="font-medium text-lg">
+            <Link href={`/${locale}/products/${p.id}`} className="mb-4">
+              <div className="w-full aspect-square relative overflow-hidden rounded-lg">
+                <Image
+                  src={p.photos[0]}
+                  alt={String(p.title[locale as keyof typeof p.title])}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </Link>
+            <Link
+              href={`/${locale}/products/${p.id}`}
+              className="font-medium text-lg mb-1"
+            >
               {String(p.title[locale as keyof typeof p.title])}
-            </h3>
-            <p className="mt-1 text-gray-700">{formatYen(p.price)}</p>
+            </Link>
+            <p className="text-gray-700">{formatYen(p.price)}</p>
             <p className="mt-2 text-sm text-gray-600">
               {p.description[locale as keyof typeof p.description]}
             </p>
-          </Link>
+            <button
+              type="button"
+              className="mt-4 w-full bg-blue-600 text-white py-2 rounded transition-colors hover:bg-blue-700 active:bg-blue-800"
+              onClick={() => {
+                dispatch(
+                  addToCart({
+                    id: p.id,
+                    title: String(p.title[locale as keyof typeof p.title]),
+                    price: p.price,
+                    quantity: 1,
+                  })
+                );
+                success("Added to cart");
+              }}
+            >
+              {t("product.addToCart")}
+            </button>
+          </div>
         ))}
       </div>
 
