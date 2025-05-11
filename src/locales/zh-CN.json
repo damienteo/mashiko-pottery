@@ -84,6 +84,15 @@
         "addToCart": {
           "label": "加入购物车",
           "success": "商品已添加到购物车！"
+        },
+        "table": {
+          "title": "名称",
+          "price": "价格",
+          "description": "描述"
+        },
+        "actions": {
+          "save": "保存更改",
+          "cancel": "重置"
         }
       }
     },

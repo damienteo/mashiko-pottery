@@ -90,6 +90,15 @@
         "addToCart": {
           "label": "Add to Cart",
           "success": "Product added to cart!"
+        },
+        "table": {
+          "title": "Title",
+          "price": "Price",
+          "description": "Description"
+        },
+        "actions": {
+          "save": "Save Changes",
+          "cancel": "Reset"
         }
       },
       "orders": {

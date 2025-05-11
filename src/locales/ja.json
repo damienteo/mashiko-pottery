@@ -90,6 +90,15 @@
         "addToCart": {
           "label": "カートに追加",
           "success": "商品がカートに追加されました！"
+        },
+        "table": {
+          "title": "タイトル",
+          "price": "価格",
+          "description": "説明"
+        },
+        "actions": {
+          "save": "変更を保存",
+          "cancel": "リセット"
         }
       },
       "orders": {
