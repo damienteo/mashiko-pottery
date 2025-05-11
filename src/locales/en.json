@@ -101,7 +101,9 @@
     "password": "Password",
     "submit": "Sign In",
     "error": "Login failed. Please check your credentials.",
-    "loading": "Signing in..."
+    "loading": "Signing in...",
+    "success": "Login successful",
+    "unknownError": "An unknown error occurred"
   },
   "loading": "Loading…",
   "error": "An error occurred",

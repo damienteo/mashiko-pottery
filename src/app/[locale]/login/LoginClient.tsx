@@ -3,6 +3,9 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useAppDispatch } from "@/store/hooks";
+import { login } from "@/store/authSlice";
+import { useToast } from "@/components/ui/Toast";
 
 interface Props {
   callback: string;
@@ -11,6 +14,8 @@ interface Props {
 export default function LoginClient({ callback }: Props) {
   const t = useTranslations();
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { success, error: toastError } = useToast();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,22 +28,23 @@ export default function LoginClient({ callback }: Props) {
     setError(null);
 
     try {
-      const res = await fetch(
-        `/api/auth/login?callback=${encodeURIComponent(callback)}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        }
-      );
-      if (!res.ok) throw new Error("Login failed");
-      // On success the server should set a cookie / token and return { success: true }
-      router.push(callback);
+      // Dispatch login thunk (which returns user on success)
+      const resultAction = await dispatch(login({ email: username, password }));
+      if (login.fulfilled.match(resultAction)) {
+        // Successful login
+        success(t("login.submit") + " successful");
+        router.push(callback);
+      } else {
+        // Thunk was rejected—will be handled by slice
+        throw new Error("Login failed");
+      }
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(t("login.error"));
+        toastError(t("login.error"));
       } else {
         setError(t("login.unknownError"));
+        toastError(t("login.unknownError"));
       }
       setLoading(false);
     }
