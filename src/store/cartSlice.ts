@@ -23,12 +23,23 @@ const initialState: CartState = {
 };
 
 // NEW: fetch the cart from /api/cart
-export const fetchCart = createAsyncThunk<CartItem[], void>(
+export const fetchCart = createAsyncThunk<
+  CartItem[],
+  void,
+  { state: RootState }
+>(
   "cart/fetchCart",
   async () => {
     const res = await fetch("/api/cart");
     if (!res.ok) throw new Error("Failed to fetch cart");
     return (await res.json()) as CartItem[];
+  },
+  {
+    condition: (_, { getState }) => {
+      const { cart } = getState();
+      // Only fetch if the cart is currently empty
+      return cart.items.length === 0;
+    },
   }
 );
 
