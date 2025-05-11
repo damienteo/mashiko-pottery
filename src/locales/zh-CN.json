@@ -91,6 +91,9 @@
     "success": "登录成功",
     "unknownError": "发生未知错误"
   },
+  "logout": {
+    "title": "登出"
+  },
   "loading": "加载中…",
   "error": "发生错误",
   "menu": "菜单",

@@ -3,14 +3,18 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import LanguageSelector from "./LanguageSelector";
 import { useState } from "react";
-import { useAppSelector } from "@/store/hooks";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectCartCount } from "@/store/cartSlice";
+import { selectCurrentUser, logout } from "@/store/authSlice";
+import Button from "@/components/ui/Button";
 
 export default function Navbar() {
   const locale = useLocale();
   const t = useTranslations();
   const [menuOpen, setMenuOpen] = useState(false);
   const cartCount = useAppSelector(selectCartCount);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
   return (
     <header className="sticky top-0 bg-white shadow z-10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,11 +81,23 @@ export default function Navbar() {
                 {t("admin.nav.payouts")}
               </Link>
             </li>
-            <li>
-              <Link href={`/${locale}/login`} className="hover:underline">
-                {t("login.title")}
-              </Link>
-            </li>
+            {user ? (
+              <li>
+                <Button
+                  variant="secondary"
+                  onClick={() => dispatch(logout())}
+                  className="hover:underline"
+                >
+                  {t("logout.title")}
+                </Button>
+              </li>
+            ) : (
+              <li>
+                <Link href={`/${locale}/login`} className="hover:underline">
+                  {t("login.title")}
+                </Link>
+              </li>
+            )}
             <li>
               <LanguageSelector />
             </li>
@@ -168,15 +184,30 @@ export default function Navbar() {
                       {t("admin.nav.payouts")}
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href={`/${locale}/login`}
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg"
-                    >
-                      {t("login.title")}
-                    </Link>
-                  </li>
+                  {user ? (
+                    <li>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          dispatch(logout());
+                          setMenuOpen(false);
+                        }}
+                        className="block text-lg w-full text-left"
+                      >
+                        {t("logout.title")}
+                      </Button>
+                    </li>
+                  ) : (
+                    <li>
+                      <Link
+                        href={`/${locale}/login`}
+                        onClick={() => setMenuOpen(false)}
+                        className="block text-lg"
+                      >
+                        {t("login.title")}
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <LanguageSelector />
                   </li>

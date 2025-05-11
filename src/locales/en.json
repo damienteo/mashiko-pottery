@@ -105,6 +105,9 @@
     "success": "Login successful",
     "unknownError": "An unknown error occurred"
   },
+  "logout": {
+    "title": "Logout"
+  },
   "loading": "Loading…",
   "error": "An error occurred",
   "menu": "Menu",
