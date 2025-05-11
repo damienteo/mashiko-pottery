@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "./store";
 
 export interface CartItem {
   id: number;
@@ -16,7 +15,7 @@ interface CartState {
   error: string | null;
 }
 
-const initialState: CartState = {
+export const initialState: CartState = {
   items: [],
   isLoading: false,
   isSuccess: false,
@@ -108,12 +107,18 @@ export const selectCartError = (state: RootState) => state.cart.error;
  * Total number of items in the cart.
  */
 export const selectCartCount = (state: RootState): number =>
-  state.cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  state.cart.items.reduce(
+    (sum: number, item: CartItem): number => sum + item.quantity,
+    0
+  );
 
 /**
  * Total price of all items in the cart.
  */
 export const selectCartTotal = (state: RootState): number =>
-  state.cart.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
+  state.cart.items.reduce(
+    (sum: number, item: CartItem): number => sum + item.quantity * item.price,
+    0
+  );
 
 export default cartSlice.reducer;
