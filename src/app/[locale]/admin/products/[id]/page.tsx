@@ -67,9 +67,14 @@ export default function AdminProductDetail() {
   };
 
   return (
-    <div className="p-8 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold mb-4">
-        {t("title")} – {defaults.title}
+    <div className="p-8 max-w-3xl mx-auto space-y-6 bg-gray-50 border-l-4 border-yellow-500">
+      <h1 className="text-2xl font-bold text-yellow-700 flex items-center mb-4">
+        <span>
+          {t("title")} – {defaults.title}
+        </span>
+        <span className="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
+          Admin
+        </span>
       </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -78,7 +83,7 @@ export default function AdminProductDetail() {
           </label>
           <input
             {...register("title")}
-            className="mt-1 block w-full border p-2 rounded"
+            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
           />
           {errors.title && (
             <p className="text-red-600 text-xs mt-1">{errors.title.message}</p>
@@ -91,7 +96,7 @@ export default function AdminProductDetail() {
           <input
             type="number"
             {...register("price")}
-            className="mt-1 block w-full border p-2 rounded"
+            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
           />
           {errors.price && (
             <p className="text-red-600 text-xs mt-1">{errors.price.message}</p>
@@ -104,7 +109,7 @@ export default function AdminProductDetail() {
           <textarea
             {...register("description")}
             rows={4}
-            className="mt-1 block w-full border p-2 rounded"
+            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
           />
           {errors.description && (
             <p className="text-red-600 text-xs mt-1">

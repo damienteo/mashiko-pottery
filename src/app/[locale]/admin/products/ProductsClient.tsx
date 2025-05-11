@@ -81,8 +81,13 @@ export default function ProductsClient() {
   }
 
   return (
-    <div className="p-4 sm:p-8 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-2xl font-bold">{t("title")}</h1>
+    <div className="p-4 sm:p-8 space-y-6 max-w-7xl mx-auto bg-gray-50 border-l-4 border-yellow-500">
+      <h1 className="text-2xl font-bold text-yellow-700 flex items-center space-x-2">
+        <span>{t("title")}</span>
+        <span className="inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
+          Admin
+        </span>
+      </h1>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
