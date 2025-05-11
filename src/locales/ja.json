@@ -27,7 +27,7 @@
     "admin": {
       "pages": {
         "products": {
-          "title": "管理者: 商品管理",
+          "title": "管理: 商品一覧",
           "description": "商品を作成、編集、削除できます。"
         },
         "orders": {
@@ -83,7 +83,14 @@
     "pages": {
       "products": {
         "title": "管理者: 商品管理",
-        "description": "商品を作成、編集、削除できます。"
+        "description": "商品を作成、編集、削除できます。",
+        "loading": "商品を読み込み中…",
+        "error": "商品を読み込めませんでした。",
+        "retry": "再試行",
+        "addToCart": {
+          "label": "カートに追加",
+          "success": "商品がカートに追加されました！"
+        }
       },
       "orders": {
         "title": "管理者: 注文管理",

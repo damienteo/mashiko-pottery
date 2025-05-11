@@ -83,7 +83,14 @@
     "pages": {
       "products": {
         "title": "Admin: Manage Products",
-        "description": "Create, edit, and remove products."
+        "description": "Create, edit, and remove products.",
+        "loading": "Loading products…",
+        "error": "Failed to load products.",
+        "retry": "Retry",
+        "addToCart": {
+          "label": "Add to Cart",
+          "success": "Product added to cart!"
+        }
       },
       "orders": {
         "title": "Admin: Manage Orders",

@@ -27,7 +27,7 @@
     "admin": {
       "pages": {
         "products": {
-          "title": "管理: 管理商品",
+          "title": "管理：商品列表",
           "description": "创建、编辑和删除商品。"
         },
         "orders": {
@@ -75,6 +75,18 @@
     "loading": "加载中…"
   },
   "admin": {
+    "pages": {
+      "products": {
+        "title": "管理：商品列表",
+        "loading": "正在加载商品…",
+        "error": "商品加载失败。",
+        "retry": "重试",
+        "addToCart": {
+          "label": "加入购物车",
+          "success": "商品已添加到购物车！"
+        }
+      }
+    },
     "nav": {
       "products": "管理: 管理商品",
       "orders": "管理: 管理订单",
