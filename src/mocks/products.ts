@@ -5,6 +5,7 @@ export const mockProducts: Product[] = [
     id: 1,
     title: { en: "Test Vase", ja: "テスト花瓶", "zh-CN": "测试花瓶" },
     price: 3800,
+    inventory: 42,
     description: {
       en: "A small handmade test vase from Mashiko.",
       ja: "益子焼の小さな手作りテスト花瓶です。",
@@ -20,6 +21,7 @@ export const mockProducts: Product[] = [
       "zh-CN": "样品茶杯",
     },
     price: 1200,
+    inventory: 87,
     description: {
       en: "Elegant tea cup, perfect for your morning tea.",
       ja: "朝のお茶にぴったりのエレガントなティーカップ。",
@@ -31,6 +33,7 @@ export const mockProducts: Product[] = [
     id: 3,
     title: { en: "Demo Planter", ja: "デモプランター", "zh-CN": "演示花盆" },
     price: 4500,
+    inventory: 15,
     description: {
       en: "Ceramic planter ideal for succulents and small plants.",
       ja: "多肉植物や小さな植物に最適なセラミックプランター。",
@@ -42,6 +45,7 @@ export const mockProducts: Product[] = [
     id: 4,
     title: { en: "Test Bowl", ja: "テストボウル", "zh-CN": "测试碗" },
     price: 2500,
+    inventory: 63,
     description: {
       en: "A handmade stoneware bowl for soups and salads.",
       ja: "スープやサラダにぴったりの石器製ハンドメイドボウル。",
@@ -53,6 +57,7 @@ export const mockProducts: Product[] = [
     id: 5,
     title: { en: "Demo Plate", ja: "デモプレート", "zh-CN": "演示盘" },
     price: 3000,
+    inventory: 29,
     description: {
       en: "A ceramic plate perfect for appetizers and desserts.",
       ja: "前菜やデザートに最適なセラミックプレート。",
@@ -64,6 +69,7 @@ export const mockProducts: Product[] = [
     id: 6,
     title: { en: "Sample Mug", ja: "サンプルマグ", "zh-CN": "样品马克杯" },
     price: 1800,
+    inventory: 74,
     description: {
       en: "A sturdy mug for your daily coffee or tea.",
       ja: "毎日のコーヒーやお茶に最適な丈夫なマグカップ。",
@@ -79,6 +85,7 @@ export const mockProducts: Product[] = [
       "zh-CN": "匠人水壶",
     },
     price: 5500,
+    inventory: 58,
     description: {
       en: "A beautiful pitcher for water or beverages.",
       ja: "水や飲み物に使える美しいピッチャー。",
@@ -90,6 +97,7 @@ export const mockProducts: Product[] = [
     id: 8,
     title: { en: "Mini Vase", ja: "ミニ花瓶", "zh-CN": "迷你花瓶" },
     price: 2200,
+    inventory: 36,
     description: {
       en: "A small vase ideal for single-stem flowers.",
       ja: "一輪の花にぴったりな小さな花瓶。",
@@ -101,6 +109,7 @@ export const mockProducts: Product[] = [
     id: 9,
     title: { en: "Large Planter", ja: "ラージプランター", "zh-CN": "大型花盆" },
     price: 6200,
+    inventory: 90,
     description: {
       en: "A spacious planter for larger plants and flowers.",
       ja: "大きな植物や花に最適な広々としたプランター。",
@@ -112,6 +121,7 @@ export const mockProducts: Product[] = [
     id: 10,
     title: { en: "Decorative Plate", ja: "装飾プレート", "zh-CN": "装饰盘" },
     price: 3400,
+    inventory: 12,
     description: {
       en: "A decorative plate to enhance your home decor.",
       ja: "インテリアを引き立てる装飾プレート。",
@@ -123,6 +133,7 @@ export const mockProducts: Product[] = [
     id: 11,
     title: { en: "Tea Pot", ja: "ティーポット", "zh-CN": "茶壶" },
     price: 4800,
+    inventory: 50,
     description: {
       en: "A classic teapot for brewing loose-leaf tea.",
       ja: "茶葉用のクラシックなティーポット。",
@@ -134,6 +145,7 @@ export const mockProducts: Product[] = [
     id: 12,
     title: { en: "Serving Tray", ja: "サービングトレイ", "zh-CN": "托盘" },
     price: 2900,
+    inventory: 77,
     description: {
       en: "A versatile tray for serving food and drinks.",
       ja: "食べ物や飲み物を提供するための多用途トレイ。",

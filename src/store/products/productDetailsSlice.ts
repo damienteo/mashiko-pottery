@@ -12,6 +12,7 @@ export interface Product {
   /** Titles in each supported locale */
   title: LocalizedString;
   price: number;
+  inventory: number;
   /** Descriptions in each supported locale */
   description: LocalizedString;
   photos: string[];

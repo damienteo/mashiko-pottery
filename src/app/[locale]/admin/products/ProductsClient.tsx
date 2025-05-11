@@ -26,6 +26,12 @@ const productSchema = yup.object({
     .positive("Price must be greater than zero")
     .required("Price is required"),
   description: yup.string().max(200, "Max 200 characters"),
+  inventory: yup
+    .number()
+    .typeError("Inventory must be a number")
+    .integer("Inventory must be an integer")
+    .min(0, "Inventory cannot be negative")
+    .required("Inventory is required"),
 });
 type ProductFormValues = yup.InferType<typeof productSchema>;
 
@@ -105,6 +111,9 @@ export default function ProductsClient() {
                 Description
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Inventory
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 Actions
               </th>
             </tr>
@@ -160,7 +169,7 @@ export default function ProductsClient() {
                       </span>
                     )}
                   </td>
-                  <td className="px-4 py-2 whitespace-nowrap">
+                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 line-clamp-2">
                     {editingId === p.id ? (
                       <textarea
                         {...register("description")}
@@ -173,6 +182,22 @@ export default function ProductsClient() {
                     {errors.description && editingId === p.id && (
                       <span className="text-red-600 text-xs">
                         {errors.description.message}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap">
+                    {editingId === p.id ? (
+                      <input
+                        type="number"
+                        {...register("inventory")}
+                        className="w-20 border p-1 rounded text-sm"
+                      />
+                    ) : (
+                      p.inventory
+                    )}
+                    {errors.inventory && editingId === p.id && (
+                      <span className="text-red-600 text-xs">
+                        {errors.inventory.message}
                       </span>
                     )}
                   </td>
@@ -201,7 +226,12 @@ export default function ProductsClient() {
                         <Button
                           variant="secondary"
                           onClick={() => {
-                            reset({ title, price: p.price, description: desc });
+                            reset({
+                              title,
+                              price: p.price,
+                              description: desc,
+                              inventory: p.inventory,
+                            });
                             setEditingId(p.id);
                           }}
                         >
