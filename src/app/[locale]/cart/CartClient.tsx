@@ -38,6 +38,10 @@ export default function CartClient() {
   // const router = useRouter();
   const { success, error: toastError } = useToast();
 
+  useEffect(() => {
+    document.title = `${t("cart.title")} (${cartCount}) — Mashiko Pottery`;
+  }, [cartCount, t]);
+
   // On mount, load the cart from /api/cart
   useEffect(() => {
     dispatch(fetchCart());
