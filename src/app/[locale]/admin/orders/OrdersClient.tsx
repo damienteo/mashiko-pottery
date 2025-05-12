@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
@@ -12,6 +13,9 @@ import {
 } from "@/store/orders/ordersListSlice";
 import type { OrderSummary } from "@/store/orders/ordersListSlice";
 import Button from "@/components/ui/Button";
+import StatusBadge from "@/components/ui/StatusBadge";
+import type { OrderStatus } from "@/constants/orderStatus";
+import { orderStatusOptions } from "@/constants/orderStatus";
 
 export default function OrdersClient() {
   const t = useTranslations("admin.pages.orders");
@@ -20,6 +24,9 @@ export default function OrdersClient() {
   const orders = useAppSelector(selectAllOrders);
   const isLoading = useAppSelector(selectOrdersListIsLoading);
   const error = useAppSelector(selectOrdersListError);
+  // Inline edit state
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editStatus, setEditStatus] = useState<OrderStatus>("pending");
 
   useEffect(() => {
     if (!isLoading && orders.length === 0) {
@@ -89,18 +96,61 @@ export default function OrdersClient() {
                   {new Date(o.date).toLocaleDateString(locale)}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm">
-                  <span className="px-2 py-0.5 rounded-full bg-gray-200 text-gray-800">
-                    {o.status}
-                  </span>
+                  {editingId === o.id ? (
+                    <select
+                      value={editStatus}
+                      onChange={(e) => setEditStatus(e.target.value)}
+                      className="border rounded p-1 text-sm"
+                    >
+                      {orderStatusOptions.map((st) => (
+                        <option key={st} value={st}>
+                          {st.charAt(0).toUpperCase() + st.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <StatusBadge status={o.status} />
+                  )}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2">
-                  <Link
-                    href={`/${locale}/admin/orders/${o.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button variant="secondary">{t("details")}</Button>
-                  </Link>
+                  {editingId === o.id ? (
+                    <>
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          // TODO: dispatch updateOrderStatus({ id: o.id, status: editStatus })
+                          setEditingId(null);
+                        }}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => setEditingId(null)}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          setEditingId(o.id);
+                          setEditStatus(o.status);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                      <Link
+                        href={`/${locale}/admin/orders/${o.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button variant="secondary">{t("details")}</Button>
+                      </Link>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}

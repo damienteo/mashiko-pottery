@@ -1,10 +1,12 @@
 import type { CartItem } from "@/store/cartSlice";
+import type { OrderStatus } from "@/constants/orderStatus";
 
 export interface Order {
   id: string;
   customerName: string;
   total: number;
   date: string; // ISO date
+  status: OrderStatus;
   items: CartItem[];
 }
 
@@ -15,6 +17,7 @@ export const mockOrders: Order[] = [
     customerName: "Alice Tanaka",
     total: 5000,
     date: "2025-05-01T10:15:00Z",
+    status: "processing",
     items: [
       {
         id: 1,
@@ -30,6 +33,7 @@ export const mockOrders: Order[] = [
     customerName: "Bob Li",
     total: 8200,
     date: "2025-05-02T14:30:00Z",
+    status: "shipped",
     items: [
       {
         id: 2,
@@ -52,6 +56,7 @@ export const mockOrders: Order[] = [
     customerName: "Chen Wei",
     total: 11400,
     date: "2025-05-03T09:45:00Z",
+    status: "cancelled",
     items: [
       {
         id: 4,
@@ -81,6 +86,7 @@ export const mockOrders: Order[] = [
     customerName: "Emi Nakamura",
     total: 6200,
     date: "2025-05-04T16:20:00Z",
+    status: "pending",
     items: [
       {
         id: 9,
@@ -96,6 +102,7 @@ export const mockOrders: Order[] = [
     customerName: "Liang Zhao",
     total: 7600,
     date: "2025-05-05T11:10:00Z",
+    status: "failed",
     items: [
       {
         id: 7,
@@ -125,6 +132,7 @@ export const mockOrder = (items: CartItem[]): Order => {
     customerName: "Guest",
     total,
     date: new Date().toISOString(),
+    status: "pending",
     items,
   };
 };
