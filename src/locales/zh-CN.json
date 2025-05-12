@@ -107,7 +107,13 @@
         "loading": "订单加载中…",
         "error": "订单加载失败。",
         "retry": "重试",
-        "details": "详情"
+        "details": "详情",
+        "total": "总计",
+        "actions": {
+          "save": "保存",
+          "cancel": "取消",
+          "edit": "编辑"
+        }
       },
       "payouts": {
         "title": "管理：付款报表",

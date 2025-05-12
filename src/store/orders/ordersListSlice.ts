@@ -39,7 +39,18 @@ export const fetchOrdersList = createAsyncThunk<OrderSummary[], void>(
 const ordersListSlice = createSlice({
   name: "ordersList",
   initialState,
-  reducers: {},
+  reducers: {
+    updateOrderStatus(
+      state,
+      action: PayloadAction<{ id: string; status: OrderStatus }>
+    ) {
+      const { id, status } = action.payload;
+      const order = state.items.find((o) => o.id === id);
+      if (order) {
+        order.status = status;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrdersList.pending, (state) => {
@@ -71,4 +82,5 @@ export const selectOrdersListIsSuccess = (state: RootState) =>
 export const selectOrdersListError = (state: RootState) =>
   state.ordersList.error;
 
+export const { updateOrderStatus } = ordersListSlice.actions;
 export default ordersListSlice.reducer;

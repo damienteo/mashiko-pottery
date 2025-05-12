@@ -107,7 +107,13 @@
         "loading": "Loading orders…",
         "error": "Failed to load orders.",
         "retry": "Retry",
-        "details": "Details"
+        "details": "Details",
+        "total": "Total",
+        "actions": {
+          "save": "Save",
+          "cancel": "Cancel",
+          "edit": "Edit"
+        }
       },
       "payouts": {
         "title": "Admin: Payout Reports",
