@@ -16,7 +16,7 @@ import Button from "@/components/ui/Button";
 const productSchema = yup.object({
   title: yup.string().required(),
   price: yup.number().positive().required(),
-  description: yup.string().max(200),
+  description: yup.string().max(200).required(),
 });
 type ProductFormValues = yup.InferType<typeof productSchema>;
 

@@ -25,7 +25,10 @@ const productSchema = yup.object({
     .typeError("Price must be a number")
     .positive("Price must be greater than zero")
     .required("Price is required"),
-  description: yup.string().max(200, "Max 200 characters"),
+  description: yup
+    .string()
+    .max(200, "Max 200 characters")
+    .required("Description is required"),
   inventory: yup
     .number()
     .typeError("Inventory must be a number")
@@ -56,7 +59,7 @@ export default function ProductsClient() {
     resolver: yupResolver(productSchema),
   });
 
-  const onSubmit: SubmitHandler<ProductFormValues> = (data) => {
+  const onSubmit: SubmitHandler<ProductFormValues> = () => {
     // TODO: dispatch updateProduct({ id: editingId!, ...data });
     setEditingId(null);
   };

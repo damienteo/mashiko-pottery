@@ -1,12 +1,15 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import type { OrderStatus } from "@/constants/orderStatus";
+import type { CartItem } from "@/store/cartSlice";
 
 export interface OrderSummary {
   id: string;
-  status: string;
+  status: OrderStatus;
   customerName: string;
   total: number;
   date: string; // ISO date string
+  items: CartItem[];
 }
 
 interface OrdersListState {

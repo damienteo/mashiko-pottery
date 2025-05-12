@@ -1,17 +1,8 @@
 import type { CartItem } from "@/store/cartSlice";
-import type { OrderStatus } from "@/constants/orderStatus";
-
-export interface Order {
-  id: string;
-  customerName: string;
-  total: number;
-  date: string; // ISO date
-  status: OrderStatus;
-  items: CartItem[];
-}
+import type { OrderSummary } from "@/store/orders/ordersListSlice";
 
 // A fixed list of mock orders for GET /api/orders
-export const mockOrders: Order[] = [
+export const mockOrders: OrderSummary[] = [
   {
     id: "order-1",
     customerName: "Alice Tanaka",
@@ -122,7 +113,7 @@ export const mockOrders: Order[] = [
   },
 ];
 
-export const mockOrder = (items: CartItem[]): Order => {
+export const mockOrder = (items: CartItem[]): OrderSummary => {
   const total = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0

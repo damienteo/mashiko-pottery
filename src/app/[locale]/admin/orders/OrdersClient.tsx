@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -99,7 +98,9 @@ export default function OrdersClient() {
                   {editingId === o.id ? (
                     <select
                       value={editStatus}
-                      onChange={(e) => setEditStatus(e.target.value)}
+                      onChange={(e) =>
+                        setEditStatus(e.target.value as OrderStatus)
+                      }
                       className="border rounded p-1 text-sm"
                     >
                       {orderStatusOptions.map((st) => (
