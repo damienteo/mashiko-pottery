@@ -10,16 +10,16 @@ export default function Footer() {
   return (
     <footer className="bg-white py-6 px-4">
       <nav className="flex justify-center space-x-6 mb-4">
-        <Link href={`/${locale}/product`} className="hover:underline">
+        <Link href={`/${locale}/products`} className="hover:underline">
           {t("footer.nav.shop")}
         </Link>
-        <Link href={`/${locale}/about`} className="hover:underline">
+        <Link href={`/${locale}/products`} className="hover:underline">
           {t("footer.nav.about")}
         </Link>
-        <Link href={`/${locale}/faq`} className="hover:underline">
+        <Link href={`/${locale}/products`} className="hover:underline">
           {t("footer.nav.faq")}
         </Link>
-        <Link href={`/${locale}/contact`} className="hover:underline">
+        <Link href={`/${locale}/products`} className="hover:underline">
           {t("footer.nav.contact")}
         </Link>
       </nav>
