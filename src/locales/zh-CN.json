@@ -1,62 +1,62 @@
 {
   "meta": {
     "home": {
-      "title": "首页 – Mashiko Pottery",
-      "description": "探索我们精心策划的本地工匠手工制作的 Mashiko 陶艺系列。"
+      "title": "首页 – Mashiko 陶艺",
+      "description": "探索我们精心挑选的当地艺人手工制作的 Mashiko 陶器。"
     },
     "cart": {
       "title": "您的购物车",
-      "description": "在结账前查看购物车中的商品。"
+      "description": "查看结账前购物车中的物品。"
     },
     "checkout": {
-      "title": "结账 – Mashiko Pottery",
-      "description": "输入您的信息，安全完成购买。"
+      "title": "结账 – Mashiko 陶艺",
+      "description": "输入您的信息并安全完成购买。"
     },
     "product": {
-      "title": "商品详情 – Mashiko Pottery",
-      "description": "查看并购买这款手工陶艺。"
+      "title": "产品详情 – Mashiko 陶艺",
+      "description": "查看并购买这件手工陶器。"
     },
     "potter": {
-      "title": "陶艺师简介 – Mashiko Pottery",
-      "description": "了解这位艺术家及其作品。"
+      "title": "陶艺家简介 – Mashiko 陶艺",
+      "description": "了解艺术家及其作品。"
     },
     "potters": {
-      "title": "Potter Spotlights – Mashiko Pottery",
-      "description": "与您见面的是我们手工制作的 Mashiko 陶艺背后的才华横溢的陶艺师。"
+      "title": "陶艺家聚焦 – Mashiko 陶艺",
+      "description": "认识那些为我们手工制作 Mashiko 陶器的才华横溢的艺术家。"
     },
     "admin": {
       "pages": {
         "products": {
-          "title": "管理：商品列表",
+          "title": "管理：商品管理",
           "description": "创建、编辑和删除商品。"
         },
         "orders": {
-          "title": "管理: 管理订单",
+          "title": "管理：订单管理",
           "description": "查看并处理客户订单。"
         },
         "payouts": {
-          "title": "管理: 支付报告",
-          "description": "生成并查看陶艺师的月度付款报告。"
+          "title": "管理：付款报表",
+          "description": "生成并查看陶艺家的月度付款报表。"
         }
       }
     }
   },
   "home": {
-    "tagline": "Mashiko 手工制作 · 全球配送",
-    "heading": "🏺 欢迎来到 Mashiko Pottery",
+    "tagline": "益子手作 · 全球配送",
+    "heading": "🏺 欢迎来到 Mashiko 陶艺",
     "link": "首页",
     "cta": {
-      "shop": "🛍️ 浏览系列",
-      "meet": "📖 认识陶艺师"
+      "shop": "🛍️ 选购系列",
+      "meet": "📖 认识陶艺家"
     }
   },
   "cart": {
     "unitPrice": "单价",
     "quantity": "数量",
     "lineTotal": "小计",
-    "remove": "删除",
+    "remove": "移除",
     "title": "购物车",
-    "empty": "您的购物车为空。",
+    "empty": "您的购物车是空的。",
     "reAdd": "重新加入购物车",
     "total": "总计",
     "continueShopping": "继续购物"
@@ -64,8 +64,8 @@
   "checkout": {
     "button": "结账",
     "redirecting": "正在重定向到登录…",
-    "success": "订单下单成功！",
-    "error": "下单失败，请重试。"
+    "success": "订单提交成功！",
+    "error": "提交订单失败，请重试。"
   },
   "product": {
     "loading": "加载中…",
@@ -75,43 +75,56 @@
     "loading": "加载中…"
   },
   "admin": {
+    "nav": {
+      "products": "管理：商品",
+      "orders": "订单",
+      "payouts": "付款报表"
+    },
     "pages": {
       "products": {
-        "title": "管理：商品列表",
-        "loading": "正在加载商品…",
+        "title": "管理：商品管理",
+        "description": "创建、编辑和删除商品。",
+        "loading": "商品加载中…",
         "error": "商品加载失败。",
         "retry": "重试",
         "addToCart": {
           "label": "加入购物车",
-          "success": "商品已添加到购物车！"
+          "success": "商品已加入购物车！"
         },
         "table": {
-          "title": "名称",
+          "title": "标题",
           "price": "价格",
-          "description": "描述"
+          "description": "说明"
         },
         "actions": {
           "save": "保存更改",
           "cancel": "重置"
         }
+      },
+      "orders": {
+        "title": "订单管理",
+        "description": "查看并处理客户订单。",
+        "loading": "订单加载中…",
+        "error": "订单加载失败。",
+        "retry": "重试",
+        "details": "详情"
+      },
+      "payouts": {
+        "title": "管理：付款报表",
+        "description": "生成并查看陶艺家的月度付款报表。"
       }
-    },
-    "nav": {
-      "products": "管理: 管理商品",
-      "orders": "管理: 管理订单",
-      "payouts": "管理: 支付报告"
     },
     "loading": "加载中…",
     "error": "发生错误"
   },
   "login": {
     "title": "登录",
-    "description": "请先登录以继续。",
+    "description": "请登录以继续。",
     "username": "用户名",
     "password": "密码",
     "submit": "登录",
     "error": "登录失败，请检查您的凭证。",
-    "loading": "登录中…",
+    "loading": "正在登录…",
     "success": "登录成功",
     "unknownError": "发生未知错误"
   },
@@ -122,58 +135,58 @@
   "error": "发生错误",
   "menu": "菜单",
   "site": {
-    "title": "Mashiko Pottery"
+    "title": "Mashiko 陶艺"
   },
   "howItWorks": {
-    "title": "使用流程",
-    "step1": "我们与益子陶艺师直接合作",
-    "step2": "每件作品均被精心拍摄和称重",
-    "step3": "在益子手工安全包装",
-    "step4": "全球发货，无中间商"
+    "title": "运作流程",
+    "step1": "我们直接与益子的陶艺家合作",
+    "step2": "每件作品都经过精心拍照和称重",
+    "step3": "在益子手工安全打包",
+    "step4": "全球直邮，无中间商"
   },
   "featured": {
     "title": "精选系列",
-    "season": "2025 秋祭系列 – 现已上线",
-    "viewAll": "查看全部"
+    "season": "2025 秋季祭典系列 – 现已上线",
+    "viewAll": "查看所有作品"
   },
   "products": {
-    "title": "商品"
+    "title": "产品"
   },
   "potters": {
-    "title": "陶艺师",
-    "spotlightTitle": "陶艺师聚焦",
-    "exploreAll": "查看所有陶艺师"
+    "title": "陶艺家",
+    "spotlightTitle": "陶艺家聚焦",
+    "exploreAll": "查看所有陶艺家"
   },
   "testimonials": {
     "title": "客户评价"
   },
   "shipping": {
-    "title": "配送与保证",
-    "line1": "日本直邮全球",
-    "line2": "每件商品均安全包装并投保",
-    "line3": "7天内破损或错发可退货"
+    "title": "运输与保障",
+    "line1": "日本全球配送",
+    "line2": "每件商品均安全打包并投保",
+    "line3": "损坏或错误商品可在7天内退换"
   },
   "shippingGuarantee": {
-    "iconAlt": "配送保证图标",
-    "title": "快速且安全的配送",
+    "iconAlt": "运输保障图标",
+    "title": "快速 & 安全运输",
     "description": "我们保证您的陶器在5个工作日内安全送达，否则全额退款。"
   },
   "potterSpotlights": {
-    "title": "Potter Spotlights",
-    "loading": "正在加载陶艺师…",
-    "error": "加载陶艺师失败。"
+    "title": "陶艺家聚焦",
+    "loading": "陶艺家加载中…",
+    "error": "加载陶艺家失败。"
   },
   "newsletter": {
-    "title": "不要错过我们的下一个新品发布，先人一步获取通知。",
-    "description": "获取最新产品发布和促销资讯。",
-    "placeholder": "您的邮箱地址",
+    "title": "不要错过我们的下一波发售 — 提前获得通知。",
+    "description": "获取最新发售和促销更新。",
+    "placeholder": "您的电子邮箱地址",
     "button": "订阅",
     "loading": "提交中…",
     "thanks": "感谢您的订阅！"
   },
   "footer": {
     "nav": {
-      "shop": "购买",
+      "shop": "选购",
       "about": "关于我们",
       "faq": "常见问题",
       "contact": "联系我们"

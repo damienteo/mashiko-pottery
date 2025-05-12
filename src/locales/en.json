@@ -102,8 +102,12 @@
         }
       },
       "orders": {
-        "title": "Admin: Manage Orders",
-        "description": "View and process customer orders."
+        "title": "Manage Orders",
+        "description": "View and process customer orders.",
+        "loading": "Loading orders…",
+        "error": "Failed to load orders.",
+        "retry": "Retry",
+        "details": "Details"
       },
       "payouts": {
         "title": "Admin: Payout Reports",

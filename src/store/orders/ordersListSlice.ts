@@ -4,6 +4,9 @@ import type { RootState } from "../store";
 export interface OrderSummary {
   id: string;
   status: string;
+  customerName: string;
+  total: number;
+  date: string; // ISO date string
 }
 
 interface OrdersListState {
@@ -21,7 +24,7 @@ const initialState: OrdersListState = {
 };
 
 // Async thunk to fetch all orders
-export const fetchOrdersList = createAsyncThunk<OrderSummary[]>(
+export const fetchOrdersList = createAsyncThunk<OrderSummary[], void>(
   "orders/fetchAll",
   async () => {
     const res = await fetch("/api/orders");

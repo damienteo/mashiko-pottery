@@ -2,6 +2,9 @@ import type { CartItem } from "@/store/cartSlice";
 
 export interface Order {
   id: string;
+  customerName: string;
+  total: number;
+  date: string; // ISO date
   items: CartItem[];
 }
 
@@ -9,18 +12,119 @@ export interface Order {
 export const mockOrders: Order[] = [
   {
     id: "order-1",
-    items: [{ id: 1, title: "Handmade Mug", price: 2500, quantity: 2 }],
+    customerName: "Alice Tanaka",
+    total: 5000,
+    date: "2025-05-01T10:15:00Z",
+    items: [
+      {
+        id: 1,
+        title: "Handmade Mug",
+        price: 2500,
+        quantity: 2,
+        image: "/pottery/mug1.png",
+      },
+    ],
   },
   {
     id: "order-2",
+    customerName: "Bob Li",
+    total: 8200,
+    date: "2025-05-02T14:30:00Z",
     items: [
-      { id: 2, title: "Ceramic Bowl", price: 3200, quantity: 1 },
-      { id: 3, title: "Decorative Plate", price: 1500, quantity: 3 },
+      {
+        id: 2,
+        title: "Ceramic Bowl",
+        price: 3200,
+        quantity: 1,
+        image: "/pottery/bowl1.png",
+      },
+      {
+        id: 3,
+        title: "Decorative Plate",
+        price: 1500,
+        quantity: 3,
+        image: "/pottery/plate1.png",
+      },
+    ],
+  },
+  {
+    id: "order-3",
+    customerName: "Chen Wei",
+    total: 11400,
+    date: "2025-05-03T09:45:00Z",
+    items: [
+      {
+        id: 4,
+        title: "Test Bowl",
+        price: 2500,
+        quantity: 2,
+        image: "/pottery/bowl2.png",
+      },
+      {
+        id: 5,
+        title: "Demo Plate",
+        price: 3000,
+        quantity: 2,
+        image: "/pottery/plate2.png",
+      },
+      {
+        id: 6,
+        title: "Sample Mug",
+        price: 1800,
+        quantity: 1,
+        image: "/pottery/mug2.png",
+      },
+    ],
+  },
+  {
+    id: "order-4",
+    customerName: "Emi Nakamura",
+    total: 6200,
+    date: "2025-05-04T16:20:00Z",
+    items: [
+      {
+        id: 9,
+        title: "Large Planter",
+        price: 6200,
+        quantity: 1,
+        image: "/pottery/planter1.png",
+      },
+    ],
+  },
+  {
+    id: "order-5",
+    customerName: "Liang Zhao",
+    total: 7600,
+    date: "2025-05-05T11:10:00Z",
+    items: [
+      {
+        id: 7,
+        title: "Artisan Pitcher",
+        price: 5500,
+        quantity: 1,
+        image: "/pottery/pitcher1.png",
+      },
+      {
+        id: 8,
+        title: "Mini Vase",
+        price: 2200,
+        quantity: 1,
+        image: "/pottery/vase1.png",
+      },
     ],
   },
 ];
 
-export const mockOrder = (items: CartItem[]): Order => ({
-  id: `order-${Date.now()}`,
-  items,
-});
+export const mockOrder = (items: CartItem[]): Order => {
+  const total = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  return {
+    id: `order-${Date.now()}`,
+    customerName: "Guest",
+    total,
+    date: new Date().toISOString(),
+    items,
+  };
+};
