@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import type { PayoutStatus } from "@/constants/payoutStatus";
 
 export interface PayoutDetails {
   potterId: number;
   month: string;
   amount: number;
   commissionRate: number;
+  status: PayoutStatus;
   // add any extra fields here, e.g. breakdown of sales, fees, etc.
 }
 

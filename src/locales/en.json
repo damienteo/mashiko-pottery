@@ -116,8 +116,25 @@
         }
       },
       "payouts": {
-        "title": "Admin: Payout Reports",
-        "description": "Generate and review monthly payouts for potters."
+        "title": "Manage Payout Reports",
+        "description": "Generate and review monthly payouts for potters.",
+        "loading": "Loading payouts…",
+        "error": "Failed to load payouts.",
+        "retry": "Retry",
+        "details": "Details",
+        "actions": {
+          "edit": "Edit",
+          "save": "Save",
+          "cancel": "Cancel"
+        },
+        "table": {
+          "potterId": "Potter ID",
+          "month": "Month",
+          "amount": "Amount",
+          "commissionRate": "Commission Rate",
+          "status": "Status",
+          "actions": "Actions"
+        }
       }
     },
     "loading": "Loading…",

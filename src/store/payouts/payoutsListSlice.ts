@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
+import type { PayoutStatus } from "@/constants/payoutStatus";
 
 export interface PayoutSummary {
   potterId: number;
   month: string;
   amount: number;
   commissionRate: number;
+  status: PayoutStatus;
 }
 
 interface PayoutsListState {
@@ -23,7 +25,7 @@ const initialState: PayoutsListState = {
 };
 
 // Thunk to fetch all payouts
-export const fetchPayoutsList = createAsyncThunk<PayoutSummary[]>(
+export const fetchPayoutsList = createAsyncThunk<PayoutSummary[], void>(
   "payouts/fetchAll",
   async () => {
     const res = await fetch("/api/payouts");
@@ -35,7 +37,24 @@ export const fetchPayoutsList = createAsyncThunk<PayoutSummary[]>(
 const payoutsListSlice = createSlice({
   name: "payoutsList",
   initialState,
-  reducers: {},
+  reducers: {
+    updatePayoutStatus(
+      state,
+      action: PayloadAction<{
+        potterId: number;
+        month: string;
+        status: PayoutStatus;
+      }>
+    ) {
+      const { potterId, month, status } = action.payload;
+      const payout = state.items.find(
+        (p) => p.potterId === potterId && p.month === month
+      );
+      if (payout) {
+        payout.status = status;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPayoutsList.pending, (state) => {
@@ -67,4 +86,5 @@ export const selectPayoutsListIsSuccess = (state: RootState) =>
 export const selectPayoutsListError = (state: RootState) =>
   state.payoutsList.error;
 
+export const { updatePayoutStatus } = payoutsListSlice.actions;
 export default payoutsListSlice.reducer;

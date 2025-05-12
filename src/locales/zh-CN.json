@@ -116,8 +116,25 @@
         }
       },
       "payouts": {
-        "title": "管理：付款报表",
-        "description": "生成并查看陶艺家的月度付款报表。"
+        "title": "付款报表管理",
+        "description": "生成并查看陶艺家的月度付款报表。",
+        "loading": "正在加载付款…",
+        "error": "加载付款失败。",
+        "retry": "重试",
+        "details": "详情",
+        "actions": {
+          "edit": "编辑",
+          "save": "保存",
+          "cancel": "取消"
+        },
+        "table": {
+          "potterId": "陶艺家编号",
+          "month": "月份",
+          "amount": "金额",
+          "commissionRate": "佣金率",
+          "status": "状态",
+          "actions": "操作"
+        }
       }
     },
     "loading": "加载中…",
