@@ -147,6 +147,11 @@
     "error": "エラーが発生しました"
   },
   "seller": {
+    "nav": {
+      "profile": "プロフィール",
+      "inventory": "在庫管理",
+      "payoutHistory": "支払い履歴"
+    },
     "profile": {
       "title": "プロフィール",
       "description": "あなたの職人プロフィールとポートフォリオを編集します。",

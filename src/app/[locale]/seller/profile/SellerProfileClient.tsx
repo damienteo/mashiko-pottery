@@ -114,143 +114,160 @@ export default function SellerProfileClient() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.name")} (EN)
-        </label>
-        <input
-          {...register("name.en")}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.name?.en && (
-          <p className="text-red-600 text-xs mt-1">{errors.name.en.message}</p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.name")} (JA)
-        </label>
-        <input
-          {...register("name.ja")}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.name?.ja && (
-          <p className="text-red-600 text-xs mt-1">{errors.name.ja.message}</p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.name")} (ZH-CN)
-        </label>
-        <input
-          {...register("name.zh-CN")}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.name?.["zh-CN"] && (
-          <p className="text-red-600 text-xs mt-1">
-            {errors.name["zh-CN"]?.message}
-          </p>
-        )}
-      </div>
+    <div className="mt-8 p-8 max-w-3xl mx-auto space-y-6 bg-gray-50 border-l-4 border-blue-500">
+      <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.name")} (EN)
+            </label>
+            <input
+              {...register("name.en")}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.name?.en && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.name.en.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.name")} (JA)
+            </label>
+            <input
+              {...register("name.ja")}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.name?.ja && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.name.ja.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.name")} (ZH-CN)
+            </label>
+            <input
+              {...register("name.zh-CN")}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.name?.["zh-CN"] && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.name["zh-CN"]?.message}
+              </p>
+            )}
+          </div>
+        </div>
 
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.bio")} (EN)
-        </label>
-        <textarea
-          {...register("bio.en")}
-          rows={3}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.bio?.en && (
-          <p className="text-red-600 text-xs mt-1">{errors.bio.en.message}</p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.bio")} (JA)
-        </label>
-        <textarea
-          {...register("bio.ja")}
-          rows={3}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.bio?.ja && (
-          <p className="text-red-600 text-xs mt-1">{errors.bio.ja.message}</p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.bio")} (ZH-CN)
-        </label>
-        <textarea
-          {...register("bio.zh-CN")}
-          rows={3}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.bio?.["zh-CN"] && (
-          <p className="text-red-600 text-xs mt-1">
-            {errors.bio["zh-CN"]?.message}
-          </p>
-        )}
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.bio")} (EN)
+            </label>
+            <textarea
+              {...register("bio.en")}
+              rows={3}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.bio?.en && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.bio.en.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.bio")} (JA)
+            </label>
+            <textarea
+              {...register("bio.ja")}
+              rows={3}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.bio?.ja && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.bio.ja.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.bio")} (ZH-CN)
+            </label>
+            <textarea
+              {...register("bio.zh-CN")}
+              rows={3}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.bio?.["zh-CN"] && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.bio["zh-CN"]?.message}
+              </p>
+            )}
+          </div>
+        </div>
 
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.portfolio")} (EN)
-        </label>
-        <input
-          {...register("portfolio.en")}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.portfolio?.en && (
-          <p className="text-red-600 text-xs mt-1">
-            {errors.portfolio.en.message}
-          </p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.portfolio")} (JA)
-        </label>
-        <input
-          {...register("portfolio.ja")}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.portfolio?.ja && (
-          <p className="text-red-600 text-xs mt-1">
-            {errors.portfolio.ja.message}
-          </p>
-        )}
-      </div>
-      <div>
-        <label className="block text-sm font-medium">
-          {t("fields.portfolio")} (ZH-CN)
-        </label>
-        <input
-          {...register("portfolio.zh-CN")}
-          className="mt-1 block w-full border p-2 rounded"
-        />
-        {errors.portfolio?.["zh-CN"] && (
-          <p className="text-red-600 text-xs mt-1">
-            {errors.portfolio["zh-CN"]?.message}
-          </p>
-        )}
-      </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.portfolio")} (EN)
+            </label>
+            <input
+              {...register("portfolio.en")}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.portfolio?.en && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.portfolio.en.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.portfolio")} (JA)
+            </label>
+            <input
+              {...register("portfolio.ja")}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.portfolio?.ja && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.portfolio.ja.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium">
+              {t("fields.portfolio")} (ZH-CN)
+            </label>
+            <input
+              {...register("portfolio.zh-CN")}
+              className="mt-1 block w-full border p-2 rounded"
+            />
+            {errors.portfolio?.["zh-CN"] && (
+              <p className="text-red-600 text-xs mt-1">
+                {errors.portfolio["zh-CN"]?.message}
+              </p>
+            )}
+          </div>
+        </div>
 
-      <div className="flex space-x-4">
-        <Button type="submit" variant="primary" disabled={!isValid}>
-          {t("actions.save")}
-        </Button>
-        <Button
-          type="button"
-          variant="secondary"
-          onClick={() => reset(defaults)}
-        >
-          {t("actions.cancel")}
-        </Button>
-      </div>
-    </form>
+        <div className="flex space-x-4">
+          <Button type="submit" variant="primary" disabled={!isValid}>
+            {t("actions.save")}
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => reset(defaults)}
+          >
+            {t("actions.cancel")}
+          </Button>
+        </div>
+      </form>
+    </div>
   );
 }

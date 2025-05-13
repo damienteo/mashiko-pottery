@@ -147,6 +147,11 @@
     "error": "发生错误"
   },
   "seller": {
+    "nav": {
+      "profile": "个人资料",
+      "inventory": "库存管理",
+      "payoutHistory": "付款历史"
+    },
     "profile": {
       "title": "个人资料",
       "description": "编辑您的陶艺家个人资料和作品集。",

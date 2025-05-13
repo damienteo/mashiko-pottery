@@ -147,6 +147,11 @@
     "error": "An error occurred"
   },
   "seller": {
+    "nav": {
+      "profile": "Profile",
+      "inventory": "Inventory",
+      "payoutHistory": "Payout History"
+    },
     "profile": {
       "title": "Profile",
       "description": "Edit your artisan profile and portfolio.",
