@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import LanguageSelector from "./LanguageSelector";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
@@ -9,7 +9,6 @@ import { selectCurrentUser, logout } from "@/store/authSlice";
 import Button from "@/components/ui/Button";
 
 export default function Navbar() {
-  const locale = useLocale();
   const t = useTranslations();
   const [menuOpen, setMenuOpen] = useState(false);
   const cartCount = useAppSelector(selectCartCount);
@@ -24,10 +23,7 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
           {/* Logo / Site Title */}
-          <Link
-            href={`/${locale}`}
-            className="text-xl font-[var(--font-playfair)]"
-          >
+          <Link href="/" className="text-xl font-[var(--font-playfair)]">
             {t("site.title")}
           </Link>
           {/* Menu toggle for mobile */}
@@ -42,17 +38,17 @@ export default function Navbar() {
           {/* Desktop menu items */}
           <ul className="hidden sm:flex sm:space-x-6 items-center">
             <li>
-              <Link href={`/${locale}/products`} className="hover:underline">
+              <Link href="/products" className="hover:underline">
                 {t("products.title")}
               </Link>
             </li>
             <li>
-              <Link href={`/${locale}/potters`} className="hover:underline">
+              <Link href="/potters" className="hover:underline">
                 {t("potters.title")}
               </Link>
             </li>
             <li>
-              <Link href={`/${locale}/cart`} className="hover:underline">
+              <Link href="/cart" className="hover:underline">
                 {t("cart.title")}
                 {hasMounted ? ` (${cartCount})` : ""}
               </Link>
@@ -60,7 +56,7 @@ export default function Navbar() {
 
             <li>
               <Link
-                href={`/${locale}/admin/products`}
+                href="/admin/products"
                 className="hover:underline text-red-600"
               >
                 {t("admin.nav.products")}
@@ -68,7 +64,7 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href={`/${locale}/admin/orders`}
+                href="/admin/orders"
                 className="hover:underline text-red-600"
               >
                 {t("admin.nav.orders")}
@@ -76,10 +72,35 @@ export default function Navbar() {
             </li>
             <li>
               <Link
-                href={`/${locale}/admin/payouts`}
+                href="/admin/payouts"
                 className="hover:underline text-red-600"
               >
                 {t("admin.nav.payouts")}
+              </Link>
+            </li>
+            {/* Seller navigation links */}
+            <li>
+              <Link
+                href="/seller/profile"
+                className="hover:underline text-green-600"
+              >
+                {t("seller.nav.profile")}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/seller/inventory"
+                className="hover:underline text-green-600"
+              >
+                {t("seller.nav.inventory")}
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/seller/payouts"
+                className="hover:underline text-green-600"
+              >
+                {t("seller.nav.payoutHistory")}
               </Link>
             </li>
             {user ? (
@@ -94,7 +115,7 @@ export default function Navbar() {
               </li>
             ) : (
               <li>
-                <Link href={`/${locale}/login`} className="hover:underline">
+                <Link href="/login" className="hover:underline">
                   {t("login.title")}
                 </Link>
               </li>
@@ -124,7 +145,7 @@ export default function Navbar() {
                 <ul className="space-y-4">
                   <li>
                     <Link
-                      href={`/${locale}/products`}
+                      href="/products"
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
@@ -133,7 +154,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href={`/${locale}/potters`}
+                      href="/potters"
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
@@ -142,7 +163,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href={`/${locale}/cart`}
+                      href="/cart"
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
@@ -152,7 +173,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href={`/${locale}/admin/products`}
+                      href="/admin/products"
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg text-red-600"
                     >
@@ -161,7 +182,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href={`/${locale}/admin/orders`}
+                      href="/admin/orders"
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg text-red-600"
                     >
@@ -170,11 +191,39 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href={`/${locale}/admin/payouts`}
+                      href="/admin/payouts"
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg text-red-600"
                     >
                       {t("admin.nav.payouts")}
+                    </Link>
+                  </li>
+                  {/* Seller navigation links */}
+                  <li>
+                    <Link
+                      href="/seller/profile"
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg text-green-600"
+                    >
+                      {t("seller.nav.profile")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/seller/inventory"
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg text-green-600"
+                    >
+                      {t("seller.nav.inventory")}
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/seller/payouts"
+                      onClick={() => setMenuOpen(false)}
+                      className="block text-lg text-green-600"
+                    >
+                      {t("seller.nav.payoutHistory")}
                     </Link>
                   </li>
                   {user ? (
@@ -193,7 +242,7 @@ export default function Navbar() {
                   ) : (
                     <li>
                       <Link
-                        href={`/${locale}/login`}
+                        href="/login"
                         onClick={() => setMenuOpen(false)}
                         className="block text-lg"
                       >
