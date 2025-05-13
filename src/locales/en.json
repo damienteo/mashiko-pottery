@@ -163,10 +163,7 @@
       "help": {
         "portfolio": "Enter a brief description of your portfolio."
       },
-      "actions": {
-        "save": "Save",
-        "cancel": "Cancel"
-      },
+      "actions": { "edit": "Edit", "save": "Save", "cancel": "Cancel" },
       "loading": "Loading profile…",
       "error": "Failed to load profile."
     }

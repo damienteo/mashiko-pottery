@@ -163,10 +163,7 @@
       "help": {
         "portfolio": "请输入简短的作品集描述。"
       },
-      "actions": {
-        "save": "保存",
-        "cancel": "取消"
-      },
+      "actions": { "edit": "编辑", "save": "保存", "cancel": "取消" },
       "loading": "正在加载个人资料…",
       "error": "加载个人资料失败。"
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -14,6 +14,7 @@ import {
   selectSellerError,
 } from "@/store/sellerSlice";
 import Button from "@/components/ui/Button";
+import { localeLabels } from "@/constants/localeLabels";
 
 const profileSchema = yup.object({
   name: yup.object({
@@ -45,6 +46,7 @@ type ProfileFormValues = yup.InferType<typeof profileSchema>;
 
 export default function SellerProfileClient() {
   const t = useTranslations("seller.profile");
+  const [isEditing, setIsEditing] = useState(false);
   const dispatch = useAppDispatch();
 
   const profile = useAppSelector(selectSellerProfile);
@@ -111,8 +113,82 @@ export default function SellerProfileClient() {
 
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
     dispatch(updateSellerProfile(data));
+    setIsEditing(false);
   };
 
+  // Non-edit detail view
+  if (!isEditing) {
+    return (
+      <div className="mt-8 p-8 max-w-7xl mx-auto space-y-6 bg-gray-50 border-l-4 border-blue-500">
+        <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <h2 className="font-medium">
+              {t("fields.name")} ({localeLabels.en})
+            </h2>
+            <p>{profile?.name.en}</p>
+          </div>
+          <div>
+            <h2 className="font-medium">
+              {t("fields.name")} ({localeLabels.ja})
+            </h2>
+            <p>{profile?.name.ja}</p>
+          </div>
+          <div>
+            <h2 className="font-medium">
+              {t("fields.name")} ({localeLabels["zh-CN"]})
+            </h2>
+            <p>{profile?.name["zh-CN"]}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <h2 className="font-medium">
+              {t("fields.bio")} ({localeLabels.en})
+            </h2>
+            <p>{profile?.bio.en}</p>
+          </div>
+          <div>
+            <h2 className="font-medium">
+              {t("fields.bio")} ({localeLabels.ja})
+            </h2>
+            <p>{profile?.bio.ja}</p>
+          </div>
+          <div>
+            <h2 className="font-medium">
+              {t("fields.bio")} ({localeLabels["zh-CN"]})
+            </h2>
+            <p>{profile?.bio["zh-CN"]}</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <h2 className="font-medium">
+              {t("fields.portfolio")} ({localeLabels.en})
+            </h2>
+            <p>{profile?.portfolio.en}</p>
+          </div>
+          <div>
+            <h2 className="font-medium">
+              {t("fields.portfolio")} ({localeLabels.ja})
+            </h2>
+            <p>{profile?.portfolio.ja}</p>
+          </div>
+          <div>
+            <h2 className="font-medium">
+              {t("fields.portfolio")} ({localeLabels["zh-CN"]})
+            </h2>
+            <p>{profile?.portfolio["zh-CN"]}</p>
+          </div>
+        </div>
+        <Button variant="primary" onClick={() => setIsEditing(true)}>
+          {t("actions.edit")}
+        </Button>
+      </div>
+    );
+  }
+
+  // Edit form view
   return (
     <div className="mt-8 p-8 max-w-7xl mx-auto space-y-6 bg-gray-50 border-l-4 border-blue-500">
       <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
@@ -262,7 +338,10 @@ export default function SellerProfileClient() {
           <Button
             type="button"
             variant="secondary"
-            onClick={() => reset(defaults)}
+            onClick={() => {
+              reset(defaults);
+              setIsEditing(false);
+            }}
           >
             {t("actions.cancel")}
           </Button>
