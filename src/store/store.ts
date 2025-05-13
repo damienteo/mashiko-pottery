@@ -14,6 +14,7 @@ import ordersListReducer from "./orders/ordersListSlice";
 import orderDetailsReducer from "./orders/orderDetailsSlice";
 import payoutsListReducer from "./payouts/payoutsListSlice";
 import payoutDetailsReducer from "./payouts/payoutDetailsSlice";
+import sellerProfileReducer from "./sellerSlice";
 
 const rootReducer = combineReducers({
   cart: cartReducer,
@@ -39,6 +40,9 @@ const rootReducer = combineReducers({
   // payouts feature split into list and detail
   payoutsList: payoutsListReducer,
   payoutDetails: payoutDetailsReducer,
+
+  // seller profile
+  seller: sellerProfileReducer,
 });
 
 export const store = configureStore({
