@@ -39,6 +39,12 @@
           "description": "陶芸家への月次支払いを生成および確認します。"
         }
       }
+    },
+    "seller": {
+      "profile": {
+        "title": "プロフィール – Mashiko Pottery",
+        "description": "職人プロフィールとポートフォリオを編集します。"
+      }
     }
   },
   "home": {
@@ -139,6 +145,26 @@
     },
     "loading": "読み込み中…",
     "error": "エラーが発生しました"
+  },
+  "seller": {
+    "profile": {
+      "title": "プロフィール",
+      "description": "あなたの職人プロフィールとポートフォリオを編集します。",
+      "fields": {
+        "name": "名前",
+        "bio": "自己紹介",
+        "portfolio": "ポートフォリオ"
+      },
+      "help": {
+        "portfolio": "作品集の簡単な説明を入力してください。"
+      },
+      "actions": {
+        "save": "保存",
+        "cancel": "キャンセル"
+      },
+      "loading": "プロフィールを読み込み中…",
+      "error": "プロフィールの読み込みに失敗しました。"
+    }
   },
   "login": {
     "title": "ログイン",

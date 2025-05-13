@@ -39,6 +39,12 @@
           "description": "Generate and review monthly payouts for potters."
         }
       }
+    },
+    "seller": {
+      "profile": {
+        "title": "Profile – Mashiko Pottery",
+        "description": "Edit your artisan profile and portfolio."
+      }
     }
   },
   "home": {
@@ -139,6 +145,26 @@
     },
     "loading": "Loading…",
     "error": "An error occurred"
+  },
+  "seller": {
+    "profile": {
+      "title": "Profile",
+      "description": "Edit your artisan profile and portfolio.",
+      "fields": {
+        "name": "Name",
+        "bio": "Bio",
+        "portfolio": "Portfolio"
+      },
+      "help": {
+        "portfolio": "Enter a brief description of your portfolio."
+      },
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "loading": "Loading profile…",
+      "error": "Failed to load profile."
+    }
   },
   "login": {
     "title": "Login",

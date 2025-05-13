@@ -6,9 +6,10 @@ import type { RootState } from "./store";
 // Define the seller profile type
 export interface SellerProfile {
   id: number;
-  name: string;
-  bio: string;
-  portfolio: string[];
+  // Localized fields: keys are locale codes ("en", "ja", "zh-CN", etc.)
+  name: Record<string, string>;
+  bio: Record<string, string>;
+  portfolio: Record<string, string>;
 }
 
 // Async thunk: fetch the seller profile

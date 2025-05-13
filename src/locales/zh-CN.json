@@ -39,6 +39,12 @@
           "description": "生成并查看陶艺家的月度付款报表。"
         }
       }
+    },
+    "seller": {
+      "profile": {
+        "title": "个人资料 – Mashiko Pottery",
+        "description": "编辑您的陶艺家个人资料和作品集。"
+      }
     }
   },
   "home": {
@@ -139,6 +145,26 @@
     },
     "loading": "加载中…",
     "error": "发生错误"
+  },
+  "seller": {
+    "profile": {
+      "title": "个人资料",
+      "description": "编辑您的陶艺家个人资料和作品集。",
+      "fields": {
+        "name": "姓名",
+        "bio": "简介",
+        "portfolio": "作品集"
+      },
+      "help": {
+        "portfolio": "请输入简短的作品集描述。"
+      },
+      "actions": {
+        "save": "保存",
+        "cancel": "取消"
+      },
+      "loading": "正在加载个人资料…",
+      "error": "加载个人资料失败。"
+    }
   },
   "login": {
     "title": "登录",
