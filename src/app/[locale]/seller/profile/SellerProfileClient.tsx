@@ -15,6 +15,146 @@ import {
 } from "@/store/sellerSlice";
 import Button from "@/components/ui/Button";
 import { localeLabels } from "@/constants/localeLabels";
+import dynamic from "next/dynamic";
+import { Controller } from "react-hook-form";
+import { $getRoot, TextNode, $createParagraphNode } from "lexical";
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
+import { HeadingNode, QuoteNode } from "@lexical/rich-text";
+import { ListNode, ListItemNode } from "@lexical/list";
+import RichTextViewer from "@/components/ui/RichTextViewer";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { FORMAT_TEXT_COMMAND } from "lexical";
+import {
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+} from "@lexical/list";
+const LexicalComposer = dynamic(
+  () =>
+    import("@lexical/react/LexicalComposer").then((mod) => mod.LexicalComposer),
+  { ssr: false }
+);
+const RichTextPlugin = dynamic(
+  () =>
+    import("@lexical/react/LexicalRichTextPlugin").then(
+      (mod) => mod.RichTextPlugin
+    ),
+  { ssr: false }
+);
+const ContentEditable = dynamic(
+  () =>
+    import("@lexical/react/LexicalContentEditable").then(
+      (mod) => mod.ContentEditable
+    ),
+  { ssr: false }
+);
+const OnChangePlugin = dynamic(
+  () =>
+    import("@lexical/react/LexicalOnChangePlugin").then(
+      (mod) => mod.OnChangePlugin
+    ),
+  { ssr: false }
+);
+const HistoryPlugin = dynamic(
+  () =>
+    import("@lexical/react/LexicalHistoryPlugin").then(
+      (mod) => mod.HistoryPlugin
+    ),
+  { ssr: false }
+);
+
+const ListPlugin = dynamic(
+  () =>
+    import("@lexical/react/LexicalListPlugin").then((mod) => mod.ListPlugin),
+  { ssr: false }
+);
+const ErrorBoundary = dynamic(
+  () =>
+    import("@lexical/react/LexicalErrorBoundary").then(
+      (mod) => mod.LexicalErrorBoundary
+    ),
+  { ssr: false }
+);
+
+function InitialContentPlugin({ html }: { html: string }) {
+  const [editor] = useLexicalComposerContext();
+  useEffect(() => {
+    if (!html) return;
+    editor.update(() => {
+      // Create a temporary container to parse the HTML fragment
+      const container = document.createElement("div");
+      container.innerHTML = html;
+      const root = $getRoot();
+      root.clear();
+      // Generate nodes from the container's child elements only
+      const nodes = $generateNodesFromDOM(editor, container);
+      nodes.forEach((node) => {
+        if (node instanceof TextNode) {
+          // Wrap plain text in a paragraph
+          const p = $createParagraphNode();
+          p.append(node);
+          root.append(p);
+        } else {
+          root.append(node);
+        }
+      });
+    });
+  }, [editor, html]);
+  return null;
+}
+
+function Toolbar() {
+  const [editor] = useLexicalComposerContext();
+  return (
+    <div className="mb-2 flex space-x-2">
+      <button
+        type="button"
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
+        className="px-2 py-1 border rounded"
+      >
+        B
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
+        className="px-2 py-1 border rounded"
+      >
+        I
+      </button>
+      <button
+        type="button"
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")}
+        className="px-2 py-1 border rounded"
+      >
+        U
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+        }
+        className="px-2 py-1 border rounded"
+      >
+        • List
+      </button>
+      <button
+        type="button"
+        onClick={() =>
+          editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
+        }
+        className="px-2 py-1 border rounded"
+      >
+        1. List
+      </button>
+    </div>
+  );
+}
+
+const editorConfig = {
+  namespace: "SellerProfileBio",
+  theme: {},
+  nodes: [HeadingNode, QuoteNode, ListNode, ListItemNode],
+  onError: (error: Error) => console.error(error),
+};
 
 const profileSchema = yup.object({
   name: yup.object({
@@ -23,22 +163,22 @@ const profileSchema = yup.object({
     "zh-CN": yup.string().required(),
   }),
   bio: yup.object({
-    en: yup.string().max(500).required(),
-    ja: yup.string().max(500).required(),
-    "zh-CN": yup.string().max(500).required(),
+    en: yup.string().max(2000, "Max 2000 characters").required(),
+    ja: yup.string().max(2000, "最大2000文字").required(),
+    "zh-CN": yup.string().max(2000, "最多2000个字符").required(),
   }),
   portfolio: yup.object({
     en: yup
       .string()
-      .max(200, "Max 200 characters")
+      .max(1000, "Max 1000 characters")
       .required("Portfolio is required"),
     ja: yup
       .string()
-      .max(200, "Max 200 characters")
+      .max(1000, "最大1000文字")
       .required("Portfolio is required"),
     "zh-CN": yup
       .string()
-      .max(200, "Max 200 characters")
+      .max(1000, "最多1000个字符")
       .required("Portfolio is required"),
   }),
 });
@@ -86,6 +226,7 @@ export default function SellerProfileClient() {
       };
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -146,19 +287,19 @@ export default function SellerProfileClient() {
             <h2 className="font-medium">
               {t("fields.bio")} ({localeLabels.en})
             </h2>
-            <p>{profile?.bio.en}</p>
+            <RichTextViewer html={profile?.bio.en || ""} />
           </div>
           <div>
             <h2 className="font-medium">
               {t("fields.bio")} ({localeLabels.ja})
             </h2>
-            <p>{profile?.bio.ja}</p>
+            <RichTextViewer html={profile?.bio.ja || ""} />
           </div>
           <div>
             <h2 className="font-medium">
               {t("fields.bio")} ({localeLabels["zh-CN"]})
             </h2>
-            <p>{profile?.bio["zh-CN"]}</p>
+            <RichTextViewer html={profile?.bio["zh-CN"] || ""} />
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -239,51 +380,54 @@ export default function SellerProfileClient() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium">
-              {t("fields.bio")} (EN)
-            </label>
-            <textarea
-              {...register("bio.en")}
-              rows={3}
-              className="mt-1 block w-full border p-2 rounded"
+          {(["en", "ja", "zh-CN"] as const).map((loc) => (
+            <Controller
+              key={loc}
+              control={control}
+              name={`bio.${loc}`}
+              render={({ field }) => (
+                <div>
+                  <label className="block text-sm font-medium">
+                    {t("fields.bio")} ({localeLabels[loc]})
+                  </label>
+                  <LexicalComposer
+                    initialConfig={{
+                      ...editorConfig,
+                    }}
+                  >
+                    <HistoryPlugin />
+                    <Toolbar />
+                    <ListPlugin />
+                    <InitialContentPlugin html={field.value || ""} />
+                    <RichTextPlugin
+                      contentEditable={
+                        <ContentEditable className="mt-1 block w-full border p-2 rounded min-h-[150px]" />
+                      }
+                      placeholder={
+                        <div className="text-gray-400">
+                          {t("fields.bio")} ({localeLabels[loc]})
+                        </div>
+                      }
+                      ErrorBoundary={ErrorBoundary}
+                    />
+                    <OnChangePlugin
+                      onChange={(editorState, editor) => {
+                        editorState.read(() => {
+                          const html = $generateHtmlFromNodes(editor, null);
+                          field.onChange(html);
+                        });
+                      }}
+                    />
+                  </LexicalComposer>
+                  {errors.bio?.[loc] && (
+                    <p className="text-red-600 text-xs mt-1">
+                      {errors.bio[loc]?.message}
+                    </p>
+                  )}
+                </div>
+              )}
             />
-            {errors.bio?.en && (
-              <p className="text-red-600 text-xs mt-1">
-                {errors.bio.en.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium">
-              {t("fields.bio")} (JA)
-            </label>
-            <textarea
-              {...register("bio.ja")}
-              rows={3}
-              className="mt-1 block w-full border p-2 rounded"
-            />
-            {errors.bio?.ja && (
-              <p className="text-red-600 text-xs mt-1">
-                {errors.bio.ja.message}
-              </p>
-            )}
-          </div>
-          <div>
-            <label className="block text-sm font-medium">
-              {t("fields.bio")} (ZH-CN)
-            </label>
-            <textarea
-              {...register("bio.zh-CN")}
-              rows={3}
-              className="mt-1 block w-full border p-2 rounded"
-            />
-            {errors.bio?.["zh-CN"] && (
-              <p className="text-red-600 text-xs mt-1">
-                {errors.bio["zh-CN"]?.message}
-              </p>
-            )}
-          </div>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
