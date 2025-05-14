@@ -1,8 +1,8 @@
 import {
   $getRoot,
-  TextNode,
   $createParagraphNode,
   LexicalEditor,
+  $isElementNode,
 } from "lexical";
 import { $generateNodesFromDOM } from "@lexical/html";
 
@@ -15,12 +15,12 @@ export function deserializeHtmlToEditor(html: string, editor: LexicalEditor) {
     const root = $getRoot();
     root.clear();
     nodes.forEach((node) => {
-      if (node instanceof TextNode) {
+      if ($isElementNode(node) || node.getType() === "decorator") {
+        root.append(node);
+      } else {
         const p = $createParagraphNode();
         p.append(node);
         root.append(p);
-      } else {
-        root.append(node);
       }
     });
   });

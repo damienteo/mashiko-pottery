@@ -22,6 +22,9 @@ interface RichTextFieldProps<T extends Record<string, unknown>> {
   editorConfig: InitialConfigType;
 }
 
+// TODO: Need to show iframe and update toolbar
+// https://github.com/usmanabdurrehman/Lexical-Tutorials/tree/LexicalAdvanced/src
+
 export default function RichTextField<T extends Record<string, unknown>>({
   control,
   name,
