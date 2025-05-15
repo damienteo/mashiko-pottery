@@ -181,7 +181,8 @@
         "amount": "金额",
         "status": "状态",
         "createdAt": "创建时间",
-        "paidAt": "付款时间"
+        "paidAt": "付款时间",
+        "actions": "操作"
       },
       "status": {
         "pending": "待处理",

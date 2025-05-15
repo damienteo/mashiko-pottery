@@ -181,7 +181,8 @@
         "amount": "金額",
         "status": "ステータス",
         "createdAt": "作成日",
-        "paidAt": "支払日"
+        "paidAt": "支払日",
+        "actions": "操作"
       },
       "status": {
         "pending": "保留中",

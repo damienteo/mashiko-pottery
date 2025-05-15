@@ -1,7 +1,7 @@
 /* SellerPayoutListClient.tsx */
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -10,8 +10,8 @@ import {
   selectSellerPayoutListError,
   selectSellerPayoutListLoading,
 } from "@/store/seller/sellerPayoutListSlice";
-import { formatYen } from "@/utils/format";
 import Button from "@/components/ui/Button";
+import EditablePayoutRow from "./EditablePayoutRow";
 
 export default function SellerPayoutListClient() {
   const t = useTranslations("seller.payouts");
@@ -19,6 +19,9 @@ export default function SellerPayoutListClient() {
   const payouts = useAppSelector(selectSellerPayoutList);
   const isLoading = useAppSelector(selectSellerPayoutListLoading);
   const error = useAppSelector(selectSellerPayoutListError);
+
+  // Editing state
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchSellerPayoutList());
@@ -74,29 +77,20 @@ export default function SellerPayoutListClient() {
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 {t("table.paidAt")}
               </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                {t("table.actions")}
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {payouts.map((payout) => (
-              <tr key={payout.id}>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">
-                  {payout.id}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-800">
-                  {formatYen(payout.amount)}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 capitalize">
-                  {t(`status.${payout.status}`)}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
-                  {new Date(payout.createdAt).toLocaleDateString()}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
-                  {payout.paidAt
-                    ? new Date(payout.paidAt).toLocaleDateString()
-                    : "-"}
-                </td>
-              </tr>
+              <EditablePayoutRow
+                key={payout.id}
+                payout={payout}
+                isEditing={editingId === payout.id}
+                onCancel={() => setEditingId(null)}
+                onEdit={() => setEditingId(payout.id)}
+              />
             ))}
           </tbody>
         </table>

@@ -181,7 +181,8 @@
         "amount": "Amount",
         "status": "Status",
         "createdAt": "Created At",
-        "paidAt": "Paid At"
+        "paidAt": "Paid At",
+        "actions": "Actions"
       },
       "status": {
         "pending": "Pending",
