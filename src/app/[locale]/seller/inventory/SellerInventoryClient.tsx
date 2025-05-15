@@ -6,6 +6,7 @@ import type { RootState, AppDispatch } from "@/store/store";
 import { fetchSellerInventory } from "@/store/seller/sellerInventorySlice";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import EditableInventoryRow from "./EditableInventoryRow";
 
 export default function SellerInventoryClient({ title }: { title: string }) {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,16 +36,6 @@ export default function SellerInventoryClient({ title }: { title: string }) {
 
   // Cancel editing for a specific item
   const handleCancelEdit = (id: string) => {
-    setEditIds((prev) => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
-  };
-
-  // Save changes for a specific item
-  const handleSave = (id: string) => {
-    // TODO: gather data and dispatch update
     setEditIds((prev) => {
       const next = new Set(prev);
       next.delete(id);
@@ -91,86 +82,38 @@ export default function SellerInventoryClient({ title }: { title: string }) {
           <tbody className="bg-white divide-y divide-gray-200 text-sm">
             {items.map((item) => {
               const isEditing = editIds.has(item.id);
-              return (
-                <tr key={item.id}>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        defaultValue={item.name}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      item.name
-                    )}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        defaultValue={item.sku}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      item.sku
-                    )}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {isEditing ? (
-                      <input
-                        type="number"
-                        defaultValue={item.stock}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      item.stock
-                    )}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {isEditing ? (
-                      <input
-                        type="number"
-                        defaultValue={item.price}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      `¥${item.price}`
-                    )}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
-                    {isEditing ? (
-                      <label className="inline-flex items-center">
-                        <input
-                          type="checkbox"
-                          defaultChecked={item.active}
-                          className="mr-2"
-                        />
-                        {item.active ? t("active") : t("inactive")}
-                      </label>
-                    ) : item.active ? (
-                      <span className="text-green-600">{t("active")}</span>
-                    ) : (
-                      <span className="text-red-500">{t("inactive")}</span>
-                    )}
-                  </td>
-                  <td className="px-3 py-2 whitespace-nowrap space-x-2 flex items-center">
-                    {isEditing ? (
-                      <>
-                        <Button onClick={() => handleSave(item.id)}>
-                          ✅ {t("done")}
-                        </Button>
-                        <Button onClick={() => handleCancelEdit(item.id)}>
-                          ❌ {t("cancel")}
-                        </Button>
-                      </>
-                    ) : (
+              if (isEditing) {
+                return (
+                  <EditableInventoryRow
+                    key={item.id}
+                    item={item}
+                    onCancel={() => handleCancelEdit(item.id)}
+                  />
+                );
+              } else {
+                return (
+                  <tr key={item.id} id={`row-${item.id}`}>
+                    <td className="px-3 py-2 whitespace-nowrap">{item.name}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">{item.sku}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {item.stock}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap">{`¥${item.price}`}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {item.active ? (
+                        <span className="text-green-600">{t("active")}</span>
+                      ) : (
+                        <span className="text-red-500">{t("inactive")}</span>
+                      )}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap space-x-2 flex items-center">
                       <Button onClick={() => toggleEdit(item.id)}>
                         {t("edit")}
                       </Button>
-                    )}
-                  </td>
-                </tr>
-              );
+                    </td>
+                  </tr>
+                );
+              }
             })}
           </tbody>
         </table>

@@ -3,7 +3,7 @@
 import React, { ButtonHTMLAttributes, PropsWithChildren } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "confirm" | "cancel";
 }
 
 export default function Button({
@@ -17,7 +17,11 @@ export default function Button({
   const variantStyles =
     variant === "primary"
       ? "bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800"
-      : "bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400";
+      : variant === "secondary"
+        ? "bg-gray-200 text-gray-800 hover:bg-gray-300 active:bg-gray-400"
+        : variant === "confirm"
+          ? "bg-green-600 text-white hover:bg-green-700 active:bg-green-800"
+          : "bg-red-600 text-white hover:bg-red-700 active:bg-red-800";
 
   return (
     <button
