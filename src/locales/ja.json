@@ -166,6 +166,21 @@
       "actions": { "edit": "編集", "save": "保存", "cancel": "キャンセル" },
       "loading": "プロフィールを読み込み中…",
       "error": "プロフィールの読み込みに失敗しました。"
+    },
+    "inventory": {
+      "title": "在庫管理",
+      "description": "益子焼の商品、在庫、価格を管理します。",
+      "loading": "読み込み中...",
+      "product": "商品名",
+      "sku": "SKU",
+      "stock": "在庫",
+      "price": "価格",
+      "status": "ステータス",
+      "active": "販売中",
+      "inactive": "非公開",
+      "edit": "編集",
+      "done": "完了",
+      "actions": "操作"
     }
   },
   "login": {

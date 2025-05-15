@@ -166,6 +166,21 @@
       "actions": { "edit": "编辑", "save": "保存", "cancel": "取消" },
       "loading": "正在加载个人资料…",
       "error": "加载个人资料失败。"
+    },
+    "inventory": {
+      "title": "库存管理",
+      "description": "管理您的益子陶器产品、库存和价格。",
+      "loading": "加载中...",
+      "product": "产品",
+      "sku": "SKU",
+      "stock": "库存",
+      "price": "价格",
+      "status": "状态",
+      "active": "上架中",
+      "inactive": "已下架",
+      "edit": "编辑",
+      "done": "完成",
+      "actions": "操作"
     }
   },
   "login": {

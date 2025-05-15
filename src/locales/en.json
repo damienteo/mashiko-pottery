@@ -166,6 +166,21 @@
       "actions": { "edit": "Edit", "save": "Save", "cancel": "Cancel" },
       "loading": "Loading profile…",
       "error": "Failed to load profile."
+    },
+    "inventory": {
+      "title": "Inventory",
+      "description": "Manage your Mashiko pottery product listings, stock, and prices.",
+      "loading": "Loading...",
+      "product": "Product",
+      "sku": "SKU",
+      "stock": "Stock",
+      "price": "Price",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "edit": "Edit",
+      "done": "Done",
+      "actions": "Actions"
     }
   },
   "login": {
