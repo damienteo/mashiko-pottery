@@ -16,6 +16,8 @@ import payoutsListReducer from "./payouts/payoutsListSlice";
 import payoutDetailsReducer from "./payouts/payoutDetailsSlice";
 import sellerProfileReducer from "./seller/sellerSlice";
 import sellerInventoryReducer from "./seller/sellerInventorySlice";
+import sellerPayoutListReducer from "./seller/sellerPayoutListSlice";
+import sellerPayoutDetailsReducer from "./seller/sellerPayoutDetailsSlice";
 
 const rootReducer = combineReducers({
   cart: cartReducer,
@@ -45,6 +47,8 @@ const rootReducer = combineReducers({
   // seller profile
   seller: sellerProfileReducer,
   sellerInventory: sellerInventoryReducer,
+  sellerPayoutList: sellerPayoutListReducer,
+  sellerPayoutDetails: sellerPayoutDetailsReducer,
 });
 
 export const store = configureStore({
