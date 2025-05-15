@@ -184,6 +184,11 @@
         "paidAt": "支払日",
         "actions": "操作"
       },
+      "buttons": {
+        "edit": "編集",
+        "confirm": "確定",
+        "cancel": "キャンセル"
+      },
       "status": {
         "pending": "保留中",
         "processing": "処理中",

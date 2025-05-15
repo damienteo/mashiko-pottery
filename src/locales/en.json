@@ -184,6 +184,11 @@
         "paidAt": "Paid At",
         "actions": "Actions"
       },
+      "buttons": {
+        "edit": "Edit",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+      },
       "status": {
         "pending": "Pending",
         "processing": "Processing",

@@ -95,15 +95,15 @@ export default function EditablePayoutRow({
               onClick={handleSubmit(onSubmit)}
               disabled={!isValid}
             >
-              Confirm
+              {t("buttons.confirm")}
             </Button>
             <Button variant="cancel" onClick={onCancel}>
-              Cancel
+              {t("buttons.cancel")}
             </Button>
           </>
         ) : (
           <Button variant="secondary" onClick={onEdit}>
-            Edit
+            {t("buttons.edit")}
           </Button>
         )}
       </td>
