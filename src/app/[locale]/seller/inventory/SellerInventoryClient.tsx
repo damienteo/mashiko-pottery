@@ -44,7 +44,7 @@ export default function SellerInventoryClient({ title }: { title: string }) {
   };
 
   return (
-    <div className="p-4 sm:p-8 space-y-6 max-w-7xl mx-auto bg-gray-50 border-l-4 border-blue-400">
+    <div className="space-y-6">
       <h1 className="text-2xl font-bold text-blue-700 flex items-center space-x-2">
         <span>{title}</span>
         <span className="inline-block px-2 py-0.5 text-xs font-semibold bg-blue-100 text-blue-700 rounded">

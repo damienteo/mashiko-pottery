@@ -16,7 +16,7 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
   const profile = useAppSelector(selectSellerProfile);
 
   return (
-    <div className="mt-8 p-8 max-w-7xl mx-auto space-y-6 bg-gray-50 border-l-4 border-blue-500">
+    <div className="mt-8 space-y-6">
       <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {(["en", "ja", "zh-CN"] as const).map((loc) => (

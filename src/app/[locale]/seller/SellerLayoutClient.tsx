@@ -45,7 +45,11 @@ export default function SellerLayoutClient({
           })}
         </nav>
       </header>
-      <main className="flex-1 p-6 bg-white">{children}</main>
+      <main className="flex-1 p-6 bg-gray-50">
+        <div className="max-w-7xl mx-auto space-y-6 border-l-4 border-blue-400 bg-white p-6">
+          {children}
+        </div>
+      </main>
     </div>
   );
 }
