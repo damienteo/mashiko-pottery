@@ -180,7 +180,8 @@
       "inactive": "非公開",
       "edit": "編集",
       "done": "完了",
-      "actions": "操作"
+      "actions": "操作",
+      "cancel": "キャンセル"
     }
   },
   "login": {

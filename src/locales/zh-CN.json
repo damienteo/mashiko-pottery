@@ -180,7 +180,8 @@
       "inactive": "已下架",
       "edit": "编辑",
       "done": "完成",
-      "actions": "操作"
+      "actions": "操作",
+      "cancel": "取消"
     }
   },
   "login": {

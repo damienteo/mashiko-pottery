@@ -180,7 +180,8 @@
       "inactive": "Inactive",
       "edit": "Edit",
       "done": "Done",
-      "actions": "Actions"
+      "actions": "Actions",
+      "cancel": "Cancel"
     }
   },
   "login": {
