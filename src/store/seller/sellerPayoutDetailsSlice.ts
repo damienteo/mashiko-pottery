@@ -5,12 +5,14 @@ import { RootState } from "../store";
 interface SellerPayoutDetailsState {
   data: Payout | null;
   isLoading: boolean;
+  isSuccess: boolean;
   error: string | null;
 }
 
 const initialState: SellerPayoutDetailsState = {
   data: null,
   isLoading: false,
+  isSuccess: false,
   error: null,
 };
 
@@ -35,15 +37,18 @@ const sellerPayoutDetailsSlice = createSlice({
     builder
       .addCase(fetchSellerPayoutDetails.pending, (state) => {
         state.isLoading = true;
+        state.isSuccess = false;
         state.error = null;
         state.data = null;
       })
       .addCase(fetchSellerPayoutDetails.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = true;
         state.data = action.payload;
       })
       .addCase(fetchSellerPayoutDetails.rejected, (state, action) => {
         state.isLoading = false;
+        state.isSuccess = false;
         state.error = action.payload as string;
       });
   },

@@ -167,6 +167,29 @@
       "loading": "Loading profile…",
       "error": "Failed to load profile."
     },
+    "payouts": {
+      "meta": {
+        "title": "Payout History",
+        "description": "View all payouts made to your account."
+      },
+      "title": "Payout History",
+      "loading": "Loading payouts...",
+      "error": "Failed to load payouts.",
+      "retry": "Retry",
+      "table": {
+        "id": "Payout ID",
+        "amount": "Amount",
+        "status": "Status",
+        "createdAt": "Created At",
+        "paidAt": "Paid At"
+      },
+      "status": {
+        "pending": "Pending",
+        "processing": "Processing",
+        "paid": "Paid",
+        "failed": "Failed"
+      }
+    },
     "inventory": {
       "title": "Inventory",
       "description": "Manage your Mashiko pottery product listings, stock, and prices.",

@@ -167,6 +167,29 @@
       "loading": "正在加载个人资料…",
       "error": "加载个人资料失败。"
     },
+    "payouts": {
+      "meta": {
+        "title": "付款记录",
+        "description": "查看您的账户收到的所有付款记录。"
+      },
+      "title": "付款记录",
+      "loading": "正在加载付款记录...",
+      "error": "加载付款记录失败。",
+      "retry": "重试",
+      "table": {
+        "id": "付款编号",
+        "amount": "金额",
+        "status": "状态",
+        "createdAt": "创建时间",
+        "paidAt": "付款时间"
+      },
+      "status": {
+        "pending": "待处理",
+        "processing": "处理中",
+        "paid": "已付款",
+        "failed": "失败"
+      }
+    },
     "inventory": {
       "title": "库存管理",
       "description": "管理您的益子陶器产品、库存和价格。",

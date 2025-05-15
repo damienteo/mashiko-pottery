@@ -167,6 +167,29 @@
       "loading": "プロフィールを読み込み中…",
       "error": "プロフィールの読み込みに失敗しました。"
     },
+    "payouts": {
+      "meta": {
+        "title": "支払い履歴",
+        "description": "アカウントへのすべての支払いを確認できます。"
+      },
+      "title": "支払い履歴",
+      "loading": "支払い履歴を読み込み中...",
+      "error": "支払い履歴の読み込みに失敗しました。",
+      "retry": "再試行",
+      "table": {
+        "id": "支払いID",
+        "amount": "金額",
+        "status": "ステータス",
+        "createdAt": "作成日",
+        "paidAt": "支払日"
+      },
+      "status": {
+        "pending": "保留中",
+        "processing": "処理中",
+        "paid": "支払済み",
+        "failed": "失敗"
+      }
+    },
     "inventory": {
       "title": "在庫管理",
       "description": "益子焼の商品、在庫、価格を管理します。",
