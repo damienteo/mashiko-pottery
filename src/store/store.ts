@@ -44,7 +44,7 @@ const rootReducer = combineReducers({
 
   // seller profile
   seller: sellerProfileReducer,
-  sellerinventory: sellerInventoryReducer,
+  sellerInventory: sellerInventoryReducer,
 });
 
 export const store = configureStore({

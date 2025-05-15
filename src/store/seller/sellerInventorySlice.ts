@@ -1,21 +1,40 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import type { InventoryItem } from "@/types/inventory";
 
 interface SellerInventoryState {
   items: InventoryItem[];
+  isLoading: boolean;
+  isSuccess: boolean;
+  error: string | null;
 }
 
 const initialState: SellerInventoryState = {
   items: [],
+  isLoading: false,
+  isSuccess: false,
+  error: null,
 };
+
+// Async thunk to fetch seller inventory from API
+export const fetchSellerInventory = createAsyncThunk<
+  InventoryItem[],
+  void,
+  { rejectValue: string }
+>("sellerInventory/fetchSellerInventory", async (_, { rejectWithValue }) => {
+  try {
+    const res = await fetch("/api/seller/inventory");
+    if (!res.ok) throw new Error("Failed to fetch inventory");
+    return await res.json();
+  } catch (error) {
+    return rejectWithValue((error as Error).message);
+  }
+});
 
 const sellerInventorySlice = createSlice({
   name: "sellerInventory",
   initialState,
   reducers: {
-    setInventory(state, action: PayloadAction<InventoryItem[]>) {
-      state.items = action.payload;
-    },
+    // setInventory is no longer needed with thunk-based fetching
     addItem(state, action: PayloadAction<InventoryItem>) {
       state.items.push(action.payload);
     },
@@ -31,9 +50,26 @@ const sellerInventorySlice = createSlice({
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSellerInventory.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(fetchSellerInventory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.items = action.payload;
+      })
+      .addCase(fetchSellerInventory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = action.payload || "Unknown error";
+      });
+  },
 });
 
-export const { setInventory, addItem, updateItem, removeItem } =
-  sellerInventorySlice.actions;
+export const { addItem, updateItem, removeItem } = sellerInventorySlice.actions;
 
 export default sellerInventorySlice.reducer;
