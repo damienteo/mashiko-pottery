@@ -1,7 +1,7 @@
 // src/store/sellerSlice.ts
 
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "./store";
+import type { RootState } from "../store";
 
 // Define the seller profile type
 export interface SellerProfile {

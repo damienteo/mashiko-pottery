@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/store/hooks";
-import { selectSellerProfile } from "@/store/sellerSlice";
+import { selectSellerProfile } from "@/store/seller/sellerSlice";
 import { useTranslations } from "next-intl";
 import { localeLabels } from "@/constants/localeLabels";
 import RichTextViewer from "@/components/ui/RichTextViewer";

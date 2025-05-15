@@ -1,4 +1,4 @@
-import type { SellerProfile } from "@/store/sellerSlice";
+import type { SellerProfile } from "@/store/seller/sellerSlice";
 
 export const mockSellerProfile: SellerProfile = {
   id: 1,

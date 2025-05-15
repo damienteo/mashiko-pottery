@@ -12,7 +12,7 @@ import {
   selectSellerProfile,
   selectSellerLoading,
   selectSellerError,
-} from "@/store/sellerSlice";
+} from "@/store/seller/sellerSlice";
 import { HeadingNode, QuoteNode } from "@lexical/rich-text";
 import { ListNode, ListItemNode } from "@lexical/list";
 import { SellerProfileForm } from "./components/SellerProfileForm";
