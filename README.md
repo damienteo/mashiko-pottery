@@ -36,8 +36,8 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
 - **Multi-Role**
 
   - **Consumers:** Browse, filter, cart, checkout, order history
-  - **Admins:** products/Order/Payout management, CSV/batch uploads, reporting
-  - **Potters (coming soon):** Inventory & sales stats, profile updates, payouts
+  - **Admins:** Products/Order/Payout management, CSV/batch uploads, reporting
+  - **Potters:** Inventory management, sales stats, profile updates, payout tracking
 
 - **Multi-Locale**: English, 日本語, 简体中文
 - **Internationalized Metadata** for SEO
@@ -269,14 +269,6 @@ Loaded via `next/font/google` (e.g., Inter, Playfair Display, Noto Sans JP, Noto
 3. Add B2B/Wholesale workflows
 4. Performance tuning (CDN, ISR, caching)
 5. PWA/offline catalog support
-
----
-
-## Contributing
-
-- Fork → feature branch → PR → review → merge
-- Follow **Conventional Commits**
-- Include tests for new features
 
 ---
 
