@@ -8,9 +8,11 @@ import {
   selectSellerPayoutDetails,
   selectSellerPayoutDetailsLoading,
   selectSellerPayoutDetailsError,
+  selectSellerPayoutDetailsSuccess,
 } from "@/store/seller/sellerPayoutDetailsSlice";
 import { useTranslations } from "next-intl";
 import Button from "@/components/ui/Button";
+import StatusBadge from "@/components/ui/StatusBadge";
 import { formatYen } from "@/utils/format";
 
 export default function SellerPayoutDetailsClient() {
@@ -22,12 +24,17 @@ export default function SellerPayoutDetailsClient() {
   const payout = useAppSelector(selectSellerPayoutDetails);
   const isLoading = useAppSelector(selectSellerPayoutDetailsLoading);
   const error = useAppSelector(selectSellerPayoutDetailsError);
+  const isSuccess = useAppSelector(selectSellerPayoutDetailsSuccess);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchSellerPayoutDetails(id));
     }
   }, [dispatch, id]);
+
+  if (!isLoading && !isSuccess && !error) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -37,7 +44,7 @@ export default function SellerPayoutDetailsClient() {
     );
   }
 
-  if (error || !payout) {
+  if (!isSuccess || error || !payout) {
     return (
       <div className="p-8 text-center text-red-600 space-y-4">
         <p>{t("error")}</p>
@@ -66,19 +73,7 @@ export default function SellerPayoutDetailsClient() {
           <span className="font-semibold text-gray-600">
             {t("table.status")}:
           </span>{" "}
-          <span
-            className={`inline-block px-2 py-0.5 text-xs rounded-full ${
-              payout.status === "paid"
-                ? "bg-green-100 text-green-800"
-                : payout.status === "failed"
-                  ? "bg-red-100 text-red-800"
-                  : payout.status === "processing"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : "bg-gray-100 text-gray-800"
-            }`}
-          >
-            {t(`status.${payout.status}`)}
-          </span>
+          <StatusBadge status={payout.status} />
         </div>
         <div>
           <span className="font-semibold text-gray-600">

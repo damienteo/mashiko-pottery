@@ -59,5 +59,7 @@ export const selectSellerPayoutListLoading = (state: RootState) =>
   state.sellerPayoutList.isLoading;
 export const selectSellerPayoutListError = (state: RootState) =>
   state.sellerPayoutList.error;
+export const selectSellerPayoutListSuccess = (state: RootState) =>
+  state.sellerPayoutList.isSuccess;
 
 export default sellerPayoutListSlice.reducer;
