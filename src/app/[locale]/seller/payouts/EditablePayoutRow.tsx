@@ -102,9 +102,19 @@ export default function EditablePayoutRow({
             </Button>
           </>
         ) : (
-          <Button variant="secondary" onClick={onEdit}>
-            {t("buttons.edit")}
-          </Button>
+          <>
+            <Button variant="secondary" onClick={onEdit}>
+              {t("buttons.edit")}
+            </Button>
+            <a
+              href={`./payouts/${payout.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button variant="secondary">{t("details.link")}</Button>
+            </a>
+          </>
         )}
       </td>
     </tr>

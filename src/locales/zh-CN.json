@@ -194,7 +194,16 @@
         "processing": "处理中",
         "paid": "已付款",
         "failed": "失败"
-      }
+      },
+      "details": {
+        "title": "付款详情",
+        "link": "详情",
+        "meta": {
+          "title": "付款详情",
+          "description": "查看付款的详细信息"
+        }
+      },
+      "back": "返回"
     },
     "inventory": {
       "title": "库存管理",

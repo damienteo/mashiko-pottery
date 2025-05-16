@@ -194,7 +194,16 @@
         "processing": "Processing",
         "paid": "Paid",
         "failed": "Failed"
-      }
+      },
+      "details": {
+        "title": "Payout Details",
+        "link": "Details",
+        "meta": {
+          "title": "Payout Details",
+          "description": "Review the full payout breakdown"
+        }
+      },
+      "back": "Back"
     },
     "inventory": {
       "title": "Inventory",

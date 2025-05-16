@@ -194,7 +194,16 @@
         "processing": "処理中",
         "paid": "支払済み",
         "failed": "失敗"
-      }
+      },
+      "details": {
+        "title": "支払いの詳細",
+        "link": "詳細",
+        "meta": {
+          "title": "支払いの詳細",
+          "description": "支払いの内訳を確認できます"
+        }
+      },
+      "back": "戻る"
     },
     "inventory": {
       "title": "在庫管理",
