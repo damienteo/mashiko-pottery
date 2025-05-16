@@ -2,13 +2,12 @@ import SellerPayoutListClient from "./SellerPayoutListClient";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
 
-type Props = {
-  params: { locale: string };
-};
-
 export async function generateMetadata({
-  params: { locale },
-}: Props): Promise<Metadata> {
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "seller.payouts" });
 
   return {
