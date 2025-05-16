@@ -66,7 +66,17 @@ export default function SellerPayoutDetailsClient() {
           <span className="font-semibold text-gray-600">
             {t("table.status")}:
           </span>{" "}
-          <span className="text-gray-800 capitalize">
+          <span
+            className={`inline-block px-2 py-0.5 text-xs rounded-full ${
+              payout.status === "paid"
+                ? "bg-green-100 text-green-800"
+                : payout.status === "failed"
+                  ? "bg-red-100 text-red-800"
+                  : payout.status === "processing"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-gray-100 text-gray-800"
+            }`}
+          >
             {t(`status.${payout.status}`)}
           </span>
         </div>
@@ -75,7 +85,7 @@ export default function SellerPayoutDetailsClient() {
             {t("table.createdAt")}:
           </span>{" "}
           <span className="text-gray-800">
-            {new Date(payout.createdAt).toLocaleDateString()}
+            {new Date(payout.createdAt).toLocaleString()}
           </span>
         </div>
         <div>
@@ -83,7 +93,7 @@ export default function SellerPayoutDetailsClient() {
             {t("table.paidAt")}:
           </span>{" "}
           <span className="text-gray-800">
-            {payout.paidAt ? new Date(payout.paidAt).toLocaleDateString() : "-"}
+            {payout.paidAt ? new Date(payout.paidAt).toLocaleString() : "-"}
           </span>
         </div>
       </div>

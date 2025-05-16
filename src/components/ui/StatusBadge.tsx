@@ -9,20 +9,17 @@ import { payoutStatusBadgeClasses } from "@/constants/payoutStatus";
 /** Status types for orders or payouts */
 export type StatusType = OrderStatus | PayoutStatus;
 
-interface StatusBadgeProps {
-  status: StatusType;
-}
-
 // Merge order and payout status classes into one map
 const allStatusBadgeClasses: Record<StatusType, string> = {
   ...statusBadgeClasses,
   ...payoutStatusBadgeClasses,
 };
 
-export default function StatusBadge({ status }: StatusBadgeProps) {
-  // Determine CSS classes for the badge
-  const classes = allStatusBadgeClasses[status] ?? "bg-gray-100 text-gray-800";
-  // Capitalize the first letter of the status label
+export default function StatusBadge({ status }: { status: string }) {
+  const isKnownStatus = status in allStatusBadgeClasses;
+  const classes = isKnownStatus
+    ? allStatusBadgeClasses[status as StatusType]
+    : "bg-gray-100 text-gray-800";
   const label = status.charAt(0).toUpperCase() + status.slice(1);
 
   return (
