@@ -1,19 +1,28 @@
-/** All possible payout status values */
-export type PayoutStatus = "pending" | "processed" | "failed";
+export type PayoutStatus =
+  | "queued"
+  | "processing"
+  | "paid"
+  | "failed"
+  | "on_hold"
+  | "cancelled"
+  | "refunded";
 
-/** List of status options for dropdowns or filters */
 export const payoutStatusOptions: PayoutStatus[] = [
-  "pending",
-  "processed",
+  "queued",
+  "processing",
+  "paid",
   "failed",
+  "on_hold",
+  "cancelled",
+  "refunded",
 ];
 
-/**
- * Map each payout status to its corresponding badge CSS classes.
- * These Tailwind classes apply background and text colors.
- */
 export const payoutStatusBadgeClasses: Record<PayoutStatus, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  processed: "bg-green-100 text-green-800",
+  queued: "bg-gray-100 text-gray-800",
+  processing: "bg-yellow-100 text-yellow-800",
+  paid: "bg-green-100 text-green-800",
   failed: "bg-red-100 text-red-800",
+  on_hold: "bg-orange-100 text-orange-800",
+  cancelled: "bg-gray-200 text-gray-700",
+  refunded: "bg-blue-100 text-blue-800",
 };
