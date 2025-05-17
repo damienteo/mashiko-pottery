@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import type { Product } from "./productDetailsSlice";
+import type { Product } from "@/types/product";
 
 // Async thunk: fetch all products
 export const fetchProductsList = createAsyncThunk<Product[], void>(

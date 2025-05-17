@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
-/** Supported locales for this app */
-export type Locale = "en" | "ja" | "zh-CN";
-
-/** A map of translations for each supported locale */
-export type LocalizedString = Record<Locale, string>;
+import type { LocalizedString } from "@/types/i18n";
 
 export interface Product {
   id: number;

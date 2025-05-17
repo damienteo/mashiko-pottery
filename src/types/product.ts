@@ -1,11 +1,15 @@
+import type { LocalizedString } from "./i18n";
+
 export interface Product {
   id: number;
   potterId: number;
-  title: string;
-  description: string;
+  title: LocalizedString;
+  description: LocalizedString;
   price: number;
-  stock: number;
+  inventory: number;
   weight: number;
   photos: string[];
   category: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
