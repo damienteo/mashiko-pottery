@@ -1,4 +1,4 @@
-export interface InventoryItem {
+export interface SellerInventoryRow {
   id: string;
   name: string;
   sku: string;

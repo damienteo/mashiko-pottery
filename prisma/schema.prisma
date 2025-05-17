@@ -8,18 +8,28 @@ generator client {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String
-  role     Role     @default(CUSTOMER)
-  orders   Order[]
-  potter   Potter?
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  password     String
+  role         Role           @default(CUSTOMER)
+  orders       Order[]
+  potter       Potter?
+  CartItem     CartItem[]
+  UserSettings UserSettings?
+  Notification Notification[]
+  Session      Session[]
+  AuditLog     AuditLog[]
+  Report       Report[]
+  Review       Review[]
+  Inquiry      Inquiry[]
+  Address      Address[]
+  Favorite     Favorite[]
 }
 
 model Potter {
   id       Int       @id @default(autoincrement())
   user     User?     @relation(fields: [userId], references: [id])
-  userId   Int?
+  userId   Int?      @unique
   name     String
   bio      String
   style    String
@@ -40,27 +50,33 @@ model Product {
   photos      String[]
   category    String
   orderItems  OrderItem[]
+  CartItem    CartItem[]
+  Review      Review[]
+  Favorite    Favorite[]
 }
 
 model Order {
-  id             Int         @id @default(autoincrement())
-  userId         Int
-  user           User        @relation(fields: [userId], references: [id])
-  status         String
-  total          Float
-  address        String
-  trackingNumber String?
-  items          OrderItem[]
+  id                Int                 @id @default(autoincrement())
+  userId            Int
+  user              User                @relation(fields: [userId], references: [id])
+  status            String
+  total             Float
+  address           String
+  trackingNumber    String?
+  items             OrderItem[]
+  Invoice           Invoice[]
+  RefundTransaction RefundTransaction[]
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int
-  order     Order   @relation(fields: [orderId], references: [id])
-  productId Int
-  product   Product @relation(fields: [productId], references: [id])
-  quantity  Int
-  price     Float
+  id            Int             @id @default(autoincrement())
+  orderId       Int
+  order         Order           @relation(fields: [orderId], references: [id])
+  productId     Int
+  product       Product         @relation(fields: [productId], references: [id])
+  quantity      Int
+  price         Float
+  ReturnRequest ReturnRequest[]
 }
 
 model Payout {
@@ -95,4 +111,158 @@ enum Role {
   SELLER
   CUSTOMER
   OPERATIONS
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  addedAt   DateTime @default(now())
+}
+
+model UserSettings {
+  id            Int     @id @default(autoincrement())
+  userId        Int     @unique
+  user          User    @relation(fields: [userId], references: [id])
+  preferredLang String  @default("en")
+  receiveEmails Boolean @default(true)
+  receiveSMS    Boolean @default(false)
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ShippingRate {
+  id        Int     @id @default(autoincrement())
+  country   String
+  region    String?
+  minWeight Float
+  maxWeight Float
+  price     Float
+  carrier   String
+}
+
+model Invoice {
+  id       Int      @id @default(autoincrement())
+  orderId  Int
+  order    Order    @relation(fields: [orderId], references: [id])
+  fileUrl  String
+  issuedAt DateTime
+}
+
+model ReturnRequest {
+  id          Int       @id @default(autoincrement())
+  orderItemId Int
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+  reason      String
+  status      String
+  createdAt   DateTime  @default(now())
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  userAgent String?
+  ipAddress String?
+}
+
+model AuditLog {
+  id        Int      @id @default(autoincrement())
+  actorId   Int?
+  actor     User?    @relation(fields: [actorId], references: [id])
+  action    String
+  metadata  Json
+  createdAt DateTime @default(now())
+}
+
+model PromoCode {
+  id         Int       @id @default(autoincrement())
+  code       String    @unique
+  discount   Float
+  isPercent  Boolean   @default(false)
+  usageLimit Int?
+  usedCount  Int       @default(0)
+  startsAt   DateTime?
+  expiresAt  DateTime?
+  active     Boolean   @default(true)
+}
+
+model Report {
+  id         Int      @id @default(autoincrement())
+  reporterId Int
+  reporter   User     @relation(fields: [reporterId], references: [id])
+  targetType String
+  targetId   Int
+  reason     String
+  resolved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  reviewerId Int
+  reviewer   User     @relation(fields: [reviewerId], references: [id])
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id])
+  rating     Int
+  comment    String?
+  createdAt  DateTime @default(now())
+}
+
+model Inquiry {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id])
+  email     String
+  subject   String
+  message   String
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  label     String // e.g. "Home", "Work"
+  line1     String
+  line2     String?
+  city      String
+  state     String
+  postal    String
+  country   String
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model RefundTransaction {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  amount    Float
+  reason    String
+  status    String // e.g. "initiated", "processed", "failed"
+  createdAt DateTime @default(now())
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
 }

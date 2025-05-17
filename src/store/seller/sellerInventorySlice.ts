@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import type { InventoryItem } from "@/types/inventory";
+import type { SellerInventoryRow } from "@/types/inventory";
 
 interface SellerInventoryState {
-  items: InventoryItem[];
+  items: SellerInventoryRow[];
   isLoading: boolean;
   isSuccess: boolean;
   error: string | null;
@@ -17,7 +17,7 @@ const initialState: SellerInventoryState = {
 
 // Async thunk to fetch seller inventory from API
 export const fetchSellerInventory = createAsyncThunk<
-  InventoryItem[],
+  SellerInventoryRow[],
   void,
   { rejectValue: string }
 >("sellerInventory/fetchSellerInventory", async (_, { rejectWithValue }) => {
@@ -35,10 +35,10 @@ const sellerInventorySlice = createSlice({
   initialState,
   reducers: {
     // setInventory is no longer needed with thunk-based fetching
-    addItem(state, action: PayloadAction<InventoryItem>) {
+    addItem(state, action: PayloadAction<SellerInventoryRow>) {
       state.items.push(action.payload);
     },
-    updateItem(state, action: PayloadAction<InventoryItem>) {
+    updateItem(state, action: PayloadAction<SellerInventoryRow>) {
       const index = state.items.findIndex(
         (item) => item.id === action.payload.id
       );
