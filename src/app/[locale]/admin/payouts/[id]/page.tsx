@@ -7,8 +7,8 @@ import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchPayoutDetails,
   selectPayoutDetails,
+  updatePayoutDetails,
 } from "@/store/payouts/payoutDetailsSlice";
-import { updatePayoutStatus } from "@/store/payouts/payoutsListSlice";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -76,13 +76,7 @@ export default function AdminPayoutDetailPage() {
   }
 
   const onSubmit: SubmitHandler<PayoutFormValues> = (data) => {
-    dispatch(
-      updatePayoutStatus({
-        potterId: data.potterId,
-        month: data.month,
-        status: data.status as PayoutStatus,
-      })
-    );
+    dispatch(updatePayoutDetails({ id: id as string, updates: data }));
   };
 
   return (
@@ -102,7 +96,7 @@ export default function AdminPayoutDetailPage() {
             {t("table.potterId")}
           </label>
           <input
-            type="number"
+            type="text"
             {...register("potterId")}
             disabled
             className="mt-1 block w-full border p-2 rounded bg-white"

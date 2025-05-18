@@ -12,3 +12,20 @@ export async function GET(
   }
   return NextResponse.json(payout);
 }
+
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const existing = mockPayoutDetails[id];
+  if (!existing) {
+    return NextResponse.json({ message: "Payout not found" }, { status: 404 });
+  }
+
+  const updates = await request.json();
+  const updated = { ...existing, ...updates };
+  mockPayoutDetails[id] = updated;
+
+  return NextResponse.json(updated);
+}
