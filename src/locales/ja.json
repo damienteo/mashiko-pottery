@@ -214,6 +214,17 @@
           "orders": "注文数",
           "fees": "手数料合計",
           "notes": "備考"
+        },
+        "form": {
+          "potterId": "陶芸家ID",
+          "month": "月",
+          "amount": "金額",
+          "status": "ステータス"
+        },
+        "messages": {
+          "success": "支払いが正常に更新されました",
+          "error": "支払いの更新に失敗しました",
+          "updating": "保存中…"
         }
       },
       "back": "戻る"

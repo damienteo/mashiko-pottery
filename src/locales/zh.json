@@ -214,6 +214,17 @@
           "orders": "总订单数",
           "fees": "总手续费",
           "notes": "备注"
+        },
+        "form": {
+          "potterId": "陶艺家编号",
+          "month": "月份",
+          "amount": "金额",
+          "status": "状态"
+        },
+        "messages": {
+          "success": "付款更新成功",
+          "error": "付款更新失败",
+          "updating": "正在保存付款…"
         }
       },
       "back": "返回"

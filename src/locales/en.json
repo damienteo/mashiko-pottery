@@ -214,6 +214,17 @@
           "orders": "Total Orders",
           "fees": "Total Fees",
           "notes": "Notes"
+        },
+        "form": {
+          "potterId": "Potter ID",
+          "month": "Month",
+          "amount": "Amount",
+          "status": "Status"
+        },
+        "messages": {
+          "success": "Payout updated successfully",
+          "error": "Failed to update payout",
+          "updating": "Saving payout…"
         }
       },
       "back": "Back"
