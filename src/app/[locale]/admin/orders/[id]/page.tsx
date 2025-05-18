@@ -107,7 +107,7 @@ export default function AdminOrderDetailPage() {
           </>
         ) : (
           <>
-            <StatusBadge status={order.status} />
+            <StatusBadge status={order.status} type="order" />
             <Button variant="secondary" onClick={() => setEditing(true)}>
               {t("actions.edit")}
             </Button>

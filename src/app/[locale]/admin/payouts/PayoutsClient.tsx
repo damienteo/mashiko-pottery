@@ -91,7 +91,7 @@ export default function PayoutsClient() {
                       ))}
                     </select>
                   ) : (
-                    <StatusBadge status={p.status} />
+                    <StatusBadge status={p.status} type="payout" />
                   )}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2">

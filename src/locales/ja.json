@@ -1,4 +1,15 @@
 {
+  "status": {
+    "pending": "保留中",
+    "processing": "処理中",
+    "paid": "支払済み",
+    "failed": "失敗",
+    "queued": "キュー中",
+    "onHold": "保留",
+    "cancelled": "キャンセル",
+    "refunded": "返金済み",
+    "shipped": "発送済み"
+  },
   "meta": {
     "home": {
       "title": "ホーム – Mashiko Pottery",
@@ -32,14 +43,7 @@
         },
         "orders": {
           "title": "管理者: 注文管理",
-          "description": "顧客の注文を表示および処理します。",
-          "status": {
-            "pending": "保留中",
-            "processing": "処理中",
-            "shipped": "発送済み",
-            "cancelled": "キャンセル",
-            "failed": "失敗"
-          }
+          "description": "顧客の注文を表示および処理します。"
         },
         "payouts": {
           "title": "管理者: 支払いレポート",
@@ -122,13 +126,6 @@
         "retry": "再試行",
         "details": "詳細",
         "total": "合計",
-        "status": {
-          "pending": "保留中",
-          "processing": "処理中",
-          "shipped": "発送済み",
-          "cancelled": "キャンセル",
-          "failed": "失敗"
-        },
         "actions": {
           "save": "保存",
           "cancel": "キャンセル",
@@ -213,16 +210,6 @@
         "edit": "編集",
         "confirm": "確定",
         "cancel": "キャンセル"
-      },
-      "status": {
-        "pending": "保留中",
-        "processing": "処理中",
-        "paid": "支払済み",
-        "failed": "失敗",
-        "queued": "キュー中",
-        "onHold": "保留",
-        "cancelled": "キャンセル",
-        "refunded": "返金済み"
       },
       "details": {
         "title": "支払いの詳細",

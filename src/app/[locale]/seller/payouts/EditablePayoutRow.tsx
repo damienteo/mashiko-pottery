@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { useTranslations } from "next-intl";
 import { Payout } from "@/types/payout";
 import Button from "@/components/ui/Button";
+import StatusBadge from "@/components/ui/StatusBadge";
 import { formatYen } from "@/utils/format";
 
 const schema = yup.object({
@@ -89,7 +90,7 @@ export default function EditablePayoutRow({
             <option value="Refunded">{t("status.refunded")}</option>
           </select>
         ) : (
-          t(`status.${payout.status.toLowerCase()}`)
+          <StatusBadge status={payout.status} type="payout" />
         )}
       </td>
       <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">

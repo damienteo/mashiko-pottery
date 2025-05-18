@@ -5,22 +5,29 @@ import type { OrderStatus } from "@/constants/orderStatus";
 import { statusBadgeClasses } from "@/constants/orderStatus";
 import type { PayoutStatus } from "@/constants/payoutStatus";
 import { payoutStatusBadgeClasses } from "@/constants/payoutStatus";
+import { useTranslations } from "next-intl";
 
-/** Status types for orders or payouts */
 export type StatusType = OrderStatus | PayoutStatus;
 
-// Merge order and payout status classes into one map
-const allStatusBadgeClasses: Record<StatusType, string> = {
-  ...statusBadgeClasses,
-  ...payoutStatusBadgeClasses,
-};
-
-export default function StatusBadge({ status }: { status: string }) {
-  const isKnownStatus = status in allStatusBadgeClasses;
-  const classes = isKnownStatus
-    ? allStatusBadgeClasses[status as StatusType]
+export default function StatusBadge({
+  status,
+  type,
+}: {
+  status: string;
+  type: "order" | "payout";
+}) {
+  const t = useTranslations();
+  const badgeClasses =
+    type === "order" ? statusBadgeClasses : payoutStatusBadgeClasses;
+  const normalizedStatus = Object.keys(badgeClasses).find(
+    (key) => key.toLowerCase() === status.toLowerCase()
+  );
+  const classes = normalizedStatus
+    ? badgeClasses[normalizedStatus as keyof typeof badgeClasses]
     : "bg-gray-100 text-gray-800";
-  const label = status.charAt(0).toUpperCase() + status.slice(1);
+  const label = t(`status.${status.toLowerCase()}`, {
+    default: status.charAt(0).toUpperCase() + status.slice(1),
+  });
 
   return (
     <span

@@ -1,4 +1,15 @@
 {
+  "status": {
+    "pending": "待处理",
+    "processing": "处理中",
+    "paid": "已付款",
+    "failed": "失败",
+    "queued": "排队中",
+    "onHold": "挂起",
+    "cancelled": "已取消",
+    "refunded": "已退款",
+    "shipped": "已发货"
+  },
   "meta": {
     "home": {
       "title": "首页 – Mashiko 陶艺",
@@ -122,13 +133,6 @@
           "save": "保存",
           "cancel": "取消",
           "edit": "编辑"
-        },
-        "status": {
-          "pending": "待处理",
-          "processing": "处理中",
-          "shipped": "已发货",
-          "cancelled": "已取消",
-          "failed": "失败"
         }
       },
       "payouts": {

@@ -73,7 +73,7 @@ export default function SellerPayoutDetailsClient() {
           <span className="font-semibold text-gray-600">
             {t("table.status")}:
           </span>{" "}
-          <StatusBadge status={payout.status} />
+          <StatusBadge status={payout.status} type="payout" />
         </div>
         <div>
           <span className="font-semibold text-gray-600">

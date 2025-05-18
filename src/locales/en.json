@@ -1,4 +1,15 @@
 {
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "paid": "Paid",
+    "failed": "Failed",
+    "queued": "Queued",
+    "onHold": "On Hold",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded",
+    "shipped": "Shipped"
+  },
   "meta": {
     "home": {
       "title": "Home – Mashiko Pottery",
@@ -32,14 +43,7 @@
         },
         "orders": {
           "title": "Admin: Manage Orders",
-          "description": "View and process customer orders.",
-          "status": {
-            "pending": "Pending",
-            "processing": "Processing",
-            "shipped": "Shipped",
-            "cancelled": "Cancelled",
-            "failed": "Failed"
-          }
+          "description": "View and process customer orders."
         },
         "payouts": {
           "title": "Admin: Payout Reports",
@@ -48,8 +52,7 @@
             "form": {
               "potterId": "Potter ID",
               "month": "Month",
-              "amount": "Amount",
-              "status": "Status"
+              "amount": "Amount"
             },
             "link": "Details"
           }
@@ -135,13 +138,6 @@
           "save": "Save",
           "cancel": "Cancel",
           "edit": "Edit"
-        },
-        "status": {
-          "pending": "Pending",
-          "processing": "Processing",
-          "shipped": "Shipped",
-          "cancelled": "Cancelled",
-          "failed": "Failed"
         }
       },
       "payouts": {
@@ -168,8 +164,7 @@
           "form": {
             "potterId": "Potter ID",
             "month": "Month",
-            "amount": "Amount",
-            "status": "Status"
+            "amount": "Amount"
           }
         }
       }
@@ -249,8 +244,7 @@
         "form": {
           "potterId": "Potter ID",
           "month": "Month",
-          "amount": "Amount",
-          "status": "Status"
+          "amount": "Amount"
         },
         "messages": {
           "success": "Payout updated successfully",
