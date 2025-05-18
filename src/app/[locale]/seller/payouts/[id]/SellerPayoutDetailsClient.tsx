@@ -80,7 +80,9 @@ export default function SellerPayoutDetailsClient() {
             {t("table.createdAt")}:
           </span>{" "}
           <span className="text-gray-800">
-            {new Date(payout.createdAt).toLocaleString()}
+            {payout.createdAt
+              ? new Date(payout.createdAt).toLocaleString()
+              : "-"}
           </span>
         </div>
         <div>
@@ -91,6 +93,62 @@ export default function SellerPayoutDetailsClient() {
             {payout.paidAt ? new Date(payout.paidAt).toLocaleString() : "-"}
           </span>
         </div>
+        {payout.commissionRate !== undefined && (
+          <div>
+            <span className="font-semibold text-gray-600">
+              {t("table.commissionRate")}:
+            </span>{" "}
+            <span className="text-gray-800">{payout.commissionRate}%</span>
+          </div>
+        )}
+        {payout.commissionAmount !== undefined && (
+          <div>
+            <span className="font-semibold text-gray-600">
+              {t("table.commissionAmount")}:
+            </span>{" "}
+            <span className="text-gray-800">
+              {formatYen(payout.commissionAmount)}
+            </span>
+          </div>
+        )}
+        {payout.netAmount !== undefined && (
+          <div>
+            <span className="font-semibold text-gray-600">
+              {t("table.netAmount")}:
+            </span>{" "}
+            <span className="text-gray-800">{formatYen(payout.netAmount)}</span>
+          </div>
+        )}
+        {payout.breakdown?.totalOrders !== undefined && (
+          <div>
+            <span className="font-semibold text-gray-600">
+              {t("table.totalOrders")}:
+            </span>{" "}
+            <span className="text-gray-800">
+              {payout.breakdown.totalOrders}
+            </span>
+          </div>
+        )}
+        {payout.breakdown?.totalFees !== undefined && (
+          <div>
+            <span className="font-semibold text-gray-600">
+              {t("table.totalFees")}:
+            </span>{" "}
+            <span className="text-gray-800">
+              {formatYen(payout.breakdown.totalFees)}
+            </span>
+          </div>
+        )}
+        {payout.breakdown?.notes && (
+          <div className="col-span-2">
+            <span className="font-semibold text-gray-600">
+              {t("table.notes")}:
+            </span>
+            <p className="text-gray-800 whitespace-pre-line">
+              {payout.breakdown.notes}
+            </p>
+          </div>
+        )}
       </div>
       <div className="pt-4">
         <Button onClick={() => router.back()} variant="secondary">

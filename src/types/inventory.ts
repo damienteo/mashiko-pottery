@@ -6,6 +6,8 @@ export interface SellerInventoryRow {
   price: number;
   active: boolean;
   potterId: string;
+  weight?: number;
+  category?: string;
   createdAt?: string;
   updatedAt?: string;
 }

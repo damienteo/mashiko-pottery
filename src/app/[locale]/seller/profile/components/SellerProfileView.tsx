@@ -29,6 +29,31 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
         ))}
       </div>
 
+      {profile?.image && (
+        <div>
+          <h2 className="font-medium">{t("fields.image")}</h2>
+          <img
+            src={profile.image}
+            alt="Profile"
+            className="w-32 h-32 rounded object-cover border"
+          />
+        </div>
+      )}
+
+      {profile?.style && (
+        <div>
+          <h2 className="font-medium">{t("fields.style")}</h2>
+          <p>{profile.style}</p>
+        </div>
+      )}
+
+      {profile?.active !== undefined && (
+        <div>
+          <h2 className="font-medium">{t("fields.active")}</h2>
+          <p>{profile.active ? t("status.active") : t("status.inactive")}</p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {(["en", "ja", "zh"] as const).map((loc) => (
           <div key={loc}>
@@ -49,6 +74,21 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
             <p>{profile?.portfolio[loc]}</p>
           </div>
         ))}
+      </div>
+
+      <div className="text-sm text-gray-500">
+        {profile?.createdAt && (
+          <p>
+            {t("fields.createdAt")}:{" "}
+            {new Date(profile.createdAt).toLocaleDateString()}
+          </p>
+        )}
+        {profile?.updatedAt && (
+          <p>
+            {t("fields.updatedAt")}:{" "}
+            {new Date(profile.updatedAt).toLocaleDateString()}
+          </p>
+        )}
       </div>
 
       <Button variant="primary" onClick={onEdit}>

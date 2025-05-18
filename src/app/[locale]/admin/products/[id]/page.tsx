@@ -17,6 +17,9 @@ const productSchema = yup.object({
   title: yup.string().required(),
   price: yup.number().positive().required(),
   description: yup.string().max(200).required(),
+  potterId: yup.string().required(),
+  weight: yup.number().positive().required(),
+  category: yup.string().required(),
 });
 type ProductFormValues = yup.InferType<typeof productSchema>;
 
@@ -42,8 +45,18 @@ export default function AdminProductDetail() {
         description: product.description
           ? product.description[locale as keyof typeof product.description]
           : "",
+        potterId: String(product.potterId ?? ""),
+        weight: product.weight ?? 0,
+        category: product.category ?? "",
       }
-    : { title: "", price: 0, description: "" };
+    : {
+        title: "",
+        price: 0,
+        description: "",
+        potterId: "",
+        weight: 0,
+        category: "",
+      };
 
   // Initialize form hooks unconditionally
   const {
@@ -114,6 +127,47 @@ export default function AdminProductDetail() {
           {errors.description && (
             <p className="text-red-600 text-xs mt-1">
               {errors.description.message}
+            </p>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium">
+            {t("table.potterId")}
+          </label>
+          <input
+            {...register("potterId")}
+            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
+          />
+          {errors.potterId && (
+            <p className="text-red-600 text-xs mt-1">
+              {errors.potterId.message}
+            </p>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium">
+            {t("table.weight")}
+          </label>
+          <input
+            type="number"
+            {...register("weight")}
+            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
+          />
+          {errors.weight && (
+            <p className="text-red-600 text-xs mt-1">{errors.weight.message}</p>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium">
+            {t("table.category")}
+          </label>
+          <input
+            {...register("category")}
+            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
+          />
+          {errors.category && (
+            <p className="text-red-600 text-xs mt-1">
+              {errors.category.message}
             </p>
           )}
         </div>

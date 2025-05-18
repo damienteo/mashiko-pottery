@@ -23,7 +23,7 @@ export default function PayoutsClient() {
   const isLoading = useAppSelector(selectPayoutsListIsLoading);
   const error = useAppSelector(selectPayoutsListError);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editStatus, setEditStatus] = useState<PayoutStatus>("pending");
+  const [editStatus, setEditStatus] = useState<PayoutStatus>("Processing");
 
   useEffect(() => {
     if (!isLoading && payouts.length === 0) {
@@ -56,9 +56,6 @@ export default function PayoutsClient() {
                 {t("table.amount")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("table.commissionRate")}
-              </th>
-              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 {t("table.status")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
@@ -77,9 +74,6 @@ export default function PayoutsClient() {
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-700">
                   ¥{p.amount.toLocaleString(locale)}
-                </td>
-                <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-700">
-                  {(p.commissionRate * 100).toFixed(1)}%
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm">
                   {editingId === `${p.month}-${p.potterId}` ? (

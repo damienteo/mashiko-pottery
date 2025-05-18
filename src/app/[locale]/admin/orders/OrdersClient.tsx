@@ -10,7 +10,7 @@ import {
   selectOrdersListIsLoading,
   selectOrdersListError,
 } from "@/store/orders/ordersListSlice";
-import type { OrderSummary } from "@/store/orders/ordersListSlice";
+import type { OrderSummary } from "@/types/order";
 import Button from "@/components/ui/Button";
 import StatusBadge from "@/components/ui/StatusBadge";
 import type { OrderStatus } from "@/constants/orderStatus";
@@ -25,7 +25,7 @@ export default function OrdersClient() {
   const error = useAppSelector(selectOrdersListError);
   // Inline edit state
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editStatus, setEditStatus] = useState<OrderStatus>("pending");
+  const [editStatus, setEditStatus] = useState<OrderStatus>("Processing");
 
   useEffect(() => {
     if (!isLoading && orders.length === 0) {
@@ -89,10 +89,12 @@ export default function OrdersClient() {
                   {o.customerName}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-700">
-                  ¥{o.total.toLocaleString()}
+                  ¥{o.totalAmount.toLocaleString()}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
-                  {new Date(o.date).toLocaleDateString(locale)}
+                  {o.createdAt
+                    ? new Date(o.createdAt).toLocaleDateString(locale)
+                    : "-"}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm">
                   {editingId === o.id ? (
@@ -138,7 +140,7 @@ export default function OrdersClient() {
                         variant="secondary"
                         onClick={() => {
                           setEditingId(o.id);
-                          setEditStatus(o.status);
+                          setEditStatus(o.status as OrderStatus);
                         }}
                       >
                         Edit

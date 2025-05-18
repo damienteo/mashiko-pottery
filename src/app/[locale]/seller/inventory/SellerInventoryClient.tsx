@@ -72,6 +72,15 @@ export default function SellerInventoryClient({ title }: { title: string }) {
                 {t("price")}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                {t("potterId")}
+              </th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                {t("weight")}
+              </th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                {t("category")}
+              </th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 {t("status")}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -99,6 +108,15 @@ export default function SellerInventoryClient({ title }: { title: string }) {
                       {item.stock}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">{`¥${item.price}`}</td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {item.potterId}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {item.weight ?? "-"}
+                    </td>
+                    <td className="px-3 py-2 whitespace-nowrap">
+                      {item.category ?? "-"}
+                    </td>
                     <td className="px-3 py-2 whitespace-nowrap">
                       {item.active ? (
                         <span className="text-green-600">{t("active")}</span>

@@ -6,6 +6,8 @@ export interface SellerProfile {
   bio: LocalizedString;
   portfolio: LocalizedString;
   image?: string;
+  style?: string;
+  active?: boolean;
   createdAt?: string;
   updatedAt?: string;
 }

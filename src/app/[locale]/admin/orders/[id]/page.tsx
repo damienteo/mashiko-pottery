@@ -5,42 +5,41 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchOrdersList,
-  selectAllOrders,
-  selectOrdersListIsLoading,
-  selectOrdersListError,
-  updateOrderStatus,
-} from "@/store/orders/ordersListSlice";
-import type { OrderSummary } from "@/store/orders/ordersListSlice";
+  fetchOrderDetails,
+  selectOrderDetails,
+  selectOrderDetailsIsLoading,
+  selectOrderDetailsError,
+  updateOrderDetails,
+} from "@/store/orders/orderDetailsSlice";
 import { orderStatusOptions, OrderStatus } from "@/constants/orderStatus";
 import StatusBadge from "@/components/ui/StatusBadge";
 import Button from "@/components/ui/Button";
 
 export default function AdminOrderDetailPage() {
-  const { id } = useParams();
+  const rawId = useParams().id;
+  const id = Array.isArray(rawId) ? rawId[0] : rawId;
   const locale = useLocale();
   const t = useTranslations("admin.pages.orders");
   const dispatch = useAppDispatch();
 
-  const orders = useAppSelector(selectAllOrders);
-  const isLoading = useAppSelector(selectOrdersListIsLoading);
-  const error = useAppSelector(selectOrdersListError);
+  const order = useAppSelector(selectOrderDetails);
+  const isLoading = useAppSelector(selectOrderDetailsIsLoading);
+  const error = useAppSelector(selectOrderDetailsError);
 
   const [editing, setEditing] = useState(false);
-  const [status, setStatus] = useState<OrderStatus>("pending");
+  const [status, setStatus] = useState<OrderStatus>("Processing");
 
   useEffect(() => {
-    if (!isLoading && orders.length === 0) {
-      dispatch(fetchOrdersList());
+    if (id) {
+      dispatch(fetchOrderDetails(id));
     }
-  }, [dispatch, isLoading, orders.length]);
+  }, [dispatch, id]);
 
   useEffect(() => {
-    const order = orders.find((o) => o.id === id);
     if (order) {
-      setStatus(order.status);
+      setStatus(order.status as OrderStatus);
     }
-  }, [orders, id]);
+  }, [order]);
 
   if (isLoading) {
     return <p className="p-8">{t("loading")}</p>;
@@ -49,20 +48,22 @@ export default function AdminOrderDetailPage() {
     return (
       <div className="p-8 text-center">
         <p className="text-red-600">{t("error")}</p>
-        <Button onClick={() => dispatch(fetchOrdersList())} className="mt-4">
+        <Button
+          onClick={() => id && dispatch(fetchOrderDetails(id))}
+          className="mt-4"
+        >
           {t("retry")}
         </Button>
       </div>
     );
   }
 
-  const order: OrderSummary | undefined = orders.find((o) => o.id === id);
   if (!order) {
     return <p className="p-8">{t("error")}</p>;
   }
 
   const handleSave = () => {
-    dispatch(updateOrderStatus({ id: order.id, status }));
+    dispatch(updateOrderDetails({ id: order.id, updates: { status } }));
     setEditing(false);
   };
 
@@ -144,7 +145,7 @@ export default function AdminOrderDetailPage() {
       </table>
 
       <div className="text-right text-lg font-semibold">
-        {t("total")}: ¥{order.total.toLocaleString(locale)}
+        {t("total")}: ¥{order.totalAmount.toLocaleString(locale)}
       </div>
     </div>
   );

@@ -117,6 +117,15 @@ export default function ProductsClient() {
                 Inventory
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Potter ID
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Weight
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                Category
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 Actions
               </th>
             </tr>
@@ -203,6 +212,13 @@ export default function ProductsClient() {
                         {errors.inventory.message}
                       </span>
                     )}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap">{p.potterId}</td>
+                  <td className="px-4 py-2 whitespace-nowrap">
+                    {p.weight ?? "-"}
+                  </td>
+                  <td className="px-4 py-2 whitespace-nowrap">
+                    {p.category ?? "-"}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2 flex items-center">
                     {editingId === p.id ? (

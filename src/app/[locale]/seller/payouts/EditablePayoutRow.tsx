@@ -12,7 +12,15 @@ const schema = yup.object({
   amount: yup.number().min(0).required(),
   status: yup
     .string()
-    .oneOf(["pending", "processing", "paid", "failed"])
+    .oneOf([
+      "Queued",
+      "Processing",
+      "Paid",
+      "Failed",
+      "OnHold",
+      "Cancelled",
+      "Refunded",
+    ])
     .required(),
 });
 type PayoutFormValues = yup.InferType<typeof schema>;
@@ -72,20 +80,36 @@ export default function EditablePayoutRow({
       <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 capitalize">
         {isEditing ? (
           <select {...register("status")} className="border p-1 text-sm">
-            <option value="pending">{t("status.pending")}</option>
-            <option value="processing">{t("status.processing")}</option>
-            <option value="paid">{t("status.paid")}</option>
-            <option value="failed">{t("status.failed")}</option>
+            <option value="Queued">{t("status.Queued")}</option>
+            <option value="Processing">{t("status.Processing")}</option>
+            <option value="Paid">{t("status.Paid")}</option>
+            <option value="Failed">{t("status.Failed")}</option>
+            <option value="OnHold">{t("status.OnHold")}</option>
+            <option value="Cancelled">{t("status.Cancelled")}</option>
+            <option value="Refunded">{t("status.Refunded")}</option>
           </select>
         ) : (
           t(`status.${payout.status}`)
         )}
       </td>
       <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
-        {new Date(payout.createdAt).toLocaleDateString()}
+        {payout.createdAt
+          ? new Date(payout.createdAt).toLocaleDateString()
+          : "-"}
       </td>
       <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
         {payout.paidAt ? new Date(payout.paidAt).toLocaleDateString() : "-"}
+      </td>
+      <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
+        {payout.commissionRate != null ? `${payout.commissionRate}%` : "-"}
+      </td>
+      <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
+        {payout.commissionAmount != null
+          ? formatYen(payout.commissionAmount)
+          : "-"}
+      </td>
+      <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
+        {payout.netAmount != null ? formatYen(payout.netAmount) : "-"}
       </td>
       <td className="px-4 py-2 whitespace-nowrap text-sm space-x-2">
         {isEditing ? (

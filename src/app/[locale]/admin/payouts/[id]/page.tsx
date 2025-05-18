@@ -16,7 +16,7 @@ import Button from "@/components/ui/Button";
 import { payoutStatusOptions, PayoutStatus } from "@/constants/payoutStatus";
 
 const payoutSchema = yup.object({
-  potterId: yup.number().required(),
+  potterId: yup.string().required(),
   month: yup.string().required(),
   amount: yup.number().min(0).required(),
   commissionRate: yup.number().min(0).max(1).required(),
@@ -47,11 +47,11 @@ export default function AdminPayoutDetailPage() {
         status: details.status,
       }
     : {
-        potterId: 0,
+        potterId: "",
         month: "",
         amount: 0,
         commissionRate: 0,
-        status: "pending",
+        status: "Processing",
       };
 
   const {
@@ -150,6 +150,29 @@ export default function AdminPayoutDetailPage() {
             </p>
           )}
         </div>
+        {/* Commission Amount (computed) */}
+        {details.commissionAmount != null && (
+          <div>
+            <label className="block text-sm font-medium">
+              {t("table.commissionAmount")}
+            </label>
+            <p className="mt-1 text-gray-700">
+              ¥{details.commissionAmount.toLocaleString()}
+            </p>
+          </div>
+        )}
+
+        {/* Net Amount (computed) */}
+        {details.netAmount != null && (
+          <div>
+            <label className="block text-sm font-medium">
+              {t("table.netAmount")}
+            </label>
+            <p className="mt-1 text-gray-700">
+              ¥{details.netAmount.toLocaleString()}
+            </p>
+          </div>
+        )}
         {/* Status */}
         <div>
           <label className="block text-sm font-medium">

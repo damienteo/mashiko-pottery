@@ -69,6 +69,15 @@ export default function SellerPayoutListClient() {
                 {t("table.amount")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                {t("table.commissionRate")}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                {t("table.commissionAmount")}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
+                {t("table.netAmount")}
+              </th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
                 {t("table.status")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">

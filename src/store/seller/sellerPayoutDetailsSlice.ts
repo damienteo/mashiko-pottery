@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Payout } from "@/types/payout";
+import { PayoutDetails } from "@/types/payout";
 import { RootState } from "../store";
 
 interface SellerPayoutDetailsState {
-  data: Payout | null;
+  data: PayoutDetails | null;
   isLoading: boolean;
   isSuccess: boolean;
   error: string | null;
@@ -22,7 +22,7 @@ export const fetchSellerPayoutDetails = createAsyncThunk(
     try {
       const res = await fetch(`/api/seller/payouts/${id}`);
       if (!res.ok) throw new Error("Failed to fetch payout details");
-      return (await res.json()) as Payout;
+      return (await res.json()) as PayoutDetails;
     } catch (err) {
       return rejectWithValue((err as Error).message);
     }

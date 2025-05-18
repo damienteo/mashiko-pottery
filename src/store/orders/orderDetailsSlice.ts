@@ -26,6 +26,22 @@ export const fetchOrderDetails = createAsyncThunk<OrderDetails, string>(
   }
 );
 
+// Thunk to update an order by ID
+export const updateOrderDetails = createAsyncThunk<
+  OrderDetails,
+  { id: string; updates: Partial<OrderDetails> }
+>("orderDetails/update", async ({ id, updates }) => {
+  const res = await fetch(`/api/orders/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updates),
+  });
+  if (!res.ok) throw new Error("Failed to update order detail");
+  return (await res.json()) as OrderDetails;
+});
+
 const orderDetailSlice = createSlice({
   name: "orderDetails",
   initialState,
@@ -53,6 +69,24 @@ const orderDetailSlice = createSlice({
         }
       )
       .addCase(fetchOrderDetails.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = action.error.message ?? "Unknown error";
+      })
+      .addCase(updateOrderDetails.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(
+        updateOrderDetails.fulfilled,
+        (state, action: PayloadAction<OrderDetails>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.details = action.payload;
+        }
+      )
+      .addCase(updateOrderDetails.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error = action.error.message ?? "Unknown error";

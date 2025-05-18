@@ -85,6 +85,64 @@ export function SellerProfileForm({
           ))}
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {control._formValues.createdAt && (
+            <div>
+              <label className="block text-sm font-medium">
+                {t("fields.createdAt")}
+              </label>
+              <p className="mt-1 text-sm text-gray-600">
+                {new Date(control._formValues.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+          )}
+          {control._formValues.updatedAt && (
+            <div>
+              <label className="block text-sm font-medium">
+                {t("fields.updatedAt")}
+              </label>
+              <p className="mt-1 text-sm text-gray-600">
+                {new Date(control._formValues.updatedAt).toLocaleDateString()}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {control._formValues.image && (
+            <div>
+              <label className="block text-sm font-medium">
+                {t("fields.image")}
+              </label>
+              <img
+                src={control._formValues.image}
+                alt="Profile"
+                className="w-32 h-32 rounded object-cover border"
+              />
+            </div>
+          )}
+          {control._formValues.createdAt && (
+            <div>
+              <label className="block text-sm font-medium">
+                {t("fields.createdAt")}
+              </label>
+              <p className="mt-1 text-sm text-gray-600">
+                {new Date(control._formValues.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+          )}
+          {control._formValues.updatedAt && (
+            <div>
+              <label className="block text-sm font-medium">
+                {t("fields.updatedAt")}
+              </label>
+              <p className="mt-1 text-sm text-gray-600">
+                {new Date(control._formValues.updatedAt).toLocaleDateString()}
+              </p>
+            </div>
+          )}
+        </div>
+
         <div className="flex space-x-4">
           <Button type="submit" variant="primary" disabled={!isValid}>
             {t("actions.save")}

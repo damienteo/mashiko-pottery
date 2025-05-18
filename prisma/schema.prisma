@@ -30,10 +30,10 @@ model Potter {
   id        Int       @id @default(autoincrement())
   user      User?     @relation(fields: [userId], references: [id])
   userId    Int?      @unique
-  name      String
-  bio       String
-  style     String
-  active    Boolean
+  name      Json
+  bio       Json
+  style     String?
+  active    Boolean   @default(true)
   products  Product[]
   payouts   Payout[]
   createdAt DateTime  @default(now())
@@ -48,9 +48,9 @@ model Product {
   description String
   price       Float
   stock       Int
-  weight      Float
+  weight      Float?
   photos      String[]
-  category    String
+  category    String?
   orderItems  OrderItem[]
   CartItem    CartItem[]
   Review      Review[]
