@@ -56,7 +56,7 @@ export default function PotterSpotlights() {
             >
               <div className="w-full aspect-square mb-4 relative rounded-lg overflow-hidden">
                 <Image
-                  src={potter.image}
+                  src={potter.image ?? "/fallback.jpg"}
                   alt={potter.name[locale as keyof typeof potter.name]}
                   fill
                   className="object-cover"

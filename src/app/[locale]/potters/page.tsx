@@ -49,7 +49,7 @@ export default function PottersClient() {
             >
               <div className="w-full aspect-square relative mb-4 overflow-hidden rounded-lg">
                 <Image
-                  src={potter.image}
+                  src={potter.image ?? "/fallback.jpg"}
                   alt={potter.name[locale as keyof typeof potter.name]}
                   fill
                   className="object-cover"

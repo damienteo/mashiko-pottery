@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Control, FieldErrors, UseFormRegister, Path } from "react-hook-form";
 import { InitialConfigType } from "@lexical/react/LexicalComposer";
 import { useTranslations } from "next-intl";
@@ -114,10 +115,12 @@ export function SellerProfileForm({
               <label className="block text-sm font-medium">
                 {t("fields.image")}
               </label>
-              <img
+              <Image
                 src={control._formValues.image}
                 alt="Profile"
-                className="w-32 h-32 rounded object-cover border"
+                width={128}
+                height={128}
+                className="rounded object-cover border"
               />
             </div>
           )}

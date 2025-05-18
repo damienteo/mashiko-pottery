@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { mockUser } from "@/mocks/users";
+import { mockUsers } from "@/mocks/users";
 
 export async function POST(req: Request) {
   console.log({ req });
   //   const { email, password } = await req.json();
   // you could validate here—but for mock we just return a user
-  return NextResponse.json(mockUser);
+  return NextResponse.json(mockUsers[0]);
 }

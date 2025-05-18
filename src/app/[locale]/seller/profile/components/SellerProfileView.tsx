@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useAppSelector } from "@/store/hooks";
 import { selectSellerProfile } from "@/store/seller/sellerSlice";
 import { useTranslations } from "next-intl";
@@ -32,10 +33,12 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
       {profile?.image && (
         <div>
           <h2 className="font-medium">{t("fields.image")}</h2>
-          <img
+          <Image
             src={profile.image}
             alt="Profile"
-            className="w-32 h-32 rounded object-cover border"
+            width={128}
+            height={128}
+            className="rounded object-cover border"
           />
         </div>
       )}

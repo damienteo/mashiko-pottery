@@ -39,6 +39,7 @@ export default function EditableInventoryRow({
     stock: number;
     price: number;
     active?: boolean;
+    potterId: string;
   };
   onCancel: () => void;
 }) {
@@ -65,6 +66,7 @@ export default function EditableInventoryRow({
     dispatch(
       updateItem({
         id: item.id,
+        potterId: item.potterId,
         ...data,
         active: data.active ?? false,
       })
