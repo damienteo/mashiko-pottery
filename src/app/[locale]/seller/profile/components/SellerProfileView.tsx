@@ -19,7 +19,7 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
     <div className="mt-8 space-y-6">
       <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(["en", "ja", "zh-CN"] as const).map((loc) => (
+        {(["en", "ja", "zh"] as const).map((loc) => (
           <div key={loc}>
             <h2 className="font-medium">
               {t("fields.name")} ({localeLabels[loc]})
@@ -30,7 +30,7 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(["en", "ja", "zh-CN"] as const).map((loc) => (
+        {(["en", "ja", "zh"] as const).map((loc) => (
           <div key={loc}>
             <h2 className="font-medium">
               {t("fields.bio")} ({localeLabels[loc]})
@@ -41,7 +41,7 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(["en", "ja", "zh-CN"] as const).map((loc) => (
+        {(["en", "ja", "zh"] as const).map((loc) => (
           <div key={loc}>
             <h2 className="font-medium">
               {t("fields.portfolio")} ({localeLabels[loc]})

@@ -1,6 +1,6 @@
-import type { InventoryItem } from "@/types/inventory";
+import type { SellerInventoryRow } from "@/types/inventory";
 
-export const mockSellerInventory: InventoryItem[] = [
+export const mockSellerInventory: SellerInventoryRow[] = [
   {
     id: "1",
     name: "Mashiko Vase Large",
@@ -8,6 +8,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 12,
     price: 5800,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "2",
@@ -16,6 +19,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 8,
     price: 2300,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "3",
@@ -24,6 +30,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 15,
     price: 1800,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "4",
@@ -32,6 +41,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 5,
     price: 3400,
     active: false,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "5",
@@ -40,6 +52,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 22,
     price: 2600,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "6",
@@ -48,6 +63,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 9,
     price: 2900,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "7",
@@ -56,6 +74,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 3,
     price: 3100,
     active: false,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "8",
@@ -64,6 +85,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 18,
     price: 2100,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "9",
@@ -72,6 +96,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 7,
     price: 4000,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "10",
@@ -80,6 +107,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 13,
     price: 2800,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "11",
@@ -88,6 +118,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 4,
     price: 6700,
     active: false,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "12",
@@ -96,6 +129,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 6,
     price: 7200,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "13",
@@ -104,6 +140,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 10,
     price: 3100,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "14",
@@ -112,6 +151,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 14,
     price: 2700,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "15",
@@ -120,6 +162,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 20,
     price: 2500,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "16",
@@ -128,6 +173,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 11,
     price: 3000,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "17",
@@ -136,6 +184,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 8,
     price: 3900,
     active: false,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "18",
@@ -144,6 +195,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 17,
     price: 3200,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "19",
@@ -152,6 +206,9 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 6,
     price: 2700,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
   {
     id: "20",
@@ -160,5 +217,8 @@ export const mockSellerInventory: InventoryItem[] = [
     stock: 2,
     price: 9800,
     active: true,
+    potterId: "po_1",
+    createdAt: "2024-01-01T00:00:00.000Z",
+    updatedAt: "2024-01-01T00:00:00.000Z",
   },
 ];

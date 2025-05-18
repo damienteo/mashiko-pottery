@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: { locale: string; id: string };
 }): Promise<Metadata> {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as "en" | "ja" | "zh-CN")) notFound();
+  if (!routing.locales.includes(locale as "en" | "ja" | "zh")) notFound();
 
   const t = await getTranslations({ locale, namespace: "meta.potter" });
   return {

@@ -29,12 +29,12 @@ const profileSchema = yup.object({
   name: yup.object({
     en: yup.string().required(),
     ja: yup.string().required(),
-    "zh-CN": yup.string().required(),
+    zh: yup.string().required(),
   }),
   bio: yup.object({
     en: yup.string().max(2000, "Max 2000 characters").required(),
     ja: yup.string().max(2000, "最大2000文字").required(),
-    "zh-CN": yup.string().max(2000, "最多2000个字符").required(),
+    zh: yup.string().max(2000, "最多2000个字符").required(),
   }),
   portfolio: yup.object({
     en: yup
@@ -45,7 +45,7 @@ const profileSchema = yup.object({
       .string()
       .max(1000, "最大1000文字")
       .required("Portfolio is required"),
-    "zh-CN": yup
+    zh: yup
       .string()
       .max(1000, "最多1000个字符")
       .required("Portfolio is required"),
@@ -75,23 +75,23 @@ export default function SellerProfileClient() {
         name: {
           en: profile.name?.en ?? "",
           ja: profile.name?.ja ?? "",
-          "zh-CN": profile.name?.["zh-CN"] ?? "",
+          zh: profile.name?.["zh"] ?? "",
         },
         bio: {
           en: profile.bio?.en ?? "",
           ja: profile.bio?.ja ?? "",
-          "zh-CN": profile.bio?.["zh-CN"] ?? "",
+          zh: profile.bio?.["zh"] ?? "",
         },
         portfolio: {
           en: profile.portfolio?.en ?? "",
           ja: profile.portfolio?.ja ?? "",
-          "zh-CN": profile.portfolio?.["zh-CN"] ?? "",
+          zh: profile.portfolio?.["zh"] ?? "",
         },
       }
     : {
-        name: { en: "", ja: "", "zh-CN": "" },
-        bio: { en: "", ja: "", "zh-CN": "" },
-        portfolio: { en: "", ja: "", "zh-CN": "" },
+        name: { en: "", ja: "", zh: "" },
+        bio: { en: "", ja: "", zh: "" },
+        portfolio: { en: "", ja: "", zh: "" },
       };
 
   const {

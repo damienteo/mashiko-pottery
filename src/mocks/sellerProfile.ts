@@ -1,11 +1,11 @@
-import type { SellerProfile } from "@/store/seller/sellerSlice";
+import type { SellerProfile } from "@/types/seller";
 
 export const mockSellerProfile: SellerProfile = {
   id: 1,
   name: {
     en: "Aiko Tanaka",
     ja: "田中愛子",
-    "zh-CN": "田中爱子",
+    zh: "田中爱子",
   },
   bio: {
     en: `
@@ -48,7 +48,7 @@ export const mockSellerProfile: SellerProfile = {
         ></iframe>
       </div>
     `,
-    "zh-CN": `
+    zh: `
       <h2>关于我</h2>
       <p>你好！我在益子学习陶艺，创作将传统与创造力相结合的日常用器皿。</p>
       <p><strong>作品亮点：</strong></p>
@@ -72,7 +72,6 @@ export const mockSellerProfile: SellerProfile = {
   portfolio: {
     en: "View my handmade pottery online: https://example.com/aiko-tanaka-portfolio",
     ja: "手作りの器をオンラインでご覧いただけます： https://example.com/aiko-tanaka-portfolio",
-    "zh-CN":
-      "在线查看我的手工陶艺作品： https://example.com/aiko-tanaka-portfolio",
+    zh: "在线查看我的手工陶艺作品： https://example.com/aiko-tanaka-portfolio",
   },
 };

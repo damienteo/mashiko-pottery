@@ -1,57 +1,46 @@
 // src/mocks/payouts.ts
-import type { PayoutSummary } from "@/store/payouts/payoutsListSlice";
-import type { PayoutDetails } from "@/store/payouts/payoutDetailsSlice";
+import type { PayoutSummary, PayoutDetails } from "@/types/payout";
 
 export const mockPayouts: PayoutSummary[] = [
   {
-    potterId: 1,
+    id: "po_1-2025-04",
+    potterId: "po_1",
     month: "2025-04",
     amount: 50000,
-    commissionRate: 0.25,
-    commissionAmount: 12500,
-    netAmount: 37500,
     currency: "JPY",
     status: "Paid",
     paidAt: "2025-04-30T00:00:00Z",
   },
   {
-    potterId: 2,
+    id: "po_2-2025-04",
+    potterId: "po_2",
     month: "2025-04",
     amount: 75000,
-    commissionRate: 0.3,
-    commissionAmount: 22500,
-    netAmount: 52500,
     currency: "JPY",
     status: "Queued",
   },
   {
-    potterId: 3,
+    id: "po_3-2025-05",
+    potterId: "po_3",
     month: "2025-05",
     amount: 62000,
-    commissionRate: 0.2,
-    commissionAmount: 12400,
-    netAmount: 49600,
     currency: "JPY",
     status: "Failed",
   },
   {
-    potterId: 1,
+    id: "po_1-2025-05",
+    potterId: "po_1",
     month: "2025-05",
     amount: 54000,
-    commissionRate: 0.25,
-    commissionAmount: 13500,
-    netAmount: 40500,
     currency: "JPY",
     status: "Paid",
     paidAt: "2025-05-31T00:00:00Z",
   },
   {
-    potterId: 4,
+    id: "po_4-2025-06",
+    potterId: "po_4",
     month: "2025-06",
     amount: 88000,
-    commissionRate: 0.15,
-    commissionAmount: 13200,
-    netAmount: 74800,
     currency: "JPY",
     status: "Queued",
   },
@@ -59,8 +48,10 @@ export const mockPayouts: PayoutSummary[] = [
 
 export const mockPayoutDetails: Record<string, PayoutDetails> = {
   // Use `${month}|${potterId}` as the key
-  "2025-04|1": {
-    potterId: 1,
+  "2025-04|po_1": {
+    id: "po_1-2025-04",
+    createdAt: "2025-04-01T00:00:00Z",
+    potterId: "po_1",
     month: "2025-04",
     amount: 50000,
     commissionRate: 0.25,
@@ -70,8 +61,10 @@ export const mockPayoutDetails: Record<string, PayoutDetails> = {
     status: "Paid",
     paidAt: "2025-04-30T00:00:00Z",
   },
-  "2025-04|2": {
-    potterId: 2,
+  "2025-04|po_2": {
+    id: "po_2-2025-04",
+    createdAt: "2025-04-01T00:00:00Z",
+    potterId: "po_2",
     month: "2025-04",
     amount: 75000,
     commissionRate: 0.3,
@@ -80,8 +73,10 @@ export const mockPayoutDetails: Record<string, PayoutDetails> = {
     currency: "JPY",
     status: "Queued",
   },
-  "2025-05|3": {
-    potterId: 3,
+  "2025-05|po_3": {
+    id: "po_3-2025-05",
+    createdAt: "2025-05-01T00:00:00Z",
+    potterId: "po_3",
     month: "2025-05",
     amount: 62000,
     commissionRate: 0.2,
@@ -90,8 +85,10 @@ export const mockPayoutDetails: Record<string, PayoutDetails> = {
     currency: "JPY",
     status: "Failed",
   },
-  "2025-05|1": {
-    potterId: 1,
+  "2025-05|po_1": {
+    id: "po_1-2025-05",
+    createdAt: "2025-05-01T00:00:00Z",
+    potterId: "po_1",
     month: "2025-05",
     amount: 54000,
     commissionRate: 0.25,
@@ -101,8 +98,10 @@ export const mockPayoutDetails: Record<string, PayoutDetails> = {
     status: "Paid",
     paidAt: "2025-05-31T00:00:00Z",
   },
-  "2025-06|4": {
-    potterId: 4,
+  "2025-06|po_4": {
+    id: "po_4-2025-06",
+    createdAt: "2025-06-01T00:00:00Z",
+    potterId: "po_4",
     month: "2025-06",
     amount: 88000,
     commissionRate: 0.15,

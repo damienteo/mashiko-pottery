@@ -35,7 +35,7 @@ export function SellerProfileForm({
       <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {(["en", "ja", "zh-CN"] as const).map((loc) => (
+          {(["en", "ja", "zh"] as const).map((loc) => (
             <div key={loc}>
               <label className="block text-sm font-medium">
                 {t("fields.name")} ({localeLabels[loc]})
@@ -54,7 +54,7 @@ export function SellerProfileForm({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {(["en", "ja", "zh-CN"] as const).map((loc) => (
+          {(["en", "ja", "zh"] as const).map((loc) => (
             <RichTextField
               key={loc}
               control={control}
@@ -67,7 +67,7 @@ export function SellerProfileForm({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {(["en", "ja", "zh-CN"] as const).map((loc) => (
+          {(["en", "ja", "zh"] as const).map((loc) => (
             <div key={loc}>
               <label className="block text-sm font-medium">
                 {t("fields.portfolio")} ({localeLabels[loc]})

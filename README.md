@@ -157,18 +157,18 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
 
 ## Internationalization (i18n)
 
-- **Locales**: `en`, `ja`, `zh-CN`
+- **Locales**: `en`, `ja`, `zh`
 - **Route structure** under `src/app/[locale]/…`
 - **Config** in `next.config.js`:
   ```js
   module.exports = {
     i18n: {
-      locales: ["en", "ja", "zh-CN"],
+      locales: ["en", "ja", "zh"],
       defaultLocale: "en",
     },
   };
   ```
-- **Translations** in `src/locales/{en,ja,zh-CN}.json`
+- **Translations** in `src/locales/{en,ja,zh}.json`
 - **Hooks**: `useTranslations()` (client) and `getTranslations()` (server)
 
 ---

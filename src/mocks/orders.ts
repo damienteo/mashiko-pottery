@@ -1,13 +1,13 @@
-import type { CartItem } from "@/store/cartSlice";
-import type { OrderSummary } from "@/store/orders/ordersListSlice";
+import type { CartItem } from "@/types/cart";
+import type { OrderDetails, OrderSummary } from "@/types/order";
 
 // A fixed list of mock orders for GET /api/orders
-export const mockOrders: OrderSummary[] = [
+export const mockOrders: OrderDetails[] = [
   {
     id: "order-1",
     customerName: "Alice Tanaka",
-    total: 5000,
-    date: "2025-05-01T10:15:00Z",
+    totalAmount: 5000,
+    createdAt: "2025-05-01T10:15:00Z",
     status: "processing",
     items: [
       {
@@ -22,8 +22,8 @@ export const mockOrders: OrderSummary[] = [
   {
     id: "order-2",
     customerName: "Bob Li",
-    total: 8200,
-    date: "2025-05-02T14:30:00Z",
+    totalAmount: 8200,
+    createdAt: "2025-05-02T14:30:00Z",
     status: "shipped",
     items: [
       {
@@ -45,8 +45,8 @@ export const mockOrders: OrderSummary[] = [
   {
     id: "order-3",
     customerName: "Chen Wei",
-    total: 11400,
-    date: "2025-05-03T09:45:00Z",
+    totalAmount: 11400,
+    createdAt: "2025-05-03T09:45:00Z",
     status: "cancelled",
     items: [
       {
@@ -75,8 +75,8 @@ export const mockOrders: OrderSummary[] = [
   {
     id: "order-4",
     customerName: "Emi Nakamura",
-    total: 6200,
-    date: "2025-05-04T16:20:00Z",
+    totalAmount: 6200,
+    createdAt: "2025-05-04T16:20:00Z",
     status: "pending",
     items: [
       {
@@ -91,8 +91,8 @@ export const mockOrders: OrderSummary[] = [
   {
     id: "order-5",
     customerName: "Liang Zhao",
-    total: 7600,
-    date: "2025-05-05T11:10:00Z",
+    totalAmount: 7600,
+    createdAt: "2025-05-05T11:10:00Z",
     status: "failed",
     items: [
       {
@@ -114,16 +114,15 @@ export const mockOrders: OrderSummary[] = [
 ];
 
 export const mockOrder = (items: CartItem[]): OrderSummary => {
-  const total = items.reduce(
+  const totalAmount = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
   return {
     id: `order-${Date.now()}`,
     customerName: "Guest",
-    total,
-    date: new Date().toISOString(),
+    totalAmount,
+    createdAt: new Date().toISOString(),
     status: "pending",
-    items,
   };
 };

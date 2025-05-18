@@ -12,5 +12,6 @@ export interface OrderDetails extends OrderSummary {
     title: string;
     quantity: number;
     price: number;
+    image: string;
   }>;
 }

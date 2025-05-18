@@ -13,7 +13,7 @@ export default function LanguageSelector() {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = e.target.value;
     // Build a new URL preserving the "rest" of the path beyond the locale
-    // e.g. path "/zh-CN/products/5" -> segments ["", "zh-CN", "products", "5"]
+    // e.g. path "/zh/products/5" -> segments ["", "zh", "products", "5"]
     const parts = path.split("/");
     // drop the first '' and the existing locale at index 1
     const rest = parts.slice(2).join("/");

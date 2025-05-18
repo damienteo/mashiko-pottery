@@ -20,9 +20,9 @@ export interface PayoutSummary {
   currency: string;
   status: PayoutStatus;
   month: string;
+  paidAt?: string; // optional ISO string
 }
 
-// 2. Used in /api/seller/payouts/[id] (detailed view)
 export interface PayoutDetails extends Payout {
   month: string;
   breakdown?: {

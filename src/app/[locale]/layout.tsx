@@ -94,7 +94,7 @@ export default async function RootLayout({
   // Choose font variable based on locale (default to Inter)
   const localeFonts: Record<string, string> = {
     ja: notoSansJP.variable,
-    "zh-CN": notoSerifSC.variable,
+    zh: notoSerifSC.variable,
   };
   const fontClass = localeFonts[locale] ?? inter.variable;
 
