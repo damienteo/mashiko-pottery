@@ -179,6 +179,9 @@
       "table": {
         "id": "支払いID",
         "amount": "金額",
+        "commissionRate": "手数料率",
+        "commissionAmount": "手数料",
+        "netAmount": "受取金額",
         "status": "ステータス",
         "createdAt": "作成日",
         "paidAt": "支払日",
@@ -193,7 +196,11 @@
         "pending": "保留中",
         "processing": "処理中",
         "paid": "支払済み",
-        "failed": "失敗"
+        "failed": "失敗",
+        "queued": "キュー中",
+        "onHold": "保留",
+        "cancelled": "キャンセル",
+        "refunded": "返金済み"
       },
       "details": {
         "title": "支払いの詳細",
@@ -201,6 +208,12 @@
         "meta": {
           "title": "支払いの詳細",
           "description": "支払いの内訳を確認できます"
+        },
+        "breakdown": {
+          "title": "内訳",
+          "orders": "注文数",
+          "fees": "手数料合計",
+          "notes": "備考"
         }
       },
       "back": "戻る"

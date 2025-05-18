@@ -182,7 +182,10 @@
         "status": "状态",
         "createdAt": "创建时间",
         "paidAt": "付款时间",
-        "actions": "操作"
+        "actions": "操作",
+        "commissionRate": "佣金率",
+        "commissionAmount": "佣金金额",
+        "netAmount": "净收入"
       },
       "buttons": {
         "edit": "编辑",
@@ -193,7 +196,11 @@
         "pending": "待处理",
         "processing": "处理中",
         "paid": "已付款",
-        "failed": "失败"
+        "failed": "失败",
+        "queued": "排队中",
+        "onHold": "挂起",
+        "cancelled": "已取消",
+        "refunded": "已退款"
       },
       "details": {
         "title": "付款详情",
@@ -201,6 +208,12 @@
         "meta": {
           "title": "付款详情",
           "description": "查看付款的详细信息"
+        },
+        "breakdown": {
+          "title": "明细",
+          "orders": "总订单数",
+          "fees": "总手续费",
+          "notes": "备注"
         }
       },
       "back": "返回"

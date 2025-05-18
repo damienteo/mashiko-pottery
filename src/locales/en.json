@@ -179,6 +179,9 @@
       "table": {
         "id": "Payout ID",
         "amount": "Amount",
+        "commissionRate": "Commission Rate",
+        "commissionAmount": "Commission Amount",
+        "netAmount": "Net Amount",
         "status": "Status",
         "createdAt": "Created At",
         "paidAt": "Paid At",
@@ -193,7 +196,11 @@
         "pending": "Pending",
         "processing": "Processing",
         "paid": "Paid",
-        "failed": "Failed"
+        "failed": "Failed",
+        "queued": "Queued",
+        "onHold": "On Hold",
+        "cancelled": "Cancelled",
+        "refunded": "Refunded"
       },
       "details": {
         "title": "Payout Details",
@@ -201,6 +208,12 @@
         "meta": {
           "title": "Payout Details",
           "description": "Review the full payout breakdown"
+        },
+        "breakdown": {
+          "title": "Breakdown",
+          "orders": "Total Orders",
+          "fees": "Total Fees",
+          "notes": "Notes"
         }
       },
       "back": "Back"
