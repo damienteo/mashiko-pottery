@@ -1,9 +1,13 @@
 // src/types/potter.ts
 
+import type { LocalizedString } from "@/types/i18n";
+
 export interface Potter {
   id: number;
-  name: string;
-  bio: string;
+  userId?: number;
+  name: LocalizedString;
+  bio: LocalizedString;
   style: string;
   active: boolean;
+  image?: string;
 }

@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface Credentials {
-  email: string;
-  password: string;
-}
+import type { User, Credentials } from "@/types/auth";
 
 interface AuthState {
   user: User | null;

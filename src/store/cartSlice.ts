@@ -1,16 +1,9 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { Middleware } from "@reduxjs/toolkit";
-import type { RootState } from "./store"; // adjust path if needed
+import type { RootState } from "./store";
 import { saveCartToStorage } from "./localStorage";
 import { selectCurrentUser } from "./authSlice";
-
-export interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import type { CartItem } from "@/types/cart";
 
 interface CartState {
   items: CartItem[];

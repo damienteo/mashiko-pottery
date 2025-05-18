@@ -1,14 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import type { PayoutStatus } from "@/constants/payoutStatus";
-
-export interface PayoutSummary {
-  potterId: number;
-  month: string;
-  amount: number;
-  commissionRate: number;
-  status: PayoutStatus;
-}
+import type { PayoutSummary } from "@/types/payout";
 
 interface PayoutsListState {
   items: PayoutSummary[];
@@ -41,7 +34,7 @@ const payoutsListSlice = createSlice({
     updatePayoutStatus(
       state,
       action: PayloadAction<{
-        potterId: number;
+        potterId: string;
         month: string;
         status: PayoutStatus;
       }>

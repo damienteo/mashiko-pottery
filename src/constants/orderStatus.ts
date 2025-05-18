@@ -2,25 +2,25 @@
 
 /** All possible order status values */
 export type OrderStatus =
-  | "pending"
-  | "processing"
-  | "shipped"
-  | "delivered"
-  | "cancelled"
-  | "failed"
-  | "returned"
-  | "refunded";
+  | "Pending"
+  | "Processing"
+  | "Shipped"
+  | "Delivered"
+  | "Cancelled"
+  | "Failed"
+  | "Returned"
+  | "Refunded";
 
 /** List of status options for dropdowns */
 export const orderStatusOptions: OrderStatus[] = [
-  "pending",
-  "processing",
-  "shipped",
-  "delivered",
-  "cancelled",
-  "failed",
-  "returned",
-  "refunded",
+  "Pending",
+  "Processing",
+  "Shipped",
+  "Delivered",
+  "Cancelled",
+  "Failed",
+  "Returned",
+  "Refunded",
 ];
 
 /**
@@ -29,12 +29,12 @@ export const orderStatusOptions: OrderStatus[] = [
  * apply background and text colors.
  */
 export const statusBadgeClasses: Record<OrderStatus, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  processing: "bg-blue-100 text-blue-800",
-  shipped: "bg-green-100 text-green-800",
-  delivered: "bg-green-200 text-green-900",
-  cancelled: "bg-red-100 text-red-800",
-  failed: "bg-red-100 text-red-800",
-  returned: "bg-orange-100 text-orange-800",
-  refunded: "bg-purple-100 text-purple-800",
+  Pending: "bg-yellow-100 text-yellow-800",
+  Processing: "bg-blue-100 text-blue-800",
+  Shipped: "bg-green-100 text-green-800",
+  Delivered: "bg-green-200 text-green-900",
+  Cancelled: "bg-red-100 text-red-800",
+  Failed: "bg-red-100 text-red-800",
+  Returned: "bg-orange-100 text-orange-800",
+  Refunded: "bg-purple-100 text-purple-800",
 };

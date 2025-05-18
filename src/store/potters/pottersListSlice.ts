@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import type { Potter } from "./potterDetailsSlice";
+import type { Potter } from "@/types/potter";
 
 // Async thunk: fetch all potters
 export const fetchPottersList = createAsyncThunk<Potter[], void>(

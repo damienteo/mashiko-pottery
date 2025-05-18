@@ -5,4 +5,7 @@ export interface SellerInventoryRow {
   stock: number;
   price: number;
   active: boolean;
+  potterId: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

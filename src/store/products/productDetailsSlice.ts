@@ -1,18 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
-import type { LocalizedString } from "@/types/i18n";
-
-export interface Product {
-  id: number;
-  /** Titles in each supported locale */
-  title: LocalizedString;
-  price: number;
-  inventory: number;
-  /** Descriptions in each supported locale */
-  description: LocalizedString;
-  photos: string[];
-}
+import type { Product } from "@/types/product";
 
 // Async thunk: fetch one product
 export const fetchProductDetails = createAsyncThunk<Product, string>(

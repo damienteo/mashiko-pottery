@@ -1,3 +1,3 @@
-export type Locale = "en" | "ja" | "zh-CN";
+export type Locale = "en" | "ja" | "zh";
 
 export type LocalizedString = Record<Locale, string>;

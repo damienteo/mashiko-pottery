@@ -1,16 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
-export interface OrderDetails {
-  id: string;
-  status: string;
-  items: Array<{
-    id: number;
-    title: string;
-    quantity: number;
-    price: number;
-  }>;
-}
+import type { OrderDetails } from "@/types/order";
 
 interface OrderDetailState {
   details: OrderDetails | null;

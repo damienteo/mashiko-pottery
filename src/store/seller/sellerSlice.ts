@@ -2,15 +2,7 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
-// Define the seller profile type
-export interface SellerProfile {
-  id: number;
-  // Localized fields: keys are locale codes ("en", "ja", "zh-CN", etc.)
-  name: Record<string, string>;
-  bio: Record<string, string>;
-  portfolio: Record<string, string>;
-}
+import type { SellerProfile } from "@/types/seller";
 
 // Async thunk: fetch the seller profile
 export const fetchSellerProfile = createAsyncThunk<SellerProfile, void>(
