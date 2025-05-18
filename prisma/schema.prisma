@@ -27,15 +27,17 @@ model User {
 }
 
 model Potter {
-  id       Int       @id @default(autoincrement())
-  user     User?     @relation(fields: [userId], references: [id])
-  userId   Int?      @unique
-  name     String
-  bio      String
-  style    String
-  active   Boolean
-  products Product[]
-  payouts  Payout[]
+  id        Int       @id @default(autoincrement())
+  user      User?     @relation(fields: [userId], references: [id])
+  userId    Int?      @unique
+  name      String
+  bio       String
+  style     String
+  active    Boolean
+  products  Product[]
+  payouts   Payout[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Product {
@@ -53,6 +55,8 @@ model Product {
   CartItem    CartItem[]
   Review      Review[]
   Favorite    Favorite[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }
 
 model Order {
@@ -94,6 +98,8 @@ model Payout {
   retryCount     Int          @default(0)
   lastError      String?
   errorMessage   String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 }
 
 enum PayoutStatus {
@@ -139,6 +145,7 @@ model Notification {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ShippingRate {
@@ -166,6 +173,7 @@ model ReturnRequest {
   reason      String
   status      String
   createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
 
 model Session {
@@ -174,6 +182,7 @@ model Session {
   user      User     @relation(fields: [userId], references: [id])
   token     String   @unique
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   expiresAt DateTime
   userAgent String?
   ipAddress String?
@@ -186,6 +195,7 @@ model AuditLog {
   action    String
   metadata  Json
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model PromoCode {
@@ -198,6 +208,8 @@ model PromoCode {
   startsAt   DateTime?
   expiresAt  DateTime?
   active     Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Report {
@@ -209,6 +221,7 @@ model Report {
   reason     String
   resolved   Boolean  @default(false)
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Review {
@@ -220,6 +233,7 @@ model Review {
   rating     Int
   comment    String?
   createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Inquiry {
@@ -231,6 +245,7 @@ model Inquiry {
   message   String
   resolved  Boolean  @default(false)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Address {
@@ -246,6 +261,7 @@ model Address {
   country   String
   isDefault Boolean  @default(false)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model RefundTransaction {
@@ -256,6 +272,7 @@ model RefundTransaction {
   reason    String
   status    String // e.g. "initiated", "processed", "failed"
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Favorite {
@@ -265,4 +282,5 @@ model Favorite {
   productId Int
   product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
