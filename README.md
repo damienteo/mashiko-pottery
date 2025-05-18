@@ -99,15 +99,35 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
    yarn install
    ```
 3. **Set up environment variables**  
-   Copy `.env.example` → `.env` and fill in:
-   ```env
-   DATABASE_URL=postgres://user:pass@localhost:5432/mashiko
-   NEXT_PUBLIC_BASE_URL=http://localhost:3000
-   SESSION_SECRET=your_session_secret
-   JWT_SECRET=your_jwt_secret
-   GOOGLE_CLIENT_ID=...
-   GOOGLE_CLIENT_SECRET=...
+   Create two `.env` files for different environments:
+
+   - `.env.staging` (used during development & preview deployments):
+
+     ```env
+     DATABASE_URL=postgres://user:pass@localhost:5432/mashiko_staging
+     NEXT_PUBLIC_BASE_URL=https://mashiko-pottery.vercel.app
+     SESSION_SECRET=your_session_secret
+     JWT_SECRET=your_jwt_secret
+     GOOGLE_CLIENT_ID=your_google_client_id
+     GOOGLE_CLIENT_SECRET=your_google_client_secret
+     ```
+
+   - `.env.production` (used for production deployment):
+     ```env
+     DATABASE_URL=
+     NEXT_PUBLIC_BASE_URL=
+     SESSION_SECRET=
+     JWT_SECRET=
+     GOOGLE_CLIENT_ID=
+     GOOGLE_CLIENT_SECRET=
+     ```
+
+   > Use `.env.staging` by default during local development:
+
+   ```bash
+   cp .env.staging .env
    ```
+
 4. **Initialize the database**
    ```bash
    npx prisma migrate dev --name init
