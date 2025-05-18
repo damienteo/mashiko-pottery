@@ -6,7 +6,8 @@ export interface Payout {
   amount: number;
   currency: string;
   status: PayoutStatus;
-  createdAt: string; // ISO string
+  createdAt?: string; // ISO string
+  updatedAt?: string;
   paidAt?: string; // optional ISO string
   commissionRate: number;
   commissionAmount: number;

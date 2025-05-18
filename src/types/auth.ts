@@ -3,6 +3,8 @@ export interface User {
   name: string;
   email: string;
   role: "admin" | "operations" | "seller" | "customer";
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Credentials {
