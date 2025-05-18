@@ -36,7 +36,10 @@
         },
         "payouts": {
           "title": "管理：付款报表",
-          "description": "生成并查看陶艺家的月度付款报表。"
+          "description": "生成并查看陶艺家的月度付款报表。",
+          "details": {
+            "link": "详情"
+          }
         }
       }
     },
@@ -119,6 +122,13 @@
           "save": "保存",
           "cancel": "取消",
           "edit": "编辑"
+        },
+        "status": {
+          "pending": "待处理",
+          "processing": "处理中",
+          "shipped": "已发货",
+          "cancelled": "已取消",
+          "failed": "失败"
         }
       },
       "payouts": {
@@ -140,6 +150,15 @@
           "commissionRate": "佣金率",
           "status": "状态",
           "actions": "操作"
+        },
+        "details": {
+          "form": {
+            "potterId": "陶艺家编号",
+            "month": "月份",
+            "amount": "金额",
+            "status": "状态"
+          },
+          "link": "详情"
         }
       }
     },
@@ -243,7 +262,10 @@
       "edit": "编辑",
       "done": "完成",
       "actions": "操作",
-      "cancel": "取消"
+      "cancel": "取消",
+      "potterId": "陶艺家编号",
+      "weight": "重量",
+      "category": "类别"
     }
   },
   "login": {

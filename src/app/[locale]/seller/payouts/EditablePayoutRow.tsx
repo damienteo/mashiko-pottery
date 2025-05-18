@@ -80,16 +80,16 @@ export default function EditablePayoutRow({
       <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 capitalize">
         {isEditing ? (
           <select {...register("status")} className="border p-1 text-sm">
-            <option value="Queued">{t("status.Queued")}</option>
-            <option value="Processing">{t("status.Processing")}</option>
-            <option value="Paid">{t("status.Paid")}</option>
-            <option value="Failed">{t("status.Failed")}</option>
-            <option value="OnHold">{t("status.OnHold")}</option>
-            <option value="Cancelled">{t("status.Cancelled")}</option>
-            <option value="Refunded">{t("status.Refunded")}</option>
+            <option value="Queued">{t("status.queued")}</option>
+            <option value="Processing">{t("status.processing")}</option>
+            <option value="Paid">{t("status.paid")}</option>
+            <option value="Failed">{t("status.failed")}</option>
+            <option value="OnHold">{t("status.onHold")}</option>
+            <option value="Cancelled">{t("status.cancelled")}</option>
+            <option value="Refunded">{t("status.refunded")}</option>
           </select>
         ) : (
-          t(`status.${payout.status}`)
+          t(`status.${payout.status.toLowerCase()}`)
         )}
       </td>
       <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">

@@ -102,6 +102,7 @@ export const selectOrderDetailsIsLoading = (state: RootState) =>
   state.orderDetails.isLoading;
 export const selectOrderDetailsIsSuccess = (state: RootState) =>
   state.orderDetails.isSuccess;
+export const selectOrderDetailsSuccess = selectOrderDetailsIsSuccess;
 export const selectOrderDetailsError = (state: RootState) =>
   state.orderDetails.error;
 

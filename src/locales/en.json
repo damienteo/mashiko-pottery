@@ -32,11 +32,27 @@
         },
         "orders": {
           "title": "Admin: Manage Orders",
-          "description": "View and process customer orders."
+          "description": "View and process customer orders.",
+          "status": {
+            "pending": "Pending",
+            "processing": "Processing",
+            "shipped": "Shipped",
+            "cancelled": "Cancelled",
+            "failed": "Failed"
+          }
         },
         "payouts": {
           "title": "Admin: Payout Reports",
-          "description": "Generate and review monthly payouts for potters."
+          "description": "Generate and review monthly payouts for potters.",
+          "details": {
+            "form": {
+              "potterId": "Potter ID",
+              "month": "Month",
+              "amount": "Amount",
+              "status": "Status"
+            },
+            "link": "Details"
+          }
         }
       }
     },
@@ -119,6 +135,13 @@
           "save": "Save",
           "cancel": "Cancel",
           "edit": "Edit"
+        },
+        "status": {
+          "pending": "Pending",
+          "processing": "Processing",
+          "shipped": "Shipped",
+          "cancelled": "Cancelled",
+          "failed": "Failed"
         }
       },
       "payouts": {
@@ -140,6 +163,14 @@
           "commissionRate": "Commission Rate",
           "status": "Status",
           "actions": "Actions"
+        },
+        "details": {
+          "form": {
+            "potterId": "Potter ID",
+            "month": "Month",
+            "amount": "Amount",
+            "status": "Status"
+          }
         }
       }
     },
@@ -243,7 +274,10 @@
       "edit": "Edit",
       "done": "Done",
       "actions": "Actions",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "potterId": "Potter ID",
+      "weight": "Weight",
+      "category": "Category"
     }
   },
   "login": {

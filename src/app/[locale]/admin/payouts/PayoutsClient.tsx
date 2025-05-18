@@ -135,7 +135,7 @@ export default function PayoutsClient() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button variant="secondary">{t("details")}</Button>
+                        <Button variant="secondary">{t("details.link")}</Button>
                       </Link>
                     </>
                   )}

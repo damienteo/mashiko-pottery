@@ -10,6 +10,7 @@ import {
   selectOrderDetailsIsLoading,
   selectOrderDetailsError,
   updateOrderDetails,
+  selectOrderDetailsSuccess,
 } from "@/store/orders/orderDetailsSlice";
 import { orderStatusOptions, OrderStatus } from "@/constants/orderStatus";
 import StatusBadge from "@/components/ui/StatusBadge";
@@ -25,6 +26,7 @@ export default function AdminOrderDetailPage() {
   const order = useAppSelector(selectOrderDetails);
   const isLoading = useAppSelector(selectOrderDetailsIsLoading);
   const error = useAppSelector(selectOrderDetailsError);
+  const isSuccess = useAppSelector(selectOrderDetailsSuccess);
 
   const [editing, setEditing] = useState(false);
   const [status, setStatus] = useState<OrderStatus>("Processing");
@@ -40,6 +42,10 @@ export default function AdminOrderDetailPage() {
       setStatus(order.status as OrderStatus);
     }
   }, [order]);
+
+  if (!isSuccess) {
+    return <p className="p-8">{t("loading")}</p>;
+  }
 
   if (isLoading) {
     return <p className="p-8">{t("loading")}</p>;
@@ -145,7 +151,7 @@ export default function AdminOrderDetailPage() {
       </table>
 
       <div className="text-right text-lg font-semibold">
-        {t("total")}: ¥{order.totalAmount.toLocaleString(locale)}
+        {t("total")}: ¥{order.totalAmount?.toLocaleString(locale) ?? "-"}
       </div>
     </div>
   );

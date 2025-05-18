@@ -32,7 +32,14 @@
         },
         "orders": {
           "title": "管理者: 注文管理",
-          "description": "顧客の注文を表示および処理します。"
+          "description": "顧客の注文を表示および処理します。",
+          "status": {
+            "pending": "保留中",
+            "processing": "処理中",
+            "shipped": "発送済み",
+            "cancelled": "キャンセル",
+            "failed": "失敗"
+          }
         },
         "payouts": {
           "title": "管理者: 支払いレポート",
@@ -115,6 +122,13 @@
         "retry": "再試行",
         "details": "詳細",
         "total": "合計",
+        "status": {
+          "pending": "保留中",
+          "processing": "処理中",
+          "shipped": "発送済み",
+          "cancelled": "キャンセル",
+          "failed": "失敗"
+        },
         "actions": {
           "save": "保存",
           "cancel": "キャンセル",
@@ -127,7 +141,15 @@
         "loading": "支払い情報を読み込み中…",
         "error": "支払い情報の読み込みに失敗しました。",
         "retry": "再試行",
-        "details": "詳細",
+        "details": {
+          "form": {
+            "potterId": "陶芸家ID",
+            "month": "月",
+            "amount": "金額",
+            "status": "ステータス"
+          },
+          "link": "詳細"
+        },
         "actions": {
           "edit": "編集",
           "save": "保存",
@@ -243,7 +265,10 @@
       "edit": "編集",
       "done": "完了",
       "actions": "操作",
-      "cancel": "キャンセル"
+      "cancel": "キャンセル",
+      "potterId": "陶芸家ID",
+      "weight": "重量",
+      "category": "カテゴリー"
     }
   },
   "login": {
