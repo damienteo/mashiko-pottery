@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-   output   = "../node_modules/.prisma/client"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -135,13 +135,15 @@ model Notification {
 }
 
 model ShippingRate {
-  id        Int     @id @default(autoincrement())
-  country   String
-  region    String?
-  minWeight Float
-  maxWeight Float
-  price     Float
-  carrier   String
+  id           Int     @id @default(autoincrement())
+  country      String
+  region       String?
+  minWeight    Float
+  maxWeight    Float
+  carrier      String
+  baseFee      Float?
+  perKgFee     Float?
+  volumeFactor Float?
 }
 
 model Invoice {

@@ -1,35 +1,33 @@
 import { PrismaClient } from "@prisma/client";
 
-export default async function seedShippingRates(prisma: PrismaClient) {
-  console.log("🚚 Seeding shipping rates...");
+export default async function seedAddresses(prisma: PrismaClient) {
+  console.log("🏠 Seeding user addresses...");
 
-  await prisma.shippingRate.createMany({
+  await prisma.address.createMany({
     data: [
       {
+        userId: 44,
+        label: "Home",
+        line1: "123 Sakura Street",
+        city: "Tokyo",
+        state: "Tokyo",
+        postal: "100-0001",
         country: "Japan",
-        region: "Kanto",
-        minWeight: 0,
-        maxWeight: 5,
-        price: 800,
-        carrier: "Yamato",
+        isDefault: true,
       },
       {
+        userId: 44,
+        label: "Work",
+        line1: "456 Ginza Avenue",
+        line2: "2F",
+        city: "Tokyo",
+        state: "Tokyo",
+        postal: "104-0061",
         country: "Japan",
-        region: "Kansai",
-        minWeight: 0,
-        maxWeight: 5,
-        price: 900,
-        carrier: "Sagawa",
-      },
-      {
-        country: "Singapore",
-        minWeight: 0,
-        maxWeight: 5,
-        price: 1500,
-        carrier: "EMS",
+        isDefault: false,
       },
     ],
   });
 
-  console.log("✅ Seeded shipping rates");
+  console.log("✅ Seeded addresses");
 }
