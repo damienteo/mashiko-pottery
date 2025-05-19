@@ -12,6 +12,10 @@ import seedPromoCodes from "./seeds/promoCodes";
 const prisma = new PrismaClient();
 
 async function main() {
+  if (process.env.NODE_ENV === "production") {
+    console.error("❌ Do not run seed.ts in production.");
+    process.exit(1);
+  }
   // Truncate tables in reverse dependency order to avoid foreign key conflicts
   console.log("🧹 Cleaning up existing data...");
 
