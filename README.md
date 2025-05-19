@@ -104,8 +104,10 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
    - `.env.staging` (used during development & preview deployments):
 
      ```env
-     DATABASE_URL=postgres://user:pass@localhost:5432/mashiko_staging
+     DATABASE_URL=your_supabase_postgres_url
      NEXT_PUBLIC_BASE_URL=https://mashiko-pottery.vercel.app
+     NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+     NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
      SESSION_SECRET=your_session_secret
      JWT_SECRET=your_jwt_secret
      GOOGLE_CLIENT_ID=your_google_client_id
@@ -116,11 +118,15 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
      ```env
      DATABASE_URL=
      NEXT_PUBLIC_BASE_URL=
+     NEXT_PUBLIC_SUPABASE_URL=
+     NEXT_PUBLIC_SUPABASE_ANON_KEY=
      SESSION_SECRET=
      JWT_SECRET=
      GOOGLE_CLIENT_ID=
      GOOGLE_CLIENT_SECRET=
      ```
+
+   > `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are safe to expose to the browser, as they only allow client-side reads on public tables with Row Level Security.
 
    > Use `.env.staging` by default during local development:
 
@@ -128,10 +134,21 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
    cp .env.staging .env
    ```
 
+   > You can also persist Prisma CLI access to the `.env.staging` config with:
+   >
+   > ```bash
+   > alias prisma:staging="env $(cat .env.staging | xargs) npx prisma"
+   > ```
+   >
+   > Then use `prisma:staging db push` or `prisma:staging generate`.
+
 4. **Initialize the database**
    ```bash
    npx prisma migrate dev --name init
    npx prisma generate
+   # Optional: Alias for Prisma with staging env
+   echo 'alias prisma:staging="env $(cat .env.staging | xargs) npx prisma"' >> ~/.zshrc
+   source ~/.zshrc
    ```
 5. **Start development servers**
    ```bash
