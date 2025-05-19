@@ -143,14 +143,96 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
    > Then use `prisma:staging db push` or `prisma:staging generate`.
 
 4. **Initialize the database**
+
+   ⚠️ Prisma's `migrate reset` is **destructive** and should only be used in local dev.  
+   If you're using Supabase (or any remote PostgreSQL), follow this safe migration flow:
+
+   1. **Create migration without applying it**
+
+      ```bash
+      npx prisma migrate dev --name init --create-only
+      ```
+
+   2. **Connect to Supabase and apply manually**
+      First, open a psql session:
+
+      ```bash
+      env $(cat .env.staging | grep -v '^#' | xargs) bash -c 'psql "$DATABASE_URL"'
+      ```
+
+      Then from inside psql, run:
+
+      ```sql
+      \i prisma/migrations/2025xxxxxx-init/migration.sql
+      ```
+
+   3. **Pull schema back into Prisma (if needed)**
+
+      ```bash
+      npx prisma db pull
+      ```
+
+   4. **Regenerate the Prisma Client**
+
+      ```bash
+      npx prisma generate
+      ```
+
+   5. **Update Supabase schema manually (if needed)**
+
+      If you've updated your Prisma schema manually (e.g. changed `title`/`description` to `Json` or added `imageUrl`), you must also update your Supabase schema.
+
+      Open a `psql` session:
+
+      ```bash
+      env $(cat .env.staging | grep -v '^#' | xargs) bash -c 'psql "$DATABASE_URL"'
+      ```
+
+      Then apply the changes manually:
+
+      ```sql
+      -- Convert fields to JSON
+      ALTER TABLE "Product"
+        ALTER COLUMN "title" TYPE jsonb USING "title"::jsonb,
+        ALTER COLUMN "description" TYPE jsonb USING "description"::jsonb;
+
+      -- Add imageUrl to Potter model
+      ALTER TABLE "Potter" ADD COLUMN "imageUrl" text;
+      ```
+
+      > After making changes, pull the updated schema and regenerate the Prisma client:
+
+      ```bash
+      npx prisma db pull
+      npx prisma generate
+      ```
+
+   You can also create a shortcut:
+
    ```bash
-   npx prisma migrate dev --name init
-   npx prisma generate
-   # Optional: Alias for Prisma with staging env
-   echo 'alias prisma:staging="env $(cat .env.staging | xargs) npx prisma"' >> ~/.zshrc
-   source ~/.zshrc
+   alias prisma:staging="env $(cat .env.staging | xargs) npx prisma"
    ```
-5. **Start development servers**
+
+   > Then use `prisma:staging db pull`, `prisma:staging generate`, etc.
+
+5. **Seed the database with mock data**
+
+   ```bash
+   npx dotenv -e .env.staging -- tsx prisma/seed.ts
+   ```
+
+   This will insert:
+
+   - 45 users across admin, ops, seller, and customer roles
+   - 10 potters linked to seller users
+   - 12 multilingual products distributed among potters
+   - 1 order with order items
+   - Reviews and favorites for seeded products
+   - 1 invoice and 1 refund transaction
+
+   > Run this step only after the database schema has been fully initialized.
+
+6. **Start development servers**
    ```bash
    npm run dev
    # Next.js on http://localhost:3000

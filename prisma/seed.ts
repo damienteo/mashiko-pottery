@@ -4,7 +4,7 @@ import seedPotters from "./seeds/potters";
 import seedProducts from "./seeds/products";
 import seedOrders from "./seeds/orders";
 import seedReviews from "./seeds/reviews";
-import seedInvoicesAndRefunds from "./seeds/invoices_refunds";
+import seedInvoicesAndRefunds from "./seeds/refunds";
 
 const prisma = new PrismaClient();
 
