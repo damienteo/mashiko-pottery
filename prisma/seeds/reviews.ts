@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
 
-export default async function seedReviews() {
+export default async function seedReviews(prisma: PrismaClient) {
   console.log("🌟 Seeding reviews and favorites...");
 
   const reviewerId = 44; // last seeded customer user
