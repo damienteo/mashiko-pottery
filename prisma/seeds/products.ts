@@ -173,10 +173,33 @@ export default async function seedProducts(prisma: PrismaClient) {
     },
   ];
 
+  // Seed the static products array first
   for (let i = 0; i < products.length; i++) {
+    const base = products[i];
     await prisma.product.create({
       data: {
-        ...products[i],
+        ...base,
+        title: {
+          en: `${base.title.en}`,
+          ja: `${base.title.ja}`,
+          zh: `${base.title.zh}`,
+        },
+        potterId: potters[i % potters.length].id,
+        photos: [photoPaths[i % photoPaths.length]],
+      },
+    });
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const base = products[i % products.length];
+    await prisma.product.create({
+      data: {
+        ...base,
+        title: {
+          en: `${base.title.en} #${i + 1}`,
+          ja: `${base.title.ja} #${i + 1}`,
+          zh: `${base.title.zh} #${i + 1}`,
+        },
         potterId: potters[i % potters.length].id,
         photos: [photoPaths[i % photoPaths.length]],
       },

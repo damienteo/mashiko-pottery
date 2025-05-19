@@ -8,6 +8,11 @@ import seedInvoicesAndRefunds from "./seeds/refunds";
 import seedAddresses from "./seeds/addresses";
 import seedShippingRates from "./seeds/shippingRates";
 import seedPromoCodes from "./seeds/promoCodes";
+import seedCartItems from "./seeds/cartItems";
+import seedUserSettings from "./seeds/userSettings";
+import seedNotifications from "./seeds/notifications";
+import seedReturnRequests from "./seeds/returnRequests";
+import seedPayouts from "./seeds/payouts";
 
 const prisma = new PrismaClient();
 
@@ -50,6 +55,11 @@ async function main() {
   await seedAddresses(prisma);
   await seedShippingRates(prisma);
   await seedPromoCodes(prisma);
+  await seedCartItems(prisma);
+  await seedUserSettings(prisma);
+  await seedNotifications(prisma);
+  await seedReturnRequests(prisma);
+  await seedPayouts(prisma);
   console.log("✅ Seeding complete");
 }
 
