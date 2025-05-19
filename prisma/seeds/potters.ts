@@ -9,9 +9,6 @@ export default async function seedPotters(prisma: PrismaClient) {
 
   const potters = [
     {
-      user: {
-        connect: { id: 11 },
-      },
       name: { en: "Aki Takahashi", ja: "高橋あき", zh: "高桥秋" },
       bio: {
         en: "A talented potter known for delicate porcelain work and innovative glazing.",
@@ -23,9 +20,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 12 },
-      },
       name: { en: "Kenji Sato", ja: "佐藤健二", zh: "佐藤健二" },
       bio: {
         en: "Expert in traditional Mashiko pottery techniques with a modern twist.",
@@ -37,9 +31,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 13 },
-      },
       name: { en: "Mariko Yamada", ja: "山田真理子", zh: "山田真理子" },
       bio: {
         en: "Creates vibrant, hand-painted ceramics inspired by nature.",
@@ -51,9 +42,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 14 },
-      },
       name: { en: "Taro Fujimoto", ja: "藤本太郎", zh: "藤本太郎" },
       bio: {
         en: "Specializes in earthy stoneware with rustic charm.",
@@ -64,9 +52,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 15 },
-      },
       name: { en: "Naoko Ishikawa", ja: "石川直子", zh: "石川直子" },
       bio: {
         en: "Known for minimalistic aesthetics and subtle textures.",
@@ -77,9 +62,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 16 },
-      },
       name: { en: "Riku Hoshino", ja: "星野陸", zh: "星野陸" },
       bio: {
         en: "Combines modern art with traditional kiln firing techniques.",
@@ -90,9 +72,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 17 },
-      },
       name: { en: "Haruka Arai", ja: "新井遥", zh: "新井遥" },
       bio: {
         en: "Creates functional everyday ware with artistic flair.",
@@ -103,9 +82,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 18 },
-      },
       name: { en: "Takumi Nomura", ja: "野村匠", zh: "野村匠" },
       bio: {
         en: "Explores asymmetry and natural imperfections.",
@@ -116,9 +92,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 19 },
-      },
       name: { en: "Emi Nakamura", ja: "中村恵美", zh: "中村惠美" },
       bio: {
         en: "Creates elegant forms with metallic finishes.",
@@ -129,9 +102,6 @@ export default async function seedPotters(prisma: PrismaClient) {
       active: true,
     },
     {
-      user: {
-        connect: { id: 20 },
-      },
       name: { en: "Souta Kimura", ja: "木村壮太", zh: "木村壮太" },
       bio: {
         en: "Blends geometric patterns into classic tea ware.",
@@ -143,8 +113,13 @@ export default async function seedPotters(prisma: PrismaClient) {
     },
   ];
 
-  for (const potter of potters) {
-    await prisma.potter.create({ data: potter });
+  for (let i = 0; i < potters.length; i++) {
+    await prisma.potter.create({
+      data: {
+        ...potters[i],
+        user: { connect: { id: users[i].id } },
+      },
+    });
   }
 
   console.log("✅ Seeded potters");

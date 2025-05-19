@@ -3,10 +3,19 @@ import { PrismaClient } from "@prisma/client";
 export default async function seedAddresses(prisma: PrismaClient) {
   console.log("🏠 Seeding user addresses...");
 
+  const customer = await prisma.user.findFirst({
+    where: { role: "CUSTOMER" },
+    orderBy: { id: "desc" },
+  });
+  if (!customer) {
+    console.error("❌ No customer found for address seeding.");
+    return;
+  }
+
   await prisma.address.createMany({
     data: [
       {
-        userId: 44,
+        userId: customer.id,
         label: "Home",
         line1: "123 Sakura Street",
         city: "Tokyo",
@@ -16,7 +25,7 @@ export default async function seedAddresses(prisma: PrismaClient) {
         isDefault: true,
       },
       {
-        userId: 44,
+        userId: customer.id,
         label: "Work",
         line1: "456 Ginza Avenue",
         line2: "2F",

@@ -3,9 +3,25 @@ import { PrismaClient } from "@prisma/client";
 export default async function seedReviews(prisma: PrismaClient) {
   console.log("🌟 Seeding reviews and favorites...");
 
-  const reviewerId = 44; // last seeded customer user
-  const product1Id = 1;
-  const product2Id = 2;
+  const reviewer = await prisma.user.findFirst({
+    where: { role: "CUSTOMER" },
+    orderBy: { id: "desc" },
+  });
+  if (!reviewer) {
+    console.error("❌ No customer found for review seeding.");
+    return;
+  }
+  const reviewerId = reviewer.id;
+  const products = await prisma.product.findMany({
+    orderBy: { id: "asc" },
+    take: 2,
+  });
+  if (products.length < 2) {
+    console.error("❌ Not enough products found for review seeding.");
+    return;
+  }
+  const product1Id = products[0].id;
+  const product2Id = products[1].id;
 
   await prisma.review.createMany({
     data: [

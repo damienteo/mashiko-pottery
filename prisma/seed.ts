@@ -30,10 +30,10 @@ async function main() {
   await prisma.refundTransaction.deleteMany();
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
+  await prisma.cartItem.deleteMany();
   await prisma.product.deleteMany();
   await prisma.payout.deleteMany();
   await prisma.potter.deleteMany();
-  await prisma.cartItem.deleteMany();
   await prisma.userSettings.deleteMany();
   await prisma.notification.deleteMany();
   await prisma.session.deleteMany();

@@ -3,10 +3,25 @@ import { PrismaClient } from "@prisma/client";
 export default async function seedCartItems(prisma: PrismaClient) {
   console.log("🛒 Seeding cart items...");
 
+  const user = await prisma.user.findFirst({
+    where: { role: "CUSTOMER" },
+    orderBy: { id: "desc" },
+  });
+
+  const products = await prisma.product.findMany({
+    orderBy: { id: "asc" },
+    take: 2,
+  });
+
+  if (!user || products.length < 2) {
+    console.error("❌ Cannot seed cart items: missing user or products");
+    return;
+  }
+
   await prisma.cartItem.createMany({
     data: [
-      { userId: 44, productId: 1, quantity: 2 },
-      { userId: 44, productId: 2, quantity: 1 },
+      { userId: user.id, productId: products[0].id, quantity: 2 },
+      { userId: user.id, productId: products[1].id, quantity: 1 },
     ],
   });
 
