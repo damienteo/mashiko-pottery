@@ -1,6 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { Role } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 export type SessionUser = {
   id: number;
@@ -30,4 +31,22 @@ export async function getServerSessionUser(): Promise<SessionUser | null> {
     email: session.user.email,
     role: session.user.role as SessionUser["role"],
   };
+}
+
+export async function assertSellerAccess(): Promise<SessionUser> {
+  const user = await getServerSessionUser();
+
+  if (!user) {
+    throw new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+      status: 401,
+    });
+  }
+
+  if (user.role !== "SELLER") {
+    throw new NextResponse(JSON.stringify({ error: "Forbidden" }), {
+      status: 403,
+    });
+  }
+
+  return user;
 }

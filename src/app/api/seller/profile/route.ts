@@ -1,10 +1,58 @@
 import { NextResponse } from "next/server";
-import { mockSellerProfile } from "@/mocks/sellerProfile";
+import { PrismaClient } from "@prisma/client";
+import { assertSellerAccess } from "@/lib/auth";
+
+const prisma = new PrismaClient();
 
 /**
  * GET /api/seller/profile
- * Returns the current seller profile from mock data.
+ * Returns the current seller's potter profile from the database.
  */
 export async function GET() {
-  return NextResponse.json(mockSellerProfile);
+  const user = await assertSellerAccess();
+
+  const potter = await prisma.potter.findUnique({
+    where: { userId: user.id },
+  });
+
+  if (!potter) {
+    return NextResponse.json(
+      { error: "Seller profile not found" },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json(potter);
+}
+
+export async function PATCH(req: Request) {
+  const user = await assertSellerAccess();
+
+  const potter = await prisma.potter.findUnique({
+    where: { userId: user.id },
+  });
+
+  if (!potter) {
+    return NextResponse.json(
+      { error: "Seller profile not found" },
+      { status: 404 }
+    );
+  }
+
+  const data = await req.json();
+
+  try {
+    const updated = await prisma.potter.update({
+      where: { id: potter.id },
+      data,
+    });
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error("Error updating seller profile:", error);
+    return NextResponse.json(
+      { error: "Failed to update seller profile" },
+      { status: 500 }
+    );
+  }
 }
