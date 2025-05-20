@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
-import { mockProducts } from "@/mocks/products";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export async function GET() {
-  // simulate network latency
-  await new Promise((r) => setTimeout(r, 300));
-  return NextResponse.json(mockProducts);
+  try {
+    const products = await prisma.product.findMany({
+      include: {
+        potter: true,
+      },
+    });
+
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch products" },
+      { status: 500 }
+    );
+  }
 }
