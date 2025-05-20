@@ -61,3 +61,30 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: NextRequest) {
+  try {
+    const data = await req.json();
+
+    const { title, description, price, stock, potterId } = data;
+
+    if (!title || !description || !price || !stock || !potterId) {
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const newProduct = await prisma.product.create({
+      data,
+    });
+
+    return NextResponse.json(newProduct, { status: 201 });
+  } catch (error) {
+    console.error("Error creating product:", error);
+    return NextResponse.json(
+      { error: "Failed to create product" },
+      { status: 500 }
+    );
+  }
+}
