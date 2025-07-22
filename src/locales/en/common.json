@@ -10,6 +10,14 @@
     "success": "Login successful",
     "unknownError": "An unknown error occurred"
   },
+  "register": {
+    "title": "Register",
+    "description": "Create a new account to get started.",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign Up",
+    "success": "Account created successfully"
+  },
   "logout": {
     "title": "Logout"
   },

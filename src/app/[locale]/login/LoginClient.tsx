@@ -3,14 +3,17 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/authSlice";
-import { useToast } from "@/components/ui/Toast";
 import {
   loadCartFromStorage,
   clearCartFromStorage,
 } from "@/store/localStorage";
 import { mergeCart, fetchCart } from "@/store/cartSlice";
+
+import { useToast } from "@/components/ui/Toast";
+import Button from "@/components/ui/Button";
 
 interface Props {
   callback: string;
@@ -66,35 +69,45 @@ export default function LoginClient({ callback }: Props) {
   return (
     <div className="max-w-md mx-auto mt-16 p-8 border rounded shadow-sm bg-white">
       <h1 className="text-2xl font-bold mb-6">{t("login.title")}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
         {error && <p className="text-red-600">{error}</p>}
         <div>
           <label className="block mb-1">{t("login.username")}</label>
           <input
             type="text"
+            name="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
             className="w-full p-2 border rounded"
+            autoComplete="username"
           />
         </div>
         <div>
           <label className="block mb-1">{t("login.password")}</label>
           <input
             type="password"
+            name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             className="w-full p-2 border rounded"
+            autoComplete="current-password"
           />
         </div>
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-2 bg-blue-600 text-white rounded disabled:opacity-50"
-        >
+        <Button type="submit" disabled={loading} className="w-full">
           {loading ? t("login.loading") : t("login.submit")}
-        </button>
+        </Button>
+
+        <Button
+          type="button"
+          disabled={loading}
+          className="w-full"
+          variant="secondary"
+          onClick={() => router.push("/register")}
+        >
+          {t("register.title")}
+        </Button>
       </form>
     </div>
   );

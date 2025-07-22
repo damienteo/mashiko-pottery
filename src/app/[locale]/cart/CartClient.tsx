@@ -158,7 +158,7 @@ export default function CartClient() {
                   `/${locale}/cart`
                 )}`}
               >
-                <Button variant="primary">{t("login.title")}</Button>
+                <Button variant="primary">{t("common.login.title")}</Button>
               </Link>
             )}
           </div>
