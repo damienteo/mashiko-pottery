@@ -26,5 +26,15 @@
   "menu": "菜单",
   "site": {
     "title": "Mashiko Pottery"
+  },
+  "validation": {
+    "username": {
+      "required": "用户名是必填项",
+      "min": "用户名长度至少为 8 个字符"
+    },
+    "password": {
+      "required": "密码是必填项",
+      "min": "密码长度至少为 8 个字符"
+    }
   }
 }

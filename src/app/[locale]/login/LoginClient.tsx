@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useAppDispatch } from "@/store/hooks";
 import { login } from "@/store/authSlice";
@@ -19,25 +21,43 @@ interface Props {
   callback: string;
 }
 
+interface FormData {
+  username: string;
+  password: string;
+}
+
+const schema = yup.object({
+  username: yup
+    .string()
+    .required("validation.username.required")
+    .min(8, "validation.username.min"),
+  password: yup
+    .string()
+    .required("validation.password.required")
+    .min(8, "validation.password.min"),
+});
+
 export default function LoginClient({ callback }: Props) {
   const t = useTranslations("common");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { success, error: toastError } = useToast();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError: setFormError,
+  } = useForm<FormData>({
+    resolver: yupResolver(schema),
+  });
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
+  const onSubmit = async (data: FormData) => {
     try {
       // Dispatch login thunk (which returns user on success)
-      const resultAction = await dispatch(login({ email: username, password }));
+      const resultAction = await dispatch(
+        login({ email: data.username, password: data.password })
+      );
       if (login.fulfilled.match(resultAction)) {
         // Successful login
         success(t("login.success"));
@@ -56,52 +76,60 @@ export default function LoginClient({ callback }: Props) {
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(t("login.error"));
+        setFormError("password", { message: t("login.error") });
         toastError(t("login.error"));
       } else {
-        setError(t("login.unknownError"));
+        setFormError("password", { message: t("login.unknownError") });
         toastError(t("login.unknownError"));
       }
-      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-16 p-8 border rounded shadow-sm bg-white">
       <h1 className="text-2xl font-bold mb-6">{t("login.title")}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4" autoComplete="on">
-        {error && <p className="text-red-600">{error}</p>}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-4"
+        autoComplete="on"
+      >
         <div>
-          <label className="block mb-1">{t("login.username")}</label>
+          <label htmlFor="username" className="block mb-1">
+            {t("login.username")}
+          </label>
           <input
+            id="username"
             type="text"
-            name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            className="w-full p-2 border rounded"
             autoComplete="username"
+            {...register("username")}
+            className={`w-full p-2 border rounded ${errors.username ? "border-red-600" : ""}`}
           />
+          {errors.username?.message && (
+            <p className="text-red-600 mt-1">{t(errors.username.message)}</p>
+          )}
         </div>
         <div>
-          <label className="block mb-1">{t("login.password")}</label>
+          <label htmlFor="password" className="block mb-1">
+            {t("login.password")}
+          </label>
           <input
+            id="password"
             type="password"
-            name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full p-2 border rounded"
             autoComplete="current-password"
+            {...register("password")}
+            className={`w-full p-2 border rounded ${errors.password ? "border-red-600" : ""}`}
           />
+          {errors.password?.message && (
+            <p className="text-red-600 mt-1">{t(errors.password.message)}</p>
+          )}
         </div>
-        <Button type="submit" disabled={loading} className="w-full">
-          {loading ? t("login.loading") : t("login.submit")}
+        <Button type="submit" disabled={isSubmitting} className="w-full">
+          {isSubmitting ? t("login.loading") : t("login.submit")}
         </Button>
 
         <Button
           type="button"
-          disabled={loading}
+          disabled={isSubmitting}
           className="w-full"
           variant="secondary"
           onClick={() => router.push("/register")}

@@ -26,5 +26,15 @@
   "menu": "メニュー",
   "site": {
     "title": "Mashiko Pottery"
+  },
+  "validation": {
+    "username": {
+      "required": "ユーザー名は必須です",
+      "min": "ユーザー名は8文字以上である必要があります"
+    },
+    "password": {
+      "required": "パスワードは必須です",
+      "min": "パスワードは8文字以上である必要があります"
+    }
   }
 }
