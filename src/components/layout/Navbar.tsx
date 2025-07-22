@@ -110,7 +110,7 @@ export default function Navbar() {
                   onClick={() => dispatch(logout())}
                   className="hover:underline"
                 >
-                  {t("logout.title")}
+                  {t("common.logout.title")}
                 </Button>
               </li>
             ) : (
@@ -236,7 +236,7 @@ export default function Navbar() {
                         }}
                         className="block text-lg w-full text-left"
                       >
-                        {t("logout.title")}
+                        {t("common.logout.title")}
                       </Button>
                     </li>
                   ) : (

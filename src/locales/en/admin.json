@@ -50,7 +50,8 @@
           "potterId": "Potter ID",
           "month": "Month",
           "amount": "Amount"
-        }
+        },
+        "link": "Details"
       },
       "actions": {
         "edit": "Edit",

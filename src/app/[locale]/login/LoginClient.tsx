@@ -17,7 +17,7 @@ interface Props {
 }
 
 export default function LoginClient({ callback }: Props) {
-  const t = useTranslations();
+  const t = useTranslations("common");
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { success, error: toastError } = useToast();

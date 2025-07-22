@@ -18,7 +18,7 @@ export async function generateMetadata({
   // Fetch localized messages for the login page
   const t = await getTranslations({
     locale: locale,
-    namespace: "login",
+    namespace: "common.login",
   });
   return {
     title: t("title"),
