@@ -1,0 +1,22 @@
+{
+  "login": {
+    "title": "Login",
+    "description": "Please sign in to continue.",
+    "username": "Username",
+    "password": "Password",
+    "submit": "Sign In",
+    "error": "Login failed. Please check your credentials.",
+    "loading": "Signing in...",
+    "success": "Login successful",
+    "unknownError": "An unknown error occurred"
+  },
+  "logout": {
+    "title": "Logout"
+  },
+  "loading": "Loading…",
+  "error": "An error occurred",
+  "menu": "Menu",
+  "site": {
+    "title": "Mashiko Pottery"
+  }
+}

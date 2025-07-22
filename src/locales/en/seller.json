@@ -1,0 +1,106 @@
+{
+  "nav": {
+    "profile": "Profile",
+    "inventory": "Inventory",
+    "payoutHistory": "Payout History"
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "Edit your artisan profile and portfolio.",
+    "fields": {
+      "name": "Name",
+      "bio": "Bio",
+      "portfolio": "Portfolio"
+    },
+    "help": {
+      "portfolio": "Enter a brief description of your portfolio."
+    },
+    "actions": {
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "loading": "Loading profile…",
+    "error": "Failed to load profile."
+  },
+  "payouts": {
+    "meta": {
+      "title": "Payout History",
+      "description": "View all payouts made to your account."
+    },
+    "title": "Payout History",
+    "loading": "Loading payouts...",
+    "error": "Failed to load payouts.",
+    "retry": "Retry",
+    "table": {
+      "id": "Payout ID",
+      "amount": "Amount",
+      "commissionRate": "Commission Rate",
+      "commissionAmount": "Commission Amount",
+      "netAmount": "Net Amount",
+      "status": "Status",
+      "createdAt": "Created At",
+      "paidAt": "Paid At",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "edit": "Edit",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "paid": "Paid",
+      "failed": "Failed",
+      "queued": "Queued",
+      "onHold": "On Hold",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "details": {
+      "title": "Payout Details",
+      "link": "Details",
+      "meta": {
+        "title": "Payout Details",
+        "description": "Review the full payout breakdown"
+      },
+      "breakdown": {
+        "title": "Breakdown",
+        "orders": "Total Orders",
+        "fees": "Total Fees",
+        "notes": "Notes"
+      },
+      "form": {
+        "potterId": "Potter ID",
+        "month": "Month",
+        "amount": "Amount"
+      },
+      "messages": {
+        "success": "Payout updated successfully",
+        "error": "Failed to update payout",
+        "updating": "Saving payout…"
+      }
+    },
+    "back": "Back"
+  },
+  "inventory": {
+    "title": "Inventory",
+    "description": "Manage your Mashiko pottery product listings, stock, and prices.",
+    "loading": "Loading...",
+    "product": "Product",
+    "sku": "SKU",
+    "stock": "Stock",
+    "price": "Price",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "edit": "Edit",
+    "done": "Done",
+    "actions": "Actions",
+    "cancel": "Cancel",
+    "potterId": "Potter ID",
+    "weight": "Weight",
+    "category": "Category"
+  }
+}

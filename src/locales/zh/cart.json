@@ -1,0 +1,11 @@
+{
+  "unitPrice": "单价",
+  "quantity": "数量",
+  "lineTotal": "小计",
+  "remove": "移除",
+  "title": "购物车",
+  "empty": "您的购物车是空的。",
+  "reAdd": "重新加入购物车",
+  "total": "总计",
+  "continueShopping": "继续购物"
+}

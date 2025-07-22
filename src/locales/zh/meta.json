@@ -1,0 +1,51 @@
+{
+  "home": {
+    "title": "首页 – Mashiko 陶艺",
+    "description": "探索我们精心挑选的当地艺人手工制作的 Mashiko 陶器。"
+  },
+  "cart": {
+    "title": "您的购物车",
+    "description": "查看结账前购物车中的物品。"
+  },
+  "checkout": {
+    "title": "结账 – Mashiko 陶艺",
+    "description": "输入您的信息并安全完成购买。"
+  },
+  "product": {
+    "title": "产品详情 – Mashiko 陶艺",
+    "description": "查看并购买这件手工陶器。"
+  },
+  "potter": {
+    "title": "陶艺家简介 – Mashiko 陶艺",
+    "description": "了解艺术家及其作品。"
+  },
+  "potters": {
+    "title": "陶艺家聚焦 – Mashiko 陶艺",
+    "description": "认识那些为我们手工制作 Mashiko 陶器的才华横溢的艺术家。"
+  },
+  "admin": {
+    "pages": {
+      "products": {
+        "title": "管理：商品管理",
+        "description": "创建、编辑和删除商品。"
+      },
+      "orders": {
+        "title": "管理：订单管理",
+        "description": "查看并处理客户订单。"
+      },
+      "payouts": {
+        "title": "管理：付款报表",
+        "description": "生成并查看陶艺家的月度付款报表。",
+        "details": {
+          "link": "详情"
+        }
+      }
+    }
+  },
+  "seller": {
+    "profile": {
+      "title": "个人资料 – Mashiko Pottery",
+      "description": "编辑您的陶艺家个人资料和作品集。"
+    }
+  }
+}

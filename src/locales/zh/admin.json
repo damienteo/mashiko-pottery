@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "products": "管理：商品",
+    "orders": "订单",
+    "payouts": "付款报表"
+  },
+  "pages": {
+    "products": {
+      "title": "管理：商品管理",
+      "description": "创建、编辑和删除商品。",
+      "loading": "商品加载中…",
+      "error": "商品加载失败。",
+      "retry": "重试",
+      "addToCart": {
+        "label": "加入购物车",
+        "success": "商品已加入购物车！"
+      },
+      "table": {
+        "title": "标题",
+        "price": "价格",
+        "description": "说明"
+      },
+      "actions": {
+        "save": "保存更改",
+        "cancel": "重置"
+      }
+    },
+    "orders": {
+      "title": "订单管理",
+      "description": "查看并处理客户订单。",
+      "loading": "订单加载中…",
+      "error": "订单加载失败。",
+      "retry": "重试",
+      "details": "详情",
+      "total": "总计",
+      "actions": {
+        "save": "保存",
+        "cancel": "取消",
+        "edit": "编辑"
+      }
+    },
+    "payouts": {
+      "title": "付款报表管理",
+      "description": "生成并查看陶艺家的月度付款报表。",
+      "loading": "正在加载付款…",
+      "error": "加载付款失败。",
+      "retry": "重试",
+      "details": {
+        "form": {
+          "potterId": "陶艺家编号",
+          "month": "月份",
+          "amount": "金额",
+          "status": "状态"
+        },
+        "link": "详情"
+      },
+      "actions": {
+        "edit": "编辑",
+        "save": "保存",
+        "cancel": "取消"
+      },
+      "table": {
+        "potterId": "陶艺家编号",
+        "month": "月份",
+        "amount": "金额",
+        "commissionRate": "佣金率",
+        "status": "状态",
+        "actions": "操作"
+      }
+    }
+  },
+  "loading": "加载中…",
+  "error": "发生错误"
+}

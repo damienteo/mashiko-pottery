@@ -24,16 +24,16 @@ export default function Navbar() {
         <div className="flex items-center justify-between py-4">
           {/* Logo / Site Title */}
           <Link href="/" className="text-xl font-[var(--font-playfair)]">
-            {t("site.title")}
+            {t("common.site.title")}
           </Link>
           {/* Menu toggle for mobile */}
           <button
             type="button"
             className="sm:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            aria-label={t("menu")}
+            aria-label={t("common.menu")}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
-            <span className="text-base font-medium">{t("menu")}</span>
+            <span className="text-base font-medium">{t("common.menu")}</span>
           </button>
           {/* Desktop menu items */}
           <ul className="hidden sm:flex sm:space-x-6 items-center">
@@ -116,7 +116,7 @@ export default function Navbar() {
             ) : (
               <li>
                 <Link href="/login" className="hover:underline">
-                  {t("login.title")}
+                  {t("common.login.title")}
                 </Link>
               </li>
             )}
@@ -246,7 +246,7 @@ export default function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         className="block text-lg"
                       >
-                        {t("login.title")}
+                        {t("common.login.title")}
                       </Link>
                     </li>
                   )}

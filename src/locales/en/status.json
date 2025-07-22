@@ -1,0 +1,11 @@
+{
+  "pending": "Pending",
+  "processing": "Processing",
+  "paid": "Paid",
+  "failed": "Failed",
+  "queued": "Queued",
+  "onHold": "On Hold",
+  "cancelled": "Cancelled",
+  "refunded": "Refunded",
+  "shipped": "Shipped"
+}

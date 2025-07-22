@@ -1,0 +1,48 @@
+{
+  "home": {
+    "title": "ホーム – Mashiko Pottery",
+    "description": "地元の職人による手作り益子焼のセレクトコレクションをご覧ください。"
+  },
+  "cart": {
+    "title": "あなたのカート",
+    "description": "チェックアウト前にカート内の商品を確認してください。"
+  },
+  "checkout": {
+    "title": "チェックアウト – Mashiko Pottery",
+    "description": "必要事項を入力して安全にご購入を完了してください。"
+  },
+  "product": {
+    "title": "商品詳細 – Mashiko Pottery",
+    "description": "この手作り陶器の詳細を見て購入できます。"
+  },
+  "potter": {
+    "title": "陶芸家プロフィール – Mashiko Pottery",
+    "description": "アーティストとその作品について詳しく知りましょう。"
+  },
+  "potters": {
+    "title": "陶芸家スポットライト – Mashiko Pottery",
+    "description": "手作り益子焼を支える才能あふれる陶芸家たちを紹介します。"
+  },
+  "admin": {
+    "pages": {
+      "products": {
+        "title": "管理: 商品一覧",
+        "description": "商品を作成、編集、削除できます。"
+      },
+      "orders": {
+        "title": "管理者: 注文管理",
+        "description": "顧客の注文を表示および処理します。"
+      },
+      "payouts": {
+        "title": "管理者: 支払いレポート",
+        "description": "陶芸家への月次支払いを生成および確認します。"
+      }
+    }
+  },
+  "seller": {
+    "profile": {
+      "title": "プロフィール – Mashiko Pottery",
+      "description": "職人プロフィールとポートフォリオを編集します。"
+    }
+  }
+}

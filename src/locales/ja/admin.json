@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "products": "管理者: 商品管理",
+    "orders": "注文",
+    "payouts": "支払い"
+  },
+  "pages": {
+    "products": {
+      "title": "管理者: 商品管理",
+      "description": "商品を作成、編集、削除できます。",
+      "loading": "商品を読み込み中…",
+      "error": "商品を読み込めませんでした。",
+      "retry": "再試行",
+      "addToCart": {
+        "label": "カートに追加",
+        "success": "商品がカートに追加されました！"
+      },
+      "table": {
+        "title": "タイトル",
+        "price": "価格",
+        "description": "説明"
+      },
+      "actions": {
+        "save": "変更を保存",
+        "cancel": "リセット"
+      }
+    },
+    "orders": {
+      "title": "注文管理",
+      "description": "顧客の注文を表示および処理します。",
+      "loading": "注文を読み込み中…",
+      "error": "注文の読み込みに失敗しました。",
+      "retry": "再試行",
+      "details": "詳細",
+      "total": "合計",
+      "actions": {
+        "save": "保存",
+        "cancel": "キャンセル",
+        "edit": "編集"
+      }
+    },
+    "payouts": {
+      "title": "支払いレポート管理",
+      "description": "陶芸家への月次支払いを生成および確認します。",
+      "loading": "支払い情報を読み込み中…",
+      "error": "支払い情報の読み込みに失敗しました。",
+      "retry": "再試行",
+      "details": {
+        "form": {
+          "potterId": "陶芸家ID",
+          "month": "月",
+          "amount": "金額",
+          "status": "ステータス"
+        },
+        "link": "詳細"
+      },
+      "actions": {
+        "edit": "編集",
+        "save": "保存",
+        "cancel": "キャンセル"
+      },
+      "table": {
+        "potterId": "陶芸家ID",
+        "month": "月",
+        "amount": "金額",
+        "commissionRate": "手数料率",
+        "status": "ステータス",
+        "actions": "操作"
+      }
+    }
+  },
+  "loading": "読み込み中…",
+  "error": "エラーが発生しました"
+}

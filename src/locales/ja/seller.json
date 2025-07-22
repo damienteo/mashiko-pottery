@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "profile": "プロフィール",
+    "inventory": "在庫管理",
+    "payoutHistory": "支払い履歴"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "description": "あなたの職人プロフィールとポートフォリオを編集します。",
+    "fields": {
+      "name": "名前",
+      "bio": "自己紹介",
+      "portfolio": "ポートフォリオ"
+    },
+    "help": {
+      "portfolio": "作品集の簡単な説明を入力してください。"
+    },
+    "actions": {
+      "edit": "編集",
+      "save": "保存",
+      "cancel": "キャンセル"
+    },
+    "loading": "プロフィールを読み込み中…",
+    "error": "プロフィールの読み込みに失敗しました。"
+  },
+  "payouts": {
+    "meta": {
+      "title": "支払い履歴",
+      "description": "アカウントへのすべての支払いを確認できます。"
+    },
+    "title": "支払い履歴",
+    "loading": "支払い履歴を読み込み中...",
+    "error": "支払い履歴の読み込みに失敗しました。",
+    "retry": "再試行",
+    "table": {
+      "id": "支払いID",
+      "amount": "金額",
+      "commissionRate": "手数料率",
+      "commissionAmount": "手数料",
+      "netAmount": "受取金額",
+      "status": "ステータス",
+      "createdAt": "作成日",
+      "paidAt": "支払日",
+      "actions": "操作"
+    },
+    "buttons": {
+      "edit": "編集",
+      "confirm": "確定",
+      "cancel": "キャンセル"
+    },
+    "details": {
+      "title": "支払いの詳細",
+      "link": "詳細",
+      "meta": {
+        "title": "支払いの詳細",
+        "description": "支払いの内訳を確認できます"
+      },
+      "breakdown": {
+        "title": "内訳",
+        "orders": "注文数",
+        "fees": "手数料合計",
+        "notes": "備考"
+      },
+      "form": {
+        "potterId": "陶芸家ID",
+        "month": "月",
+        "amount": "金額",
+        "status": "ステータス"
+      },
+      "messages": {
+        "success": "支払いが正常に更新されました",
+        "error": "支払いの更新に失敗しました",
+        "updating": "保存中…"
+      }
+    },
+    "back": "戻る"
+  },
+  "inventory": {
+    "title": "在庫管理",
+    "description": "益子焼の商品、在庫、価格を管理します。",
+    "loading": "読み込み中...",
+    "product": "商品名",
+    "sku": "SKU",
+    "stock": "在庫",
+    "price": "価格",
+    "status": "ステータス",
+    "active": "販売中",
+    "inactive": "非公開",
+    "edit": "編集",
+    "done": "完了",
+    "actions": "操作",
+    "cancel": "キャンセル",
+    "potterId": "陶芸家ID",
+    "weight": "重量",
+    "category": "カテゴリー"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "home": {
+    "title": "Home – Mashiko Pottery",
+    "description": "Explore our curated collection of handmade Mashiko pottery from local artisans."
+  },
+  "cart": {
+    "title": "Your Cart",
+    "description": "Review the items in your shopping cart before checkout."
+  },
+  "checkout": {
+    "title": "Checkout – Mashiko Pottery",
+    "description": "Enter your details and complete your purchase securely."
+  },
+  "product": {
+    "title": "Product Details – Mashiko Pottery",
+    "description": "View details and purchase this handmade pottery."
+  },
+  "potter": {
+    "title": "Potter Profile – Mashiko Pottery",
+    "description": "Learn about the artisan and their work."
+  },
+  "potters": {
+    "title": "Potter Spotlights – Mashiko Pottery",
+    "description": "Meet the talented potters behind our handmade Mashiko ceramics."
+  },
+  "admin": {
+    "pages": {
+      "products": {
+        "title": "Admin: Manage Products",
+        "description": "Create, edit, and remove products."
+      },
+      "orders": {
+        "title": "Admin: Manage Orders",
+        "description": "View and process customer orders."
+      },
+      "payouts": {
+        "title": "Admin: Payout Reports",
+        "description": "Generate and review monthly payouts for potters.",
+        "details": {
+          "form": {
+            "potterId": "Potter ID",
+            "month": "Month",
+            "amount": "Amount"
+          },
+          "link": "Details"
+        }
+      }
+    }
+  },
+  "seller": {
+    "profile": {
+      "title": "Profile – Mashiko Pottery",
+      "description": "Edit your artisan profile and portfolio."
+    }
+  }
+}

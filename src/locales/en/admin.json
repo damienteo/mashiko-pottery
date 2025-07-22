@@ -1,0 +1,72 @@
+{
+  "nav": {
+    "products": "Admin: Products",
+    "orders": "Orders",
+    "payouts": "Payouts"
+  },
+  "pages": {
+    "products": {
+      "title": "Admin: Manage Products",
+      "description": "Create, edit, and remove products.",
+      "loading": "Loading products…",
+      "error": "Failed to load products.",
+      "retry": "Retry",
+      "addToCart": {
+        "label": "Add to Cart",
+        "success": "Product added to cart!"
+      },
+      "table": {
+        "title": "Title",
+        "price": "Price",
+        "description": "Description"
+      },
+      "actions": {
+        "save": "Save Changes",
+        "cancel": "Reset"
+      }
+    },
+    "orders": {
+      "title": "Manage Orders",
+      "description": "View and process customer orders.",
+      "loading": "Loading orders…",
+      "error": "Failed to load orders.",
+      "retry": "Retry",
+      "details": "Details",
+      "total": "Total",
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "edit": "Edit"
+      }
+    },
+    "payouts": {
+      "title": "Manage Payout Reports",
+      "description": "Generate and review monthly payouts for potters.",
+      "loading": "Loading payouts…",
+      "error": "Failed to load payouts.",
+      "retry": "Retry",
+      "details": {
+        "form": {
+          "potterId": "Potter ID",
+          "month": "Month",
+          "amount": "Amount"
+        }
+      },
+      "actions": {
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "table": {
+        "potterId": "Potter ID",
+        "month": "Month",
+        "amount": "Amount",
+        "commissionRate": "Commission Rate",
+        "status": "Status",
+        "actions": "Actions"
+      }
+    }
+  },
+  "loading": "Loading…",
+  "error": "An error occurred"
+}
