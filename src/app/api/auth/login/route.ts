@@ -1,9 +1,22 @@
 import { NextResponse } from "next/server";
-import { mockUsers } from "@/mocks/users";
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
-  console.log({ req });
-  //   const { email, password } = await req.json();
-  // you could validate here—but for mock we just return a user
-  return NextResponse.json(mockUsers[0]);
+  const { email, password } = await req.json();
+  const supabase = createRouteHandlerClient({ cookies });
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error || !data.user) {
+    return NextResponse.json(
+      { message: error?.message || "Login failed" },
+      { status: 401 }
+    );
+  }
+
+  return NextResponse.json(data.user);
 }

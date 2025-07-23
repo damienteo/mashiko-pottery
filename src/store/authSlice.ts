@@ -29,7 +29,12 @@ export const login = createAsyncThunk<User, Credentials>(
       const err = await res.json();
       return rejectWithValue(err.message || "Login failed");
     }
-    return (await res.json()) as User;
+    const { id, email, user_metadata } = await res.json();
+    return {
+      id,
+      email,
+      role: user_metadata?.role || "user",
+    } as User;
   }
 );
 
@@ -46,7 +51,12 @@ export const register = createAsyncThunk<User, Credentials>(
       const err = await res.json();
       return rejectWithValue(err.message || "Registration failed");
     }
-    return (await res.json()) as User;
+    const { id, email, user_metadata } = await res.json();
+    return {
+      id,
+      email,
+      role: user_metadata?.role || "user",
+    } as User;
   }
 );
 

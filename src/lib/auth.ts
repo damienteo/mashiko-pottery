@@ -1,7 +1,7 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 export type SessionUser = {
   id: number;
@@ -10,26 +10,23 @@ export type SessionUser = {
 };
 
 export async function getServerSessionUser(): Promise<SessionUser | null> {
-  const session = await getServerSession(authOptions);
+  const supabase = createServerComponentClient({ cookies });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (
-    !session ||
-    !session.user ||
-    !session.user.id ||
-    !session.user.email ||
-    !session.user.role
-  ) {
+  if (!user || !user.id || !user.email || !user.role) {
     return null;
   }
 
-  if (!Object.values(Role).includes(session.user.role as Role)) {
+  if (!Object.values(Role).includes(user.role as Role)) {
     return null;
   }
 
   return {
-    id: Number(session.user.id),
-    email: session.user.email,
-    role: session.user.role as SessionUser["role"],
+    id: Number(user.id),
+    email: user.email,
+    role: user.role as SessionUser["role"],
   };
 }
 
