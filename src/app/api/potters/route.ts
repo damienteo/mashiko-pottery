@@ -50,12 +50,12 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       potters,
+      filters: { name, style, active },
       pagination: {
         page,
         limit,
         total,
         totalPages: Math.ceil(total / limit),
-        filters: { name, style, active },
       },
     });
   } catch (error) {

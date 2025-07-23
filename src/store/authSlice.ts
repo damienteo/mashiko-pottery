@@ -33,6 +33,23 @@ export const login = createAsyncThunk<User, Credentials>(
   }
 );
 
+// Async thunk for registration
+export const register = createAsyncThunk<User, Credentials>(
+  "auth/register",
+  async (creds, { rejectWithValue }) => {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(creds),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      return rejectWithValue(err.message || "Registration failed");
+    }
+    return (await res.json()) as User;
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -56,6 +73,22 @@ const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error =
+          (action.payload as string) || action.error.message || null;
+      })
+      .addCase(register.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(register.fulfilled, (state, action: PayloadAction<User>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error =
