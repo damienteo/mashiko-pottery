@@ -22,7 +22,7 @@ export default function PotterSpotlights() {
   const error = useAppSelector(selectPottersListError);
 
   React.useEffect(() => {
-    dispatch(fetchPottersList());
+    dispatch(fetchPottersList({ limit: 3 }));
   }, [dispatch]);
 
   if (isLoading) {
