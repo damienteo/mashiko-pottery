@@ -9,11 +9,17 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+// id must match UUID provided by SUpabase
+// Password is handled by Supabase Auth, so we don't store it in Prisma.
 model User {
-  id           Int            @id @default(autoincrement())
+  id           String         @id @default(dbgenerated()) @db.Uuid
   email        String         @unique
-  password     String
   role         Role           @default(CUSTOMER)
+  createdAt    DateTime       @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastLoginAt   DateTime?
+  isActive      Boolean   @default(true)
+  emailVerified Boolean   @default(false)
   Address      Address[]
   AuditLog     AuditLog[]
   CartItem     CartItem[]
@@ -30,7 +36,7 @@ model User {
 
 model Potter {
   id        Int       @id @default(autoincrement())
-  userId    Int?      @unique
+  userId    String?      @unique @db.Uuid
   name      Json
   bio       Json
   style     String?
@@ -64,7 +70,7 @@ model Product {
 
 model Order {
   id                Int                 @id @default(autoincrement())
-  userId            Int
+  userId            String              @db.Uuid
   status            String
   total             Float
   address           String
@@ -107,7 +113,7 @@ model Payout {
 
 model CartItem {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String   @db.Uuid
   productId Int
   quantity  Int      @default(1)
   addedAt   DateTime @default(now())
@@ -117,16 +123,20 @@ model CartItem {
 
 model UserSettings {
   id            Int     @id @default(autoincrement())
-  userId        Int     @unique
+  userId        String     @unique @db.Uuid
   preferredLang String  @default("en")
   receiveEmails Boolean @default(true)
   receiveSMS    Boolean @default(false)
   user          User    @relation(fields: [userId], references: [id])
+  timezone       String?
+  referralCode   String?
+  onboardingStep Int     @default(0)
+  gdprConsent    Boolean @default(false)
 }
 
 model Notification {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String   @db.Uuid
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
@@ -166,7 +176,7 @@ model ReturnRequest {
 
 model Session {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String   @db.Uuid
   token     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -178,7 +188,7 @@ model Session {
 
 model AuditLog {
   id        Int      @id @default(autoincrement())
-  actorId   Int?
+  actorId   String?   @db.Uuid
   action    String
   metadata  Json
   createdAt DateTime @default(now())
@@ -202,7 +212,7 @@ model PromoCode {
 
 model Report {
   id         Int      @id @default(autoincrement())
-  reporterId Int
+  reporterId String   @db.Uuid
   targetType String
   targetId   Int
   reason     String
@@ -214,7 +224,7 @@ model Report {
 
 model Review {
   id         Int      @id @default(autoincrement())
-  reviewerId Int
+  reviewerId String   @db.Uuid
   productId  Int
   rating     Int
   comment    String?
@@ -226,7 +236,7 @@ model Review {
 
 model Inquiry {
   id        Int      @id @default(autoincrement())
-  userId    Int?
+  userId    String?   @db.Uuid
   email     String
   subject   String
   message   String
@@ -238,7 +248,7 @@ model Inquiry {
 
 model Address {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String    @db.Uuid
   label     String
   line1     String
   line2     String?
@@ -265,7 +275,7 @@ model RefundTransaction {
 
 model Favorite {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String    @db.Uuid
   productId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
