@@ -9,7 +9,7 @@ export interface Potter {
   bio: LocalizedString;
   style: string;
   active: boolean;
-  image?: string;
+  imageUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }

@@ -41,7 +41,7 @@ export default function PotterClient() {
     <div className="p-8">
       <div className="w-full h-64 relative mb-6 rounded-lg overflow-hidden">
         <Image
-          src={potter.image ?? "/fallback.jpg"}
+          src={potter.imageUrl ?? "/fallback.jpg"}
           alt={potter.name[locale as keyof typeof potter.name]}
           fill
           className="object-cover"
