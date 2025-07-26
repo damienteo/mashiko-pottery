@@ -2,22 +2,11 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import type { Potter } from "@/types/potter";
 
-interface Filters {
-  name: string | null;
-  style: string | null;
-  active: boolean | null;
-}
-
-interface Pagination {
-  limit: number;
-  page: number;
-  total: number;
-  totalPages: number;
-}
+import type { PotterFilters, Pagination } from "@/types/common";
 
 // Async thunk: fetch all potters
 export const fetchPottersList = createAsyncThunk<
-  { potters: Potter[]; filters: Filters; pagination: Pagination },
+  { potters: Potter[]; filters: PotterFilters; pagination: Pagination },
   {
     page?: number;
     limit?: number;
@@ -45,7 +34,7 @@ export const fetchPottersList = createAsyncThunk<
 
 interface PottersListState {
   items: Potter[];
-  filters: Filters;
+  filters: PotterFilters;
   pagination: Pagination;
   isLoading: boolean;
   isSuccess: boolean;
@@ -87,7 +76,7 @@ const pottersListSlice = createSlice({
           state,
           action: PayloadAction<{
             potters: Potter[];
-            filters: Filters;
+            filters: PotterFilters;
             pagination: Pagination;
           }>
         ) => {

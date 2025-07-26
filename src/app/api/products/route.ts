@@ -45,12 +45,12 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       products,
+      filters: { category, minPrice, maxPrice, potterId, title, inStock },
       pagination: {
         page,
         limit,
         total,
         totalPages: Math.ceil(total / limit),
-        filters: { category, minPrice, maxPrice, potterId, title, inStock },
       },
     });
   } catch (error) {

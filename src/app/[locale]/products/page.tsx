@@ -28,18 +28,20 @@ export default function ProductsPage() {
 
   useEffect(() => {
     if (!isLoading && products.length === 0) {
-      dispatch(fetchProductsList());
+      dispatch(fetchProductsList({}));
     }
   }, [dispatch, isLoading, products.length]);
 
   if (isLoading) {
-    return <p className="p-8 text-center text-gray-500">{t("loading")}</p>;
+    return (
+      <p className="p-8 text-center text-gray-500">{t("common.loading")}</p>
+    );
   }
 
   if (error) {
     return <p className="p-8 text-center text-red-600">{error}</p>;
   }
-
+  console.log({ products });
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
