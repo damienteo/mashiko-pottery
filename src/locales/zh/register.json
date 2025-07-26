@@ -30,5 +30,10 @@
   "username": "用户名",
   "phone": "电话",
   "zip": "邮编",
-  "loginInstead": "已有账户？请登录"
+  "loginInstead": "已有账户？请登录",
+  "entry": {
+    "pageTitle": "创建您的账户",
+    "pageDescription": "请输入电子邮件地址，开启您的旅程。"
+  },
+  "error": "发送验证邮件时发生错误。"
 }

@@ -30,5 +30,10 @@
   "username": "Username",
   "phone": "Phone Number",
   "zip": "Postal Code",
-  "loginInstead": "Already have an account? Log in instead"
+  "loginInstead": "Already have an account? Log in instead",
+  "entry": {
+    "pageTitle": "Create Your Account",
+    "pageDescription": "Start your journey with us by entering your email."
+  },
+  "error": "An error occurred while sending the verification email."
 }

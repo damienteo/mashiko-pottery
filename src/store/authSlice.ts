@@ -65,7 +65,12 @@ export const register = createAsyncThunk<User, Credentials>(
 export const signUpWithOtp = createAsyncThunk<void, string>(
   "auth/signUpWithOtp",
   async (email, { rejectWithValue }) => {
-    const { error } = await supabase.auth.signInWithOtp({ email });
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        shouldCreateUser: true,
+      },
+    });
     if (error) return rejectWithValue(error.message);
   }
 );
@@ -90,6 +95,28 @@ export const signInWithPasswordOrOtp = createAsyncThunk<User, Credentials>(
     } as User;
   }
 );
+
+export const verifyEmailOtp = createAsyncThunk<
+  User,
+  { email: string; token: string }
+>("auth/verifyEmailOtp", async ({ email, token }, { rejectWithValue }) => {
+  const { data, error } = await supabase.auth.verifyOtp({
+    email,
+    token,
+    type: "email",
+  });
+
+  if (error || !data.user) {
+    return rejectWithValue(error?.message || "OTP verification failed");
+  }
+
+  const { id, email: userEmail, user_metadata } = data.user;
+  return {
+    id,
+    email: userEmail,
+    role: user_metadata?.role || "user",
+  } as User;
+});
 
 // Async thunk for completing profile (secondary registration)
 export const completeProfile = createAsyncThunk<User, Partial<User>>(
@@ -181,6 +208,25 @@ const authSlice = createSlice({
         }
       )
       .addCase(signInWithPasswordOrOtp.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error =
+          (action.payload as string) || action.error.message || null;
+      })
+      .addCase(verifyEmailOtp.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(
+        verifyEmailOtp.fulfilled,
+        (state, action: PayloadAction<User>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.user = action.payload;
+        }
+      )
+      .addCase(verifyEmailOtp.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error =
