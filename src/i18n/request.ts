@@ -21,6 +21,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     potterSpotlights: (
       await import(`../locales/${locale}/potterSpotlights.json`)
     ).default,
+    register: (await import(`../locales/${locale}/register.json`)).default,
     seller: (await import(`../locales/${locale}/seller.json`)).default,
     admin: (await import(`../locales/${locale}/admin.json`)).default,
     products: (await import(`../locales/${locale}/products.json`)).default,

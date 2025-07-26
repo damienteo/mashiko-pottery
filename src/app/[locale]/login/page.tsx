@@ -15,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  // Fetch localized messages for the login page
+
   const t = await getTranslations({
     locale: locale,
     namespace: "common.login",
