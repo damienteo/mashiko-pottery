@@ -35,5 +35,11 @@
     "pageTitle": "Create Your Account",
     "pageDescription": "Start your journey with us by entering your email."
   },
+  "emailSent": {
+    "pageTitle": "Check Your Email",
+    "pageDescription": "A confirmation email has been sent to your inbox.",
+    "title": "Email Sent",
+    "instructions": "A confirmation email will be sent by Supabase Auth. Please check your inbox and click the link to complete your account creation. If you don't see it, check your spam folder."
+  },
   "error": "An error occurred while sending the verification email."
 }

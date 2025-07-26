@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
-import RegisterClient from "./RegisterClient";
+import RegisterDetailsClient from "./RegisterDetailsClient";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -35,5 +35,5 @@ export default async function RegisterPage(context: {
   const rawCallback = raw ?? `/${locale}`;
   const callback = decodeURIComponent(rawCallback);
 
-  return <RegisterClient callback={callback} />;
+  return <RegisterDetailsClient callback={callback} />;
 }

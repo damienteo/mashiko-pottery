@@ -66,7 +66,7 @@ const schema: yup.ObjectSchema<FormData> = yup.object({
   street: yup.string().required("validation.street.required"),
 });
 
-export default function RegisterForm({ callback }: Props) {
+export default function RegisterDetailsForm({ callback }: Props) {
   const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();

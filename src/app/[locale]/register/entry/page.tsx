@@ -26,14 +26,6 @@ export async function generateMetadata({
   };
 }
 
-export default async function RegisterEntryPage(context: {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<{ callback?: string }>;
-}) {
-  const { locale } = await context.params;
-  const { callback: raw } = await context.searchParams;
-  const rawCallback = raw ?? `/${locale}`;
-  const callback = decodeURIComponent(rawCallback);
-
-  return <RegisterClient callback={callback} />;
+export default async function RegisterEntryPage() {
+  return <RegisterClient />;
 }

@@ -62,6 +62,7 @@ export const register = createAsyncThunk<User, Credentials>(
   }
 );
 
+// TODO: Update Supabase Dashboard ->  Authentication → URL Configuration → Site URL when site url is confirmed
 export const signUpWithOtp = createAsyncThunk<void, string>(
   "auth/signUpWithOtp",
   async (email, { rejectWithValue }) => {
@@ -69,6 +70,7 @@ export const signUpWithOtp = createAsyncThunk<void, string>(
       email,
       options: {
         shouldCreateUser: true,
+        emailRedirectTo: "https://mashiko-pottery.vercel.app/",
       },
     });
     if (error) return rejectWithValue(error.message);

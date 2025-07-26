@@ -35,5 +35,11 @@
     "pageTitle": "创建您的账户",
     "pageDescription": "请输入电子邮件地址，开启您的旅程。"
   },
+  "emailSent": {
+    "pageTitle": "请检查您的邮箱",
+    "pageDescription": "我们已向您发送确认邮件。",
+    "title": "邮件已发送",
+    "instructions": "确认邮件将由 Supabase Auth 发送。请前往邮箱点击链接以完成账户注册。如未收到，请检查垃圾邮件文件夹。"
+  },
   "error": "发送验证邮件时发生错误。"
 }

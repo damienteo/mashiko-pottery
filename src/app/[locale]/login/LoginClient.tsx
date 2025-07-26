@@ -132,7 +132,7 @@ export default function LoginClient({ callback }: Props) {
           disabled={isSubmitting}
           className="w-full"
           variant="secondary"
-          onClick={() => router.push("/register")}
+          onClick={() => router.push("/register/entry")}
         >
           {t("register.title")}
         </Button>

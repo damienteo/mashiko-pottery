@@ -14,10 +14,6 @@ import {
 } from "@/store/authSlice";
 import Button from "@/components/ui/Button";
 
-interface Props {
-  callback: string;
-}
-
 interface FormData {
   email: string;
 }
@@ -29,7 +25,7 @@ const schema: yup.ObjectSchema<FormData> = yup.object({
     .email("validation.email.invalid"),
 });
 
-export default function RegistryEntryClient({ callback }: Props) {
+export default function RegistryEntryClient() {
   const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -47,7 +43,7 @@ export default function RegistryEntryClient({ callback }: Props) {
   const onSubmit = async (data: FormData) => {
     const result = await dispatch(signUpWithOtp(data.email));
     if (signUpWithOtp.fulfilled.match(result)) {
-      router.push(callback);
+      router.push("/register/email-sent");
     }
   };
 
