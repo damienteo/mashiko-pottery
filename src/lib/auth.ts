@@ -1,7 +1,7 @@
 import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+
+import { createClient } from "@/lib/supabase/server";
 
 export type SessionUser = {
   id: number;
@@ -9,8 +9,9 @@ export type SessionUser = {
   role: "ADMIN" | "CUSTOMER" | "SELLER" | "OPERATIONS";
 };
 
+const supabase = await createClient();
+
 export async function getServerSessionUser(): Promise<SessionUser | null> {
-  const supabase = createServerComponentClient({ cookies });
   const {
     data: { user },
   } = await supabase.auth.getUser();
