@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import Analytics from "./ClientAnalytics";
 import StoreProvider from "./StoreProvider";
+import AuthLoader from "@/components/auth/AuthLoader";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ToasterContainer } from "@/components/ui/Toast";
@@ -106,6 +107,7 @@ export default async function RootLayout({
       <body className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <NextIntlClientProvider>
           <StoreProvider>
+            <AuthLoader />
             <Analytics />
             {/* main content grows to push footer to bottom */}
             <main className="flex-grow">

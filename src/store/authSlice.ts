@@ -35,7 +35,7 @@ export const signUpWithOtp = createAsyncThunk<void, string>(
 // Async thunk to sign in with either password or OTP (magic-link)
 // Now accepts an optional callback for OTP magic-link redirects
 export const signInWithPasswordOrOtp = createAsyncThunk<
-  User,
+  User | null,
   Credentials & { callback?: string }
 >(
   "auth/signInWithPasswordOrOtp",
@@ -52,7 +52,7 @@ export const signInWithPasswordOrOtp = createAsyncThunk<
     }
 
     // On signInWithOtp, data.user will be null, since it's just a magic link sent, and not actually signed in yet
-    if (!data.user) return {} as User;
+    if (!data.user) return null;
 
     const { id, email: userEmail, user_metadata } = data.user;
     return {
@@ -102,16 +102,33 @@ export const completeProfile = createAsyncThunk<User, Partial<User>>(
   }
 );
 
+export const logoutUser = createAsyncThunk<void>(
+  "auth/logoutUser",
+  async (_, { rejectWithValue }) => {
+    const { error } = await supabase.auth.signOut();
+    if (error) return rejectWithValue(error.message);
+  }
+);
+
+export const fetchSupabaseUser = createAsyncThunk<User | null>(
+  "auth/fetchSupabaseUser",
+  async () => {
+    const { data, error } = await supabase.auth.getUser();
+    if (error || !data.user) return null;
+
+    const { id, email, user_metadata } = data.user;
+    return {
+      id,
+      email,
+      role: user_metadata?.role || "user",
+    } as User;
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logout(state) {
-      state.user = null;
-      state.isSuccess = false;
-      state.error = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signUpWithOtp.pending, (state) => {
@@ -136,9 +153,9 @@ const authSlice = createSlice({
       })
       .addCase(
         signInWithPasswordOrOtp.fulfilled,
-        (state, action: PayloadAction<User>) => {
+        (state, action: PayloadAction<User | null>) => {
           state.isLoading = false;
-          state.isSuccess = true;
+          state.isSuccess = !!action.payload;
           state.user = action.payload;
         }
       )
@@ -186,11 +203,40 @@ const authSlice = createSlice({
         state.isSuccess = false;
         state.error =
           (action.payload as string) || action.error.message || null;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user = null;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.error =
+          (action.payload as string) || action.error.message || null;
+      })
+      .addCase(fetchSupabaseUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchSupabaseUser.fulfilled,
+        (state, action: PayloadAction<User | null>) => {
+          state.isLoading = false;
+          state.user = action.payload;
+        }
+      )
+      .addCase(fetchSupabaseUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectAuthLoading = (state: RootState) => state.auth.isLoading;
 export const selectAuthSuccess = (state: RootState) => state.auth.isSuccess;

@@ -5,7 +5,7 @@ import LanguageSelector from "./LanguageSelector";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectCartCount } from "@/store/cartSlice";
-import { selectCurrentUser, logout } from "@/store/authSlice";
+import { selectCurrentUser, logoutUser } from "@/store/authSlice";
 import Button from "@/components/ui/Button";
 
 export default function Navbar() {
@@ -108,7 +108,7 @@ export default function Navbar() {
                 <li>
                   <Button
                     variant="secondary"
-                    onClick={() => dispatch(logout())}
+                    onClick={() => dispatch(logoutUser())}
                     className="hover:underline"
                   >
                     {t("common.logout.title")}
@@ -242,7 +242,7 @@ export default function Navbar() {
                         <Button
                           variant="secondary"
                           onClick={() => {
-                            dispatch(logout());
+                            dispatch(logoutUser());
                             setMenuOpen(false);
                           }}
                           className="block text-lg w-full text-left"
