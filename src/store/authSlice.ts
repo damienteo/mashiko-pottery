@@ -17,51 +17,6 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Async thunk for login
-export const login = createAsyncThunk<User, Credentials>(
-  "auth/login",
-  async (creds, { rejectWithValue }) => {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(creds),
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Login failed");
-    }
-    const { id, email, user_metadata } = await res.json();
-    return {
-      id,
-      email,
-      role: user_metadata?.role || "user",
-    } as User;
-  }
-);
-
-// Async thunk for registration
-// Should be deprecated in favor of the new registration flow
-export const register = createAsyncThunk<User, Credentials>(
-  "auth/register",
-  async (creds, { rejectWithValue }) => {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(creds),
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Registration failed");
-    }
-    const { id, email, user_metadata } = await res.json();
-    return {
-      id,
-      email,
-      role: user_metadata?.role || "user",
-    } as User;
-  }
-);
-
 // TODO: Update Supabase Dashboard ->  Authentication → URL Configuration → Site URL when site url is confirmed
 export const signUpWithOtp = createAsyncThunk<void, string>(
   "auth/signUpWithOtp",
@@ -78,16 +33,26 @@ export const signUpWithOtp = createAsyncThunk<void, string>(
 );
 
 // Async thunk to sign in with either password or OTP (magic-link)
-export const signInWithPasswordOrOtp = createAsyncThunk<User, Credentials>(
+// Now accepts an optional callback for OTP magic-link redirects
+export const signInWithPasswordOrOtp = createAsyncThunk<
+  User,
+  Credentials & { callback?: string }
+>(
   "auth/signInWithPasswordOrOtp",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ email, password, callback }, { rejectWithValue }) => {
     const { data, error } = password
       ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signInWithOtp({ email });
-
-    if (error || !data.user) {
-      return rejectWithValue(error?.message || "Sign-in failed");
+      : await supabase.auth.signInWithOtp({
+          email,
+          options: callback ? { emailRedirectTo: callback } : {},
+        });
+    console.log({ data, error });
+    if (error) {
+      return rejectWithValue(error.message);
     }
+
+    // On signInWithOtp, data.user will be null, since it's just a magic link sent, and not actually signed in yet
+    if (!data.user) return {} as User;
 
     const { id, email: userEmail, user_metadata } = data.user;
     return {
@@ -149,38 +114,6 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
-      })
-      .addCase(login.fulfilled, (state, action: PayloadAction<User>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
-      })
-      .addCase(register.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
-      })
-      .addCase(register.fulfilled, (state, action: PayloadAction<User>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
-      })
-      .addCase(register.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
-      })
       .addCase(signUpWithOtp.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;

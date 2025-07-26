@@ -7,6 +7,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
 
 import Button from "@/components/ui/Button";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  signInWithPasswordOrOtp,
+  selectAuthLoading,
+  selectAuthError,
+} from "@/store/authSlice";
 
 interface Props {
   callback: string;
@@ -14,6 +20,7 @@ interface Props {
 
 interface FormData {
   email: string;
+  callback?: string;
 }
 
 const schema = yup.object({
@@ -30,29 +37,25 @@ const schema = yup.object({
 
 export default function LoginClient({ callback }: Props) {
   const t = useTranslations("common");
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectAuthLoading);
+  const authError = useAppSelector(selectAuthError);
   const [emailSent, setEmailSent] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError: setFormError,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data: FormData) => {
-    try {
-      // Simulate sending magic link email
-      // Replace this with actual API call to send magic link
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    const result = await dispatch(
+      signInWithPasswordOrOtp({ email: data.email, callback })
+    );
+    if (signInWithPasswordOrOtp.fulfilled.match(result)) {
       setEmailSent(true);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setFormError("email", { message: t("login.error") });
-      } else {
-        setFormError("email", { message: t("login.unknownError") });
-      }
     }
   };
 
@@ -87,8 +90,15 @@ export default function LoginClient({ callback }: Props) {
             <p className="text-red-600 mt-1">{t(errors.email.message)}</p>
           )}
         </div>
-        <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? t("login.sending") : t("login.sendMagicLink")}
+        {authError && <p className="text-red-600 text-sm">{authError}</p>}
+        <Button
+          type="submit"
+          disabled={isSubmitting || isLoading}
+          className="w-full"
+        >
+          {isSubmitting || isLoading
+            ? t("login.sending")
+            : t("login.sendMagicLink")}
         </Button>
       </form>
     </div>
