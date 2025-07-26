@@ -1,3 +1,4 @@
+// DEPRECATED: This mock auth route is no longer used. Supabase Auth handles login and session management.
 import { NextRequest, NextResponse } from "next/server";
 
 // Mock user database
@@ -8,6 +9,9 @@ const mockUsers = [
 
 // POST /api/auth - login
 export async function POST(req: NextRequest) {
+  console.warn(
+    "DEPRECATED: POST /api/auth is no longer used. Use Supabase Auth instead."
+  );
   try {
     const { username, password } = await req.json();
     const user = mockUsers.find(
@@ -34,6 +38,9 @@ export async function POST(req: NextRequest) {
 
 // GET /api/auth - get current session (mock)
 export async function GET() {
+  console.warn(
+    "DEPRECATED: GET /api/auth is no longer used. Use Supabase Auth instead."
+  );
   // In a real app, you'd read from cookies or headers
   // Here we return a mock "not authenticated" response
   return NextResponse.json({ user: null });
