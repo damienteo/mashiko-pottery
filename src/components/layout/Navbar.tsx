@@ -114,11 +114,18 @@ export default function Navbar() {
                 </Button>
               </li>
             ) : (
-              <li>
-                <Link href="/login" className="hover:underline">
-                  {t("common.login.title")}
-                </Link>
-              </li>
+              <>
+                <li>
+                  <Link href="/login" className="hover:underline">
+                    {t("common.login.title")}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/register/entry" className="hover:underline">
+                    {t("register.title")}
+                  </Link>
+                </li>
+              </>
             )}
             <li>
               <LanguageSelector />
@@ -240,15 +247,25 @@ export default function Navbar() {
                       </Button>
                     </li>
                   ) : (
-                    <li>
-                      <Link
-                        href="/login"
-                        onClick={() => setMenuOpen(false)}
-                        className="block text-lg"
-                      >
-                        {t("common.login.title")}
-                      </Link>
-                    </li>
+                    <>
+                      <li>
+                        <Link
+                          href="/login"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg"
+                        >
+                          {t("common.login.title")}
+                        </Link>
+                      </li>{" "}
+                      <li>
+                        <Link
+                          href="/register/entry"
+                          className="hover:underline"
+                        >
+                          {t("register.title")}
+                        </Link>
+                      </li>
+                    </>
                   )}
                   <li>
                     <LanguageSelector />
