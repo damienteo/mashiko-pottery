@@ -5,10 +5,15 @@
     "username": "用户名",
     "password": "密码",
     "submit": "登录",
+    "sending": "正在发送...",
     "error": "登录失败，请检查您的凭证。",
     "loading": "正在登录…",
     "success": "登录成功",
-    "unknownError": "发生未知错误"
+    "unknownError": "发生未知错误",
+    "email": "邮箱",
+    "sendMagicLink": "发送魔术链接",
+    "magicLinkSent": "我们已发送临时登录链接给您。",
+    "checkYourInbox": "请检查您的收件箱以继续操作。"
   },
   "register": {
     "title": "注册",

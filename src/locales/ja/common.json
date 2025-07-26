@@ -5,10 +5,15 @@
     "username": "ユーザー名",
     "password": "パスワード",
     "submit": "サインイン",
+    "sending": "送信中...",
     "error": "ログインに失敗しました。資格情報を確認してください。",
     "loading": "サインイン中…",
     "success": "サインインに成功しました",
-    "unknownError": "不明なエラーが発生しました"
+    "unknownError": "不明なエラーが発生しました",
+    "email": "メールアドレス",
+    "sendMagicLink": "マジックリンクを送信",
+    "magicLinkSent": "仮のログインリンクを送信しました。",
+    "checkYourInbox": "続行するにはメールを確認してください。"
   },
   "register": {
     "title": "登録",

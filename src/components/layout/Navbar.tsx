@@ -54,65 +54,67 @@ export default function Navbar() {
               </Link>
             </li>
 
-            <li>
-              <Link
-                href="/admin/products"
-                className="hover:underline text-red-600"
-              >
-                {t("admin.nav.products")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/orders"
-                className="hover:underline text-red-600"
-              >
-                {t("admin.nav.orders")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/admin/payouts"
-                className="hover:underline text-red-600"
-              >
-                {t("admin.nav.payouts")}
-              </Link>
-            </li>
-            {/* Seller navigation links */}
-            <li>
-              <Link
-                href="/seller/profile"
-                className="hover:underline text-green-600"
-              >
-                {t("seller.nav.profile")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/seller/inventory"
-                className="hover:underline text-green-600"
-              >
-                {t("seller.nav.inventory")}
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/seller/payouts"
-                className="hover:underline text-green-600"
-              >
-                {t("seller.nav.payoutHistory")}
-              </Link>
-            </li>
             {user ? (
-              <li>
-                <Button
-                  variant="secondary"
-                  onClick={() => dispatch(logout())}
-                  className="hover:underline"
-                >
-                  {t("common.logout.title")}
-                </Button>
-              </li>
+              <>
+                <li>
+                  <Link
+                    href="/admin/products"
+                    className="hover:underline text-red-600"
+                  >
+                    {t("admin.nav.products")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/admin/orders"
+                    className="hover:underline text-red-600"
+                  >
+                    {t("admin.nav.orders")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/admin/payouts"
+                    className="hover:underline text-red-600"
+                  >
+                    {t("admin.nav.payouts")}
+                  </Link>
+                </li>
+                {/* Seller navigation links */}
+                <li>
+                  <Link
+                    href="/seller/profile"
+                    className="hover:underline text-green-600"
+                  >
+                    {t("seller.nav.profile")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/seller/inventory"
+                    className="hover:underline text-green-600"
+                  >
+                    {t("seller.nav.inventory")}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/seller/payouts"
+                    className="hover:underline text-green-600"
+                  >
+                    {t("seller.nav.payoutHistory")}
+                  </Link>
+                </li>
+                <li>
+                  <Button
+                    variant="secondary"
+                    onClick={() => dispatch(logout())}
+                    className="hover:underline"
+                  >
+                    {t("common.logout.title")}
+                  </Button>
+                </li>
+              </>
             ) : (
               <>
                 <li>
@@ -178,74 +180,77 @@ export default function Navbar() {
                       {hasMounted ? ` (${cartCount})` : ""}
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      href="/admin/products"
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg text-red-600"
-                    >
-                      {t("admin.nav.products")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/admin/orders"
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg text-red-600"
-                    >
-                      {t("admin.nav.orders")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/admin/payouts"
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg text-red-600"
-                    >
-                      {t("admin.nav.payouts")}
-                    </Link>
-                  </li>
-                  {/* Seller navigation links */}
-                  <li>
-                    <Link
-                      href="/seller/profile"
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg text-green-600"
-                    >
-                      {t("seller.nav.profile")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/seller/inventory"
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg text-green-600"
-                    >
-                      {t("seller.nav.inventory")}
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/seller/payouts"
-                      onClick={() => setMenuOpen(false)}
-                      className="block text-lg text-green-600"
-                    >
-                      {t("seller.nav.payoutHistory")}
-                    </Link>
-                  </li>
+
                   {user ? (
-                    <li>
-                      <Button
-                        variant="secondary"
-                        onClick={() => {
-                          dispatch(logout());
-                          setMenuOpen(false);
-                        }}
-                        className="block text-lg w-full text-left"
-                      >
-                        {t("common.logout.title")}
-                      </Button>
-                    </li>
+                    <>
+                      <li>
+                        <Link
+                          href="/admin/products"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg text-red-600"
+                        >
+                          {t("admin.nav.products")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/admin/orders"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg text-red-600"
+                        >
+                          {t("admin.nav.orders")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/admin/payouts"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg text-red-600"
+                        >
+                          {t("admin.nav.payouts")}
+                        </Link>
+                      </li>
+                      {/* Seller navigation links */}
+                      <li>
+                        <Link
+                          href="/seller/profile"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg text-green-600"
+                        >
+                          {t("seller.nav.profile")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/seller/inventory"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg text-green-600"
+                        >
+                          {t("seller.nav.inventory")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/seller/payouts"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg text-green-600"
+                        >
+                          {t("seller.nav.payoutHistory")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Button
+                          variant="secondary"
+                          onClick={() => {
+                            dispatch(logout());
+                            setMenuOpen(false);
+                          }}
+                          className="block text-lg w-full text-left"
+                        >
+                          {t("common.logout.title")}
+                        </Button>
+                      </li>
+                    </>
                   ) : (
                     <>
                       <li>

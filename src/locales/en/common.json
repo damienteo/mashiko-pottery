@@ -5,10 +5,15 @@
     "username": "Username",
     "password": "Password",
     "submit": "Sign In",
+    "sending": "Sending...",
     "error": "Login failed. Please check your credentials.",
     "loading": "Signing in...",
     "success": "Login successful",
-    "unknownError": "An unknown error occurred"
+    "unknownError": "An unknown error occurred",
+    "email": "Email",
+    "sendMagicLink": "Send Magic Link",
+    "magicLinkSent": "We've sent you a temporary login link.",
+    "checkYourInbox": "Please check your inbox to continue."
   },
   "register": {
     "title": "Register",
