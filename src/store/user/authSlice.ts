@@ -167,26 +167,6 @@ const authSlice = createSlice({
         state.error =
           (action.payload as string) || action.error.message || null;
       })
-      // Handle completeProfile async thunk
-      .addCase(completeProfile.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
-      })
-      .addCase(
-        completeProfile.fulfilled,
-        (state, action: PayloadAction<User>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.user = action.payload;
-        }
-      )
-      .addCase(completeProfile.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
-      })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
         state.isSuccess = false;
