@@ -15,7 +15,7 @@ import {
   selectCartCount,
   clearCart,
 } from "@/store/cartSlice";
-import { selectCurrentUser } from "@/store/authSlice";
+import { selectCurrentUser } from "@/store/user/authSlice";
 import Link from "next/link";
 import { useLocale } from "next-intl";
 import Button from "@/components/ui/Button";

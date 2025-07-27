@@ -12,7 +12,7 @@ import {
   signInWithPasswordOrOtp,
   selectAuthLoading,
   selectAuthError,
-} from "@/store/authSlice";
+} from "@/store/user/authSlice";
 
 interface Props {
   callback: string;

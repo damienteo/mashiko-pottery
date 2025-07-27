@@ -5,7 +5,7 @@ import LanguageSelector from "./LanguageSelector";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectCartCount } from "@/store/cartSlice";
-import { selectCurrentUser, logoutUser } from "@/store/authSlice";
+import { selectCurrentUser, logoutUser } from "@/store/user/authSlice";
 import Button from "@/components/ui/Button";
 
 export default function Navbar() {

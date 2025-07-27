@@ -11,7 +11,7 @@ import {
   signUpWithOtp,
   selectAuthLoading,
   selectAuthError,
-} from "@/store/authSlice";
+} from "@/store/user/authSlice";
 import Button from "@/components/ui/Button";
 
 interface FormData {

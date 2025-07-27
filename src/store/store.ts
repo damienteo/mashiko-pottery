@@ -6,7 +6,7 @@ import productsListReducer from "./products/productsListSlice";
 import productDetailReducer from "./products/productDetailsSlice";
 import pottersListReducer from "./potters/pottersListSlice";
 import potterDetailReducer from "./potters/potterDetailsSlice";
-import authReducer from "./authSlice";
+import authReducer from "./user/authSlice";
 import uiReducer from "./uiSlice";
 import settingsReducer from "./settingsSlice";
 import notificationReducer from "./notificationSlice";

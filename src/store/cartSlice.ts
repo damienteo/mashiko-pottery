@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { Middleware } from "@reduxjs/toolkit";
 import type { RootState } from "./store";
 import { saveCartToStorage } from "./localStorage";
-import { selectCurrentUser } from "./authSlice";
+import { selectCurrentUser } from "./user/authSlice";
 import type { CartItem } from "@/types/cart";
 
 interface CartState {
