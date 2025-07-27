@@ -47,62 +47,69 @@
   "error": "发送验证邮件时发生错误。",
   "completeProfile": {
     "title": "完善您的个人资料",
-    "description": "请填写所需的个人和地址信息以完成注册。"
+    "description": "请填写所需的个人和地址信息以完成注册。",
+    "success": "您的个人资料已成功完成。"
   },
   "validation": {
     "username": {
-      "required": "Please enter your username.",
-      "min": "Username must be at least 8 characters."
+      "required": "请输入用户名。",
+      "min": "用户名至少需要8个字符。"
     },
     "password": {
-      "required": "Please enter your password.",
-      "min": "Password must be at least 8 characters."
+      "required": "请输入密码。",
+      "min": "密码至少需要8个字符。"
     },
     "firstName": {
-      "required": "Please enter your first name."
+      "required": "请输入名字。"
     },
     "lastName": {
-      "required": "Please enter your last name."
+      "required": "请输入姓氏。"
     },
     "firstNameKana": {
-      "required": "Please enter your first name in katakana.",
-      "katakana": "Please enter in katakana."
+      "required": "请输入名字的片假名。",
+      "katakana": "请输入片假名格式。"
     },
     "lastNameKana": {
-      "required": "Please enter your last name in katakana.",
-      "katakana": "Please enter in katakana."
+      "required": "请输入姓氏的片假名。",
+      "katakana": "请输入片假名格式。"
     },
     "phone": {
-      "required": "Please enter your phone number.",
-      "invalid": "Please enter a valid phone number."
+      "required": "请输入电话号码。",
+      "invalid": "请输入有效的电话号码。"
     },
     "gender": {
-      "required": "Please select your gender."
+      "required": "请选择性别。"
     },
     "birthYear": {
-      "required": "Please enter your birth year."
+      "required": "请输入出生年份。",
+      "number": "出生年份必须是数字。",
+      "invalid": "出生年份必须是1900年或之后。"
     },
     "birthMonth": {
-      "required": "Please enter your birth month."
+      "required": "请输入出生月份。",
+      "number": "出生月份必须是数字。",
+      "range": "出生月份必须在1到12之间。"
     },
     "birthDay": {
-      "required": "Please enter your birth day."
+      "required": "请输入出生日。",
+      "number": "出生日必须是数字。",
+      "range": "出生日必须在1到31之间。"
     },
     "zip": {
-      "required": "Please enter your zip code.",
-      "invalid": "Zip code must be a 7-digit number."
+      "required": "请输入邮政编码。",
+      "invalid": "邮政编码必须是7位数字。"
     },
     "pref": {
-      "required": "Please enter your prefecture.",
-      "tooLong": "Prefecture must be 50 characters max."
+      "required": "请输入都道府县。",
+      "tooLong": "都道府县最多50个字符。"
     },
     "city": {
-      "required": "Please enter your city/town.",
-      "tooLong": "City name must be 100 characters max."
+      "required": "请输入城市或乡镇。",
+      "tooLong": "城市名称最多100个字符。"
     },
     "street": {
-      "required": "Please enter your street address.",
-      "tooLong": "Street must be 100 characters max."
+      "required": "请输入街道地址。",
+      "tooLong": "街道地址最多100个字符。"
     }
   }
 }

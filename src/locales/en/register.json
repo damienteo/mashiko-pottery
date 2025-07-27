@@ -47,7 +47,8 @@
   "error": "An error occurred while sending the verification email.",
   "completeProfile": {
     "title": "Complete Your Profile",
-    "description": "Please provide the required personal and address details to finish registration."
+    "description": "Please provide the required personal and address details to finish registration.",
+    "success": "Your profile has been completed successfully."
   },
   "validation": {
     "username": {
@@ -80,13 +81,19 @@
       "required": "Please select your gender."
     },
     "birthYear": {
-      "required": "Please enter your birth year."
+      "required": "Please enter your birth year.",
+      "number": "Birth year must be a number.",
+      "invalid": "Birth year must be 1900 or later."
     },
     "birthMonth": {
-      "required": "Please enter your birth month."
+      "required": "Please enter your birth month.",
+      "number": "Birth month must be a number.",
+      "range": "Birth month must be between 1 and 12."
     },
     "birthDay": {
-      "required": "Please enter your birth day."
+      "required": "Please enter your birth day.",
+      "number": "Birth day must be a number.",
+      "range": "Birth day must be between 1 and 31."
     },
     "zip": {
       "required": "Please enter your zip code.",
