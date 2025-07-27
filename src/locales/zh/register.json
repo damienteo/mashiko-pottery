@@ -45,6 +45,10 @@
     "instructions": "确认邮件将由 Supabase Auth 发送。请前往邮箱点击链接以完成账户注册。如未收到，请检查垃圾邮件文件夹。"
   },
   "error": "发送验证邮件时发生错误。",
+  "completeProfile": {
+    "title": "完善您的个人资料",
+    "description": "请填写所需的个人和地址信息以完成注册。"
+  },
   "validation": {
     "username": {
       "required": "Please enter your username.",

@@ -45,61 +45,9 @@
     "instructions": "A confirmation email will be sent by Supabase Auth. Please check your inbox and click the link to complete your account creation. If you don't see it, check your spam folder."
   },
   "error": "An error occurred while sending the verification email.",
-  "validation": {
-    "username": {
-      "required": "ユーザー名を入力してください",
-      "min": "ユーザー名は8文字以上で入力してください"
-    },
-    "password": {
-      "required": "パスワードを入力してください",
-      "min": "パスワードは8文字以上で入力してください"
-    },
-    "firstName": {
-      "required": "名を入力してください"
-    },
-    "lastName": {
-      "required": "姓を入力してください"
-    },
-    "firstNameKana": {
-      "required": "名（カナ）を入力してください",
-      "katakana": "カタカナで入力してください"
-    },
-    "lastNameKana": {
-      "required": "姓（カナ）を入力してください",
-      "katakana": "カタカナで入力してください"
-    },
-    "phone": {
-      "required": "電話番号を入力してください",
-      "invalid": "有効な電話番号を入力してください"
-    },
-    "gender": {
-      "required": "性別を選択してください"
-    },
-    "birthYear": {
-      "required": "生年を入力してください"
-    },
-    "birthMonth": {
-      "required": "月を入力してください"
-    },
-    "birthDay": {
-      "required": "日を入力してください"
-    },
-    "zip": {
-      "required": "郵便番号を入力してください",
-      "invalid": "郵便番号は7桁の数字で入力してください"
-    },
-    "pref": {
-      "required": "都道府県を入力してください",
-      "tooLong": "都道府県は50文字以内で入力してください"
-    },
-    "city": {
-      "required": "市区町村を入力してください",
-      "tooLong": "市区町村は100文字以内で入力してください"
-    },
-    "street": {
-      "required": "番地・建物名を入力してください",
-      "tooLong": "番地・建物名は100文字以内で入力してください"
-    }
+  "completeProfile": {
+    "title": "Complete Your Profile",
+    "description": "Please provide the required personal and address details to finish registration."
   },
   "validation": {
     "username": {

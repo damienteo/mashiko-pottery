@@ -48,7 +48,7 @@ export default function RegistryEntryClient() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-16 p-8 border rounded shadow-sm bg-white">
+    <div className="max-w-md mx-auto my-16 p-8 border rounded shadow-sm bg-white">
       <h1 className="text-2xl font-bold mb-6">{t("register.title")}</h1>
       {authError && (
         <div className="mb-4 text-red-600 text-sm font-medium">

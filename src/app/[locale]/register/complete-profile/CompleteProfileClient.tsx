@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -20,10 +19,6 @@ import Button from "@/components/ui/Button";
 import { useEffect } from "react";
 import { useAppSelector } from "@/store/hooks";
 import { fetchUserProfile, selectUserProfile } from "@/store/user/userSlice";
-
-interface Props {
-  callback: string;
-}
 
 interface FormData {
   firstName: string;
@@ -95,9 +90,8 @@ const schema: yup.ObjectSchema<FormData> = yup.object({
     .max(100, "validation.street.tooLong"),
 });
 
-export default function RegisterDetailsForm({ callback }: Props) {
+export default function RegisterDetailsForm() {
   const t = useTranslations();
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const { success, error: toastError } = useToast();
 
@@ -150,7 +144,6 @@ export default function RegisterDetailsForm({ callback }: Props) {
           clearCartFromStorage();
         }
         await dispatch(fetchCart());
-        router.push(callback);
       } else {
         throw new Error("Profile creation failed");
       }
@@ -166,7 +159,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-16 p-8 border rounded shadow-sm bg-white">
+    <div className="max-w-md mx-auto my-16 p-8 border rounded shadow-sm bg-white">
       <h1 className="text-2xl font-bold mb-6">{t("register.title")}</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}

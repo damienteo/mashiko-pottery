@@ -4,7 +4,7 @@ export default function RegisterEmailSentClient() {
   const t = useTranslations();
 
   return (
-    <div className="max-w-md mx-auto mt-16 p-8 border rounded shadow-sm bg-white">
+    <div className="max-w-md mx-auto my-16 p-8 border rounded shadow-sm bg-white">
       <h1 className="text-2xl font-bold mb-4">
         {t("register.emailSent.title")}
       </h1>
