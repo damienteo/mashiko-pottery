@@ -106,6 +106,11 @@ export default function Navbar() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/profile" className="hover:underline">
+                    {t("profile.link")}
+                  </Link>
+                </li>
+                <li>
                   <Button
                     variant="secondary"
                     onClick={() => dispatch(logoutUser())}
@@ -236,6 +241,15 @@ export default function Navbar() {
                           className="block text-lg text-green-600"
                         >
                           {t("seller.nav.payoutHistory")}
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/profile"
+                          onClick={() => setMenuOpen(false)}
+                          className="block text-lg"
+                        >
+                          {t("profile.title")}
                         </Link>
                       </li>
                       <li>

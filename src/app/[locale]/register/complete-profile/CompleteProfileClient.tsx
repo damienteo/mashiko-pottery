@@ -13,7 +13,7 @@ import { mergeCart, fetchCart } from "@/store/cartSlice";
 import { useToast } from "@/components/ui/Toast";
 import UserProfileForm, { FormData } from "@/components/forms/UserProfileForm";
 
-export default function RegisterDetailsForm() {
+export default function CompleteProfileClient() {
   const t = useTranslations();
   const dispatch = useAppDispatch();
   const { success, error: toastError } = useToast();

@@ -4,6 +4,7 @@ import type { UserProfile } from "@/types/user";
 
 const CREATE_ENDPOINT = "/api/user/create";
 const FETCH_ENDPOINT = "/api/user/profile";
+const UPDATE_ENDPOINT = "/api/user/update-profile";
 
 interface UserProfileState {
   profile: UserProfile | null;
@@ -31,6 +32,22 @@ export const createUserProfile = createAsyncThunk<
   if (!res.ok) {
     const err = await res.json();
     return rejectWithValue(err.message || "Profile creation failed");
+  }
+  return (await res.json()) as UserProfile;
+});
+
+export const updateUserProfile = createAsyncThunk<
+  UserProfile,
+  Partial<UserProfile>
+>("user/updateUserProfile", async (profileData, { rejectWithValue }) => {
+  const res = await fetch(UPDATE_ENDPOINT, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(profileData),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    return rejectWithValue(err.message || "Profile update failed");
   }
   return (await res.json()) as UserProfile;
 });
@@ -66,6 +83,25 @@ const userSlice = createSlice({
         }
       )
       .addCase(createUserProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error =
+          (action.payload as string) || action.error.message || null;
+      })
+      .addCase(updateUserProfile.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(
+        updateUserProfile.fulfilled,
+        (state, action: PayloadAction<UserProfile>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.profile = action.payload;
+        }
+      )
+      .addCase(updateUserProfile.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error =

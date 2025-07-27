@@ -1,0 +1,12 @@
+{
+  "title": "My Profile",
+  "description": "View and update your personal information",
+  "link": "Profile",
+  "update": {
+    "title": "Update Profile",
+    "submit": "Save Changes",
+    "success": "Your profile has been successfully updated.",
+    "error": "Failed to update profile. Please try again.",
+    "unknownError": "An unexpected error occurred. Please try again later."
+  }
+}
