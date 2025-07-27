@@ -19,9 +19,9 @@ export interface UserProfile {
   lastNameKana: string;
   phone: string;
   gender: "male" | "female" | "other" | "none";
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
+  birthYear: number;
+  birthMonth: number;
+  birthDay: number;
   zip: string;
   pref: string;
   city: string;

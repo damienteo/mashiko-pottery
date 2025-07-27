@@ -28,9 +28,9 @@ interface FormData {
   lastNameKana: string;
   phone: string;
   gender: "male" | "female" | "other" | "none";
-  birthYear: string;
-  birthMonth: string;
-  birthDay: string;
+  birthYear: number;
+  birthMonth: number;
+  birthDay: number;
   zip: string;
   pref: string;
   city: string;
@@ -38,14 +38,6 @@ interface FormData {
 }
 
 const schema: yup.ObjectSchema<FormData> = yup.object({
-  username: yup
-    .string()
-    .required("validation.username.required")
-    .min(8, "validation.username.min"),
-  password: yup
-    .string()
-    .required("validation.password.required")
-    .min(8, "validation.password.min"),
   firstName: yup.string().required("validation.firstName.required"),
   lastName: yup.string().required("validation.lastName.required"),
   firstNameKana: yup
@@ -64,9 +56,23 @@ const schema: yup.ObjectSchema<FormData> = yup.object({
     .mixed<"male" | "female" | "other" | "none">()
     .oneOf(["male", "female", "other", "none"])
     .required("validation.gender.required"),
-  birthYear: yup.string().required("validation.birthYear.required").min(1),
-  birthMonth: yup.string().required("validation.birthMonth.required").min(1),
-  birthDay: yup.string().required("validation.birthDay.required").min(1),
+  birthYear: yup
+    .number()
+    .typeError("validation.birthYear.number")
+    .required("validation.birthYear.required")
+    .min(1900, "validation.birthYear.invalid"),
+  birthMonth: yup
+    .number()
+    .typeError("validation.birthMonth.number")
+    .required("validation.birthMonth.required")
+    .min(1, "validation.birthMonth.range")
+    .max(12, "validation.birthMonth.range"),
+  birthDay: yup
+    .number()
+    .typeError("validation.birthDay.number")
+    .required("validation.birthDay.required")
+    .min(1, "validation.birthDay.range")
+    .max(31, "validation.birthDay.range"),
   zip: yup
     .string()
     .required("validation.zip.required")
@@ -99,6 +105,8 @@ export default function RegisterDetailsForm({ callback }: Props) {
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  console.log({ errors });
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -248,7 +256,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             </label>
             <input
               id="birthYear"
-              type="text"
+              type="number"
               {...register("birthYear")}
               placeholder="1980"
               className={`w-full p-2 border rounded ${errors.birthYear ? "border-red-600" : ""}`}
@@ -265,7 +273,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             </label>
             <input
               id="birthMonth"
-              type="text"
+              type="number"
               {...register("birthMonth")}
               placeholder="1"
               className={`w-full p-2 border rounded ${errors.birthMonth ? "border-red-600" : ""}`}
@@ -282,7 +290,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             </label>
             <input
               id="birthDay"
-              type="text"
+              type="number"
               {...register("birthDay")}
               placeholder="1"
               className={`w-full p-2 border rounded ${errors.birthDay ? "border-red-600" : ""}`}
@@ -363,7 +371,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
           )}
         </div>
         <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? t("register.loading") : t("register.submit")}
+          {isSubmitting ? t("register.submitting") : t("register.submit")}
         </Button>
       </form>
     </div>
