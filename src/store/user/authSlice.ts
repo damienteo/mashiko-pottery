@@ -83,23 +83,6 @@ export const verifyEmailOtp = createAsyncThunk<
   } as User;
 });
 
-// Async thunk for completing profile (secondary registration)
-export const completeProfile = createAsyncThunk<User, Partial<User>>(
-  "auth/completeProfile",
-  async (profileUpdates, { rejectWithValue }) => {
-    const res = await fetch("/api/user/complete-profile", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(profileUpdates),
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Profile update failed");
-    }
-    return (await res.json()) as User;
-  }
-);
-
 export const logoutUser = createAsyncThunk<void>(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
@@ -111,10 +94,13 @@ export const logoutUser = createAsyncThunk<void>(
 export const fetchSupabaseUser = createAsyncThunk<User | null>(
   "auth/fetchSupabaseUser",
   async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) return null;
+    const { data: sessionData, error: sessionError } =
+      await supabase.auth.getSession();
 
-    const { id, email } = data.user;
+    console.log({ sessionData, sessionError });
+    if (sessionError || !sessionData.session?.user) return null;
+
+    const { id, email } = sessionData.session.user;
     return {
       id,
       email,

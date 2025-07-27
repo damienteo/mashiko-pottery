@@ -7,7 +7,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useAppDispatch } from "@/store/hooks";
-import { register as registerUser } from "@/store/authSlice";
+import { createUserProfile } from "@/store/user/userSlice";
 import {
   loadCartFromStorage,
   clearCartFromStorage,
@@ -22,8 +22,6 @@ interface Props {
 }
 
 interface FormData {
-  username: string;
-  password: string;
   firstName: string;
   lastName: string;
   firstNameKana: string;
@@ -83,32 +81,27 @@ export default function RegisterDetailsForm({ callback }: Props) {
 
   const onSubmit = async (data: FormData) => {
     try {
-      // Dispatch register thunk (which returns user on success)
-      const resultAction = await dispatch(
-        registerUser({ email: data.username, password: data.password })
-      );
-      if (registerUser.fulfilled.match(resultAction)) {
-        // Successful registration
+      const resultAction = await dispatch(createUserProfile(data));
+
+      if (createUserProfile.fulfilled.match(resultAction)) {
         success(t("register.success"));
-        // Merge guest cart if present
+
         const guestItems = loadCartFromStorage();
         if (guestItems.length > 0) {
           await dispatch(mergeCart(guestItems));
           clearCartFromStorage();
         }
-        // Refresh cart from server
         await dispatch(fetchCart());
         router.push(callback);
       } else {
-        // Thunk was rejected—will be handled by slice
-        throw new Error("Register failed");
+        throw new Error("Profile creation failed");
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setFormError("password", { message: t("register.error") });
+        setFormError("firstName", { message: t("register.error") });
         toastError(t("register.error"));
       } else {
-        setFormError("password", { message: t("register.unknownError") });
+        setFormError("firstName", { message: t("register.unknownError") });
         toastError(t("register.unknownError"));
       }
     }
@@ -122,39 +115,6 @@ export default function RegisterDetailsForm({ callback }: Props) {
         className="space-y-4"
         autoComplete="on"
       >
-        <div>
-          <label htmlFor="username" className="block mb-1">
-            {t("register.username")}
-          </label>
-          <input
-            id="username"
-            type="text"
-            autoComplete="username"
-            {...register("username")}
-            className={`w-full p-2 border rounded ${errors.username ? "border-red-600" : ""}`}
-          />
-          {errors.username?.message && (
-            <p className="text-red-600 mt-1">
-              {t("register." + errors.username.message)}
-            </p>
-          )}
-        </div>
-        <div>
-          <label htmlFor="password" className="block mb-1">
-            {t("register.password")}
-          </label>
-          <input
-            id="password"
-            type="password"
-            {...register("password")}
-            className={`w-full p-2 border rounded ${errors.password ? "border-red-600" : ""}`}
-          />
-          {errors.password?.message && (
-            <p className="text-red-600 mt-1">
-              {t("register." + errors.password.message)}
-            </p>
-          )}
-        </div>
         <div>
           <label htmlFor="firstName" className="block mb-1">
             {t("register.firstName")}

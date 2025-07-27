@@ -7,6 +7,7 @@ import productDetailReducer from "./products/productDetailsSlice";
 import pottersListReducer from "./potters/pottersListSlice";
 import potterDetailReducer from "./potters/potterDetailsSlice";
 import authReducer from "./user/authSlice";
+import userReducer from "./user/userSlice";
 import uiReducer from "./uiSlice";
 import settingsReducer from "./settingsSlice";
 import notificationReducer from "./notificationSlice";
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
 
   // other features
   auth: authReducer,
+  user: userReducer,
   ui: uiReducer,
   settings: settingsReducer,
   notification: notificationReducer,
