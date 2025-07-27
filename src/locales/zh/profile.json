@@ -7,6 +7,7 @@
     "submit": "保存更改",
     "success": "您的资料已成功更新。",
     "error": "更新个人资料失败，请重试。",
-    "unknownError": "发生意外错误，请稍后再试。"
+    "unknownError": "发生意外错误，请稍后再试。",
+    "noChanges": "未检测到任何更改。"
   }
 }

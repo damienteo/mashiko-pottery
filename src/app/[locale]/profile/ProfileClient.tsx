@@ -2,8 +2,8 @@
 
 import { useTranslations } from "next-intl";
 
-import { useAppDispatch } from "@/store/hooks";
-import { updateUserProfile } from "@/store/user/userSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { updateUserProfile, selectUserProfile } from "@/store/user/userSlice";
 
 import { useToast } from "@/components/ui/Toast";
 import UserProfileForm, { FormData } from "@/components/forms/UserProfileForm";
@@ -12,10 +12,28 @@ export default function ProfileClient() {
   const t = useTranslations();
   const dispatch = useAppDispatch();
   const { success, error: toastError } = useToast();
+  const userProfile = useAppSelector(selectUserProfile);
 
   const onSubmit = async (data: FormData) => {
     try {
-      const resultAction = await dispatch(updateUserProfile(data));
+      if (!userProfile) throw new Error("User profile not loaded");
+
+      const updatedFields = Object.entries(data).reduce((acc, [key, value]) => {
+        if (key in userProfile) {
+          const typedKey = key as keyof FormData;
+          if (value !== userProfile[typedKey]) {
+            acc[typedKey] = value;
+          }
+        }
+        return acc;
+      }, {} as Partial<FormData>);
+
+      if (Object.keys(updatedFields).length === 0) {
+        success(t("profile.update.noChanges"));
+        return;
+      }
+
+      const resultAction = await dispatch(updateUserProfile(updatedFields));
 
       if (updateUserProfile.fulfilled.match(resultAction)) {
         success(t("profile.update.success"));
