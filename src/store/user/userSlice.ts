@@ -3,7 +3,7 @@ import type { RootState } from "../store";
 import type { UserProfile } from "@/types/user";
 
 const CREATE_ENDPOINT = "/api/user/create";
-const FETCH_ENDPOINT = "/api/user/me";
+const FETCH_ENDPOINT = "/api/user/profile";
 
 interface UserProfileState {
   profile: UserProfile | null;

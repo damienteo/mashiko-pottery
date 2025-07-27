@@ -17,6 +17,10 @@ import { mergeCart, fetchCart } from "@/store/cartSlice";
 import { useToast } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 
+import { useEffect } from "react";
+import { useAppSelector } from "@/store/hooks";
+import { fetchUserProfile, selectUserProfile } from "@/store/user/userSlice";
+
 interface Props {
   callback: string;
 }
@@ -97,16 +101,41 @@ export default function RegisterDetailsForm({ callback }: Props) {
   const dispatch = useAppDispatch();
   const { success, error: toastError } = useToast();
 
+  const userProfile = useAppSelector(selectUserProfile);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     setError: setFormError,
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
-  console.log({ errors });
+  useEffect(() => {
+    if (userProfile) {
+      reset({
+        firstName: userProfile.firstName,
+        lastName: userProfile.lastName,
+        firstNameKana: userProfile.firstNameKana,
+        lastNameKana: userProfile.lastNameKana,
+        phone: userProfile.phone,
+        gender: userProfile.gender,
+        birthYear: userProfile.birthYear,
+        birthMonth: userProfile.birthMonth,
+        birthDay: userProfile.birthDay,
+        zip: userProfile.zip,
+        pref: userProfile.pref,
+        city: userProfile.city,
+        street: userProfile.street,
+      });
+    }
+  }, [userProfile, reset]);
+
+  useEffect(() => {
+    dispatch(fetchUserProfile());
+  }, [dispatch]);
 
   const onSubmit = async (data: FormData) => {
     try {
