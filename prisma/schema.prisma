@@ -9,7 +9,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// id must match UUID provided by SUpabase
+// id must match UUID provided by Supabase
 // Password is handled by Supabase Auth, so we don't store it in Prisma.
 model User {
   id           String         @id @default(dbgenerated()) @db.Uuid
@@ -20,6 +20,22 @@ model User {
   lastLoginAt   DateTime?
   isActive      Boolean   @default(true)
   emailVerified Boolean   @default(false)
+
+  // Additional registration fields
+  firstName      String
+  lastName       String
+  firstNameKana  String
+  lastNameKana   String
+  phone          String
+  gender         String   @default("none")
+  birthYear      Int
+  birthMonth     Int
+  birthDay       Int
+  zip            String
+  pref           String
+  city           String
+  street         String
+
   Address      Address[]
   AuditLog     AuditLog[]
   CartItem     CartItem[]
