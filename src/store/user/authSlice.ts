@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import type { User, Credentials } from "@/types/auth";
+import type { User, Credentials } from "@/types/user";
 import { supabase } from "@/lib/supabase/client";
 
 interface AuthState {
@@ -54,11 +54,10 @@ export const signInWithPasswordOrOtp = createAsyncThunk<
     // On signInWithOtp, data.user will be null, since it's just a magic link sent, and not actually signed in yet
     if (!data.user) return null;
 
-    const { id, email: userEmail, user_metadata } = data.user;
+    const { id, email: userEmail } = data.user;
     return {
       id,
       email: userEmail,
-      role: user_metadata?.role || "user",
     } as User;
   }
 );
@@ -77,11 +76,10 @@ export const verifyEmailOtp = createAsyncThunk<
     return rejectWithValue(error?.message || "OTP verification failed");
   }
 
-  const { id, email: userEmail, user_metadata } = data.user;
+  const { id, email: userEmail } = data.user;
   return {
     id,
     email: userEmail,
-    role: user_metadata?.role || "user",
   } as User;
 });
 
@@ -116,11 +114,10 @@ export const fetchSupabaseUser = createAsyncThunk<User | null>(
     const { data, error } = await supabase.auth.getUser();
     if (error || !data.user) return null;
 
-    const { id, email, user_metadata } = data.user;
+    const { id, email } = data.user;
     return {
       id,
       email,
-      role: user_metadata?.role || "user",
     } as User;
   }
 );
