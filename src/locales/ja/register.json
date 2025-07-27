@@ -22,7 +22,7 @@
   "pref": "都道府県",
   "city": "市区町村",
   "street": "丁目・番地・建物名など",
-  "submit": "登録する",
+  "submit": "送信する",
   "update": "更新する",
   "required": "必須",
   "emailChangeNote": "メールアドレスを変更するにはこちらをクリックしてください",
@@ -31,6 +31,9 @@
   "phone": "電話番号",
   "zip": "郵便番号",
   "loginInstead": "すでにアカウントをお持ちの方はこちらからログイン",
+  "firstNamePlaceholder": "例：太郎",
+  "lastNamePlaceholder": "例：山田",
+  "submitting": "送信中...",
   "entry": {
     "pageTitle": "アカウントを作成する",
     "pageDescription": "メールアドレスを入力して、私たちとの旅を始めましょう。"
@@ -41,5 +44,61 @@
     "title": "確認メールを送信しました",
     "instructions": "Supabase Auth から確認メールが送信されます。受信トレイをご確認のうえ、リンクをクリックしてアカウント作成を完了してください。迷惑メールフォルダもご確認ください。"
   },
-  "error": "認証メールの送信中にエラーが発生しました。"
+  "error": "認証メールの送信中にエラーが発生しました。",
+  "validation": {
+    "username": {
+      "required": "ユーザー名を入力してください",
+      "min": "ユーザー名は8文字以上で入力してください"
+    },
+    "password": {
+      "required": "パスワードを入力してください",
+      "min": "パスワードは8文字以上で入力してください"
+    },
+    "firstName": {
+      "required": "名を入力してください"
+    },
+    "lastName": {
+      "required": "姓を入力してください"
+    },
+    "firstNameKana": {
+      "required": "名（カナ）を入力してください",
+      "katakana": "カタカナで入力してください"
+    },
+    "lastNameKana": {
+      "required": "姓（カナ）を入力してください",
+      "katakana": "カタカナで入力してください"
+    },
+    "phone": {
+      "required": "電話番号を入力してください",
+      "invalid": "有効な電話番号を入力してください"
+    },
+    "gender": {
+      "required": "性別を選択してください"
+    },
+    "birthYear": {
+      "required": "生年を入力してください"
+    },
+    "birthMonth": {
+      "required": "月を入力してください"
+    },
+    "birthDay": {
+      "required": "日を入力してください"
+    },
+    "zip": {
+      "required": "郵便番号を入力してください",
+      "invalid": "郵便番号は7桁の数字で入力してください"
+    },
+    "pref": {
+      "required": "都道府県を入力してください",
+      "tooLong": "都道府県は50文字以内で入力してください"
+    },
+    "city": {
+      "required": "市区町村を入力してください",
+      "tooLong": "市区町村は100文字以内で入力してください"
+    },
+    "street": {
+      "required": "番地・建物名を入力してください",
+      "tooLong": "番地・建物名は100文字以内で入力してください"
+    }
+  }
 }

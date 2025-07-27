@@ -41,7 +41,7 @@ export default function ProductsPage() {
   if (error) {
     return <p className="p-8 text-center text-red-600">{error}</p>;
   }
-  console.log({ products });
+
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

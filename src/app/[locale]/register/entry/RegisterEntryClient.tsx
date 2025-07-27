@@ -78,7 +78,7 @@ export default function RegistryEntryClient() {
           )}
         </div>
         <Button type="submit" disabled={isSubmitting} className="w-full">
-          {isSubmitting ? t("common.loading") : t("register.submit")}
+          {isSubmitting ? t("common.loading") : t("register.title")}
         </Button>
         <Button
           type="button"

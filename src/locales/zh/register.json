@@ -22,7 +22,7 @@
   "pref": "都道府县",
   "city": "城市/区",
   "street": "街道/门牌/大楼等",
-  "submit": "注册",
+  "submit": "提交",
   "update": "更新",
   "required": "必填",
   "emailChangeNote": "如需更改电子邮件地址，请点击此处",
@@ -31,6 +31,9 @@
   "phone": "电话",
   "zip": "邮编",
   "loginInstead": "已有账户？请登录",
+  "firstNamePlaceholder": "例如：太郎",
+  "lastNamePlaceholder": "例如：山田",
+  "submitting": "提交中...",
   "entry": {
     "pageTitle": "创建您的账户",
     "pageDescription": "请输入电子邮件地址，开启您的旅程。"
@@ -41,5 +44,61 @@
     "title": "邮件已发送",
     "instructions": "确认邮件将由 Supabase Auth 发送。请前往邮箱点击链接以完成账户注册。如未收到，请检查垃圾邮件文件夹。"
   },
-  "error": "发送验证邮件时发生错误。"
+  "error": "发送验证邮件时发生错误。",
+  "validation": {
+    "username": {
+      "required": "Please enter your username.",
+      "min": "Username must be at least 8 characters."
+    },
+    "password": {
+      "required": "Please enter your password.",
+      "min": "Password must be at least 8 characters."
+    },
+    "firstName": {
+      "required": "Please enter your first name."
+    },
+    "lastName": {
+      "required": "Please enter your last name."
+    },
+    "firstNameKana": {
+      "required": "Please enter your first name in katakana.",
+      "katakana": "Please enter in katakana."
+    },
+    "lastNameKana": {
+      "required": "Please enter your last name in katakana.",
+      "katakana": "Please enter in katakana."
+    },
+    "phone": {
+      "required": "Please enter your phone number.",
+      "invalid": "Please enter a valid phone number."
+    },
+    "gender": {
+      "required": "Please select your gender."
+    },
+    "birthYear": {
+      "required": "Please enter your birth year."
+    },
+    "birthMonth": {
+      "required": "Please enter your birth month."
+    },
+    "birthDay": {
+      "required": "Please enter your birth day."
+    },
+    "zip": {
+      "required": "Please enter your zip code.",
+      "invalid": "Zip code must be a 7-digit number."
+    },
+    "pref": {
+      "required": "Please enter your prefecture.",
+      "tooLong": "Prefecture must be 50 characters max."
+    },
+    "city": {
+      "required": "Please enter your city/town.",
+      "tooLong": "City name must be 100 characters max."
+    },
+    "street": {
+      "required": "Please enter your street address.",
+      "tooLong": "Street must be 100 characters max."
+    }
+  }
 }

@@ -22,7 +22,7 @@
   "pref": "Prefecture",
   "city": "City",
   "street": "Street",
-  "submit": "Register",
+  "submit": "Submit",
   "update": "Update",
   "required": "Required",
   "emailChangeNote": "To change your email address, click here",
@@ -31,6 +31,9 @@
   "phone": "Phone Number",
   "zip": "Postal Code",
   "loginInstead": "Already have an account? Log in instead",
+  "firstNamePlaceholder": "e.g. Taro",
+  "lastNamePlaceholder": "e.g. Yamada",
+  "submitting": "Submitting...",
   "entry": {
     "pageTitle": "Create Your Account",
     "pageDescription": "Start your journey with us by entering your email."
@@ -41,5 +44,117 @@
     "title": "Email Sent",
     "instructions": "A confirmation email will be sent by Supabase Auth. Please check your inbox and click the link to complete your account creation. If you don't see it, check your spam folder."
   },
-  "error": "An error occurred while sending the verification email."
+  "error": "An error occurred while sending the verification email.",
+  "validation": {
+    "username": {
+      "required": "ユーザー名を入力してください",
+      "min": "ユーザー名は8文字以上で入力してください"
+    },
+    "password": {
+      "required": "パスワードを入力してください",
+      "min": "パスワードは8文字以上で入力してください"
+    },
+    "firstName": {
+      "required": "名を入力してください"
+    },
+    "lastName": {
+      "required": "姓を入力してください"
+    },
+    "firstNameKana": {
+      "required": "名（カナ）を入力してください",
+      "katakana": "カタカナで入力してください"
+    },
+    "lastNameKana": {
+      "required": "姓（カナ）を入力してください",
+      "katakana": "カタカナで入力してください"
+    },
+    "phone": {
+      "required": "電話番号を入力してください",
+      "invalid": "有効な電話番号を入力してください"
+    },
+    "gender": {
+      "required": "性別を選択してください"
+    },
+    "birthYear": {
+      "required": "生年を入力してください"
+    },
+    "birthMonth": {
+      "required": "月を入力してください"
+    },
+    "birthDay": {
+      "required": "日を入力してください"
+    },
+    "zip": {
+      "required": "郵便番号を入力してください",
+      "invalid": "郵便番号は7桁の数字で入力してください"
+    },
+    "pref": {
+      "required": "都道府県を入力してください",
+      "tooLong": "都道府県は50文字以内で入力してください"
+    },
+    "city": {
+      "required": "市区町村を入力してください",
+      "tooLong": "市区町村は100文字以内で入力してください"
+    },
+    "street": {
+      "required": "番地・建物名を入力してください",
+      "tooLong": "番地・建物名は100文字以内で入力してください"
+    }
+  },
+  "validation": {
+    "username": {
+      "required": "Please enter your username.",
+      "min": "Username must be at least 8 characters."
+    },
+    "password": {
+      "required": "Please enter your password.",
+      "min": "Password must be at least 8 characters."
+    },
+    "firstName": {
+      "required": "Please enter your first name."
+    },
+    "lastName": {
+      "required": "Please enter your last name."
+    },
+    "firstNameKana": {
+      "required": "Please enter your first name in katakana.",
+      "katakana": "Please enter in katakana."
+    },
+    "lastNameKana": {
+      "required": "Please enter your last name in katakana.",
+      "katakana": "Please enter in katakana."
+    },
+    "phone": {
+      "required": "Please enter your phone number.",
+      "invalid": "Please enter a valid phone number."
+    },
+    "gender": {
+      "required": "Please select your gender."
+    },
+    "birthYear": {
+      "required": "Please enter your birth year."
+    },
+    "birthMonth": {
+      "required": "Please enter your birth month."
+    },
+    "birthDay": {
+      "required": "Please enter your birth day."
+    },
+    "zip": {
+      "required": "Please enter your zip code.",
+      "invalid": "Zip code must be a 7-digit number."
+    },
+    "pref": {
+      "required": "Please enter your prefecture.",
+      "tooLong": "Prefecture must be 50 characters max."
+    },
+    "city": {
+      "required": "Please enter your city/town.",
+      "tooLong": "City name must be 100 characters max."
+    },
+    "street": {
+      "required": "Please enter your street address.",
+      "tooLong": "Street must be 100 characters max."
+    }
+  }
 }

@@ -48,20 +48,41 @@ const schema: yup.ObjectSchema<FormData> = yup.object({
     .min(8, "validation.password.min"),
   firstName: yup.string().required("validation.firstName.required"),
   lastName: yup.string().required("validation.lastName.required"),
-  firstNameKana: yup.string().required("validation.firstNameKana.required"),
-  lastNameKana: yup.string().required("validation.lastNameKana.required"),
-  phone: yup.string().required("validation.phone.required"),
+  firstNameKana: yup
+    .string()
+    .required("validation.firstNameKana.required")
+    .matches(/^[\u30A0-\u30FFー]*$/, "validation.firstNameKana.katakana"),
+  lastNameKana: yup
+    .string()
+    .required("validation.lastNameKana.required")
+    .matches(/^[\u30A0-\u30FFー]*$/, "validation.lastNameKana.katakana"),
+  phone: yup
+    .string()
+    .required("validation.phone.required")
+    .min(10, "validation.phone.invalid"),
   gender: yup
     .mixed<"male" | "female" | "other" | "none">()
     .oneOf(["male", "female", "other", "none"])
     .required("validation.gender.required"),
-  birthYear: yup.string().required(),
-  birthMonth: yup.string().required(),
-  birthDay: yup.string().required(),
-  zip: yup.string().required("validation.zip.required"),
-  pref: yup.string().required("validation.pref.required"),
-  city: yup.string().required("validation.city.required"),
-  street: yup.string().required("validation.street.required"),
+  birthYear: yup.string().required("validation.birthYear.required").min(1),
+  birthMonth: yup.string().required("validation.birthMonth.required").min(1),
+  birthDay: yup.string().required("validation.birthDay.required").min(1),
+  zip: yup
+    .string()
+    .required("validation.zip.required")
+    .matches(/^\d{7}$/, "validation.zip.invalid"),
+  pref: yup
+    .string()
+    .required("validation.pref.required")
+    .max(50, "validation.pref.tooLong"),
+  city: yup
+    .string()
+    .required("validation.city.required")
+    .max(100, "validation.city.tooLong"),
+  street: yup
+    .string()
+    .required("validation.street.required")
+    .max(100, "validation.street.tooLong"),
 });
 
 export default function RegisterDetailsForm({ callback }: Props) {
@@ -123,6 +144,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="firstName"
             type="text"
             {...register("firstName")}
+            placeholder={t("register.firstNamePlaceholder")}
             className={`w-full p-2 border rounded ${errors.firstName ? "border-red-600" : ""}`}
           />
           {errors.firstName?.message && (
@@ -139,6 +161,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="lastName"
             type="text"
             {...register("lastName")}
+            placeholder={t("register.lastNamePlaceholder")}
             className={`w-full p-2 border rounded ${errors.lastName ? "border-red-600" : ""}`}
           />
           {errors.lastName?.message && (
@@ -155,6 +178,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="firstNameKana"
             type="text"
             {...register("firstNameKana")}
+            placeholder="カタカナ"
             className={`w-full p-2 border rounded ${errors.firstNameKana ? "border-red-600" : ""}`}
           />
           {errors.firstNameKana?.message && (
@@ -171,6 +195,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="lastNameKana"
             type="text"
             {...register("lastNameKana")}
+            placeholder="カタカナ"
             className={`w-full p-2 border rounded ${errors.lastNameKana ? "border-red-600" : ""}`}
           />
           {errors.lastNameKana?.message && (
@@ -187,6 +212,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="phone"
             type="text"
             {...register("phone")}
+            placeholder="09012345678"
             className={`w-full p-2 border rounded ${errors.phone ? "border-red-600" : ""}`}
           />
           {errors.phone?.message && (
@@ -224,6 +250,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
               id="birthYear"
               type="text"
               {...register("birthYear")}
+              placeholder="1980"
               className={`w-full p-2 border rounded ${errors.birthYear ? "border-red-600" : ""}`}
             />
             {errors.birthYear?.message && (
@@ -240,6 +267,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
               id="birthMonth"
               type="text"
               {...register("birthMonth")}
+              placeholder="1"
               className={`w-full p-2 border rounded ${errors.birthMonth ? "border-red-600" : ""}`}
             />
             {errors.birthMonth?.message && (
@@ -256,6 +284,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
               id="birthDay"
               type="text"
               {...register("birthDay")}
+              placeholder="1"
               className={`w-full p-2 border rounded ${errors.birthDay ? "border-red-600" : ""}`}
             />
             {errors.birthDay?.message && (
@@ -273,6 +302,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="zip"
             type="text"
             {...register("zip")}
+            placeholder="0000000"
             className={`w-full p-2 border rounded ${errors.zip ? "border-red-600" : ""}`}
           />
           {errors.zip?.message && (
@@ -289,6 +319,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="pref"
             type="text"
             {...register("pref")}
+            placeholder="選択してください"
             className={`w-full p-2 border rounded ${errors.pref ? "border-red-600" : ""}`}
           />
           {errors.pref?.message && (
@@ -305,6 +336,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="city"
             type="text"
             {...register("city")}
+            placeholder="〇〇市△△町123番地"
             className={`w-full p-2 border rounded ${errors.city ? "border-red-600" : ""}`}
           />
           {errors.city?.message && (
@@ -321,6 +353,7 @@ export default function RegisterDetailsForm({ callback }: Props) {
             id="street"
             type="text"
             {...register("street")}
+            placeholder="××マンション123号"
             className={`w-full p-2 border rounded ${errors.street ? "border-red-600" : ""}`}
           />
           {errors.street?.message && (
@@ -331,15 +364,6 @@ export default function RegisterDetailsForm({ callback }: Props) {
         </div>
         <Button type="submit" disabled={isSubmitting} className="w-full">
           {isSubmitting ? t("register.loading") : t("register.submit")}
-        </Button>
-        <Button
-          type="button"
-          disabled={isSubmitting}
-          className="w-full"
-          variant="secondary"
-          onClick={() => router.push("/login")}
-        >
-          {t("register.loginInstead")}
         </Button>
       </form>
     </div>

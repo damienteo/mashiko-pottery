@@ -34,6 +34,8 @@ export const signUpWithOtp = createAsyncThunk<void, string>(
 
 // Async thunk to sign in with either password or OTP (magic-link)
 // Now accepts an optional callback for OTP magic-link redirects
+// Note: Using {{ .RedirectTo }} in the Supabase Dashboard does not login for some reason
+// TODO: figure out the above in the future
 export const signInWithPasswordOrOtp = createAsyncThunk<
   User | null,
   Credentials & { callback?: string }
@@ -46,7 +48,6 @@ export const signInWithPasswordOrOtp = createAsyncThunk<
           email,
           options: callback ? { emailRedirectTo: callback } : {},
         });
-    console.log({ data, error });
     if (error) {
       return rejectWithValue(error.message);
     }
@@ -97,7 +98,6 @@ export const fetchSupabaseUser = createAsyncThunk<User | null>(
     const { data: sessionData, error: sessionError } =
       await supabase.auth.getSession();
 
-    console.log({ sessionData, sessionError });
     if (sessionError || !sessionData.session?.user) return null;
 
     const { id, email } = sessionData.session.user;
