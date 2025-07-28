@@ -64,7 +64,7 @@ export default function Navbar() {
                     {t("admin.nav.products")}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/admin/orders"
                     className="hover:underline text-red-600"
@@ -79,7 +79,7 @@ export default function Navbar() {
                   >
                     {t("admin.nav.payouts")}
                   </Link>
-                </li>
+                </li> */}
                 {/* Seller navigation links */}
                 <li>
                   <Link
@@ -97,14 +97,14 @@ export default function Navbar() {
                     {t("seller.nav.inventory")}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="/seller/payouts"
                     className="hover:underline text-green-600"
                   >
                     {t("seller.nav.payoutHistory")}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link href="/profile" className="hover:underline">
                     {t("profile.link")}
@@ -197,7 +197,7 @@ export default function Navbar() {
                           {t("admin.nav.products")}
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           href="/admin/orders"
                           onClick={() => setMenuOpen(false)}
@@ -214,7 +214,7 @@ export default function Navbar() {
                         >
                           {t("admin.nav.payouts")}
                         </Link>
-                      </li>
+                      </li> */}
                       {/* Seller navigation links */}
                       <li>
                         <Link
@@ -234,7 +234,7 @@ export default function Navbar() {
                           {t("seller.nav.inventory")}
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link
                           href="/seller/payouts"
                           onClick={() => setMenuOpen(false)}
@@ -242,7 +242,7 @@ export default function Navbar() {
                         >
                           {t("seller.nav.payoutHistory")}
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           href="/profile"
