@@ -8,7 +8,7 @@ export const mockPotters: Potter[] = [
       ja: "高橋あき",
       zh: "高桥秋",
     },
-    image: "/potters/aki.png",
+    imageUrl: "/potters/aki.png",
     bio: {
       en: "A talented potter known for delicate porcelain work and innovative glazing.",
       ja: "繊細な磁器作品と革新的な釉薬で知られる才能ある陶芸家。",
@@ -24,7 +24,7 @@ export const mockPotters: Potter[] = [
       ja: "佐藤健二",
       zh: "佐藤健二",
     },
-    image: "/potters/kenji.png",
+    imageUrl: "/potters/kenji.png",
     bio: {
       en: "Expert in traditional Mashiko pottery techniques with a modern twist.",
       ja: "伝統的な益子焼の技術に現代的なひねりを加えた専門家。",
@@ -40,7 +40,7 @@ export const mockPotters: Potter[] = [
       ja: "山田真理子",
       zh: "山田真理子",
     },
-    image: "/potters/mariko.png",
+    imageUrl: "/potters/mariko.png",
     bio: {
       en: "Creates vibrant, hand-painted ceramics inspired by nature.",
       ja: "自然に触発された鮮やかな手描きの陶器を制作。",

@@ -1,27 +1,27 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { assertSellerAccess } from "@/lib/auth";
+// import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 export async function GET() {
-  const user = await assertSellerAccess();
+  // const user = await assertSellerAccess();
 
-  const potter = await prisma.potter.findUnique({
-    where: { userId: user.id },
-  });
+  // // TODO: To be updated
+  // const potter = await prisma.potter.findUnique({
+  //   where: { userId: user.id.toString() },
+  // });
 
-  if (!potter) {
-    return NextResponse.json(
-      { error: "Seller profile not found" },
-      { status: 404 }
-    );
-  }
+  // if (!potter) {
+  return NextResponse.json(
+    { error: "Seller profile not found" },
+    { status: 404 }
+  );
+  // }
 
-  const products = await prisma.product.findMany({
-    where: { potterId: potter.id },
-    orderBy: { createdAt: "desc" },
-  });
+  // const products = await prisma.product.findMany({
+  //   where: { potterId: potter.id },
+  //   orderBy: { createdAt: "desc" },
+  // });
 
-  return NextResponse.json(products);
+  // return NextResponse.json(products);
 }

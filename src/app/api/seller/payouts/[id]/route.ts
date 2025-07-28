@@ -1,8 +1,7 @@
-import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { assertSellerAccess } from "@/lib/auth";
+import { NextResponse } from "next/server";
+// import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 /**
  * This route allows a seller to view a specific payout record.
@@ -10,34 +9,34 @@ const prisma = new PrismaClient();
  * Updates or deletes must be done through admin routes.
  */
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params;
-  const user = await assertSellerAccess();
+export async function GET() {
+  // request: NextRequest,
+  // { params }: { params: Promise<{ id: string }> }
+  // const { id } = await params;
+  // const user = await assertSellerAccess();
 
-  const potter = await prisma.potter.findUnique({
-    where: { userId: user.id },
-  });
+  // // TODO: To be updated
+  // const potter = await prisma.potter.findUnique({
+  //   where: { userId: user.id.toString() },
+  // });
 
-  if (!potter) {
-    return NextResponse.json(
-      { error: "Seller profile not found" },
-      { status: 404 }
-    );
-  }
+  // if (!potter) {
+  //   return NextResponse.json(
+  //     { error: "Seller profile not found" },
+  //     { status: 404 }
+  //   );
+  // }
 
-  const payout = await prisma.payout.findFirst({
-    where: {
-      id: Number(id),
-      potterId: potter.id,
-    },
-  });
+  // const payout = await prisma.payout.findFirst({
+  //   where: {
+  //     id: Number(id),
+  //     potterId: potter.id,
+  //   },
+  // });
 
-  if (!payout) {
-    return NextResponse.json({ message: "Payout not found" }, { status: 404 });
-  }
+  // if (!payout) {
+  return NextResponse.json({ message: "Payout not found" }, { status: 404 });
+  // }
 
-  return NextResponse.json(payout);
+  // return NextResponse.json(payout);
 }

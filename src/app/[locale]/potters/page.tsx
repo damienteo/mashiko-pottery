@@ -23,7 +23,7 @@ export default function PottersClient() {
 
   useEffect(() => {
     if (!isLoading && potters.length === 0) {
-      dispatch(fetchPottersList());
+      dispatch(fetchPottersList({}));
     }
   }, [dispatch, isLoading, potters.length]);
 
@@ -49,7 +49,7 @@ export default function PottersClient() {
             >
               <div className="w-full aspect-square relative mb-4 overflow-hidden rounded-lg">
                 <Image
-                  src={potter.image ?? "/fallback.jpg"}
+                  src={potter.imageUrl ?? "/fallback.jpg"}
                   alt={potter.name[locale as keyof typeof potter.name]}
                   fill
                   className="object-cover"

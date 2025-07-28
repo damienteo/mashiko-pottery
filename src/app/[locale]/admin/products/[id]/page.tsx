@@ -32,7 +32,7 @@ export default function AdminProductDetail() {
 
   useEffect(() => {
     if (products.length === 0) {
-      dispatch(fetchProductsList());
+      dispatch(fetchProductsList({}));
     }
   }, [dispatch, products.length]);
 

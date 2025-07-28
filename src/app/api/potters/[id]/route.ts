@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { getServerSessionUser } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
@@ -31,7 +30,7 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: "string | null | undefined" }> }
 ) {
   const { id } = await context.params;
   const idNum = Number(id);
@@ -42,20 +41,21 @@ export async function PATCH(
     });
   }
 
-  const user = await getServerSessionUser();
+  //TODO:
+  // const user = await getServerSessionUser();
 
-  const potter = await prisma.potter.findUnique({
-    where: { id: idNum },
-  });
+  // const potter = await prisma.potter.findUnique({
+  //   where: { id: idNum },
+  // });
 
-  if (
-    !user ||
-    (!["ADMIN", "OPERATIONS"].includes(user.role) && user.id !== potter?.userId)
-  ) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
-      status: 403,
-    });
-  }
+  // if (
+  //   !user ||
+  //   (!["ADMIN", "OPERATIONS"].includes(user.role) && user.id !== potter?.userId)
+  // ) {
+  //   return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+  //     status: 403,
+  //   });
+  // }
 
   const data = await req.json();
 
@@ -73,36 +73,36 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  context: { params: Promise<{ id: string }> }
-) {
-  const { id } = await context.params;
-  const idNum = Number(id);
+// export async function DELETE(
+//   req: Request,
+//   context: { params: Promise<{ id: string }> }
+// ) {
+//   const { id } = await context.params;
+//   const idNum = Number(id);
 
-  if (isNaN(idNum)) {
-    return new NextResponse(JSON.stringify({ error: "Invalid potter ID" }), {
-      status: 400,
-    });
-  }
+//   if (isNaN(idNum)) {
+//     return new NextResponse(JSON.stringify({ error: "Invalid potter ID" }), {
+//       status: 400,
+//     });
+//   }
 
-  const user = await getServerSessionUser();
+//   const user = await getServerSessionUser();
 
-  if (!user || !["ADMIN", "OPERATIONS"].includes(user.role)) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
-      status: 403,
-    });
-  }
+//   if (!user || !["ADMIN", "OPERATIONS"].includes(user.role)) {
+//     return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+//       status: 403,
+//     });
+//   }
 
-  try {
-    await prisma.potter.delete({
-      where: { id: idNum },
-    });
+//   try {
+//     await prisma.potter.delete({
+//       where: { id: idNum },
+//     });
 
-    return new NextResponse(null, { status: 204 });
-  } catch {
-    return new NextResponse(JSON.stringify({ error: "Delete failed" }), {
-      status: 500,
-    });
-  }
-}
+//     return new NextResponse(null, { status: 204 });
+//   } catch {
+//     return new NextResponse(JSON.stringify({ error: "Delete failed" }), {
+//       status: 500,
+//     });
+//   }
+// }

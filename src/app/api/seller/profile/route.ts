@@ -1,58 +1,57 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-import { assertSellerAccess } from "@/lib/auth";
+// import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 /**
  * GET /api/seller/profile
  * Returns the current seller's potter profile from the database.
  */
 export async function GET() {
-  const user = await assertSellerAccess();
+  // const user = await assertSellerAccess();
+  // // TODO: To be updated
+  // const potter = await prisma.potter.findUnique({
+  //   where: { userId: user.id.toString() },
+  // });
 
-  const potter = await prisma.potter.findUnique({
-    where: { userId: user.id },
-  });
+  // if (!potter) {
+  return NextResponse.json(
+    { error: "Seller profile not found" },
+    { status: 404 }
+  );
+  //   }
 
-  if (!potter) {
-    return NextResponse.json(
-      { error: "Seller profile not found" },
-      { status: 404 }
-    );
-  }
+  //   return NextResponse.json(potter);
+  // }
+  // // TODO: To be updated
+  // export async function PATCH(req: Request) {
+  //   const user = await assertSellerAccess();
 
-  return NextResponse.json(potter);
-}
+  //   const potter = await prisma.potter.findUnique({
+  //     where: { userId: user.id.toString() },
+  //   });
 
-export async function PATCH(req: Request) {
-  const user = await assertSellerAccess();
+  //   if (!potter) {
+  //     return NextResponse.json(
+  //       { error: "Seller profile not found" },
+  //       { status: 404 }
+  //     );
+  //   }
 
-  const potter = await prisma.potter.findUnique({
-    where: { userId: user.id },
-  });
+  //   const data = await req.json();
 
-  if (!potter) {
-    return NextResponse.json(
-      { error: "Seller profile not found" },
-      { status: 404 }
-    );
-  }
+  //   try {
+  //     const updated = await prisma.potter.update({
+  //       where: { id: potter.id },
+  //       data,
+  //     });
 
-  const data = await req.json();
-
-  try {
-    const updated = await prisma.potter.update({
-      where: { id: potter.id },
-      data,
-    });
-
-    return NextResponse.json(updated);
-  } catch (error) {
-    console.error("Error updating seller profile:", error);
-    return NextResponse.json(
-      { error: "Failed to update seller profile" },
-      { status: 500 }
-    );
-  }
+  //     return NextResponse.json(updated);
+  //   } catch (error) {
+  //     console.error("Error updating seller profile:", error);
+  //     return NextResponse.json(
+  //       { error: "Failed to update seller profile" },
+  //       { status: 500 }
+  //     );
+  //   }
 }

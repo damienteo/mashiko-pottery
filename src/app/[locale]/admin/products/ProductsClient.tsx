@@ -66,7 +66,7 @@ export default function ProductsClient() {
 
   useEffect(() => {
     if (!isLoading && products.length === 0) {
-      dispatch(fetchProductsList());
+      dispatch(fetchProductsList({}));
     }
   }, [dispatch, isLoading, products.length]);
 
@@ -82,7 +82,10 @@ export default function ProductsClient() {
     return (
       <div className="p-8 text-center text-red-600">
         <p>{t("error")}</p>
-        <Button onClick={() => dispatch(fetchProductsList())} className="mt-4">
+        <Button
+          onClick={() => dispatch(fetchProductsList({}))}
+          className="mt-4"
+        >
           {t("retry")}
         </Button>
       </div>
