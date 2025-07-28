@@ -2,22 +2,22 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import LanguageSelector from "./LanguageSelector";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { selectCartCount } from "@/store/cartSlice";
+// import { selectCartCount } from "@/store/cartSlice";
 import { selectCurrentUser, logoutUser } from "@/store/user/authSlice";
 import Button from "@/components/ui/Button";
 
 export default function Navbar() {
   const t = useTranslations();
   const [menuOpen, setMenuOpen] = useState(false);
-  const cartCount = useAppSelector(selectCartCount);
+  // const cartCount = useAppSelector(selectCartCount);
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectCurrentUser);
-  const [hasMounted, setHasMounted] = useState(false);
-  useEffect(() => {
-    setHasMounted(true);
-  }, []);
+  // const [hasMounted, setHasMounted] = useState(false);
+  // useEffect(() => {
+  //   setHasMounted(true);
+  // }, []);
   return (
     <header className="sticky top-0 bg-white shadow z-10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,12 +47,12 @@ export default function Navbar() {
                 {t("potters.title")}
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/cart" className="hover:underline">
                 {t("cart.title")}
                 {hasMounted ? ` (${cartCount})` : ""}
               </Link>
-            </li>
+            </li> */}
 
             {user ? (
               <>
@@ -175,7 +175,7 @@ export default function Navbar() {
                       {t("potters.title")}
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link
                       href="/cart"
                       onClick={() => setMenuOpen(false)}
@@ -184,7 +184,7 @@ export default function Navbar() {
                       {t("cart.title")}
                       {hasMounted ? ` (${cartCount})` : ""}
                     </Link>
-                  </li>
+                  </li> */}
 
                   {user ? (
                     <>

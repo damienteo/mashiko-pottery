@@ -4,11 +4,11 @@ import { useTranslations } from "next-intl";
 
 import { useAppDispatch } from "@/store/hooks";
 import { createUserProfile } from "@/store/user/userSlice";
-import {
-  loadCartFromStorage,
-  clearCartFromStorage,
-} from "@/store/localStorage";
-import { mergeCart, fetchCart } from "@/store/cartSlice";
+// import {
+//   loadCartFromStorage,
+//   clearCartFromStorage,
+// } from "@/store/localStorage";
+// import { mergeCart, fetchCart } from "@/store/cartSlice";
 
 import { useToast } from "@/components/ui/Toast";
 import UserProfileForm, { FormData } from "@/components/forms/UserProfileForm";
@@ -25,12 +25,13 @@ export default function CompleteProfileClient() {
       if (createUserProfile.fulfilled.match(resultAction)) {
         success(t("register.completeProfile.success"));
 
-        const guestItems = loadCartFromStorage();
-        if (guestItems.length > 0) {
-          await dispatch(mergeCart(guestItems));
-          clearCartFromStorage();
-        }
-        await dispatch(fetchCart());
+        // KIV
+        // const guestItems = loadCartFromStorage();
+        // if (guestItems.length > 0) {
+        //   await dispatch(mergeCart(guestItems));
+        //   clearCartFromStorage();
+        // }
+        // await dispatch(fetchCart());
       } else {
         throw new Error("Profile creation failed");
       }
