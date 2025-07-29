@@ -80,7 +80,9 @@ export default function ProfileClient() {
       </h1>
       <UserProfileForm
         onSubmit={onSubmit}
-        submitLabel={t("profile.update.submit")}
+        submitLabel={
+          !!userProfile ? t("profile.update.submit") : t("register.submit")
+        }
       />
     </div>
   );
