@@ -3,5 +3,13 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {};
 
+// ✅ Log APP_ENV during build
+console.log(
+  "✅ APP_ENV from next.config.js (process.env.NODE_ENV =",
+  process.env.NODE_ENV,
+  ") → APP_ENV =",
+  process.env.APP_ENV
+);
+
 const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(nextConfig);

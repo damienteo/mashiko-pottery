@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "dev:staging": "dotenv -e .env.staging -- next dev",
+    "dev:local": "dotenv -e .env.local -- next dev",
     "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
