@@ -108,8 +108,6 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
      NEXT_PUBLIC_BASE_URL=https://mashiko-pottery.vercel.app
      NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
      NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-     SESSION_SECRET=your_session_secret
-     JWT_SECRET=your_jwt_secret
      GOOGLE_CLIENT_ID=your_google_client_id
      GOOGLE_CLIENT_SECRET=your_google_client_secret
      ```
