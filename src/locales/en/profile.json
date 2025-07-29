@@ -9,5 +9,8 @@
     "error": "Failed to update profile. Please try again.",
     "unknownError": "An unexpected error occurred. Please try again later.",
     "noChanges": "No changes detected."
+  },
+  "create": {
+    "error": "Profile creation failed"
   }
 }

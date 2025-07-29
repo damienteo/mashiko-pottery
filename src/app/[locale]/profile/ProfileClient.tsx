@@ -3,7 +3,11 @@
 import { useTranslations } from "next-intl";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { updateUserProfile, selectUserProfile } from "@/store/user/userSlice";
+import {
+  updateUserProfile,
+  createUserProfile,
+  selectUserProfile,
+} from "@/store/user/userSlice";
 
 import { useToast } from "@/components/ui/Toast";
 import UserProfileForm, { FormData } from "@/components/forms/UserProfileForm";
@@ -16,8 +20,26 @@ export default function ProfileClient() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      if (!userProfile) throw new Error("User profile not loaded");
+      if (!userProfile) {
+        const resultAction = await dispatch(createUserProfile(data));
 
+        if (createUserProfile.fulfilled.match(resultAction)) {
+          success(t("register.completeProfile.success"));
+
+          // KIV
+          // const guestItems = loadCartFromStorage();
+          // if (guestItems.length > 0) {
+          //   await dispatch(mergeCart(guestItems));
+          //   clearCartFromStorage();
+          // }
+          // await dispatch(fetchCart());
+        } else {
+          throw new Error(t("profile.create.error"));
+        }
+        return;
+      }
+
+      // Compare current profile with form data and collect updated fields
       const updatedFields = Object.entries(data).reduce((acc, [key, value]) => {
         if (key in userProfile) {
           const typedKey = key as keyof FormData;
@@ -42,7 +64,7 @@ export default function ProfileClient() {
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        toastError(t("profile.update.error"));
+        toastError(t("profile.update.error") + ` ${err.message}`);
       } else {
         toastError(t("profile.update.unknownError"));
       }
@@ -51,7 +73,11 @@ export default function ProfileClient() {
 
   return (
     <div className="max-w-md mx-auto my-16 p-8 border rounded shadow-sm bg-white">
-      <h1 className="text-2xl font-bold mb-6">{t("profile.update.title")}</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        {!!userProfile
+          ? t("profile.update.title")
+          : t("register.completeProfile.title")}
+      </h1>
       <UserProfileForm
         onSubmit={onSubmit}
         submitLabel={t("profile.update.submit")}
