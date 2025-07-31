@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-const prisma = new PrismaClient();
 
 export async function assertAdminAccess(userId: string): Promise<void> {
   const user = await prisma.user.findUnique({ where: { id: userId } });

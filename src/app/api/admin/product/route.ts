@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { createClient } from "@/lib/supabase/server";
 
+import { prisma } from "@/lib/prisma";
 import { assertAdminAccess } from "@/lib/auth/assertAdminAccess";
 import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
 import { validateProductExists } from "@/lib/validation/validateProductExists";
 import { validatePotterExists } from "@/lib/validation/validatePotterExists";
 
-const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   try {

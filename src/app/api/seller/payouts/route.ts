@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 // import { PrismaClient, Prisma, PayoutStatus } from "@prisma/client";
 
-// const prisma = new PrismaClient();
-
+// 
 export async function GET() {
   // const user = await assertSellerAccess();
   // // TODO: To be updated

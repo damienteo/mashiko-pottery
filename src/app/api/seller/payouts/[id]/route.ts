@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
-// import { PrismaClient } from "@prisma/client";
+// import { prisma } from "@/lib/prisma";
 
-// const prisma = new PrismaClient();
-
+// 
 /**
  * This route allows a seller to view a specific payout record.
  * Only the GET method is supported here.

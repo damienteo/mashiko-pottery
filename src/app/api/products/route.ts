@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
 import { createClient } from "@/lib/supabase/server";
+import { PrismaClient } from "@prisma/client";
 
+import { prisma } from "@/lib/prisma";
 import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
 import { validateProductExists } from "@/lib/validation/validateProductExists";
 import { validatePotterExists } from "@/lib/validation/validatePotterExists";
 import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
 
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   try {

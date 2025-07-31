@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import seedUsers from "./seeds/users";
 import seedPotters from "./seeds/potters";
 import seedProducts from "./seeds/products";
@@ -14,7 +14,6 @@ import seedNotifications from "./seeds/notifications";
 import seedReturnRequests from "./seeds/returnRequests";
 import seedPayouts from "./seeds/payouts";
 
-const prisma = new PrismaClient();
 
 async function main() {
   if (process.env.NODE_ENV === "production") {

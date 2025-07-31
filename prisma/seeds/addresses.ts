@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import{ PrismaClient } from "@prisma/client";
 
 export default async function seedAddresses(prisma: PrismaClient) {
   console.log("🏠 Seeding user addresses...");
