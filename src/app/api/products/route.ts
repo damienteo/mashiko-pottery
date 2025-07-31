@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { createClient } from "@/lib/supabase/server";
+
+import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
 
 const prisma = new PrismaClient();
 
@@ -55,36 +58,119 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching products:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch products" },
-      { status: 500 }
-    );
+   return jsonErrorResponse("Error fetching products", 400);
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.json();
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
 
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const data = await req.json();
     const { title, description, price, stock, potterId } = data;
 
     if (!title || !description || !price || !stock || !potterId) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    const newProduct = await prisma.product.create({
-      data,
-    });
+    const potter = await prisma.potter.findUnique({ where: { id: potterId } });
+
+    if (!potter || potter.userId !== user.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const dbUser = await prisma.user.findUnique({ where: { id: user.id } });
+
+    if (!dbUser || dbUser.role !== "SELLER") {
+      return NextResponse.json({ error: "Forbidden: Not a seller" }, { status: 403 });
+    }
+
+    const newProduct = await prisma.product.create({ data });
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     console.error("Error creating product:", error);
-    return NextResponse.json(
-      { error: "Failed to create product" },
-      { status: 500 }
-    );
+    return jsonErrorResponse("Failed to create product", 500);
+  }
+}
+
+const authorizeSellerForProduct = async (
+  userId: string,
+  productId: number,
+  prisma: PrismaClient
+): Promise<void> => {
+  const product = await prisma.product.findUnique({ where: { id: productId } });
+  if (!product) {
+    throw new NextResponse("Product not found", { status: 404 });
+  }
+
+  const potter = await prisma.potter.findUnique({ where: { id: product.potterId } });
+  if (!potter || potter.userId !== userId) {
+    throw new NextResponse("Forbidden", { status: 403 });
+  }
+
+  const dbUser = await prisma.user.findUnique({ where: { id: userId } });
+  if (!dbUser || dbUser.role !== "SELLER") {
+    throw new NextResponse("Forbidden: Not a seller", { status: 403 });
+  }
+};
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const data = await req.json();
+    const { id, ...updates } = data;
+
+    if (!id) {
+      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
+    }
+
+    await authorizeSellerForProduct(user.id, id, prisma);
+
+    const updatedProduct = await prisma.product.update({
+      where: { id },
+      data: updates,
+    });
+
+    return NextResponse.json(updatedProduct);
+  } catch (error) {
+    console.error("Error updating product:", error);
+    return jsonErrorResponse("Failed to update product", 500);
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const { id } = await req.json();
+    if (!id) {
+      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
+    }
+
+    await authorizeSellerForProduct(user.id, id, prisma);
+
+    await prisma.product.delete({ where: { id } });
+
+    return NextResponse.json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    return jsonErrorResponse("Failed to delete product", 500);
   }
 }
