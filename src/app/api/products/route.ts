@@ -3,6 +3,9 @@ import { PrismaClient } from "@prisma/client";
 import { createClient } from "@/lib/supabase/server";
 
 import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
+import { validateProductExists } from "@/lib/validation/validateProductExists";
+import { validatePotterExists } from "@/lib/validation/validatePotterExists";
+import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
 
 const prisma = new PrismaClient();
 
@@ -84,11 +87,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const dbUser = await prisma.user.findUnique({ where: { id: user.id } });
-
-    if (!dbUser || dbUser.role !== "SELLER") {
-      return NextResponse.json({ error: "Forbidden: Not a seller" }, { status: 403 });
-    }
+    await assertSellerAccess(user.id);  
 
     const newProduct = await prisma.product.create({ data });
 
@@ -104,22 +103,16 @@ const authorizeSellerForProduct = async (
   productId: number,
   prisma: PrismaClient
 ): Promise<void> => {
-  const product = await prisma.product.findUnique({ where: { id: productId } });
-  if (!product) {
-    throw new NextResponse("Product not found", { status: 404 });
-  }
+  await assertSellerAccess(userId);
+  const product = await validateProductExists(productId, prisma);
+  const potter = await validatePotterExists(product.potterId, prisma);
 
-  const potter = await prisma.potter.findUnique({ where: { id: product.potterId } });
-  if (!potter || potter.userId !== userId) {
+  if (potter.userId !== userId) {
     throw new NextResponse("Forbidden", { status: 403 });
   }
 
-  const dbUser = await prisma.user.findUnique({ where: { id: userId } });
-  if (!dbUser || dbUser.role !== "SELLER") {
-    throw new NextResponse("Forbidden: Not a seller", { status: 403 });
-  }
-};
 
+};
 export async function PATCH(req: NextRequest) {
   try {
     const supabase = await createClient();
