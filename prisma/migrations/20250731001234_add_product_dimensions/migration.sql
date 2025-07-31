@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Product" ADD COLUMN     "heightCm" DOUBLE PRECISION,
+ADD COLUMN     "leadTimeDays" INTEGER,
+ADD COLUMN     "lengthCm" DOUBLE PRECISION,
+ADD COLUMN     "tags" TEXT[] DEFAULT ARRAY[]::TEXT[],
+ADD COLUMN     "widthCm" DOUBLE PRECISION;

@@ -72,8 +72,13 @@ model Product {
   description Json
   price       Float
   stock       Int
-  weight      Float?
+  weight      Float?  
+  lengthCm      Float?
+  widthCm       Float?
+  heightCm      Float?
+  leadTimeDays  Int?
   photos      String[]
+  tags          String[]   @default([])
   category    String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
