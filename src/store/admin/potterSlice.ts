@@ -51,6 +51,32 @@ export const updateAdminPotter = createAsyncThunk<Potter, Partial<Potter>>(
   }
 );
 
+export const fetchAdminPotter = createAsyncThunk<Potter, number>(
+  "adminPotter/fetch",
+  async (potterId, { rejectWithValue }) => {
+    const res = await fetch(`/api/potters/${potterId}`);
+    if (!res.ok) {
+      const err = await res.json();
+      return rejectWithValue(err.message || "Failed to fetch potter");
+    }
+    return (await res.json()) as Potter;
+  }
+);
+
+export const deleteAdminPotter = createAsyncThunk<number, number>(
+  "adminPotter/delete",
+  async (potterId, { rejectWithValue }) => {
+    const res = await fetch(`/api/admin/potter/${potterId}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      return rejectWithValue(err.message || "Failed to delete potter");
+    }
+    return potterId;
+  }
+);
+
 const adminPotterSlice = createSlice({
   name: "adminPotter",
   initialState,
@@ -83,6 +109,32 @@ const adminPotterSlice = createSlice({
         state.potter = action.payload;
       })
       .addCase(updateAdminPotter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = (action.payload as string) || action.error.message || null;
+      })
+      .addCase(fetchAdminPotter.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchAdminPotter.fulfilled, (state, action: PayloadAction<Potter>) => {
+        state.isLoading = false;
+        state.potter = action.payload;
+      })
+      .addCase(fetchAdminPotter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = (action.payload as string) || action.error.message || null;
+      })
+      .addCase(deleteAdminPotter.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteAdminPotter.fulfilled, (state) => {
+        state.isLoading = false;
+        state.potter = null;
+        state.isSuccess = true;
+      })
+      .addCase(deleteAdminPotter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
         state.error = (action.payload as string) || action.error.message || null;
