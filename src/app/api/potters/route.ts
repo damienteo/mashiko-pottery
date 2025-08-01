@@ -19,13 +19,12 @@ export async function GET(req: NextRequest) {
     const whereClause: Prisma.PotterWhereInput = {};
 
     // KIV: This assumes `name` is a JSON object with an "en" key. May need fallback or validation.
-    // if (name) {
-    //   whereClause.name = {
-    //     path: ["en"],
-    //     string_contains: name,
-    //     string_mode: "insensitive",
-    //   };
-    // }
+    if (name) {
+      whereClause.name = {
+        path: ["en"],
+        string_contains: name,
+      };
+    }
 
     if (style) {
       whereClause.style = style;

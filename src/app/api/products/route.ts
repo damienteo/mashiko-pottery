@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 import { prisma } from "@/lib/prisma";
 import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
@@ -11,6 +11,7 @@ import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
 
 export async function GET(req: NextRequest) {
   try {
+    // TODO: Sanitize and validate query parameters more robustly
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
@@ -23,17 +24,24 @@ export async function GET(req: NextRequest) {
     const title = searchParams.get("title") || undefined;
     const inStock = searchParams.get("inStock") === "true";
 
-    const whereClause: PrismaClient["product"]["findMany"]["arguments"]["where"] =
-      {};
+    const priceFilter: Prisma.FloatFilter = {};
+    if (!isNaN(minPrice)) priceFilter.gte = minPrice;
+    if (!isNaN(maxPrice)) priceFilter.lte = maxPrice;
 
-    if (category) whereClause.category = category;
-    if (!isNaN(minPrice))
-      whereClause.price = { ...(whereClause.price || {}), gte: minPrice };
-    if (!isNaN(maxPrice))
-      whereClause.price = { ...(whereClause.price || {}), lte: maxPrice };
-    if (!isNaN(potterId)) whereClause.potterId = potterId;
-    if (title) whereClause.title = { contains: title, mode: "insensitive" };
-    if (inStock) whereClause.stock = { gt: 0 };
+    const whereClause: Prisma.ProductWhereInput = {
+      ...(Object.keys(priceFilter).length ? { price: priceFilter } : {}),
+      ...(category ? { category } : {}),
+      ...(title
+        ? {
+            title: {
+              path: ["en"],
+              string_contains: title,
+            },
+          }
+        : {}),
+      ...(inStock ? { stock: { gt: 0 } } : {}),
+      ...(isNaN(potterId) ? {} : { potterId }),
+    };
 
     const [products, total] = await Promise.all([
       prisma.product.findMany({
@@ -74,6 +82,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // TODO: Add proper server-side data validation using Zod or similar
     const data = await req.json();
     const { title, description, price, stock, potterId } = data;
 
@@ -108,7 +117,7 @@ const authorizeSellerForProduct = async (
   const potter = await validatePotterExists(product.potterId, prisma);
 
   if (potter.userId !== userId) {
-    throw new NextResponse("Forbidden", { status: 403 });
+    throw new Error("Forbidden");
   }
 
 
@@ -122,6 +131,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // TODO: Add proper server-side data validation using Zod or similar
     const data = await req.json();
     const { id, ...updates } = data;
 
@@ -139,6 +149,9 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json(updatedProduct);
   } catch (error) {
     console.error("Error updating product:", error);
+    if (error instanceof Error && error.message === "Forbidden") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     return jsonErrorResponse("Failed to update product", 500);
   }
 }
@@ -152,6 +165,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // TODO: Add proper server-side data validation using Zod or similar
     const { id } = await req.json();
     if (!id) {
       return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
@@ -164,6 +178,9 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ message: "Product deleted successfully" });
   } catch (error) {
     console.error("Error deleting product:", error);
+    if (error instanceof Error && error.message === "Forbidden") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
     return jsonErrorResponse("Failed to delete product", 500);
   }
 }
