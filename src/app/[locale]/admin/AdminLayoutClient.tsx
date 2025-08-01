@@ -24,6 +24,12 @@ export default function AdminLayoutClient({
             {t("nav.products")}
           </Link>
           <Link
+            href={`/${locale}/admin/potters`}
+            className="hover:text-gray-400"
+          >
+            {t("nav.potters")}
+          </Link>
+          {/* <Link
             href={`/${locale}/admin/orders`}
             className="hover:text-gray-400"
           >
@@ -34,7 +40,7 @@ export default function AdminLayoutClient({
             className="hover:text-gray-400"
           >
             {t("nav.payouts")}
-          </Link>
+          </Link> */}
         </nav>
       </header>
       <main className="flex-1 p-6 bg-white">{children}</main>
