@@ -3,6 +3,7 @@ import cartReducer, { cartPersistenceMiddleware } from "./cartSlice";
 import { loadCartFromStorage } from "./localStorage";
 import { initialState as cartInitialState } from "./cartSlice";
 import adminPotterReducer from "./admin/potterSlice";
+import adminProductReducer from "./admin/productSlice";
 import productsListReducer from "./products/productsListSlice";
 import productDetailReducer from "./products/productDetailsSlice";
 import pottersListReducer from "./potters/pottersListSlice";
@@ -24,6 +25,7 @@ import sellerPayoutDetailsReducer from "./seller/sellerPayoutDetailsSlice";
 const rootReducer = combineReducers({
   // admin features
   adminPotter: adminPotterReducer,
+  adminProduct: adminProductReducer,
 
   cart: cartReducer,
 
