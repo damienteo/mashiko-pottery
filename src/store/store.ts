@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import cartReducer, { cartPersistenceMiddleware } from "./cartSlice";
 import { loadCartFromStorage } from "./localStorage";
 import { initialState as cartInitialState } from "./cartSlice";
+import adminPotterReducer from "./admin/potterSlice";
 import productsListReducer from "./products/productsListSlice";
 import productDetailReducer from "./products/productDetailsSlice";
 import pottersListReducer from "./potters/pottersListSlice";
@@ -21,6 +22,9 @@ import sellerPayoutListReducer from "./seller/sellerPayoutListSlice";
 import sellerPayoutDetailsReducer from "./seller/sellerPayoutDetailsSlice";
 
 const rootReducer = combineReducers({
+  // admin features
+  adminPotter: adminPotterReducer,
+
   cart: cartReducer,
 
   // products feature

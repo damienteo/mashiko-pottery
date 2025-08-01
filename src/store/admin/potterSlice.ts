@@ -1,0 +1,98 @@
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import type { RootState } from "../store";
+import type { Potter } from "@/types/potter";
+
+const CREATE_ENDPOINT = "/api/admin/potter";
+const UPDATE_ENDPOINT = "/api/admin/potter";
+
+interface AdminPotterState {
+  potter: Potter | null;
+  isLoading: boolean;
+  isSuccess: boolean;
+  error: string | null;
+}
+
+const initialState: AdminPotterState = {
+  potter: null,
+  isLoading: false,
+  isSuccess: false,
+  error: null,
+};
+
+export const createAdminPotter = createAsyncThunk<Potter, Partial<Potter>>(
+  "adminPotter/create",
+  async (potterData, { rejectWithValue }) => {
+    const res = await fetch(CREATE_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(potterData),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      return rejectWithValue(err.message || "Potter creation failed");
+    }
+    return (await res.json()).potter as Potter;
+  }
+);
+
+export const updateAdminPotter = createAsyncThunk<Potter, Partial<Potter>>(
+  "adminPotter/update",
+  async (potterData, { rejectWithValue }) => {
+    const res = await fetch(UPDATE_ENDPOINT, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(potterData),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      return rejectWithValue(err.message || "Potter update failed");
+    }
+    return (await res.json()).potter as Potter;
+  }
+);
+
+const adminPotterSlice = createSlice({
+  name: "adminPotter",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createAdminPotter.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(createAdminPotter.fulfilled, (state, action: PayloadAction<Potter>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.potter = action.payload;
+      })
+      .addCase(createAdminPotter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = (action.payload as string) || action.error.message || null;
+      })
+      .addCase(updateAdminPotter.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(updateAdminPotter.fulfilled, (state, action: PayloadAction<Potter>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.potter = action.payload;
+      })
+      .addCase(updateAdminPotter.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = (action.payload as string) || action.error.message || null;
+      });
+  },
+});
+
+export const selectAdminPotter = (state: RootState) => state.adminPotter.potter;
+export const selectAdminPotterLoading = (state: RootState) => state.adminPotter.isLoading;
+export const selectAdminPotterSuccess = (state: RootState) => state.adminPotter.isSuccess;
+export const selectAdminPotterError = (state: RootState) => state.adminPotter.error;
+
+export default adminPotterSlice.reducer;
