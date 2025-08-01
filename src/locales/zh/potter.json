@@ -1,3 +1,22 @@
 {
-  "loading": "加载中…"
+  "loading": "加载中…",
+  "create": {
+    "title": "新增陶艺家",
+    "description": "添加新的陶艺家资料",
+    "userId": "用户ID",
+    "name": "陶艺家姓名",
+    "nameEN": "姓名（英文）",
+    "nameJA": "姓名（日文）",
+    "nameZH": "姓名（中文）",
+    "bio": "简介",
+    "bioEN": "简介（英文）",
+    "bioJA": "简介（日文）",
+    "bioZH": "简介（中文）",
+    "style": "陶艺风格",
+    "imageUrl": "头像图片URL",
+    "submit": "创建陶艺家",
+    "submitting": "创建中...",
+    "success": "陶艺家创建成功！",
+    "error": "创建陶艺家失败。请再试一次。"
+  }
 }

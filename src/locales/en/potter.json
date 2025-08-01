@@ -1,3 +1,22 @@
 {
-  "loading": "Loading…"
+  "loading": "Loading…",
+  "create": {
+    "title": "Create Potter",
+    "description": "Add a new potter profile",
+    "userId": "User ID",
+    "name": "Potter Name",
+    "nameEN": "Name (English)",
+    "nameJA": "Name (Japanese)",
+    "nameZH": "Name (Chinese)",
+    "bio": "Biography",
+    "bioEN": "Bio (English)",
+    "bioJA": "Bio (Japanese)",
+    "bioZH": "Bio (Chinese)",
+    "style": "Pottery Style",
+    "imageUrl": "Profile Image URL",
+    "submit": "Create Potter",
+    "submitting": "Creating...",
+    "success": "Potter created successfully!",
+    "error": "Failed to create potter. Please try again."
+  }
 }
