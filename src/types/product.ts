@@ -7,9 +7,14 @@ export interface Product {
   description: LocalizedString;
   price: number;
   inventory: number;
-  weight: number;
+  weight?: number;
+  lengthCm?: number;
+  widthCm?: number;
+  heightCm?: number;
+  leadTimeDays?: number;
   photos: string[];
-  category: string;
+  tags: string[];
+  category?: string;
   createdAt?: string;
   updatedAt?: string;
 }

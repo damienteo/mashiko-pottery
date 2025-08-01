@@ -7,9 +7,9 @@ export interface Potter {
   userId?: string;
   name: LocalizedString;
   bio: LocalizedString;
-  style: string;
+  style?: string;
   active: boolean;
   imageUrl?: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
