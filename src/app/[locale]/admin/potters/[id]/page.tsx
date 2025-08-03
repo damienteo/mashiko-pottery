@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import * as yup from "yup";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -32,12 +32,15 @@ export default function AdminPotterDetail() {
   const dispatch = useAppDispatch();
   const potters = useAppSelector(selectAllPotters);
 
+  const hasFetched = useRef(false);
   useEffect(() => {
-    if (potters.length === 0) {
+    if (!hasFetched.current && potters.length === 0) {
       dispatch(fetchPottersList({}));
+      hasFetched.current = true;
     }
   }, [dispatch, potters.length]);
 
+  // TODO: This needs to be updated to find potter directly
   // Find potter and derive localized defaults
   const potter = potters.find((p) => String(p.id) === id);
   const defaults: PotterFormValues = potter

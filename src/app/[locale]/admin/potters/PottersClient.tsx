@@ -50,11 +50,14 @@ export default function PottersClient() {
     setEditingId(null);
   };
 
+  const [hasFetched, setHasFetched] = useState(false);
+
   useEffect(() => {
-    if (!isLoading && potters.length === 0) {
+    if (!hasFetched && !isLoading && potters.length === 0) {
       dispatch(fetchPottersList({}));
+      setHasFetched(true);
     }
-  }, [dispatch, isLoading, potters.length]);
+  }, [dispatch, isLoading, potters.length, hasFetched]);
 
   if (isLoading) {
     return (

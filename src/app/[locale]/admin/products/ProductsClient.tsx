@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchProductsList,
   selectAllProducts,
   selectProductsListIsLoading,
   selectProductsListError,
 } from "@/store/products/productsListSlice";
+import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 // import { useToast } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
@@ -48,7 +48,7 @@ export default function ProductsClient() {
   // const { success } = useToast();
 
   const [editingId, setEditingId] = useState<number | null>(null);
-
+  console.log({ products, isLoading, error });
   const {
     register,
     handleSubmit,
@@ -64,9 +64,12 @@ export default function ProductsClient() {
     setEditingId(null);
   };
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    if (!isLoading && products.length === 0) {
+    if (!hasFetched.current && !isLoading && products.length === 0) {
       dispatch(fetchProductsList({}));
+      hasFetched.current = true;
     }
   }, [dispatch, isLoading, products.length]);
 

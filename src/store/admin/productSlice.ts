@@ -1,3 +1,5 @@
+import type { ProductFilters, Pagination } from "@/types/common";
+import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import type { Product } from "@/types/product";
@@ -11,6 +13,9 @@ interface AdminProductState {
   isLoading: boolean;
   isSuccess: boolean;
   error: string | null;
+  items: Product[];
+  filters: ProductFilters;
+  pagination: Pagination;
 }
 
 const initialState: AdminProductState = {
@@ -18,6 +23,21 @@ const initialState: AdminProductState = {
   isLoading: false,
   isSuccess: false,
   error: null,
+  items: [],
+  filters: {
+    name: null,
+    category: null,
+    active: null,
+    style: null,
+    priceMin: null,
+    priceMax: null,
+  },
+  pagination: {
+    limit: 10,
+    page: 1,
+    total: 0,
+    totalPages: 0,
+  },
 };
 
 export const createAdminProduct = createAsyncThunk<Product, Partial<Product>>(
@@ -145,6 +165,27 @@ const adminProductSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = false;
         state.error = (action.payload as string) || action.error.message || null;
+      })
+      .addCase(fetchProductsList.pending, (state) => {
+        state.isLoading = true;
+        state.isSuccess = false;
+        state.error = null;
+      })
+      .addCase(fetchProductsList.fulfilled, (state, action: PayloadAction<{
+        products: Product[];
+        filters: ProductFilters;
+        pagination: Pagination;
+      }>) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.items = action.payload.products;
+        state.filters = action.payload.filters;
+        state.pagination = action.payload.pagination;
+      })
+      .addCase(fetchProductsList.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = false;
+        state.error = action.error.message ?? "Unknown error";
       });
   },
 });

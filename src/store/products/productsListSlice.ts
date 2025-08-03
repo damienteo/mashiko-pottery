@@ -1,36 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice,  PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import type { Product } from "@/types/product";
 
+import { fetchProductsList } from "../thunks/fetchProductsList";
+
 import type { ProductFilters, Pagination } from "@/types/common";
-
-// Async thunk: fetch all products
-export const fetchProductsList = createAsyncThunk<
-  { products: Product[]; filters: ProductFilters; pagination: Pagination },
-  {
-    page?: number;
-    limit?: number;
-    name?: string;
-    category?: string;
-    active?: string;
-  }
->("productsList/fetchAll", async (params) => {
-  const query = new URLSearchParams();
-  if (params.page) query.set("page", String(params.page));
-  if (params.limit) query.set("limit", String(params.limit));
-  if (params.name) query.set("name", params.name);
-  if (params.category) query.set("category", params.category);
-  if (params.active) query.set("active", params.active);
-
-  const res = await fetch(`/api/products?${query.toString()}`);
-  if (!res.ok) throw new Error("Failed to fetch products");
-  const response = await res.json();
-  return {
-    products: response.products,
-    filters: response.filters,
-    pagination: response.pagination,
-  };
-});
 
 interface ProductsListState {
   items: Product[];

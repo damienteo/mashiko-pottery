@@ -4,10 +4,8 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import {
-  fetchProductsList,
-  selectAllProducts,
-} from "@/store/products/productsListSlice";
+import { selectAllProducts } from "@/store/products/productsListSlice";
+import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -30,6 +28,7 @@ export default function AdminProductDetail() {
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectAllProducts);
 
+  // Need to be fix to prevent infitine loop, and to fetch only one product
   useEffect(() => {
     if (products.length === 0) {
       dispatch(fetchProductsList({}));

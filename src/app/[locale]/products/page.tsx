@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchProductsList,
   selectAllProducts,
   selectProductsListIsLoading,
   selectProductsListError,
 } from "@/store/products/productsListSlice";
+import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 import { formatYen } from "@/utils/format";
 import { addToCart } from "@/store/cartSlice";
 import { useToast } from "@/components/ui/Toast";
@@ -26,9 +26,12 @@ export default function ProductsPage() {
   const isLoading = useAppSelector(selectProductsListIsLoading);
   const error = useAppSelector(selectProductsListError);
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    if (!isLoading && products.length === 0) {
+    if (!hasFetched.current && !isLoading && products.length === 0) {
       dispatch(fetchProductsList({}));
+      hasFetched.current = true;
     }
   }, [dispatch, isLoading, products.length]);
 

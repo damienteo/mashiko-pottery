@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
@@ -21,11 +21,13 @@ export default function PottersClient() {
   const isLoading = useAppSelector(selectPottersListIsLoading);
   const error = useAppSelector(selectPottersListError);
 
+  const hasFetched = useRef(false);
   useEffect(() => {
-    if (!isLoading && potters.length === 0) {
+    if (!hasFetched.current && !isLoading && potters.length === 0) {
       dispatch(fetchPottersList({}));
+      hasFetched.current = true;
     }
-  }, [dispatch, isLoading, potters.length]);
+  }, [dispatch, potters.length, isLoading]);
 
   if (isLoading) {
     return <p className="p-8 text-center text-gray-500">{t("loading")}</p>;
