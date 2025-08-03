@@ -1,3 +1,5 @@
+import { Role } from "@prisma/client";
+
 export interface User {
   id: string;
   email?: string;
@@ -26,7 +28,7 @@ export interface UserProfile {
   pref: string;
   city: string;
   street: string;
-  role: "admin" | "operations" | "seller" | "customer";
+  role: Role;
 }
 
 export interface Credentials {
