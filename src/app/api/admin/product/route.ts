@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await assertAdminAccess(user.id);
+    await assertAdminAccess();
 
     const data = await req.json();
     const { title, description, price, stock, potterId } = data;
@@ -49,7 +49,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await assertAdminAccess(user.id);
+    await assertAdminAccess();
 
     const data = await req.json();
     const { id, ...updates } = data;
@@ -82,7 +82,7 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    await assertAdminAccess(user.id);
+    await assertAdminAccess();
 
     const { id } = await req.json();
     if (!id) {

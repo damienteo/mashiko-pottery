@@ -7,12 +7,7 @@ import { updateUserRole } from "@/lib/user/updateUserRole";
 
 
 export async function POST(req: Request) {
-  const adminUserId = req.headers.get("x-user-id");
-  if (!adminUserId) {
-    return NextResponse.json({ error: "Missing user ID" }, { status: 401 });
-  }
-
-  await assertAdminAccess(adminUserId);
+  await assertAdminAccess();
 
   const { userId, name, bio, style, imageUrl } = await req.json();
 
@@ -38,7 +33,7 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: "Missing user ID" }, { status: 401 });
   }
 
-  await assertAdminAccess(adminUserId);
+  await assertAdminAccess();
 
   const { userId, name, bio, style, imageUrl, active } = await req.json();
 
@@ -61,7 +56,7 @@ export async function DELETE(req: Request) {
     return NextResponse.json({ error: "Missing user ID" }, { status: 401 });
   }
 
-  await assertAdminAccess(adminUserId);
+  await assertAdminAccess();
 
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
