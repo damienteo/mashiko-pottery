@@ -4,10 +4,10 @@ import { useEffect, useState, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  selectAllProducts,
-  selectProductsListIsLoading,
-  selectProductsListError,
-} from "@/store/products/productsListSlice";
+  selectAdminProductListItems,
+  selectAdminProductListLoading,
+  selectAdminProductListError,
+} from "@/store/admin/productSlice";
 import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 // import { useToast } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
@@ -42,9 +42,9 @@ export default function ProductsClient() {
   const t = useTranslations("admin.pages.products");
   const locale = useLocale();
   const dispatch = useAppDispatch();
-  const products = useAppSelector(selectAllProducts);
-  const isLoading = useAppSelector(selectProductsListIsLoading);
-  const error = useAppSelector(selectProductsListError);
+  const products = useAppSelector(selectAdminProductListItems);
+  const isLoading = useAppSelector(selectAdminProductListLoading);
+  const error = useAppSelector(selectAdminProductListError);
   // const { success } = useToast();
 
   const [editingId, setEditingId] = useState<number | null>(null);

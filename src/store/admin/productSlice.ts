@@ -198,4 +198,12 @@ export const selectAdminProductItems = (state: RootState) => state.adminProduct.
 export const selectAdminProductFilters = (state: RootState) => state.adminProduct.filters;
 export const selectAdminProductPagination = (state: RootState) => state.adminProduct.pagination;
 
+// Selectors for admin product list (fetchProductsList)
+export const selectAdminProductListLoading = (state: RootState) => state.adminProduct.isLoading;
+export const selectAdminProductListSuccess = (state: RootState) => state.adminProduct.isSuccess;
+export const selectAdminProductListError = (state: RootState) => state.adminProduct.error;
+export const selectAdminProductListItems = (state: RootState) => state.adminProduct.items;
+export const selectAdminProductListFilters = (state: RootState) => state.adminProduct.filters;
+export const selectAdminProductListPagination = (state: RootState) => state.adminProduct.pagination;
+
 export default adminProductSlice.reducer;
