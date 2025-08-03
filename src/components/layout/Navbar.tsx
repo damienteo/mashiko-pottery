@@ -58,16 +58,16 @@ export default function Navbar() {
 
             {user ? (
               <>
-                <li>
-                  <Link
-                    href="/admin/products"
-                    className="hover:underline text-red-600"
-                  >
-                    {t("admin.nav.products")}
-                  </Link>
-                </li>
                 {user.role === Role.ADMIN && (
                   <>
+                    <li>
+                      <Link
+                        href="/admin/products"
+                        className="hover:underline text-red-600"
+                      >
+                        {t("admin.nav.products")}
+                      </Link>
+                    </li>
                     {/* <li>
                       <Link
                         href="/admin/orders"
@@ -87,24 +87,24 @@ export default function Navbar() {
                   </>
                 )}
                 {/* Seller navigation links */}
-                <li>
-                  <Link
-                    href="/seller/profile"
-                    className="hover:underline text-green-600"
-                  >
-                    {t("seller.nav.profile")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/seller/inventory"
-                    className="hover:underline text-green-600"
-                  >
-                    {t("seller.nav.inventory")}
-                  </Link>
-                </li>
                 {user.role === Role.SELLER && (
                   <>
+                    <li>
+                      <Link
+                        href="/seller/profile"
+                        className="hover:underline text-green-600"
+                      >
+                        {t("seller.nav.profile")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/seller/inventory"
+                        className="hover:underline text-green-600"
+                      >
+                        {t("seller.nav.inventory")}
+                      </Link>
+                    </li>
                     {/* <li>
                       <Link
                         href="/seller/payouts"
@@ -198,17 +198,17 @@ export default function Navbar() {
 
                   {user ? (
                     <>
-                      <li>
-                        <Link
-                          href="/admin/products"
-                          onClick={() => setMenuOpen(false)}
-                          className="block text-lg text-red-600"
-                        >
-                          {t("admin.nav.products")}
-                        </Link>
-                      </li>
                       {user.role === Role.ADMIN && (
                         <>
+                          <li>
+                            <Link
+                              href="/admin/products"
+                              onClick={() => setMenuOpen(false)}
+                              className="block text-lg text-red-600"
+                            >
+                              {t("admin.nav.products")}
+                            </Link>
+                          </li>
                           {/* <li>
                             <Link
                               href="/admin/orders"
@@ -230,26 +230,27 @@ export default function Navbar() {
                         </>
                       )}
                       {/* Seller navigation links */}
-                      <li>
-                        <Link
-                          href="/seller/profile"
-                          onClick={() => setMenuOpen(false)}
-                          className="block text-lg text-green-600"
-                        >
-                          {t("seller.nav.profile")}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/seller/inventory"
-                          onClick={() => setMenuOpen(false)}
-                          className="block text-lg text-green-600"
-                        >
-                          {t("seller.nav.inventory")}
-                        </Link>
-                      </li>
+
                       {user.role === Role.SELLER && (
                         <>
+                          <li>
+                            <Link
+                              href="/seller/profile"
+                              onClick={() => setMenuOpen(false)}
+                              className="block text-lg text-green-600"
+                            >
+                              {t("seller.nav.profile")}
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/seller/inventory"
+                              onClick={() => setMenuOpen(false)}
+                              className="block text-lg text-green-600"
+                            >
+                              {t("seller.nav.inventory")}
+                            </Link>
+                          </li>
                           {/* <li>
                             <Link
                               href="/seller/payouts"
