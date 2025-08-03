@@ -4,16 +4,18 @@ import { useTranslations } from "next-intl";
 import LanguageSelector from "./LanguageSelector";
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { selectUserProfile } from "@/store/user/userSlice";
 // import { selectCartCount } from "@/store/cartSlice";
-import { selectCurrentUser, logoutUser } from "@/store/user/authSlice";
+import { logoutUser } from "@/store/user/authSlice";
 import Button from "@/components/ui/Button";
+import { Role } from "@prisma/client";
 
 export default function Navbar() {
   const t = useTranslations();
   const [menuOpen, setMenuOpen] = useState(false);
   // const cartCount = useAppSelector(selectCartCount);
   const dispatch = useAppDispatch();
-  const user = useAppSelector(selectCurrentUser);
+  const user = useAppSelector(selectUserProfile);
   // const [hasMounted, setHasMounted] = useState(false);
   // useEffect(() => {
   //   setHasMounted(true);
@@ -64,22 +66,26 @@ export default function Navbar() {
                     {t("admin.nav.products")}
                   </Link>
                 </li>
-                {/* <li>
-                  <Link
-                    href="/admin/orders"
-                    className="hover:underline text-red-600"
-                  >
-                    {t("admin.nav.orders")}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/admin/payouts"
-                    className="hover:underline text-red-600"
-                  >
-                    {t("admin.nav.payouts")}
-                  </Link>
-                </li> */}
+                {user.role === Role.ADMIN && (
+                  <>
+                    {/* <li>
+                      <Link
+                        href="/admin/orders"
+                        className="hover:underline text-red-600"
+                      >
+                        {t("admin.nav.orders")}
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/admin/payouts"
+                        className="hover:underline text-red-600"
+                      >
+                        {t("admin.nav.payouts")}
+                      </Link>
+                    </li> */}
+                  </>
+                )}
                 {/* Seller navigation links */}
                 <li>
                   <Link
@@ -97,14 +103,18 @@ export default function Navbar() {
                     {t("seller.nav.inventory")}
                   </Link>
                 </li>
-                {/* <li>
-                  <Link
-                    href="/seller/payouts"
-                    className="hover:underline text-green-600"
-                  >
-                    {t("seller.nav.payoutHistory")}
-                  </Link>
-                </li> */}
+                {user.role === Role.SELLER && (
+                  <>
+                    {/* <li>
+                      <Link
+                        href="/seller/payouts"
+                        className="hover:underline text-green-600"
+                      >
+                        {t("seller.nav.payoutHistory")}
+                      </Link>
+                    </li> */}
+                  </>
+                )}
                 <li>
                   <Link href="/profile" className="hover:underline">
                     {t("profile.link")}
@@ -197,24 +207,28 @@ export default function Navbar() {
                           {t("admin.nav.products")}
                         </Link>
                       </li>
-                      {/* <li>
-                        <Link
-                          href="/admin/orders"
-                          onClick={() => setMenuOpen(false)}
-                          className="block text-lg text-red-600"
-                        >
-                          {t("admin.nav.orders")}
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          href="/admin/payouts"
-                          onClick={() => setMenuOpen(false)}
-                          className="block text-lg text-red-600"
-                        >
-                          {t("admin.nav.payouts")}
-                        </Link>
-                      </li> */}
+                      {user.role === Role.ADMIN && (
+                        <>
+                          {/* <li>
+                            <Link
+                              href="/admin/orders"
+                              onClick={() => setMenuOpen(false)}
+                              className="block text-lg text-red-600"
+                            >
+                              {t("admin.nav.orders")}
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/admin/payouts"
+                              onClick={() => setMenuOpen(false)}
+                              className="block text-lg text-red-600"
+                            >
+                              {t("admin.nav.payouts")}
+                            </Link>
+                          </li> */}
+                        </>
+                      )}
                       {/* Seller navigation links */}
                       <li>
                         <Link
@@ -234,15 +248,19 @@ export default function Navbar() {
                           {t("seller.nav.inventory")}
                         </Link>
                       </li>
-                      {/* <li>
-                        <Link
-                          href="/seller/payouts"
-                          onClick={() => setMenuOpen(false)}
-                          className="block text-lg text-green-600"
-                        >
-                          {t("seller.nav.payoutHistory")}
-                        </Link>
-                      </li> */}
+                      {user.role === Role.SELLER && (
+                        <>
+                          {/* <li>
+                            <Link
+                              href="/seller/payouts"
+                              onClick={() => setMenuOpen(false)}
+                              className="block text-lg text-green-600"
+                            >
+                              {t("seller.nav.payoutHistory")}
+                            </Link>
+                          </li> */}
+                        </>
+                      )}
                       <li>
                         <Link
                           href="/profile"
