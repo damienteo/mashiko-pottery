@@ -2,7 +2,8 @@
   "nav": {
     "products": "Admin: Products",
     "orders": "Orders",
-    "payouts": "Payouts"
+    "payouts": "Payouts",
+    "potters": "Potters"
   },
   "pages": {
     "products": {

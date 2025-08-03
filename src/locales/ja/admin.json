@@ -2,7 +2,8 @@
   "nav": {
     "products": "管理者: 商品管理",
     "orders": "注文",
-    "payouts": "支払い"
+    "payouts": "支払い",
+    "potters": "作家一覧"
   },
   "pages": {
     "products": {

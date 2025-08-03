@@ -67,22 +67,20 @@ export default function PotterCreateClient() {
   const onSubmit = async (data: FormData) => {
     const resultAction = await dispatch(createAdminPotter(data));
     if (createAdminPotter.fulfilled.match(resultAction)) {
-      success(t("admin.potter.create.success"));
+      success(t("potter.create.success"));
       reset();
     } else {
-      toastError(t("admin.potter.create.error"));
+      toastError(t("potter.create.error"));
     }
   };
 
   return (
     <div className="max-w-xl mx-auto my-16 p-8 border rounded shadow-sm bg-white">
-      <h1 className="text-2xl font-bold mb-6">
-        {t("admin.potter.create.title")}
-      </h1>
+      <h1 className="text-2xl font-bold mb-6">{t("potter.create.title")}</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label htmlFor="userId" className="block mb-1">
-            {t("admin.potter.create.userId")}
+            {t("potter.create.userId")}
           </label>
           <input
             id="userId"
@@ -97,12 +95,12 @@ export default function PotterCreateClient() {
         {/* Localized Name */}
         <fieldset className="space-y-2">
           <legend className="font-semibold mb-1">
-            {t("admin.potter.create.name")}
+            {t("potter.create.name")}
           </legend>
           {(["en", "ja", "zh"] as const).map((lang) => (
             <div key={lang}>
               <label htmlFor={`name.${lang}`} className="block text-sm">
-                {t(`admin.potter.create.name${lang.toUpperCase()}`)}
+                {t(`potter.create.name${lang.toUpperCase()}`)}
               </label>
               <input
                 id={`name.${lang}`}
@@ -121,12 +119,12 @@ export default function PotterCreateClient() {
         {/* Localized Bio */}
         <fieldset className="space-y-2">
           <legend className="font-semibold mb-1">
-            {t("admin.potter.create.bio")}
+            {t("potter.create.bio")}
           </legend>
           {(["en", "ja", "zh"] as const).map((lang) => (
             <div key={lang}>
               <label htmlFor={`bio.${lang}`} className="block text-sm">
-                {t(`admin.potter.create.bio${lang.toUpperCase()}`)}
+                {t(`potter.create.bio${lang.toUpperCase()}`)}
               </label>
               <textarea
                 id={`bio.${lang}`}
@@ -145,7 +143,7 @@ export default function PotterCreateClient() {
 
         <div>
           <label htmlFor="style" className="block mb-1">
-            {t("admin.potter.create.style")}
+            {t("potter.create.style")}
           </label>
           <input
             id="style"
@@ -159,7 +157,7 @@ export default function PotterCreateClient() {
 
         <div>
           <label htmlFor="imageUrl" className="block mb-1">
-            {t("admin.potter.create.imageUrl")}
+            {t("potter.create.imageUrl")}
           </label>
           <input
             id="imageUrl"
@@ -177,13 +175,13 @@ export default function PotterCreateClient() {
           className="w-full"
         >
           {isLoading || isSubmitting
-            ? t("admin.potter.create.submitting")
-            : t("admin.potter.create.submit")}
+            ? t("potter.create.submitting")
+            : t("potter.create.submit")}
         </Button>
 
         {error && (
           <p className="text-red-600 mt-2 text-sm">
-            {t("admin.potter.create.error")}
+            {t("potter.create.error")}
           </p>
         )}
       </form>

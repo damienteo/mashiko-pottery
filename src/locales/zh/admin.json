@@ -2,7 +2,8 @@
   "nav": {
     "products": "管理：商品",
     "orders": "订单",
-    "payouts": "付款报表"
+    "payouts": "付款报表",
+    "potters": "陶艺家"
   },
   "pages": {
     "products": {
