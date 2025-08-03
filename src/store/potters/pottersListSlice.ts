@@ -1,36 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import type { Potter } from "@/types/potter";
 
+import { fetchPottersList } from "../thunks/fetchPottersList";
+
 import type { PotterFilters, Pagination } from "@/types/common";
-
-// Async thunk: fetch all potters
-export const fetchPottersList = createAsyncThunk<
-  { potters: Potter[]; filters: PotterFilters; pagination: Pagination },
-  {
-    page?: number;
-    limit?: number;
-    name?: string;
-    style?: string;
-    active?: string;
-  }
->("pottersList/fetchAll", async (params) => {
-  const query = new URLSearchParams();
-  if (params.page) query.set("page", String(params.page));
-  if (params.limit) query.set("limit", String(params.limit));
-  if (params.name) query.set("name", params.name);
-  if (params.style) query.set("style", params.style);
-  if (params.active) query.set("active", params.active);
-
-  const res = await fetch(`/api/potters?${query.toString()}`);
-  if (!res.ok) throw new Error("Failed to fetch potters");
-  const response = await res.json();
-  return {
-    potters: response.potters,
-    filters: response.filters,
-    pagination: response.pagination,
-  };
-});
 
 interface PottersListState {
   items: Potter[];

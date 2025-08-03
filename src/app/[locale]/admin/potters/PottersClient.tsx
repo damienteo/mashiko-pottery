@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchPottersList,
-  selectAllPotters,
-  selectPottersListIsLoading,
-  selectPottersListError,
-} from "@/store/potters/pottersListSlice";
+  selectAdminPotters,
+  selectAdminPotterLoading,
+  selectAdminPotterError,
+} from "@/store/admin/potterSlice";
+import { fetchPottersList } from "@/store/thunks/fetchPottersList";
 // import { useToast } from "@/components/ui/Toast";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
@@ -28,9 +28,9 @@ export default function PottersClient() {
   const t = useTranslations("admin.pages.potters");
   const locale = useLocale();
   const dispatch = useAppDispatch();
-  const potters = useAppSelector(selectAllPotters);
-  const isLoading = useAppSelector(selectPottersListIsLoading);
-  const error = useAppSelector(selectPottersListError);
+  const potters = useAppSelector(selectAdminPotters);
+  const isLoading = useAppSelector(selectAdminPotterLoading);
+  const error = useAppSelector(selectAdminPotterError);
   // const { success } = useToast();
 
   const [editingId, setEditingId] = useState<number | null>(null);
