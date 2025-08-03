@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { fetchSupabaseUser, selectCurrentUser } from "@/store/user/authSlice";
 import { supabase } from "@/lib/supabase/client";
+import { fetchUserProfile } from "@/store/user/userSlice";
 
 export default function AuthLoader() {
   const dispatch = useAppDispatch();
@@ -12,11 +13,18 @@ export default function AuthLoader() {
 
   useEffect(() => {
     if (!user && !tried.current) {
-      dispatch(fetchSupabaseUser());
-      // Only fetch once to avoid infinite loop
-      tried.current = true;
+      dispatch(fetchSupabaseUser()).then(() => {
+        tried.current = true;
+      });
     }
   }, [dispatch, user]);
+
+  // Fetch user profile from the database once user is loaded
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchUserProfile());
+    }
+  }, [dispatch, !!user]);
 
   // Subscribe to auth state changes
   // This will ensure the user state across tabs is updated on login/logout
