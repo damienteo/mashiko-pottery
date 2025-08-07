@@ -12,4 +12,5 @@ export interface Potter {
   imageUrl?: string;
   createdAt: string;
   updatedAt: string;
+  isDraft: boolean;
 }
