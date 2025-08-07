@@ -5,12 +5,12 @@ import { useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { fetchPottersList } from "@/store/thunks/fetchPottersList";
 import {
+  fetchAdminPotter,
   updateAdminPotter,
   selectAdminPotterLoading,
   selectAdminPotterError,
-  selectAdminPotters,
+  selectAdminPotter,
 } from "@/store/admin/potterSlice";
 
 import PotterForm from "@/components/forms/PotterForm";
@@ -22,7 +22,7 @@ export default function AdminPotterDetail() {
   const locale = useLocale();
   const t = useTranslations("admin.pages.potters");
   const dispatch = useAppDispatch();
-  const potters = useAppSelector(selectAdminPotters);
+  const potter = useAppSelector(selectAdminPotter);
   const { success, error: toastError } = useToast();
 
   const isLoading = useAppSelector(selectAdminPotterLoading);
@@ -30,13 +30,12 @@ export default function AdminPotterDetail() {
 
   const hasFetched = useRef(false);
   useEffect(() => {
-    if (!hasFetched.current && potters.length === 0) {
-      dispatch(fetchPottersList({}));
+    if (!hasFetched.current && id) {
+      dispatch(fetchAdminPotter(Number(id)));
       hasFetched.current = true;
     }
-  }, [dispatch, potters.length]);
+  }, [dispatch, id]);
 
-  const potter = potters.find((p) => String(p.id) === id);
   const defaults: PotterFormValues = potter
     ? {
         userId: potter.userId ?? "",
