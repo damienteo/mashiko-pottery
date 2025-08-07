@@ -21,13 +21,25 @@ export default function AdminLayoutClient({
             href={`/${locale}/admin/products`}
             className="hover:text-gray-400"
           >
-            {t("nav.products")}
+            {t("nav.products.headline")}
+          </Link>
+          <Link
+            href={`/${locale}/admin/products/create`}
+            className="hover:text-gray-400"
+          >
+            {t("nav.products.create")}
           </Link>
           <Link
             href={`/${locale}/admin/potters`}
             className="hover:text-gray-400"
           >
-            {t("nav.potters")}
+            {t("nav.potters.headline")}
+          </Link>
+          <Link
+            href={`/${locale}/admin/potters/create`}
+            className="hover:text-gray-400"
+          >
+            {t("nav.potters.create")}
           </Link>
           {/* <Link
             href={`/${locale}/admin/orders`}

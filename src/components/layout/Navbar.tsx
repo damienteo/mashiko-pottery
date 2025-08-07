@@ -64,7 +64,7 @@ export default function Navbar() {
                     href="/admin/products"
                     className="hover:underline text-red-600"
                   >
-                    {t("admin.nav.products")}
+                    {t("admin.nav.products.headline")}
                   </Link>
                 </li>
                 {/* <li>
@@ -204,7 +204,7 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className="block text-lg text-red-600"
                         >
-                          {t("admin.nav.products")}
+                          {t("admin.nav.products.headline")}
                         </Link>
                       </li>
                       {/* <li>
