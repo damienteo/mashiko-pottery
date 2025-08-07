@@ -85,7 +85,10 @@
       "confirm": "確認",
       "cancel": "キャンセル",
       "details": "詳細",
-      "image": "画像"
+      "image": "画像",
+      "action": {
+        "save": "変更を保存"
+      }
     }
   },
   "loading": "読み込み中…",

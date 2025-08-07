@@ -85,7 +85,10 @@
       "confirm": "确认",
       "cancel": "取消",
       "details": "详情",
-      "image": "图片"
+      "image": "图片",
+      "action": {
+        "save": "保存更改"
+      }
     }
   },
   "loading": "加载中…",

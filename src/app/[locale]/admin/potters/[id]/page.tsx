@@ -87,7 +87,7 @@ export default function AdminPotterDetail() {
       <PotterForm
         initialValues={defaults}
         onSubmit={onSubmit}
-        submitText={t("actions.save")}
+        submitText={t("action.save")}
         isLoading={isLoading}
         errorsFromServer={error}
       />

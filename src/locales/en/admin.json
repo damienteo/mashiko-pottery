@@ -84,7 +84,10 @@
       "confirm": "Confirm",
       "cancel": "Cancel",
       "details": "Details",
-      "image": "Image"
+      "image": "Image",
+      "action": {
+        "save": "Save Changes"
+      }
     }
   },
   "loading": "Loading…",
