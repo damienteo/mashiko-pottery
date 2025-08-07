@@ -53,13 +53,14 @@ model User {
 model Potter {
   id        Int       @id @default(autoincrement())
   userId    String?      @unique @db.Uuid
-  name      Json
-  bio       Json
+  name      Json?
+  bio       Json?
   style     String?
   active    Boolean   @default(true)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   imageUrl  String?
+  photos    String[]
   payouts   Payout[]
   user      User?     @relation(fields: [userId], references: [id])
   products  Product[]
@@ -69,16 +70,17 @@ model Potter {
 model Product {
   id          Int         @id @default(autoincrement())
   potterId    Int
-  title       Json
-  description Json
-  price       Float
-  stock       Int
+  title       Json?
+  description Json?
+  price       Float?
+  stock       Int?
   weight      Float?  
   lengthCm      Float?
   widthCm       Float?
   heightCm      Float?
   leadTimeDays  Int?
   photos      String[]
+  mainImage   String?
   tags          String[]   @default([])
   category    String?
   createdAt   DateTime    @default(now())

@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Potter" ADD COLUMN     "photos" TEXT[],
+ALTER COLUMN "name" DROP NOT NULL,
+ALTER COLUMN "bio" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Product" ADD COLUMN     "mainImage" TEXT,
+ALTER COLUMN "title" DROP NOT NULL,
+ALTER COLUMN "description" DROP NOT NULL,
+ALTER COLUMN "price" DROP NOT NULL,
+ALTER COLUMN "stock" DROP NOT NULL;
