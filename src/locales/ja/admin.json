@@ -1,9 +1,9 @@
 {
   "nav": {
-    "products": "管理者: 商品管理",
-    "orders": "注文",
-    "payouts": "支払い",
-    "potters": "作家一覧"
+    "products": { "headline": "管理：商品一覧", "create": "商品を作成" },
+    "orders": { "headline": "注文一覧", "create": "注文を作成" },
+    "payouts": { "headline": "支払い一覧", "create": "支払いを作成" },
+    "potters": { "headline": "作家一覧", "create": "作家を作成" }
   },
   "pages": {
     "products": {

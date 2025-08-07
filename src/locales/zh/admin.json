@@ -1,9 +1,9 @@
 {
   "nav": {
-    "products": "管理：商品",
-    "orders": "订单",
-    "payouts": "付款报表",
-    "potters": "陶艺家"
+    "products": { "headline": "管理：商品", "create": "创建商品" },
+    "orders": { "headline": "订单", "create": "创建订单" },
+    "payouts": { "headline": "付款记录", "create": "创建付款" },
+    "potters": { "headline": "陶艺家", "create": "创建陶艺家" }
   },
   "pages": {
     "products": {

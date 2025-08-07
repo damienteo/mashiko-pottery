@@ -1,9 +1,9 @@
 {
   "nav": {
-    "products": "Admin: Products",
-    "orders": "Orders",
-    "payouts": "Payouts",
-    "potters": "Potters"
+    "products": { "headline": "Admin: Products", "create": "Create Product" },
+    "orders": { "headline": "Orders", "create": "Create Order" },
+    "payouts": { "headline": "Payouts", "create": "Create Payout" },
+    "potters": { "headline": "Potters", "create": "Create Potter" }
   },
   "pages": {
     "products": {
