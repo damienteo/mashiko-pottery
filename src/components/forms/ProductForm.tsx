@@ -8,21 +8,21 @@ import Button from "@/components/ui/Button";
 import PhotoUploadField from "@/components/forms/PhotoUploadField";
 import { useTranslations } from "next-intl";
 
-export interface ProductFormValues {
+export interface DraftProductFormValues {
   id?: number;
   potterId: number;
   title: {
-    en: string;
+    en?: string;
     ja: string;
-    zh: string;
+    zh?: string;
   };
   description: {
-    en: string;
+    en?: string;
     ja: string;
-    zh: string;
+    zh?: string;
   };
-  price: number;
-  stock: number;
+  price?: number;
+  stock?: number;
   weight?: number;
   lengthCm?: number;
   widthCm?: number;
@@ -35,44 +35,103 @@ export interface ProductFormValues {
   isDraft?: boolean;
 }
 
+export interface ProductFormValues {
+  id?: number;
+  potterId: number;
+  title: {
+    en?: string;
+    ja: string;
+    zh?: string;
+  };
+  description: {
+    en?: string;
+    ja: string;
+    zh?: string;
+  };
+  price: number;
+  stock: number;
+  weight: number;
+  lengthCm: number;
+  widthCm: number;
+  heightCm: number;
+  leadTimeDays?: number;
+  photos: string[];
+  mainImage: string;
+  tags: (string | undefined)[];
+  category: string;
+  isDraft: boolean;
+}
+
+type UnifiedFormValues = Partial<ProductFormValues> &
+  Partial<DraftProductFormValues>;
+
 interface ProductFormProps {
-  initialValues?: ProductFormValues;
-  onSubmit: (data: ProductFormValues) => void;
+  initialValues?: UnifiedFormValues;
+  onSubmit: (data: UnifiedFormValues) => void;
   isLoading: boolean;
   errorsFromServer?: string | null;
   submitText?: string;
 }
 
-const schema: yup.ObjectSchema<ProductFormValues> = yup.object({
+const draftSchema: yup.ObjectSchema<DraftProductFormValues> = yup.object({
   id: yup.number().optional(),
   potterId: yup.number().required(),
   title: yup.object({
-    en: yup.string().required(),
+    en: yup.string().optional(),
     ja: yup.string().required(),
-    zh: yup.string().required(),
+    zh: yup.string().optional(),
   }),
   description: yup.object({
-    en: yup.string().required(),
+    en: yup.string().optional(),
     ja: yup.string().required(),
-    zh: yup.string().required(),
+    zh: yup.string().optional(),
   }),
-  price: yup.number().required().min(0),
-  stock: yup.number().required().min(0),
+  price: yup.number().min(0).optional(),
+  stock: yup.number().min(0).optional(),
   weight: yup.number().optional(),
   lengthCm: yup.number().optional(),
   widthCm: yup.number().optional(),
   heightCm: yup.number().optional(),
   leadTimeDays: yup.number().optional(),
-  photos: yup
-    .array()
-    .of(yup.string().url("Must be a valid URL").required())
-    .min(1, "At least one photo is required")
-    .required("Photos are required"),
+  photos: yup.array().of(yup.string().url().required()).required(),
   mainImage: yup.string().url().optional(),
   tags: yup.array().of(yup.string().optional()).optional(),
   category: yup.string().optional(),
   isDraft: yup.boolean().optional(),
 });
+
+const productSchema: yup.ObjectSchema<ProductFormValues> = yup.object({
+  id: yup.number().optional(),
+  potterId: yup.number().required(),
+  title: yup.object({
+    en: yup.string().optional(),
+    ja: yup.string().required(),
+    zh: yup.string().optional(),
+  }),
+  description: yup.object({
+    en: yup.string().optional(),
+    ja: yup.string().required(),
+    zh: yup.string().optional(),
+  }),
+  price: yup.number().required().min(0),
+  stock: yup.number().required().min(0),
+  weight: yup.number().required(),
+  lengthCm: yup.number().required(),
+  widthCm: yup.number().required(),
+  heightCm: yup.number().required(),
+  leadTimeDays: yup.number().optional(),
+  photos: yup.array().of(yup.string().url().required()).min(1).required(),
+  mainImage: yup.string().url().required(),
+  tags: yup.array().of(yup.string().required()).required(),
+  category: yup.string().required(),
+  isDraft: yup.boolean().required(),
+});
+
+const schema = yup.lazy(
+  (values: DraftProductFormValues | ProductFormValues) => {
+    return values?.isDraft ? draftSchema : productSchema;
+  }
+);
 
 export default function ProductForm({
   initialValues,
@@ -86,7 +145,8 @@ export default function ProductForm({
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
-  } = useForm<ProductFormValues>({
+  } = useForm<UnifiedFormValues>({
+    // @ts-expect-error — dynamic schema typing with yup.lazy() isn't fully resolved
     resolver: yupResolver(schema),
     defaultValues: initialValues,
   });
