@@ -13,6 +13,7 @@ export interface Product {
   heightCm?: number;
   leadTimeDays?: number;
   photos: string[];
+  mainImage?: string;
   tags: string[];
   category?: string;
   createdAt?: string;

@@ -10,6 +10,7 @@ export interface Potter {
   style?: string;
   active: boolean;
   imageUrl?: string;
+  photos: string[];
   createdAt: string;
   updatedAt: string;
   isDraft: boolean;
