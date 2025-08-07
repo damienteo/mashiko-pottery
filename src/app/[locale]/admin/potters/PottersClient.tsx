@@ -91,25 +91,25 @@ export default function PottersClient() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Image
+                {t("image")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Name
+                {t("name")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Bio
+                {t("bio")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Style
+                {t("style")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Active
+                {t("active")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                ID
+                {t("id")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Actions
+                {t("actions")}
               </th>
             </tr>
           </thead>
@@ -182,7 +182,7 @@ export default function PottersClient() {
                     )}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap">
-                    {p.active ? "Yes" : "No"}
+                    {p.active ? t("active") : "-"}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap">{p.id}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2 flex items-center">
@@ -193,7 +193,7 @@ export default function PottersClient() {
                           variant="primary"
                           disabled={!isValid}
                         >
-                          Confirm
+                          {t("confirm")}
                         </Button>
                         <Button
                           variant="secondary"
@@ -202,7 +202,7 @@ export default function PottersClient() {
                             setEditingId(null);
                           }}
                         >
-                          Cancel
+                          {t("cancel")}
                         </Button>
                       </>
                     ) : (
@@ -218,7 +218,7 @@ export default function PottersClient() {
                             setEditingId(p.id);
                           }}
                         >
-                          Edit
+                          {t("edit")}
                         </Button>
                         <Button
                           variant="secondary"
@@ -226,14 +226,14 @@ export default function PottersClient() {
                             /* TODO: delete */
                           }}
                         >
-                          Delete
+                          {t("delete")}
                         </Button>
                         <Link
                           href={`/${locale}/admin/potters/${p.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <Button variant="secondary">Details</Button>
+                          <Button variant="secondary">{t("details")}</Button>
                         </Link>
                       </>
                     )}

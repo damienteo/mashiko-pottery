@@ -67,6 +67,24 @@
         "status": "Status",
         "actions": "Actions"
       }
+    },
+    "potters": {
+      "title": "Manage Potters",
+      "loading": "Loading potters...",
+      "error": "Failed to load potters.",
+      "retry": "Retry",
+      "name": "Name",
+      "bio": "Biography",
+      "style": "Style",
+      "active": "Active",
+      "id": "ID",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "details": "Details",
+      "image": "Image"
     }
   },
   "loading": "Loading…",
