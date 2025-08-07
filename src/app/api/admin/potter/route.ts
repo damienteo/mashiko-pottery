@@ -28,11 +28,6 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  const adminUserId = req.headers.get("x-user-id");
-  if (!adminUserId) {
-    return NextResponse.json({ error: "Missing user ID" }, { status: 401 });
-  }
-
   await assertAdminAccess();
 
   const { userId, name, bio, style, imageUrl, active } = await req.json();
@@ -51,11 +46,6 @@ export async function PATCH(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const adminUserId = req.headers.get("x-user-id");
-  if (!adminUserId) {
-    return NextResponse.json({ error: "Missing user ID" }, { status: 401 });
-  }
-
   await assertAdminAccess();
 
   const { searchParams } = new URL(req.url);
