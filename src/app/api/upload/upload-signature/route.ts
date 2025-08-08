@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { v2 as cloudinary } from "cloudinary";
+import { NextResponse } from "next/server";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -7,10 +7,12 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET!,
 });
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: Request) {
+  const body = await req.json();
+
   const timestamp = Math.round(Date.now() / 1000) + 600; // expires in 10 minutes
-  const folder = req.body.folder || "draft_uploads";
-  const public_id = req.body.public_id || undefined;
+  const folder = body.folder || "draft_uploads";
+  const public_id = body.public_id || undefined;
 
   const paramsToSign: Record<string, string | number | boolean> = {
     timestamp,
@@ -21,7 +23,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (public_id) {
     paramsToSign.public_id = public_id;
-    paramsToSign.overwrite = true;
     paramsToSign.use_filename = true;
     paramsToSign.unique_filename = false;
   }
@@ -31,7 +32,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     process.env.CLOUDINARY_API_SECRET!
   );
 
-  res.status(200).json({
+  return NextResponse.json({
     timestamp,
     signature,
     folder,
