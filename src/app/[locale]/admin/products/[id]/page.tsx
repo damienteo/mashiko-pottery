@@ -1,17 +1,20 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchAdminProduct,
   updateAdminProduct,
   selectAdminProduct,
+  selectAdminProductError,
+  selectAdminProductLoading,
 } from "@/store/admin/productSlice";
 import { SubmitHandler } from "react-hook-form";
 import type { UnifiedFormValues } from "@/components/forms/ProductForm";
 import ProductForm from "@/components/forms/ProductForm";
+import { useToast } from "@/components/ui/Toast";
 
 export default function AdminProductDetail() {
   const { id } = useParams();
@@ -19,9 +22,15 @@ export default function AdminProductDetail() {
   const t = useTranslations("admin.pages.products");
   const dispatch = useAppDispatch();
 
+  const { success, error: toastError } = useToast();
+  const isLoading = useAppSelector(selectAdminProductLoading);
+  const error = useAppSelector(selectAdminProductError);
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    if (id) {
+    if (!hasFetched.current && id) {
       dispatch(fetchAdminProduct(Number(id)));
+      hasFetched.current = true;
     }
   }, [dispatch, id]);
 
@@ -76,8 +85,13 @@ export default function AdminProductDetail() {
     return <p>{t("error")}</p>;
   }
 
-  const onSubmit: SubmitHandler<UnifiedFormValues> = (data) => {
-    dispatch(updateAdminProduct(data));
+  const onSubmit: SubmitHandler<UnifiedFormValues> = async (data) => {
+    const resultAction = await dispatch(updateAdminProduct(data));
+    if (updateAdminProduct.fulfilled.match(resultAction)) {
+      success(t("product.update.success"));
+    } else {
+      toastError(error || t("product.update.error"));
+    }
   };
 
   return (
@@ -96,8 +110,8 @@ export default function AdminProductDetail() {
         initialValues={defaults}
         onSubmit={onSubmit}
         submitText={t("actions.save")}
-        isLoading={false}
-        errorsFromServer={null}
+        isLoading={isLoading}
+        errorsFromServer={error}
       />
     </div>
   );
