@@ -2,7 +2,7 @@ import type { LocalizedString } from "./i18n";
 
 export interface Product {
   id: number;
-  potterId: string;
+  potterId: number;
   title: LocalizedString;
   description: LocalizedString;
   price: number;

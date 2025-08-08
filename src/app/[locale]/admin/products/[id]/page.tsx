@@ -4,8 +4,11 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { selectAllProducts } from "@/store/products/productsListSlice";
-import { fetchProductsList } from "@/store/thunks/fetchProductsList";
+import {
+  fetchAdminProduct,
+  updateAdminProduct,
+  selectAdminProduct,
+} from "@/store/admin/productSlice";
 import { SubmitHandler } from "react-hook-form";
 import type { UnifiedFormValues } from "@/components/forms/ProductForm";
 import ProductForm from "@/components/forms/ProductForm";
@@ -15,23 +18,29 @@ export default function AdminProductDetail() {
   const locale = useLocale();
   const t = useTranslations("admin.pages.products");
   const dispatch = useAppDispatch();
-  const products = useAppSelector(selectAllProducts);
 
-  // Need to be fix to prevent infitine loop, and to fetch only one product
   useEffect(() => {
-    if (products.length === 0) {
-      dispatch(fetchProductsList({}));
+    if (id) {
+      dispatch(fetchAdminProduct(Number(id)));
     }
-  }, [dispatch, products.length]);
+  }, [dispatch, id]);
 
-  // Find product and derive unified defaults
-  const product = products.find((p) => String(p.id) === id);
+  const product = useAppSelector(selectAdminProduct);
+
   const defaults: UnifiedFormValues = product
     ? {
         id: product.id,
         potterId: Number(product.potterId), // Ensure potterId is a number
-        title: product.title,
-        description: product.description,
+        title: {
+          en: product.title?.en ?? "",
+          ja: product.title?.ja ?? "",
+          zh: product.title?.zh ?? "",
+        },
+        description: {
+          en: product.description?.en ?? "",
+          ja: product.description?.ja ?? "",
+          zh: product.description?.zh ?? "",
+        },
         price: product.price,
         stock: product.stock ?? 0,
         weight: product.weight ?? 0,
@@ -68,8 +77,7 @@ export default function AdminProductDetail() {
   }
 
   const onSubmit: SubmitHandler<UnifiedFormValues> = (data) => {
-    // TODO: dispatch updateProduct({ id: product.id, ...data })
-    console.log("Updated", data);
+    dispatch(updateAdminProduct(data));
   };
 
   return (

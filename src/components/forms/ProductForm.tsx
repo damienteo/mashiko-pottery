@@ -12,14 +12,14 @@ export interface DraftProductFormValues {
   id?: number;
   potterId: number;
   title: {
-    en?: string;
+    en: string;
     ja: string;
-    zh?: string;
+    zh: string;
   };
   description: {
-    en?: string;
+    en: string;
     ja: string;
-    zh?: string;
+    zh: string;
   };
   price?: number;
   stock?: number;
@@ -30,7 +30,7 @@ export interface DraftProductFormValues {
   leadTimeDays?: number;
   photos: string[];
   mainImage?: string;
-  tags?: (string | undefined)[];
+  tags: string[];
   category?: string;
   isDraft?: boolean;
 }
@@ -39,14 +39,14 @@ export interface ProductFormValues {
   id?: number;
   potterId: number;
   title: {
-    en?: string;
+    en: string;
     ja: string;
-    zh?: string;
+    zh: string;
   };
   description: {
-    en?: string;
+    en: string;
     ja: string;
-    zh?: string;
+    zh: string;
   };
   price: number;
   stock: number;
@@ -57,7 +57,7 @@ export interface ProductFormValues {
   leadTimeDays?: number;
   photos: string[];
   mainImage: string;
-  tags: (string | undefined)[];
+  tags: string[];
   category: string;
   isDraft: boolean;
 }
@@ -77,14 +77,14 @@ const draftSchema: yup.ObjectSchema<DraftProductFormValues> = yup.object({
   id: yup.number().optional(),
   potterId: yup.number().required(),
   title: yup.object({
-    en: yup.string().optional(),
+    en: yup.string().required(),
     ja: yup.string().required(),
-    zh: yup.string().optional(),
+    zh: yup.string().required(),
   }),
   description: yup.object({
-    en: yup.string().optional(),
+    en: yup.string().required(),
     ja: yup.string().required(),
-    zh: yup.string().optional(),
+    zh: yup.string().required(),
   }),
   price: yup.number().min(0).optional(),
   stock: yup.number().min(0).optional(),
@@ -95,7 +95,7 @@ const draftSchema: yup.ObjectSchema<DraftProductFormValues> = yup.object({
   leadTimeDays: yup.number().optional(),
   photos: yup.array().of(yup.string().url().required()).required(),
   mainImage: yup.string().url().optional(),
-  tags: yup.array().of(yup.string().optional()).optional(),
+  tags: yup.array().of(yup.string().required()).min(0).required(),
   category: yup.string().optional(),
   isDraft: yup.boolean().optional(),
 });
@@ -104,14 +104,14 @@ const productSchema: yup.ObjectSchema<ProductFormValues> = yup.object({
   id: yup.number().optional(),
   potterId: yup.number().required(),
   title: yup.object({
-    en: yup.string().optional(),
+    en: yup.string().required(),
     ja: yup.string().required(),
-    zh: yup.string().optional(),
+    zh: yup.string().required(),
   }),
   description: yup.object({
-    en: yup.string().optional(),
+    en: yup.string().required(),
     ja: yup.string().required(),
-    zh: yup.string().optional(),
+    zh: yup.string().required(),
   }),
   price: yup.number().required().min(0),
   stock: yup.number().required().min(0),
@@ -122,7 +122,7 @@ const productSchema: yup.ObjectSchema<ProductFormValues> = yup.object({
   leadTimeDays: yup.number().optional(),
   photos: yup.array().of(yup.string().url().required()).min(1).required(),
   mainImage: yup.string().url().required(),
-  tags: yup.array().of(yup.string().required()).required(),
+  tags: yup.array().of(yup.string().required()).min(1).required(),
   category: yup.string().required(),
   isDraft: yup.boolean().required(),
 });
