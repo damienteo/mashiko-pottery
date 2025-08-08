@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { CldUploadWidget } from "next-cloudinary";
 import { useController, Control } from "react-hook-form";
 import type { FieldValues, Path } from "react-hook-form";
 // import { useTranslations } from "next-intl";
@@ -25,22 +26,6 @@ export default function PhotoUploadField<T extends FieldValues>({
     Array.isArray(field.value) ? field.value : []
   );
 
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = event.target.files;
-    if (!files) return;
-
-    const fileArray = Array.from(files);
-
-    // TODO: Replace with actual Cloudinary upload logic
-    const uploadedUrls = fileArray.map((file) => URL.createObjectURL(file));
-
-    const newUrls = multiple ? [...previews, ...uploadedUrls] : uploadedUrls;
-    setPreviews(newUrls);
-    field.onChange(newUrls);
-  };
-
   const removeImage = (index: number) => {
     const updated = [...previews];
     updated.splice(index, 1);
@@ -51,12 +36,28 @@ export default function PhotoUploadField<T extends FieldValues>({
   return (
     <div>
       <label className="block font-medium mb-2">{label}</label>
-      <input
-        type="file"
-        accept="image/*"
-        multiple={multiple}
-        onChange={handleFileChange}
-      />
+      <CldUploadWidget
+        uploadPreset="your_unsigned_preset"
+        onUpload={(result) => {
+          const info = result?.info;
+          if (info && typeof info === "object" && "secure_url" in info) {
+            const newUrl = info.secure_url as string;
+            const updated = multiple ? [...previews, newUrl] : [newUrl];
+            setPreviews(updated);
+            field.onChange(updated);
+          }
+        }}
+      >
+        {({ open }) => (
+          <button
+            type="button"
+            onClick={() => open()}
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+          >
+            {label}
+          </button>
+        )}
+      </CldUploadWidget>
       <div className="flex flex-wrap gap-3 mt-3">
         {previews.map((url, index) => (
           <div key={index} className="relative w-24 h-24">
