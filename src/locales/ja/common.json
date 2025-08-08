@@ -48,7 +48,8 @@
     "photo-upload": {
       "uploadSuccess": "アップロードが完了しました",
       "uploadFail": "アップロードに失敗しました。もう一度お試しください。",
-      "removeImage": "画像を削除"
+      "removeImage": "画像を削除",
+      "ariaAddImage": "画像を追加"
     }
   }
 }

@@ -21,6 +21,7 @@ export default function Navbar() {
   // useEffect(() => {
   //   setHasMounted(true);
   // }, []);
+
   return (
     <header className="sticky top-0 bg-white shadow z-10">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

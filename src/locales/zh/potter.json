@@ -17,6 +17,11 @@
     "submit": "创建陶艺家",
     "submitting": "创建中...",
     "success": "陶艺家创建成功！",
-    "error": "创建陶艺家失败。请再试一次。"
+    "error": "创建陶艺家失败。请再试一次。",
+    "photos": "附加照片",
+    "active": "标记为启用",
+    "activeLabel": "在公开列表中可见",
+    "isDraft": "保存为草稿",
+    "isDraftLabel": "在发布之前不会向公众显示"
   }
 }

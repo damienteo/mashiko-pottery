@@ -49,6 +49,7 @@
   "photo-upload": {
     "uploadSuccess": "上传成功",
     "uploadFail": "上传失败。请再试一次。",
-    "removeImage": "删除图片"
+    "removeImage": "删除图片",
+    "ariaAddImage": "添加图片"
   }
 }

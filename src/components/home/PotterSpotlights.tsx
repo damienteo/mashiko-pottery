@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  fetchPottersList,
   selectAllPotters,
   selectPottersListIsLoading,
   selectPottersListError,
 } from "@/store/potters/pottersListSlice";
+import { fetchPottersList } from "@/store/thunks/fetchPottersList";
 
 export default function PotterSpotlights() {
   const t = useTranslations();

@@ -48,7 +48,8 @@
     "photo-upload": {
       "uploadSuccess": "Upload successful",
       "uploadFail": "Upload failed. Please try again.",
-      "removeImage": "Remove image"
+      "removeImage": "Remove image",
+      "ariaAddImage": "Add Image"
     }
   }
 }

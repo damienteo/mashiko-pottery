@@ -17,6 +17,11 @@
     "submit": "Create Potter",
     "submitting": "Creating...",
     "success": "Potter created successfully!",
-    "error": "Failed to create potter. Please try again."
+    "error": "Failed to create potter. Please try again.",
+    "photos": "Additional Photos",
+    "active": "Mark as Active",
+    "activeLabel": "Visible in public listings",
+    "isDraft": "Save as Draft",
+    "isDraftLabel": "Not visible to the public until published"
   }
 }
