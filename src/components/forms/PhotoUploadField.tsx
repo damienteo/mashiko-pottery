@@ -65,6 +65,7 @@ export default function PhotoUploadField<T extends FieldValues>({
           setIsUploading(false);
           success(t("photo-upload.uploadSuccess"));
           const info = result?.info;
+
           if (
             info &&
             typeof info === "object" &&
@@ -82,11 +83,12 @@ export default function PhotoUploadField<T extends FieldValues>({
             toastError(t("photo-upload.uploadFail"));
           }
         }}
-        onError={() => {
+        onError={(err) => {
+          console.log({ err });
           setIsUploading(false);
           toastError(t("photo-upload.uploadFail"));
         }}
-        onQueuesEnd={(_, { widget }) => widget.close()}
+        // onQueuesEnd={(_, { widget }) => widget.close()}
       >
         {({ open }) => (
           <button
