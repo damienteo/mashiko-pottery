@@ -10,7 +10,7 @@ import { v2 as cloudinary } from "cloudinary";
  * @param finalId - The ID to use in the final folder structure.
  * @returns Updated list of URLs (renamed if moved).
  */
-export async function finalizeDraftImages({
+export async function finaliseDraftImages({
   imageUrl,
   photos,
   folderType,

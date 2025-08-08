@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { assertAdminAccess } from "@/lib/auth/assertAdminAccess";
 import { validateUserExists } from "@/lib/validation/validateUserExists";
 import { updateUserRole } from "@/lib/user/updateUserRole";
-import { finalizeDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
+import { finaliseDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
 
 
 export async function POST(req: Request) {
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
   });
 
   // Finalize image if needed
-  const finalized = await finalizeDraftImages({
+  const finalized = await finaliseDraftImages({
     imageUrl,
     photos,
     folderType: "potters",
@@ -66,7 +66,7 @@ export async function PATCH(req: Request) {
   });
 
   // Finalize image if needed
-  const finalized = await finalizeDraftImages({
+  const finalized = await finaliseDraftImages({
     imageUrl,
     photos,
     folderType: "potters",

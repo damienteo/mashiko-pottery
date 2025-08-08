@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 import { prisma } from "@/lib/prisma";
+import { finaliseDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
 import { assertAdminAccess } from "@/lib/auth/assertAdminAccess";
 import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
 import { validateProductExists } from "@/lib/validation/validateProductExists";
@@ -31,7 +32,40 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Potter not found" }, { status: 404 });
     }
 
+    // Finalise draft images before creating the product
+    const { imageUrl, photos } = await finaliseDraftImages({
+      imageUrl: data.mainImage,
+      photos: data.photos,
+      folderType: "products",
+      finalId: "temp", // Temporarily use "temp" since product ID doesn't exist yet
+    });
+    data.mainImage = imageUrl;
+    data.photos = photos;
+
     const newProduct = await prisma.product.create({ data });
+
+    // Finalise image paths again using the actual product ID
+    const finalImages = await finaliseDraftImages({
+      imageUrl: data.mainImage,
+      photos: data.photos,
+      folderType: "products",
+      finalId: String(newProduct.id),
+    });
+
+    const imageChanged = finalImages.imageUrl && finalImages.imageUrl !== data.mainImage;
+    const photosChanged =
+      finalImages.photos &&
+      JSON.stringify(finalImages.photos) !== JSON.stringify(data.photos);
+
+    if (imageChanged || photosChanged) {
+      await prisma.product.update({
+        where: { id: newProduct.id },
+        data: {
+          ...(imageChanged && { mainImage: finalImages.imageUrl }),
+          ...(photosChanged && { photos: finalImages.photos }),
+        },
+      });
+    }
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
@@ -61,10 +95,32 @@ export async function PATCH(req: NextRequest) {
     const product = await validateProductExists(id, prisma);
     await validatePotterExists(product.potterId, prisma);
 
-    const updatedProduct = await prisma.product.update({
-      where: { id },
-      data: updates,
+    // Finalise draft images before updating the product
+    const finalImages = await finaliseDraftImages({
+      imageUrl: updates.mainImage,
+      photos: updates.photos,
+      folderType: "products",
+      finalId: String(id),
     });
+
+    const imageChanged = finalImages.imageUrl && finalImages.imageUrl !== updates.mainImage;
+    const photosChanged =
+      finalImages.photos &&
+      JSON.stringify(finalImages.photos) !== JSON.stringify(updates.photos);
+
+    const updatePayload: typeof updates = {
+      ...updates,
+      ...(imageChanged && { mainImage: finalImages.imageUrl }),
+      ...(photosChanged && { photos: finalImages.photos }),
+    };
+
+    let updatedProduct = null;
+    if (imageChanged || photosChanged) {
+      updatedProduct = await prisma.product.update({
+        where: { id },
+        data: updatePayload,
+      });
+    }
 
     return NextResponse.json(updatedProduct);
   } catch (error) {
