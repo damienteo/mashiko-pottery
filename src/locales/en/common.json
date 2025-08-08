@@ -44,6 +44,11 @@
     "email": {
       "required": "Email is required",
       "invalid": "Please enter a valid email address"
+    },
+    "photo-upload": {
+      "uploadSuccess": "Upload successful",
+      "uploadFail": "Upload failed. Please try again.",
+      "removeImage": "Remove image"
     }
   }
 }

@@ -17,6 +17,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     timestamp,
     folder,
     tags: "draft",
+    overwrite: true,
   };
 
   if (public_id) {

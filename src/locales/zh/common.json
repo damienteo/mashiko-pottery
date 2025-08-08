@@ -45,5 +45,10 @@
       "required": "電子郵件地址是必填項",
       "invalid": "請輸入有效的電子郵件地址"
     }
+  },
+  "photo-upload": {
+    "uploadSuccess": "上传成功",
+    "uploadFail": "上传失败。请再试一次。",
+    "removeImage": "删除图片"
   }
 }
