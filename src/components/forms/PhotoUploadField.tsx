@@ -38,7 +38,7 @@ export default function PhotoUploadField<T extends FieldValues>({
       <label className="block font-medium mb-2">{label}</label>
       <CldUploadWidget
         uploadPreset="your_unsigned_preset"
-        onUpload={(result) => {
+        onSuccess={(result) => {
           const info = result?.info;
           if (info && typeof info === "object" && "secure_url" in info) {
             const newUrl = info.secure_url as string;
