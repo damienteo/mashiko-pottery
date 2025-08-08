@@ -36,6 +36,9 @@ export default function PotterCreateClient() {
     bio: { en: "", ja: "", zh: "" },
     style: "",
     imageUrl: "",
+    photos: [],
+    active: true,
+    isDraft: false,
   };
 
   return (

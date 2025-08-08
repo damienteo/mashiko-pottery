@@ -51,6 +51,9 @@ export default function AdminPotterDetail() {
         },
         style: potter.style ?? "",
         imageUrl: potter.imageUrl ?? "",
+        photos: potter.photos ?? [],
+        active: potter.active ?? true,
+        isDraft: potter.isDraft ?? false,
       }
     : {
         userId: "",
@@ -58,6 +61,9 @@ export default function AdminPotterDetail() {
         bio: { en: "", ja: "", zh: "" },
         style: "",
         imageUrl: "",
+        photos: [],
+        active: true,
+        isDraft: false,
       };
 
   if (!potter) {
