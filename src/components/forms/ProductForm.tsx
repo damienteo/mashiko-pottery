@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/ui/Button";
 import PhotoUploadField from "@/components/forms/PhotoUploadField";
@@ -319,23 +320,27 @@ export default function ProductForm({
       </div>
 
       <PhotoUploadField<UnifiedFormValues>
+        name="mainImage"
+        control={control}
+        label={t("product.create.mainImage")}
+        getPublicId={() =>
+          initialValues?.id
+            ? `products/${initialValues.id}/main`
+            : `drafts/products/${uuidv4()}`
+        }
+      />
+
+      <PhotoUploadField<UnifiedFormValues>
         name="photos"
         control={control}
         label={t("product.create.photos")}
         multiple
+        getPublicId={() =>
+          initialValues?.id
+            ? `products/${initialValues.id}/images`
+            : `drafts/products/${uuidv4()}`
+        }
       />
-
-      <div>
-        <label htmlFor="mainImage" className="block font-medium mb-1">
-          {t("product.create.mainImage")}
-        </label>
-        <input
-          id="mainImage"
-          type="url"
-          {...register("mainImage")}
-          className="w-full p-2 border rounded"
-        />
-      </div>
 
       <div>
         <label htmlFor="tags" className="block font-medium mb-1">
