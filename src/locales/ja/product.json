@@ -37,5 +37,29 @@
     "submit": "変更を保存",
     "success": "商品が正常に更新されました。",
     "error": "商品の更新に失敗しました。もう一度お試しください。"
+  },
+  "list": {
+    "title": "商品管理",
+    "loading": "商品を読み込んでいます...",
+    "error": "商品の読み込みに失敗しました。",
+    "retry": "再試行",
+    "table": {
+      "image": "画像",
+      "title": "商品名",
+      "price": "価格",
+      "description": "説明",
+      "stock": "在庫",
+      "potterId": "作家ID",
+      "weight": "重さ",
+      "category": "カテゴリ",
+      "actions": "操作"
+    },
+    "actions": {
+      "edit": "編集",
+      "delete": "削除",
+      "details": "詳細",
+      "confirm": "確定",
+      "cancel": "キャンセル"
+    }
   }
 }

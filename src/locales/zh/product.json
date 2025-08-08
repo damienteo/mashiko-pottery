@@ -37,5 +37,29 @@
     "submit": "保存更改",
     "success": "商品更新成功。",
     "error": "商品更新失败，请重试。"
+  },
+  "list": {
+    "title": "商品管理",
+    "loading": "正在加载商品...",
+    "error": "加载商品失败。",
+    "retry": "重试",
+    "table": {
+      "image": "图片",
+      "title": "标题",
+      "price": "价格",
+      "description": "描述",
+      "stock": "库存",
+      "potterId": "陶艺家ID",
+      "weight": "重量",
+      "category": "分类",
+      "actions": "操作"
+    },
+    "actions": {
+      "edit": "编辑",
+      "delete": "删除",
+      "details": "详情",
+      "confirm": "确认",
+      "cancel": "取消"
+    }
   }
 }

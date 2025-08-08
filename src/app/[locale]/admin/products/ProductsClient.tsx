@@ -29,7 +29,7 @@ const productSchema = yup.object({
     .string()
     .max(200, "Max 200 characters")
     .required("Description is required"),
-  inventory: yup
+  stock: yup
     .number()
     .typeError("Inventory must be a number")
     .integer("Inventory must be an integer")
@@ -39,7 +39,7 @@ const productSchema = yup.object({
 type ProductFormValues = yup.InferType<typeof productSchema>;
 
 export default function ProductsClient() {
-  const t = useTranslations("admin.pages.products");
+  const t = useTranslations("product.list");
   const locale = useLocale();
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectAdminProductListItems);
@@ -108,31 +108,31 @@ export default function ProductsClient() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Image
+                {t("table.image")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Title
+                {t("table.title")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Price
+                {t("table.price")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Description
+                {t("table.description")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Inventory
+                {t("table.stock")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Potter ID
+                {t("table.potterId")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Weight
+                {t("table.weight")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Category
+                {t("table.category")}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                Actions
+                {t("table.actions")}
               </th>
             </tr>
           </thead>
@@ -207,15 +207,15 @@ export default function ProductsClient() {
                     {editingId === p.id ? (
                       <input
                         type="number"
-                        {...register("inventory")}
+                        {...register("stock")}
                         className="w-20 border p-1 rounded text-sm"
                       />
                     ) : (
-                      p.inventory
+                      p.stock
                     )}
-                    {errors.inventory && editingId === p.id && (
+                    {errors.stock && editingId === p.id && (
                       <span className="text-red-600 text-xs">
-                        {errors.inventory.message}
+                        {errors.stock.message}
                       </span>
                     )}
                   </td>
@@ -234,7 +234,7 @@ export default function ProductsClient() {
                           variant="primary"
                           disabled={!isValid}
                         >
-                          Confirm
+                          {t("actions.confirm")}
                         </Button>
                         <Button
                           variant="secondary"
@@ -243,7 +243,7 @@ export default function ProductsClient() {
                             setEditingId(null);
                           }}
                         >
-                          Cancel
+                          {t("actions.cancel")}
                         </Button>
                       </>
                     ) : (
@@ -255,12 +255,12 @@ export default function ProductsClient() {
                               title,
                               price: p.price,
                               description: desc,
-                              inventory: p.inventory,
+                              stock: p.stock,
                             });
                             setEditingId(p.id);
                           }}
                         >
-                          Edit
+                          {t("actions.edit")}
                         </Button>
                         <Button
                           variant="secondary"
@@ -268,14 +268,16 @@ export default function ProductsClient() {
                             /* TODO: delete action */
                           }}
                         >
-                          Delete
+                          {t("actions.delete")}
                         </Button>
                         <Link
                           href={`/${locale}/admin/products/${p.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <Button variant="secondary">Details</Button>
+                          <Button variant="secondary">
+                            {t("actions.details")}
+                          </Button>
                         </Link>
                       </>
                     )}

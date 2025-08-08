@@ -37,5 +37,29 @@
     "submit": "Save Changes",
     "success": "Product updated successfully.",
     "error": "Failed to update product. Please try again."
+  },
+  "list": {
+    "title": "Manage Products",
+    "loading": "Loading products...",
+    "error": "Failed to load products.",
+    "retry": "Retry",
+    "table": {
+      "image": "Image",
+      "title": "Title",
+      "price": "Price",
+      "description": "Description",
+      "stock": "Inventory",
+      "potterId": "Potter ID",
+      "weight": "Weight",
+      "category": "Category",
+      "actions": "Actions"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "details": "Details",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
   }
 }
