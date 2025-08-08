@@ -3,9 +3,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 
 import Button from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
+import PhotoUploadField from "@/components/forms/PhotoUploadField";
 
 export interface PotterFormValues {
   userId?: string;
@@ -21,6 +23,9 @@ export interface PotterFormValues {
   };
   style: string;
   imageUrl?: string;
+  photos?: string[];
+  active?: boolean;
+  isDraft?: boolean;
 }
 
 interface PotterFormProps {
@@ -45,6 +50,9 @@ const schema: yup.ObjectSchema<PotterFormValues> = yup.object({
   }),
   style: yup.string().required("Style is required"),
   imageUrl: yup.string().optional(),
+  photos: yup.array().of(yup.string().url().required()).required(),
+  active: yup.boolean().optional(),
+  isDraft: yup.boolean().optional(),
 });
 
 export default function PotterForm({
@@ -60,6 +68,7 @@ export default function PotterForm({
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    control,
   } = useForm<PotterFormValues>({
     resolver: yupResolver(schema),
     defaultValues: initialValues,
@@ -136,18 +145,53 @@ export default function PotterForm({
         )}
       </div>
 
+      <PhotoUploadField<PotterFormValues>
+        name="imageUrl"
+        control={control}
+        label={t("potter.create.imageUrl")}
+        getPublicId={() =>
+          initialValues?.userId
+            ? `potters/${initialValues.userId}/main`
+            : `drafts/potters/${uuidv4()}`
+        }
+      />
+
+      <PhotoUploadField<PotterFormValues>
+        name="photos"
+        control={control}
+        label={t("potter.create.photos")}
+        multiple
+        getPublicId={() =>
+          initialValues?.userId
+            ? `potters/${initialValues.userId}/photos`
+            : `drafts/potters/${uuidv4()}`
+        }
+      />
+
       <div>
-        <label htmlFor="imageUrl" className="block mb-1">
-          {t("potter.create.imageUrl")}
+        <label htmlFor="active" className="block mb-1">
+          {t("potter.create.active")}
         </label>
         <input
-          id="imageUrl"
-          {...register("imageUrl")}
-          className="w-full p-2 border rounded"
+          id="active"
+          type="checkbox"
+          {...register("active")}
+          className="mr-2"
         />
-        {errors.imageUrl && (
-          <p className="text-red-600 text-sm">{errors.imageUrl.message}</p>
-        )}
+        <span>{t("potter.create.activeLabel")}</span>
+      </div>
+
+      <div>
+        <label htmlFor="isDraft" className="block mb-1">
+          {t("potter.create.isDraft")}
+        </label>
+        <input
+          id="isDraft"
+          type="checkbox"
+          {...register("isDraft")}
+          className="mr-2"
+        />
+        <span>{t("potter.create.isDraftLabel")}</span>
       </div>
 
       <Button
