@@ -1,4 +1,3 @@
-// pages/api/upload-signature.ts
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -9,7 +8,7 @@ cloudinary.config({
 });
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const timestamp = Math.round(Date.now() / 1000);
+  const timestamp = Math.round(Date.now() / 1000) + 600; // expires in 10 minutes
   const folder = req.body.folder || "draft_uploads";
   const public_id = req.body.public_id || undefined;
 
