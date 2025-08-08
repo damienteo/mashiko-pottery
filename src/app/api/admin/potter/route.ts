@@ -4,12 +4,13 @@ import { prisma } from "@/lib/prisma";
 import { assertAdminAccess } from "@/lib/auth/assertAdminAccess";
 import { validateUserExists } from "@/lib/validation/validateUserExists";
 import { updateUserRole } from "@/lib/user/updateUserRole";
+import { finalizeDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
 
 
 export async function POST(req: Request) {
   await assertAdminAccess();
 
-  const { userId, name, bio, style, imageUrl } = await req.json();
+  const { userId, name, bio, style, imageUrl, photos } = await req.json();
 
   await validateUserExists(userId);
 
@@ -22,6 +23,28 @@ export async function POST(req: Request) {
     data: { userId, name, bio, style, imageUrl },
   });
 
+  // Finalize image if needed
+  const finalized = await finalizeDraftImages({
+    imageUrl,
+    photos,
+    folderType: "potters",
+    finalId: potter.id.toString(),
+  });
+
+  if (finalized.imageUrl !== imageUrl) {
+    await prisma.potter.update({
+      where: { id: potter.id },
+      data: { imageUrl: finalized.imageUrl },
+    });
+  }
+
+  if (finalized.photos && JSON.stringify(finalized.photos) !== JSON.stringify(photos)) {
+    await prisma.potter.update({
+      where: { id: potter.id },
+      data: { photos: finalized.photos },
+    });
+  }
+
   await updateUserRole(userId, "SELLER");
 
   return NextResponse.json({ potter }, { status: 201 });
@@ -30,7 +53,7 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   await assertAdminAccess();
 
-  const { userId, name, bio, style, imageUrl, active } = await req.json();
+  const { userId, name, bio, style, imageUrl, photos, active } = await req.json();
 
   const potter = await prisma.potter.findUnique({ where: { userId } });
   if (!potter) {
@@ -41,6 +64,28 @@ export async function PATCH(req: Request) {
     where: { userId },
     data: { name, bio, style, imageUrl, active },
   });
+
+  // Finalize image if needed
+  const finalized = await finalizeDraftImages({
+    imageUrl,
+    photos,
+    folderType: "potters",
+    finalId: potter.id.toString(),
+  });
+
+  if (finalized.imageUrl !== imageUrl) {
+    await prisma.potter.update({
+      where: { id: potter.id },
+      data: { imageUrl: finalized.imageUrl },
+    });
+  }
+
+  if (finalized.photos && JSON.stringify(finalized.photos) !== JSON.stringify(photos)) {
+    await prisma.potter.update({
+      where: { id: potter.id },
+      data: { photos: finalized.photos },
+    });
+  }
 
   return NextResponse.json({ potter: updatedPotter }, { status: 200 });
 }
