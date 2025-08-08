@@ -1,9 +1,6 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
@@ -13,39 +10,8 @@ import {
 } from "@/store/admin/potterSlice";
 
 import { useToast } from "@/components/ui/Toast";
-import Button from "@/components/ui/Button";
-
-interface FormData {
-  userId: string;
-  name: {
-    en: string;
-    ja: string;
-    zh: string;
-  };
-  bio: {
-    en: string;
-    ja: string;
-    zh: string;
-  };
-  style: string;
-  imageUrl?: string;
-}
-
-const schema: yup.ObjectSchema<FormData> = yup.object({
-  userId: yup.string().required("User ID is required"),
-  name: yup.object({
-    en: yup.string().required("English name is required"),
-    ja: yup.string().required("Japanese name is required"),
-    zh: yup.string().required("Chinese name is required"),
-  }),
-  bio: yup.object({
-    en: yup.string().required("English bio is required"),
-    ja: yup.string().required("Japanese bio is required"),
-    zh: yup.string().required("Chinese bio is required"),
-  }),
-  style: yup.string().required("Style is required"),
-  imageUrl: yup.string().optional(),
-});
+import PotterForm from "@/components/forms/PotterForm";
+import type { PotterFormValues } from "@/components/forms/PotterForm";
 
 export default function PotterCreateClient() {
   const t = useTranslations();
@@ -55,136 +21,38 @@ export default function PotterCreateClient() {
   const isLoading = useAppSelector(selectAdminPotterLoading);
   const error = useAppSelector(selectAdminPotterError);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: PotterFormValues) => {
     const resultAction = await dispatch(createAdminPotter(data));
     if (createAdminPotter.fulfilled.match(resultAction)) {
       success(t("potter.create.success"));
-      reset();
     } else {
       toastError(t("potter.create.error"));
     }
   };
 
+  const initialValues: PotterFormValues = {
+    userId: "",
+    name: { en: "", ja: "", zh: "" },
+    bio: { en: "", ja: "", zh: "" },
+    style: "",
+    imageUrl: "",
+  };
+
   return (
-    <div className="max-w-xl mx-auto my-16 p-8 border rounded shadow-sm bg-white">
-      <h1 className="text-2xl font-bold mb-6">{t("potter.create.title")}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label htmlFor="userId" className="block mb-1">
-            {t("potter.create.userId")}
-          </label>
-          <input
-            id="userId"
-            {...register("userId")}
-            className="w-full p-2 border rounded"
-          />
-          {errors.userId && (
-            <p className="text-red-600 text-sm">{errors.userId.message}</p>
-          )}
-        </div>
-
-        {/* Localized Name */}
-        <fieldset className="space-y-2">
-          <legend className="font-semibold mb-1">
-            {t("potter.create.name")}
-          </legend>
-          {(["en", "ja", "zh"] as const).map((lang) => (
-            <div key={lang}>
-              <label htmlFor={`name.${lang}`} className="block text-sm">
-                {t(`potter.create.name${lang.toUpperCase()}`)}
-              </label>
-              <input
-                id={`name.${lang}`}
-                {...register(`name.${lang}`)}
-                className="w-full p-2 border rounded"
-              />
-              {errors.name?.[lang] && (
-                <p className="text-red-600 text-sm">
-                  {errors.name[lang]?.message}
-                </p>
-              )}
-            </div>
-          ))}
-        </fieldset>
-
-        {/* Localized Bio */}
-        <fieldset className="space-y-2">
-          <legend className="font-semibold mb-1">
-            {t("potter.create.bio")}
-          </legend>
-          {(["en", "ja", "zh"] as const).map((lang) => (
-            <div key={lang}>
-              <label htmlFor={`bio.${lang}`} className="block text-sm">
-                {t(`potter.create.bio${lang.toUpperCase()}`)}
-              </label>
-              <textarea
-                id={`bio.${lang}`}
-                {...register(`bio.${lang}`)}
-                rows={3}
-                className="w-full p-2 border rounded"
-              />
-              {errors.bio?.[lang] && (
-                <p className="text-red-600 text-sm">
-                  {errors.bio[lang]?.message}
-                </p>
-              )}
-            </div>
-          ))}
-        </fieldset>
-
-        <div>
-          <label htmlFor="style" className="block mb-1">
-            {t("potter.create.style")}
-          </label>
-          <input
-            id="style"
-            {...register("style")}
-            className="w-full p-2 border rounded"
-          />
-          {errors.style && (
-            <p className="text-red-600 text-sm">{errors.style.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="imageUrl" className="block mb-1">
-            {t("potter.create.imageUrl")}
-          </label>
-          <input
-            id="imageUrl"
-            {...register("imageUrl")}
-            className="w-full p-2 border rounded"
-          />
-          {errors.imageUrl && (
-            <p className="text-red-600 text-sm">{errors.imageUrl.message}</p>
-          )}
-        </div>
-
-        <Button
-          type="submit"
-          disabled={isLoading || isSubmitting}
-          className="w-full"
-        >
-          {isLoading || isSubmitting
-            ? t("potter.create.submitting")
-            : t("potter.create.submit")}
-        </Button>
-
-        {error && (
-          <p className="text-red-600 mt-2 text-sm">
-            {t("potter.create.error")}
-          </p>
-        )}
-      </form>
+    <div className="p-8 max-w-3xl mx-auto space-y-6 bg-gray-50 border-l-4 border-yellow-500">
+      <h1 className="text-2xl font-bold text-yellow-700 flex items-center mb-4">
+        <span>{t("potter.create.title")}</span>
+        <span className="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
+          Admin
+        </span>
+      </h1>
+      <PotterForm
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        submitText={t("potter.create.submit")}
+        isLoading={isLoading}
+        errorsFromServer={error}
+      />
     </div>
   );
 }
