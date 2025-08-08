@@ -6,7 +6,7 @@ export interface Product {
   title: LocalizedString;
   description: LocalizedString;
   price: number;
-  inventory: number;
+  stock?: number;
   weight?: number;
   lengthCm?: number;
   widthCm?: number;

@@ -62,7 +62,7 @@ export interface ProductFormValues {
   isDraft: boolean;
 }
 
-type UnifiedFormValues = Partial<ProductFormValues> &
+export type UnifiedFormValues = Partial<ProductFormValues> &
   Partial<DraftProductFormValues>;
 
 interface ProductFormProps {
@@ -318,7 +318,7 @@ export default function ProductForm({
         />
       </div>
 
-      <PhotoUploadField<ProductFormValues>
+      <PhotoUploadField<UnifiedFormValues>
         name="photos"
         control={control}
         label={t("product.create.photos")}

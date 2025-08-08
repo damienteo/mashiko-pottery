@@ -6,20 +6,9 @@ import { useTranslations, useLocale } from "next-intl";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { selectAllProducts } from "@/store/products/productsListSlice";
 import { fetchProductsList } from "@/store/thunks/fetchProductsList";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import Button from "@/components/ui/Button";
-
-const productSchema = yup.object({
-  title: yup.string().required(),
-  price: yup.number().positive().required(),
-  description: yup.string().max(200).required(),
-  potterId: yup.string().required(),
-  weight: yup.number().positive().required(),
-  category: yup.string().required(),
-});
-type ProductFormValues = yup.InferType<typeof productSchema>;
+import { SubmitHandler } from "react-hook-form";
+import type { UnifiedFormValues } from "@/components/forms/ProductForm";
+import ProductForm from "@/components/forms/ProductForm";
 
 export default function AdminProductDetail() {
   const { id } = useParams();
@@ -35,45 +24,50 @@ export default function AdminProductDetail() {
     }
   }, [dispatch, products.length]);
 
-  // Find product and derive localized defaults
+  // Find product and derive unified defaults
   const product = products.find((p) => String(p.id) === id);
-  const defaults = product
+  const defaults: UnifiedFormValues = product
     ? {
-        title: product.title[locale as keyof typeof product.title],
+        id: product.id,
+        potterId: Number(product.potterId), // Ensure potterId is a number
+        title: product.title,
+        description: product.description,
         price: product.price,
-        description: product.description
-          ? product.description[locale as keyof typeof product.description]
-          : "",
-        potterId: String(product.potterId ?? ""),
+        stock: product.stock ?? 0,
         weight: product.weight ?? 0,
+        lengthCm: product.lengthCm ?? 0,
+        widthCm: product.widthCm ?? 0,
+        heightCm: product.heightCm ?? 0,
+        leadTimeDays: product.leadTimeDays ?? 0,
+        mainImage: product.mainImage ?? "",
+        photos: product.photos ?? [],
+        tags: product.tags ?? [],
         category: product.category ?? "",
+        isDraft: product.isDraft ?? false,
       }
     : {
-        title: "",
+        potterId: 0,
+        title: { en: "", ja: "", zh: "" },
+        description: { en: "", ja: "", zh: "" },
         price: 0,
-        description: "",
-        potterId: "",
+        stock: 0,
         weight: 0,
+        lengthCm: 0,
+        widthCm: 0,
+        heightCm: 0,
+        leadTimeDays: 0,
+        mainImage: "",
+        photos: [],
+        tags: [],
         category: "",
+        isDraft: true,
       };
-
-  // Initialize form hooks unconditionally
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-    reset,
-  } = useForm<ProductFormValues>({
-    mode: "onChange",
-    resolver: yupResolver(productSchema),
-    defaultValues: defaults,
-  });
 
   if (!product) {
     return <p>{t("error")}</p>;
   }
 
-  const onSubmit: SubmitHandler<ProductFormValues> = (data) => {
+  const onSubmit: SubmitHandler<UnifiedFormValues> = (data) => {
     // TODO: dispatch updateProduct({ id: product.id, ...data })
     console.log("Updated", data);
   };
@@ -82,101 +76,21 @@ export default function AdminProductDetail() {
     <div className="p-8 max-w-3xl mx-auto space-y-6 bg-gray-50 border-l-4 border-yellow-500">
       <h1 className="text-2xl font-bold text-yellow-700 flex items-center mb-4">
         <span>
-          {t("title")} – {defaults.title}
+          {t("title")} –{" "}
+          {defaults?.title?.[locale as "en" | "ja" | "zh"] ||
+            defaults?.title?.ja}
         </span>
         <span className="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
           Admin
         </span>
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">
-            {t("table.title")}
-          </label>
-          <input
-            {...register("title")}
-            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
-          />
-          {errors.title && (
-            <p className="text-red-600 text-xs mt-1">{errors.title.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium">
-            {t("table.price")}
-          </label>
-          <input
-            type="number"
-            {...register("price")}
-            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
-          />
-          {errors.price && (
-            <p className="text-red-600 text-xs mt-1">{errors.price.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium">
-            {t("table.description")}
-          </label>
-          <textarea
-            {...register("description")}
-            rows={4}
-            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
-          />
-          {errors.description && (
-            <p className="text-red-600 text-xs mt-1">
-              {errors.description.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium">
-            {t("table.potterId")}
-          </label>
-          <input
-            {...register("potterId")}
-            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
-          />
-          {errors.potterId && (
-            <p className="text-red-600 text-xs mt-1">
-              {errors.potterId.message}
-            </p>
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium">
-            {t("table.weight")}
-          </label>
-          <input
-            type="number"
-            {...register("weight")}
-            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
-          />
-          {errors.weight && (
-            <p className="text-red-600 text-xs mt-1">{errors.weight.message}</p>
-          )}
-        </div>
-        <div>
-          <label className="block text-sm font-medium">
-            {t("table.category")}
-          </label>
-          <input
-            {...register("category")}
-            className="mt-1 block w-full border p-2 rounded bg-white focus:bg-gray-100"
-          />
-          {errors.category && (
-            <p className="text-red-600 text-xs mt-1">
-              {errors.category.message}
-            </p>
-          )}
-        </div>
-        <Button type="submit" variant="primary" disabled={!isValid}>
-          {t("actions.save")}
-        </Button>
-        <Button type="button" variant="secondary" onClick={() => reset()}>
-          {t("actions.cancel")}
-        </Button>
-      </form>
+      <ProductForm
+        initialValues={defaults}
+        onSubmit={onSubmit}
+        submitText={t("actions.save")}
+        isLoading={false}
+        errorsFromServer={null}
+      />
     </div>
   );
 }
