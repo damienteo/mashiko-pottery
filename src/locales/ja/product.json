@@ -1,4 +1,41 @@
 {
   "loading": "読み込み中…",
-  "addToCart": "カートに追加"
+  "addToCart": "カートに追加",
+  "create": {
+    "headline": "新しい商品を作成",
+    "submit": "商品を作成",
+    "success": "商品が正常に作成されました。",
+    "error": "商品の作成に失敗しました。もう一度お試しください。",
+    "potterId": "作家ID",
+    "titleSection": "商品名（多言語）",
+    "title": {
+      "en": "商品名（英語）",
+      "ja": "商品名（日本語）",
+      "zh": "商品名（中国語）"
+    },
+    "descriptionSection": "商品説明（多言語）",
+    "description": {
+      "en": "説明（英語）",
+      "ja": "説明（日本語）",
+      "zh": "説明（中国語）"
+    },
+    "price": "価格（円）",
+    "stock": "在庫数",
+    "weight": "重さ（kg）",
+    "lengthCm": "長さ（cm）",
+    "widthCm": "幅（cm）",
+    "heightCm": "高さ（cm）",
+    "leadTimeDays": "発送までの日数",
+    "photos": "商品画像",
+    "mainImage": "メイン画像のURL",
+    "tags": "タグ（カンマ区切り）",
+    "category": "カテゴリ",
+    "isDraft": "下書きとして保存"
+  },
+  "update": {
+    "title": "商品を編集",
+    "submit": "変更を保存",
+    "success": "商品が正常に更新されました。",
+    "error": "商品の更新に失敗しました。もう一度お試しください。"
+  }
 }

@@ -19,7 +19,7 @@ import { useToast } from "@/components/ui/Toast";
 export default function AdminProductDetail() {
   const { id } = useParams();
   const locale = useLocale();
-  const t = useTranslations("admin.pages.products");
+  const t = useTranslations("product.update");
   const dispatch = useAppDispatch();
 
   const { success, error: toastError } = useToast();
@@ -36,7 +36,7 @@ export default function AdminProductDetail() {
 
   const product = useAppSelector(selectAdminProduct);
 
-  const defaults: UnifiedFormValues = product
+  const initialValues: UnifiedFormValues = product
     ? {
         id: product.id,
         potterId: Number(product.potterId), // Ensure potterId is a number
@@ -88,9 +88,9 @@ export default function AdminProductDetail() {
   const onSubmit: SubmitHandler<UnifiedFormValues> = async (data) => {
     const resultAction = await dispatch(updateAdminProduct(data));
     if (updateAdminProduct.fulfilled.match(resultAction)) {
-      success(t("product.update.success"));
+      success(t("success"));
     } else {
-      toastError(error || t("product.update.error"));
+      toastError(error || t("error"));
     }
   };
 
@@ -99,17 +99,17 @@ export default function AdminProductDetail() {
       <h1 className="text-2xl font-bold text-yellow-700 flex items-center mb-4">
         <span>
           {t("title")} –{" "}
-          {defaults?.title?.[locale as "en" | "ja" | "zh"] ||
-            defaults?.title?.ja}
+          {initialValues?.title?.[locale as "en" | "ja" | "zh"] ||
+            initialValues?.title?.ja}
         </span>
         <span className="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
           Admin
         </span>
       </h1>
       <ProductForm
-        initialValues={defaults}
+        initialValues={initialValues}
         onSubmit={onSubmit}
-        submitText={t("actions.save")}
+        submitText={t("submit")}
         isLoading={isLoading}
         errorsFromServer={error}
       />

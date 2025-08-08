@@ -12,15 +12,15 @@ import type { UnifiedFormValues } from "@/components/forms/ProductForm";
 import ProductForm from "@/components/forms/ProductForm";
 import { useToast } from "@/components/ui/Toast";
 
-export default function AdminProductCreate() {
-  const t = useTranslations("admin.pages.products");
+export default function ProductCreateClient() {
+  const t = useTranslations();
   const dispatch = useAppDispatch();
 
   const { success, error: toastError } = useToast();
   const isLoading = useAppSelector(selectAdminProductLoading);
   const error = useAppSelector(selectAdminProductError);
 
-  const defaults: UnifiedFormValues = {
+  const initialValues: UnifiedFormValues = {
     potterId: 0,
     title: { en: "", ja: "", zh: "" },
     description: { en: "", ja: "", zh: "" },
@@ -50,15 +50,15 @@ export default function AdminProductCreate() {
   return (
     <div className="p-8 max-w-3xl mx-auto space-y-6 bg-gray-50 border-l-4 border-yellow-500">
       <h1 className="text-2xl font-bold text-yellow-700 flex items-center mb-4">
-        <span>{t("createTitle")}</span>
+        <span>{t("product.create.headline")}</span>
         <span className="ml-2 inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
           Admin
         </span>
       </h1>
       <ProductForm
-        initialValues={defaults}
+        initialValues={initialValues}
         onSubmit={onSubmit}
-        submitText={t("actions.create")}
+        submitText={t("product.create.submit")}
         isLoading={isLoading}
         errorsFromServer={error}
       />
