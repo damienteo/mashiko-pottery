@@ -55,6 +55,8 @@ export default function PotterCreateClient() {
         submitText={t("potter.create.submit")}
         isLoading={isLoading}
         errorsFromServer={error}
+        showUserIdInput
+        requireUserId
       />
     </div>
   );

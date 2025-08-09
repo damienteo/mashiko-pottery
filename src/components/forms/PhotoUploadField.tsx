@@ -49,18 +49,36 @@ export default function PhotoUploadField<T extends FieldValues>({
   multiple = true,
   getPublicId,
 }: PhotoUploadFieldProps<T>) {
-  const { field } = useController({ name, control });
+  const {
+    field,
+    fieldState: { error: rhfError },
+  } = useController({ name, control });
   const { success, error: toastError } = useToast();
   const t = useTranslations("common");
 
   const [previews, setPreviews] = useState<
     { url: string; public_id?: string }[]
-  >(Array.isArray(field.value) ? field.value : []);
-
-  console.log({ previews });
+  >(
+    (() => {
+      const v = field.value as unknown;
+      // multiple -> expect string[]; single -> expect string
+      if (multiple) {
+        if (Array.isArray(v)) {
+          // v is string[] or possibly array of objects; normalize to { url }
+          return (v as unknown[]).map((item) =>
+            typeof item === "string" ? { url: item } : (item as { url: string })
+          );
+        }
+        return [];
+      } else {
+        if (typeof v === "string" && v) return [{ url: v }];
+        return [];
+      }
+    })()
+  );
 
   const [isUploading, setIsUploading] = useState(false);
-  console.log({ previews });
+
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.cloudinary) return; // already loaded
@@ -141,7 +159,6 @@ export default function PhotoUploadField<T extends FieldValues>({
       },
       (error: unknown, result: unknown) => {
         if (error != null) {
-          console.log({ error });
           setIsUploading(false);
           toastError(t("photo-upload.uploadFail"));
           return;
@@ -164,11 +181,10 @@ export default function PhotoUploadField<T extends FieldValues>({
               url: (info as { secure_url: string }).secure_url,
               public_id: (info as { public_id: string }).public_id,
             };
-            console.log({ info });
+
             // Use functional state update so concurrent success events do not
             // overwrite each other when multiple uploads finish nearly at once.
             setPreviews((prev) => {
-              // avoid duplicates if Cloudinary emits multiple success events for same asset
               const exists = newImage.public_id
                 ? prev.some((p) => p.public_id === newImage.public_id)
                 : prev.some((p) => p.url === newImage.url);
@@ -177,7 +193,13 @@ export default function PhotoUploadField<T extends FieldValues>({
                 : multiple
                   ? [...prev, newImage]
                   : [newImage];
-              field.onChange(next);
+
+              // Write back to RHF in the expected shape: string or string[]
+              if (multiple) {
+                field.onChange(next.map((p) => p.url));
+              } else {
+                field.onChange(next[0]?.url ?? "");
+              }
               return next;
             });
 
@@ -196,8 +218,28 @@ export default function PhotoUploadField<T extends FieldValues>({
     const updated = [...previews];
     updated.splice(index, 1);
     setPreviews(updated);
-    field.onChange(updated);
+    if (multiple) {
+      field.onChange(updated.map((p) => p.url));
+    } else {
+      field.onChange(updated[0]?.url ?? "");
+    }
   };
+
+  useEffect(() => {
+    const v = field.value as unknown;
+    if (multiple) {
+      if (Array.isArray(v)) {
+        setPreviews(
+          (v as unknown[]).map((item) =>
+            typeof item === "string" ? { url: item } : (item as { url: string })
+          )
+        );
+      }
+    } else {
+      if (typeof v === "string") setPreviews(v ? [{ url: v }] : []);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [multiple, field.value]);
 
   return (
     <div>
@@ -205,14 +247,16 @@ export default function PhotoUploadField<T extends FieldValues>({
       <button
         type="button"
         onClick={openWidget}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
+        className={`px-4 py-2 rounded text-white ${rhfError ? "bg-red-600" : "bg-blue-600"}`}
         disabled={isUploading}
         aria-label={t("photo-upload.ariaAddImage")}
         title={t("photo-upload.ariaAddImage")}
       >
         {label}
       </button>
-      <div className="flex flex-wrap gap-3 mt-3">
+      <div
+        className={`flex flex-wrap gap-3 mt-3 ${rhfError ? "ring-1 ring-red-500/60 rounded-md p-2" : ""}`}
+      >
         {previews.map((img, index) => (
           <div key={index} className="relative w-24 h-24">
             <Image
@@ -234,6 +278,9 @@ export default function PhotoUploadField<T extends FieldValues>({
           </div>
         ))}
       </div>
+      {rhfError?.message && (
+        <p className="mt-2 text-sm text-red-600">{String(rhfError.message)}</p>
+      )}
     </div>
   );
 }

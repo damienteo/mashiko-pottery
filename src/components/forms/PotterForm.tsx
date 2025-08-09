@@ -34,10 +34,16 @@ interface PotterFormProps {
   isLoading: boolean;
   errorsFromServer?: string | null;
   submitText?: string;
+  showUserIdInput?: boolean; // ← new: show a visible input
+  requireUserId?: boolean; // ← new: make it required via validation
 }
 
 const schema: yup.ObjectSchema<PotterFormValues> = yup.object({
-  userId: yup.string().optional(),
+  userId: yup.string().when("$requireUserId", {
+    is: true,
+    then: (schema) => schema.required("User ID is required"),
+    otherwise: (schema) => schema.optional(),
+  }),
   name: yup.object({
     en: yup.string().required("English name is required"),
     ja: yup.string().required("Japanese name is required"),
@@ -61,6 +67,8 @@ export default function PotterForm({
   isLoading,
   errorsFromServer,
   submitText,
+  showUserIdInput = false,
+  requireUserId = false,
 }: PotterFormProps) {
   const t = useTranslations();
 
@@ -70,19 +78,28 @@ export default function PotterForm({
     formState: { errors, isSubmitting },
     control,
   } = useForm<PotterFormValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema, { context: { requireUserId } }),
     defaultValues: initialValues,
   });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      {initialValues?.userId && (
+      <div>
+        {showUserIdInput && (
+          <label htmlFor="userId" className="block text-sm">
+            {t("potter.create.userId")}
+          </label>
+        )}
         <input
-          type="hidden"
-          value={initialValues.userId}
+          id="userId"
+          type={showUserIdInput ? "text" : "hidden"}
           {...register("userId")}
+          className={showUserIdInput ? "w-full p-2 border rounded" : undefined}
         />
-      )}
+        {showUserIdInput && errors.userId && (
+          <p className="text-red-600 text-sm">{errors.userId.message}</p>
+        )}
+      </div>
 
       {/* Localized Name */}
       <fieldset className="space-y-2">
@@ -149,6 +166,7 @@ export default function PotterForm({
         name="imageUrl"
         control={control}
         label={t("potter.create.imageUrl")}
+        multiple={false}
         getPublicId={() =>
           initialValues?.userId
             ? `potters/${initialValues.userId}/main`
