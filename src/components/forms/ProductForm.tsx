@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -141,18 +142,25 @@ export default function ProductForm({
   errorsFromServer,
   submitText,
 }: ProductFormProps) {
+  const t = useTranslations();
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<UnifiedFormValues>({
     // @ts-expect-error — dynamic schema typing with yup.lazy() isn't fully resolved
     resolver: yupResolver(schema),
     defaultValues: initialValues,
   });
 
-  const t = useTranslations();
+  useEffect(() => {
+    if (initialValues) {
+      reset(initialValues);
+    }
+  }, [initialValues, reset]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
