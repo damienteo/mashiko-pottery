@@ -21,7 +21,7 @@
     },
     "price": "价格（日元）",
     "stock": "库存数量",
-    "weight": "重量（公斤）",
+    "weight": "重量（克）",
     "lengthCm": "长度（厘米）",
     "widthCm": "宽度（厘米）",
     "heightCm": "高度（厘米）",

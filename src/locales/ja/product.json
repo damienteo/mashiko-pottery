@@ -21,7 +21,7 @@
     },
     "price": "価格（円）",
     "stock": "在庫数",
-    "weight": "重さ（kg）",
+    "weight": "重量（g）",
     "lengthCm": "長さ（cm）",
     "widthCm": "幅（cm）",
     "heightCm": "高さ（cm）",
