@@ -108,7 +108,7 @@ export default function PhotoUploadField<T extends FieldValues>({
         multiple: multiple,
         maxFiles: multiple ? undefined : 1,
         sources: ["local", "url", "camera"],
-        clientAllowedFormats: ["jpeg", "png"],
+        clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "heic", "heif"],
         prepareUploadParams: async (
           cb: (params: Record<string, string | number | boolean>) => void
         ) => {

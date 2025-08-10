@@ -323,6 +323,7 @@ export default function ProductForm({
         name="mainImage"
         control={control}
         label={t("product.create.mainImage")}
+        multiple={false}
         getPublicId={() =>
           initialValues?.id
             ? `products/${initialValues.id}/main`

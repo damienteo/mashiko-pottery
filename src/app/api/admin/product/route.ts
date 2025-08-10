@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 
 import { prisma } from "@/lib/prisma";
 import { finaliseDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
@@ -11,20 +10,29 @@ import { validatePotterExists } from "@/lib/validation/validatePotterExists";
 
 export async function POST(req: NextRequest) {
   try {
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     await assertAdminAccess();
 
     const data = await req.json();
-    const { title, description, price, stock, potterId } = data;
+    const { title, description, price, stock, potterId, isDraft } = data;
 
-    if (!title || !description || !price || !stock || !potterId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    // potterId is always required
+    if (potterId == null) {
+      return NextResponse.json({ error: "Potter ID is required" }, { status: 400 });
+    }
+
+    // If not draft, enforce required fields. In draft mode, they can be empty.
+    if (!isDraft) {
+      if (!title || !description) {
+        return NextResponse.json({ error: "Title and description are required when not a draft" }, { status: 400 });
+      }
+      // Allow 0 for price/stock; only reject undefined/null
+      if (price == null || stock == null) {
+        return NextResponse.json({ error: "Price and stock are required when not a draft" }, { status: 400 });
+      }
+      // Optional: basic sanity checks (non-negative numbers)
+      if (typeof price !== "number" || typeof stock !== "number" || price < 0 || stock < 0) {
+        return NextResponse.json({ error: "Price and stock must be non-negative numbers" }, { status: 400 });
+      }
     }
 
     const potter = await prisma.potter.findUnique({ where: { id: potterId } });
@@ -69,6 +77,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
+    if (error instanceof Response) {
+      // assertAdminAccess throws NextResponse (which extends Response)
+      return error as unknown as NextResponse;
+    }
     console.error("Error creating product:", error);
     return jsonErrorResponse("Failed to create product", 500);
   }
@@ -76,13 +88,6 @@ export async function POST(req: NextRequest) {
 
 export async function PATCH(req: NextRequest) {
   try {
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     await assertAdminAccess();
 
     const data = await req.json();
@@ -124,6 +129,10 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json(updatedProduct);
   } catch (error) {
+    if (error instanceof Response) {
+      // assertAdminAccess throws NextResponse (which extends Response)
+      return error as unknown as NextResponse;
+    }
     console.error("Error updating product:", error);
     return jsonErrorResponse("Failed to update product", 500);
   }
@@ -131,13 +140,6 @@ export async function PATCH(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
-    const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     await assertAdminAccess();
 
     const { id } = await req.json();
@@ -152,6 +154,10 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json({ message: "Product deleted successfully" });
   } catch (error) {
+    if (error instanceof Response) {
+      // assertAdminAccess throws NextResponse (which extends Response)
+      return error as unknown as NextResponse;
+    }
     console.error("Error deleting product:", error);
     return jsonErrorResponse("Failed to delete product", 500);
   }
