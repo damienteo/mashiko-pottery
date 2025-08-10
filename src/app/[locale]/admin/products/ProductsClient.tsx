@@ -149,7 +149,7 @@ export default function ProductsClient() {
                   <td className="px-4 py-2 whitespace-nowrap">
                     <div className="w-12 h-12 relative">
                       <Image
-                        src={p.photos[0]}
+                        src={p.mainImage ?? ""}
                         alt={title}
                         fill
                         className="object-cover rounded"
