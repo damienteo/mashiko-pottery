@@ -66,7 +66,7 @@ export default function AdminPotterDetail() {
         isDraft: false,
       };
 
-  if (!potter) {
+  if (!potter && !isLoading && hasFetched.current) {
     return <p>{t("error")}</p>;
   }
 
