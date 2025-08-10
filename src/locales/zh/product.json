@@ -43,6 +43,16 @@
     "loading": "正在加载商品...",
     "error": "加载商品失败。",
     "retry": "重试",
+    "filters": {
+      "namePlaceholder": "按名称筛选…",
+      "clear": "清除"
+    },
+    "pagination": {
+      "pageSize": "每页数量",
+      "prev": "上一页",
+      "next": "下一页",
+      "page": "第 {page} 页"
+    },
     "table": {
       "image": "图片",
       "title": "标题",

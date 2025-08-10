@@ -11,36 +11,59 @@ import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
 
 export async function GET(req: NextRequest) {
   try {
-    // TODO: Sanitize and validate query parameters more robustly
     const { searchParams } = new URL(req.url);
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(searchParams.get("limit") || "10", 10);
+
+    // Pagination (safe defaults)
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+    const limit = Math.max(1, Math.min(100, parseInt(searchParams.get("limit") || "10", 10)));
     const skip = (page - 1) * limit;
 
+    // Filters (support new + legacy param names)
+    const nameParam = searchParams.get("name") || searchParams.get("title") || undefined;
     const category = searchParams.get("category") || undefined;
-    const minPrice = parseFloat(searchParams.get("minPrice") || "");
-    const maxPrice = parseFloat(searchParams.get("maxPrice") || "");
-    const potterId = parseInt(searchParams.get("potterId") || "", 10);
-    const title = searchParams.get("title") || undefined;
-    const inStock = searchParams.get("inStock") === "true";
+    const style = searchParams.get("style") || undefined; // NOTE: only used if Product has a `style` column
 
+    const activeStr = searchParams.get("active");
+    const inStockStr = searchParams.get("inStock");
+    const active: boolean | null =
+      typeof activeStr === "string"
+        ? activeStr === "true" || activeStr === "1"
+        : typeof inStockStr === "string"
+        ? inStockStr === "true" || inStockStr === "1"
+        : null;
+
+    // Price range
+    const priceMinRaw = searchParams.get("priceMin") ?? searchParams.get("minPrice") ?? "";
+    const priceMaxRaw = searchParams.get("priceMax") ?? searchParams.get("maxPrice") ?? "";
+    const priceMin = parseFloat(priceMinRaw);
+    const priceMax = parseFloat(priceMaxRaw);
+
+    // Potter filter
+    const potterIdRaw = searchParams.get("potterId") || "";
+    const potterId = parseInt(potterIdRaw, 10);
+
+    // Build where clause
     const priceFilter: Prisma.FloatFilter = {};
-    if (!isNaN(minPrice)) priceFilter.gte = minPrice;
-    if (!isNaN(maxPrice)) priceFilter.lte = maxPrice;
+    if (!Number.isNaN(priceMin)) priceFilter.gte = priceMin;
+    if (!Number.isNaN(priceMax)) priceFilter.lte = priceMax;
 
     const whereClause: Prisma.ProductWhereInput = {
       ...(Object.keys(priceFilter).length ? { price: priceFilter } : {}),
       ...(category ? { category } : {}),
-      ...(title
+      // Filter on title.en contains if name provided
+      ...(nameParam
         ? {
             title: {
               path: ["en"],
-              string_contains: title,
+              string_contains: nameParam,
             },
           }
         : {}),
-      ...(inStock ? { stock: { gt: 0 } } : {}),
-      ...(isNaN(potterId) ? {} : { potterId }),
+      // "active" means in stock and not a draft
+      ...(active ? { stock: { gt: 0 }, isDraft: false } : {}),
+      ...(Number.isNaN(potterId) ? {} : { potterId }),
+      // If your Product model has a `style` column, enable the next line
+      ...(style ? ({ /* style */ } as Prisma.ProductWhereInput) : {}),
     };
 
     const [products, total] = await Promise.all([
@@ -51,15 +74,22 @@ export async function GET(req: NextRequest) {
         include: {
           potter: true,
         },
+        orderBy: { createdAt: "desc" },
       }),
-      prisma.product.count({
-        where: whereClause,
-      }),
+      prisma.product.count({ where: whereClause }),
     ]);
 
     return NextResponse.json({
       products,
-      filters: { category, minPrice, maxPrice, potterId, title, inStock },
+      filters: {
+        name: nameParam ?? null,
+        category: category ?? null,
+        style: style ?? null,
+        active: active ?? null,
+        priceMin: Number.isNaN(priceMin) ? null : priceMin,
+        priceMax: Number.isNaN(priceMax) ? null : priceMax,
+        potterId: Number.isNaN(potterId) ? null : potterId,
+      },
       pagination: {
         page,
         limit,
@@ -69,7 +99,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error fetching products:", error);
-   return jsonErrorResponse("Error fetching products", 400);
+    return jsonErrorResponse("Error fetching products", 400);
   }
 }
 

@@ -103,7 +103,52 @@ export const fetchAdminProduct = createAsyncThunk<Product, number>(
 const adminProductSlice = createSlice({
   name: "adminProduct",
   initialState,
-  reducers: {},
+  reducers: {
+    setAdminProductFilters(state, action: PayloadAction<Partial<ProductFilters>>) {
+      state.filters = { ...state.filters, ...action.payload };
+      // Whenever filters change, reset to page 1 by default
+      state.pagination.page = 1;
+    },
+    resetAdminProductFilters(state) {
+      state.filters = {
+        name: null,
+        category: null,
+        active: null,
+        style: null,
+        priceMin: null,
+        priceMax: null,
+      };
+      state.pagination.page = 1;
+    },
+    setAdminProductPage(state, action: PayloadAction<number>) {
+      state.pagination.page = action.payload;
+    },
+    setAdminProductLimit(state, action: PayloadAction<number>) {
+      state.pagination.limit = action.payload;
+      state.pagination.page = 1;
+    },
+    resetAdminProductState(state) {
+      state.product = null;
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.error = null;
+      state.items = [];
+      state.filters = {
+        name: null,
+        category: null,
+        active: null,
+        style: null,
+        priceMin: null,
+        priceMax: null,
+      };
+      state.pagination = {
+        limit: 10,
+        page: 1,
+        total: 0,
+        totalPages: 0,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createAdminProduct.pending, (state) => {
@@ -171,17 +216,32 @@ const adminProductSlice = createSlice({
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(fetchProductsList.fulfilled, (state, action: PayloadAction<{
-        products: Product[];
-        filters: ProductFilters;
-        pagination: Pagination;
-      }>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.items = action.payload.products;
-        state.filters = action.payload.filters;
-        state.pagination = action.payload.pagination;
-      })
+      .addCase(
+        fetchProductsList.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            products: Product[];
+            filters: ProductFilters;
+            pagination: Pagination & { append?: boolean };
+          }>
+        ) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+
+          const incoming = action.payload.products;
+          const { page, append } = action.payload.pagination as Pagination & { append?: boolean };
+
+          // Append when explicitly requested, or when page > 1
+          const shouldAppend = append ?? (page > 1);
+          state.items = shouldAppend ? [...state.items, ...incoming] : incoming;
+
+          state.filters = action.payload.filters;
+          state.pagination = {
+            ...action.payload.pagination,
+          };
+        }
+      )
       .addCase(fetchProductsList.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
@@ -207,3 +267,10 @@ export const selectAdminProductListFilters = (state: RootState) => state.adminPr
 export const selectAdminProductListPagination = (state: RootState) => state.adminProduct.pagination;
 
 export default adminProductSlice.reducer;
+export const {
+  setAdminProductFilters,
+  resetAdminProductFilters,
+  setAdminProductPage,
+  setAdminProductLimit,
+  resetAdminProductState,
+} = adminProductSlice.actions;

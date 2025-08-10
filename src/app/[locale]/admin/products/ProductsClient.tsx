@@ -7,6 +7,11 @@ import {
   selectAdminProductListItems,
   selectAdminProductListLoading,
   selectAdminProductListError,
+  selectAdminProductListFilters,
+  selectAdminProductListPagination,
+  setAdminProductFilters,
+  setAdminProductPage,
+  setAdminProductLimit,
 } from "@/store/admin/productSlice";
 import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 // import { useToast } from "@/components/ui/Toast";
@@ -45,6 +50,8 @@ export default function ProductsClient() {
   const products = useAppSelector(selectAdminProductListItems);
   const isLoading = useAppSelector(selectAdminProductListLoading);
   const error = useAppSelector(selectAdminProductListError);
+  const filters = useAppSelector(selectAdminProductListFilters);
+  const pagination = useAppSelector(selectAdminProductListPagination);
   // const { success } = useToast();
 
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -68,9 +75,16 @@ export default function ProductsClient() {
 
   useEffect(() => {
     if (!hasFetched.current && !isLoading && products.length === 0) {
-      dispatch(fetchProductsList({}));
+      dispatch(
+        fetchProductsList({
+          page: pagination.page,
+          limit: pagination.limit,
+          filters,
+        })
+      );
       hasFetched.current = true;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isLoading, products.length]);
 
   if (isLoading) {
@@ -86,7 +100,15 @@ export default function ProductsClient() {
       <div className="p-8 text-center text-red-600">
         <p>{t("error")}</p>
         <Button
-          onClick={() => dispatch(fetchProductsList({}))}
+          onClick={() =>
+            dispatch(
+              fetchProductsList({
+                page: pagination.page,
+                limit: pagination.limit,
+                filters,
+              })
+            )
+          }
           className="mt-4"
         >
           {t("retry")}
@@ -103,6 +125,115 @@ export default function ProductsClient() {
           Admin
         </span>
       </h1>
+      {/* Controls: filter + pagination */}
+      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+        {/* Name filter */}
+        <div className="flex items-center gap-2">
+          <input
+            defaultValue={filters.name ?? ""}
+            placeholder={t("filters.namePlaceholder", {
+              default: "Filter by name…",
+            })}
+            className="border p-2 rounded w-64"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                const name = (e.target as HTMLInputElement).value || null;
+                dispatch(setAdminProductFilters({ name }));
+                dispatch(
+                  fetchProductsList({
+                    page: 1,
+                    limit: pagination.limit,
+                    filters: { ...filters, name },
+                  })
+                );
+              }
+            }}
+          />
+          <Button
+            variant="secondary"
+            onClick={() => {
+              dispatch(setAdminProductFilters({ name: null }));
+              dispatch(
+                fetchProductsList({
+                  page: 1,
+                  limit: pagination.limit,
+                  filters: { ...filters, name: null },
+                })
+              );
+            }}
+          >
+            {t("filters.clear", { default: "Clear" })}
+          </Button>
+        </div>
+
+        {/* Page size + Prev/Next */}
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-gray-600">
+            {t("pagination.pageSize", { default: "Page size" })}
+          </label>
+          <select
+            className="border p-2 rounded"
+            value={pagination.limit}
+            onChange={(e) => {
+              const limit = Number(e.target.value);
+              dispatch(setAdminProductLimit(limit));
+              dispatch(fetchProductsList({ page: 1, limit, filters }));
+            }}
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+
+          <Button
+            variant="secondary"
+            onClick={() => {
+              const prev = Math.max(1, pagination.page - 1);
+              dispatch(setAdminProductPage(prev));
+              dispatch(
+                fetchProductsList({
+                  page: prev,
+                  limit: pagination.limit,
+                  filters,
+                })
+              );
+            }}
+            disabled={pagination.page <= 1 || isLoading}
+          >
+            {t("pagination.prev", { default: "Prev" })}
+          </Button>
+
+          <span className="text-sm text-gray-700">
+            {t("pagination.page", {
+              page: pagination.page,
+              default: `Page ${pagination.page}`,
+            })}
+          </span>
+
+          <Button
+            variant="secondary"
+            onClick={() => {
+              const next = pagination.page + 1;
+              dispatch(setAdminProductPage(next));
+              dispatch(
+                fetchProductsList({
+                  page: next,
+                  limit: pagination.limit,
+                  filters,
+                  append: true,
+                })
+              );
+            }}
+            disabled={
+              isLoading ||
+              (pagination.totalPages > 0 &&
+                pagination.page >= pagination.totalPages)
+            }
+          >
+            {t("pagination.next", { default: "Next" })}
+          </Button>
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

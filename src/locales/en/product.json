@@ -43,6 +43,16 @@
     "loading": "Loading products...",
     "error": "Failed to load products.",
     "retry": "Retry",
+    "filters": {
+      "namePlaceholder": "Filter by name…",
+      "clear": "Clear"
+    },
+    "pagination": {
+      "pageSize": "Page size",
+      "prev": "Prev",
+      "next": "Next",
+      "page": "Page {page}"
+    },
     "table": {
       "image": "Image",
       "title": "Title",
