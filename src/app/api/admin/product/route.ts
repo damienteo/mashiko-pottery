@@ -98,7 +98,11 @@ export async function PATCH(req: NextRequest) {
     }
 
     const product = await validateProductExists(id, prisma);
-    await validatePotterExists(product.potterId, prisma);
+    if (updates.potterId != null) {
+      await validatePotterExists(updates.potterId, prisma);
+    } else {
+      await validatePotterExists(product.potterId, prisma);
+    }
 
     // Finalise draft images before updating the product
     const finalImages = await finaliseDraftImages({
@@ -119,13 +123,15 @@ export async function PATCH(req: NextRequest) {
       ...(photosChanged && { photos: finalImages.photos }),
     };
 
-    let updatedProduct = null;
-    if (imageChanged || photosChanged) {
-      updatedProduct = await prisma.product.update({
-        where: { id },
-        data: updatePayload,
-      });
+    // If no fields were provided to update, return the current product
+    if (!updatePayload || Object.keys(updatePayload).length === 0) {
+      return NextResponse.json(product);
     }
+
+    const updatedProduct = await prisma.product.update({
+      where: { id },
+      data: updatePayload,
+    });
 
     return NextResponse.json(updatedProduct);
   } catch (error) {
