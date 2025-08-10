@@ -81,7 +81,7 @@ export default function AdminProductDetail() {
         isDraft: true,
       };
 
-  if (!product) {
+  if (!product && !isLoading && hasFetched.current) {
     return <p>{t("error")}</p>;
   }
 
