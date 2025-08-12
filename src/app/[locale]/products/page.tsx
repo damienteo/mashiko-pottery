@@ -30,7 +30,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     if (!hasFetched.current && !isLoading && products.length === 0) {
-      dispatch(fetchProductsList({}));
+      dispatch(fetchProductsList({ limit: 50 }));
       hasFetched.current = true;
     }
   }, [dispatch, isLoading, products.length]);
@@ -61,7 +61,7 @@ export default function ProductsPage() {
                 <Link href={`/${locale}/products/${p.id}`} className="block">
                   <div className="w-full aspect-square relative mb-4 overflow-hidden rounded-lg">
                     <Image
-                      src={p.photos[0]}
+                      src={p.mainImage ?? ""}
                       alt={title}
                       fill
                       className="object-cover"
