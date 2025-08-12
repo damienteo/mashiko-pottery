@@ -1,27 +1,26 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { mockProducts } from "@/mocks/products";
-import { formatYen } from "@/utils/format";
-import { useAppDispatch } from "@/store/hooks";
-import { useToast } from "@/components/ui/Toast";
-import { addToCart } from "@/store/cartSlice";
+// import { formatYen } from "@/utils/format";
+// import { useAppDispatch } from "@/store/hooks";
+// import { useToast } from "@/components/ui/Toast";
+// import { addToCart } from "@/store/cartSlice";
 
 export default function FeaturedCollections() {
   const t = useTranslations();
   const locale = useLocale();
-  const dispatch = useAppDispatch();
-  const { success } = useToast();
-  // Display first 6 featured products
-  const featured = mockProducts.slice(0, 6);
+  // const dispatch = useAppDispatch();
+  // const { success } = useToast();
 
   return (
     <section className="py-12 px-4">
       <h2 className="text-2xl font-semibold mb-4">{t("featured.title")}</h2>
       <p className="mb-6 italic text-gray-600">{t("featured.season")}</p>
 
+      {/* TODO: Fetch featured products from the store or API */}
+      {/* 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {featured.map((p) => (
           <div
@@ -69,7 +68,7 @@ export default function FeaturedCollections() {
             </button>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="mt-6 text-center">
         <Link href={`/${locale}/products`} className="text-blue-600 underline">
