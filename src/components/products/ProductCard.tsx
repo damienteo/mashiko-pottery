@@ -44,18 +44,18 @@ export default function ProductCard({
             src={imageSrc}
             alt={title || "Product image"}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.05]"
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
             priority={false}
           />
         </div>
-        <div className="mt-4 flex flex-col items-center text-center">
+        <div className="mt-3 flex flex-col items-center text-center">
           <h3 className="text-2xl leading-snug font-serif line-clamp-1">
             {title}
           </h3>
-          <p className="mt-1 text-gray-800">{formatYen(product.price)}</p>
+          <p className="text-gray-800">{formatYen(product.price)}</p>
           {!!description && (
-            <p className="mt-3 text-sm text-gray-600 line-clamp-4">
+            <p className="mt-1 text-md text-justify text-gray-600 line-clamp-4">
               {description}
             </p>
           )}
