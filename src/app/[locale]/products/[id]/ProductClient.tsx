@@ -1,9 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
+
+import ProductDetails from "@/components/products/ProductDetails";
+
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchProductDetails,
@@ -13,17 +15,13 @@ import {
   selectProductDetailsError,
 } from "@/store/products/productDetailsSlice";
 import { logViewItem } from "@/lib/analytics";
-import { addToCart } from "@/store/cartSlice";
-import { formatYen } from "@/utils/format";
-import { useToast } from "@/components/ui/Toast";
-import Button from "@/components/ui/Button";
+import type { Locale } from "@/types/i18n";
 
 export default function ProductClient() {
   const t = useTranslations("product");
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
-  const { success } = useToast();
   const product = useAppSelector(selectProductDetails);
   const isLoading = useAppSelector(selectProductDetailsIsLoading);
   const isSuccess = useAppSelector(selectProductDetailsIsSuccess);
@@ -50,45 +48,11 @@ export default function ProductClient() {
     return <p className="p-8 text-red-600">{error}</p>;
   if (!product) return <p className="p-8 text-red-600">{error}</p>;
 
-  // Typed accessors for localized fields
-  const title = product.title[locale as keyof typeof product.title];
-  const description =
-    product.description?.[locale as keyof typeof product.description];
-
   return (
-    <>
-      <div className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12 max-w-3xl mx-auto">
-        <div className="w-full aspect-square relative mb-6 overflow-hidden rounded-lg">
-          <Image
-            src={product.photos[0]}
-            alt={title}
-            fill
-            className="object-cover"
-            priority
-          />
-        </div>
-        <h1 className="text-3xl font-semibold">{title}</h1>
-        {description && <p className="mt-2 text-gray-700">{description}</p>}
-        <p className="mt-2 text-gray-700">{formatYen(product.price)}</p>
-        <Button
-          onClick={() => {
-            dispatch(
-              addToCart({
-                id: product.id,
-                title: title,
-                price: product.price,
-                quantity: 1,
-                image: product.photos[0],
-              })
-            );
-            success("Added to cart");
-          }}
-          variant="primary"
-          className="mt-4"
-        >
-          {t("addToCart")}
-        </Button>
-      </div>
-    </>
+    <ProductDetails
+      product={product}
+      locale={locale}
+      className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12 max-w-3xl mx-auto"
+    />
   );
 }
