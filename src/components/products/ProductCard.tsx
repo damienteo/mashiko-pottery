@@ -26,17 +26,19 @@ export default function ProductCard({
   //   const t = useTranslations();
 
   // Safely pick localized fields
-  const titleMap = product?.title as Record<Locale, string> | undefined;
-  const descMap = product?.description as Record<Locale, string> | undefined;
-  const title: string = titleMap?.[locale] ?? "";
-  const description: string = descMap?.[locale] ?? "";
+  const title = product.title?.[locale] ?? "";
+  const description = product.description?.[locale] ?? "";
 
   const imageSrc = product.mainImage || product.photos?.[0] || FALLBACK_IMG;
   const productHref = href ?? `/${locale}/products/${product.id}`;
 
   return (
     <article className="group flex flex-col h-full">
-      <Link href={productHref} className="block">
+      <Link
+        href={productHref}
+        className="block"
+        aria-label={title || "Product"}
+      >
         <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-100">
           <Image
             src={imageSrc}
@@ -47,17 +49,17 @@ export default function ProductCard({
             priority={false}
           />
         </div>
-        <h3 className="mt-4 text-2xl leading-snug text-center font-serif">
-          {title}
-        </h3>
-        <p className="mt-1 text-center text-gray-800">
-          {formatYen(product.price)}
-        </p>
-        {!!description && (
-          <p className="mt-3 text-center text-sm text-gray-600">
-            {description}
-          </p>
-        )}
+        <div className="mt-4 flex flex-col items-center text-center">
+          <h3 className="text-2xl leading-snug font-serif line-clamp-1">
+            {title}
+          </h3>
+          <p className="mt-1 text-gray-800">{formatYen(product.price)}</p>
+          {!!description && (
+            <p className="mt-3 text-sm text-gray-600 line-clamp-4">
+              {description}
+            </p>
+          )}
+        </div>
       </Link>
 
       {/* KIV: Until E-commerce is implemented, we will not show the "Add to Cart" button. */}
