@@ -1,4 +1,10 @@
 {
+  "unitCm": "cm",
+  "unitG": "g",
+  "dimensions": "寸法",
+  "weight": "重さ",
+  "category": "カテゴリー",
+  "tags": "タグ",
   "loading": "読み込み中…",
   "addToCart": "カートに追加",
   "create": {

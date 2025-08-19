@@ -1,4 +1,10 @@
 {
+  "unitCm": "厘米",
+  "unitG": "克",
+  "dimensions": "尺寸",
+  "weight": "重量",
+  "category": "类别",
+  "tags": "标签",
   "loading": "加载中…",
   "addToCart": "加入购物车",
   "create": {

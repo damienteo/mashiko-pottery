@@ -8,43 +8,7 @@ import Image from "next/image";
 import type { Product } from "@/types/product";
 import type { Locale } from "@/types/i18n";
 import { formatYen } from "@/utils/format";
-
-const LABELS: Record<
-  Locale,
-  {
-    dimensions: string;
-    weight: string;
-    unitCm: string;
-    unitG: string;
-    category: string;
-    tags: string;
-  }
-> = {
-  en: {
-    dimensions: "Dimensions",
-    weight: "Weight",
-    unitCm: "cm",
-    unitG: "g",
-    category: "Category",
-    tags: "Tags",
-  },
-  ja: {
-    dimensions: "寸法",
-    weight: "重さ",
-    unitCm: "cm",
-    unitG: "g",
-    category: "カテゴリー",
-    tags: "タグ",
-  },
-  zh: {
-    dimensions: "尺寸",
-    weight: "重量",
-    unitCm: "厘米",
-    unitG: "克",
-    category: "类别",
-    tags: "标签",
-  },
-};
+import { useTranslations } from "next-intl";
 
 const formatNum = (n: number, locale: Locale) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n);
@@ -67,11 +31,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   //   addToCartText,
   imagePriority = true,
 }) => {
+  const t = useTranslations("product");
   const imageSrc =
     product.mainImage || (product.photos?.length ? product.photos[0] : "");
   const title = product.title[locale];
 
-  const labels = LABELS[locale];
   const L = compactNumber(product.lengthCm);
   const W = compactNumber(product.widthCm);
   const H = compactNumber(product.heightCm);
@@ -79,11 +43,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     .filter((v): v is number => typeof v === "number")
     .map((v) => formatNum(v, locale));
   const dimensionsStr = dimParts.length
-    ? `${dimParts.join(" × ")} ${labels.unitCm}`
+    ? `${dimParts.join(" × ")} ${t("unitCm")}`
     : null;
   const weightStr =
     typeof product.weight === "number"
-      ? `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(product.weight)} ${labels.unitG}`
+      ? `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(product.weight)} ${t("unitG")}`
       : null;
 
   return (
@@ -113,13 +77,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
               {dimensionsStr && (
                 <>
-                  <dt className="text-gray-500">{labels.dimensions}</dt>
+                  <dt className="text-gray-500">{t("dimensions")}</dt>
                   <dd>{dimensionsStr}</dd>
                 </>
               )}
               {weightStr && (
                 <>
-                  <dt className="text-gray-500">{labels.weight}</dt>
+                  <dt className="text-gray-500">{t("weight")}</dt>
                   <dd>{weightStr}</dd>
                 </>
               )}
@@ -131,13 +95,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
               {product.category && (
                 <>
-                  <dt className="text-gray-500">{labels.category}</dt>
+                  <dt className="text-gray-500">{t("category")}</dt>
                   <dd>{product.category}</dd>
                 </>
               )}
               {product.tags && product.tags.length > 0 && (
                 <>
-                  <dt className="text-gray-500">{labels.tags}</dt>
+                  <dt className="text-gray-500">{t("tags")}</dt>
                   <dd>{product.tags.join(", ")}</dd>
                 </>
               )}

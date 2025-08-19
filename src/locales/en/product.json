@@ -1,4 +1,10 @@
 {
+  "unitCm": "cm",
+  "unitG": "g",
+  "dimensions": "Dimensions",
+  "weight": "Weight",
+  "category": "Category",
+  "tags": "Tags",
   "loading": "Loading…",
   "addToCart": "Add to Cart",
   "create": {
