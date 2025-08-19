@@ -16,6 +16,8 @@ const LABELS: Record<
     weight: string;
     unitCm: string;
     unitG: string;
+    category: string;
+    tags: string;
   }
 > = {
   en: {
@@ -23,18 +25,24 @@ const LABELS: Record<
     weight: "Weight",
     unitCm: "cm",
     unitG: "g",
+    category: "Category",
+    tags: "Tags",
   },
   ja: {
     dimensions: "寸法",
     weight: "重さ",
     unitCm: "cm",
     unitG: "g",
+    category: "カテゴリー",
+    tags: "タグ",
   },
   zh: {
     dimensions: "尺寸",
     weight: "重量",
     unitCm: "厘米",
     unitG: "克",
+    category: "类别",
+    tags: "标签",
   },
 };
 
@@ -113,6 +121,24 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                 <>
                   <dt className="text-gray-500">{labels.weight}</dt>
                   <dd>{weightStr}</dd>
+                </>
+              )}
+            </dl>
+          </section>
+        )}
+        {(product.category || (product.tags && product.tags.length > 0)) && (
+          <section aria-labelledby="metadata-heading" className="mb-4">
+            <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
+              {product.category && (
+                <>
+                  <dt className="text-gray-500">{labels.category}</dt>
+                  <dd>{product.category}</dd>
+                </>
+              )}
+              {product.tags && product.tags.length > 0 && (
+                <>
+                  <dt className="text-gray-500">{labels.tags}</dt>
+                  <dd>{product.tags.join(", ")}</dd>
                 </>
               )}
             </dl>
