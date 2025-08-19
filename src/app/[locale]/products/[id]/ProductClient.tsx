@@ -52,10 +52,15 @@ export default function ProductClient() {
   const listError = useAppSelector(selectProductsListError);
 
   useEffect(() => {
-    if (id && !isLoading && !isSuccess) {
+    if (!id) return;
+    const numericId = Number(id);
+    // Refetch when:
+    // - we don't have a successful fetch yet, OR
+    // - the loaded product is for a different id
+    if (!isLoading && (!isSuccess || product?.id !== numericId)) {
       dispatch(fetchProductDetails(id));
     }
-  }, [dispatch, id, isLoading, isSuccess]);
+  }, [dispatch, id, product?.id, isLoading, isSuccess]);
 
   useEffect(() => {
     if (isSuccess && product) {
