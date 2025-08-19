@@ -8,6 +8,7 @@ export interface ProductFilters extends BaseFilters {
   style: string | null;
   priceMin: number | null;
   priceMax: number | null;
+  potterId?: number | null;
 }
 
 export interface PotterFilters extends BaseFilters {

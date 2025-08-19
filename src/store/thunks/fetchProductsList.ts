@@ -15,6 +15,7 @@ export type FetchProductsArgs = {
     active?: boolean | null;
     priceMin?: number | null;
     priceMax?: number | null;
+    potterId?: number | null;
   };
 };
 
@@ -31,6 +32,7 @@ const toQuery = (args: FetchProductsArgs) => {
   if (typeof f.active === "boolean") params.set("active", String(f.active));
   if (typeof f.priceMin === "number") params.set("priceMin", String(f.priceMin));
   if (typeof f.priceMax === "number") params.set("priceMax", String(f.priceMax));
+  if (typeof f.potterId === "number") params.set("potterId", String(f.potterId));
 
   return params.toString();
 };

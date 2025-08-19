@@ -5,6 +5,8 @@
   "weight": "Weight",
   "category": "Category",
   "tags": "Tags",
+  "aboutPotter": "About the potter",
+  "moreFromThisPotter": "More from this potter",
   "loading": "Loading…",
   "addToCart": "Add to Cart",
   "create": {

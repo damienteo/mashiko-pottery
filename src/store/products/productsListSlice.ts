@@ -24,6 +24,7 @@ const initialState: ProductsListState = {
     style: null,
     priceMin: null,
     priceMax: null,
+    potterId: null,
   },
   pagination: {
     limit: 10,

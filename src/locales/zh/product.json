@@ -5,6 +5,8 @@
   "weight": "重量",
   "category": "类别",
   "tags": "标签",
+  "aboutPotter": "关于陶艺家",
+  "moreFromThisPotter": "该陶艺家的更多作品",
   "loading": "加载中…",
   "addToCart": "加入购物车",
   "create": {
