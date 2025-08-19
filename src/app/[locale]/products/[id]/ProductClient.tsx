@@ -48,11 +48,5 @@ export default function ProductClient() {
     return <p className="p-8 text-red-600">{error}</p>;
   if (!product) return <p className="p-8 text-red-600">{error}</p>;
 
-  return (
-    <ProductDetails
-      product={product}
-      locale={locale}
-      className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-12 max-w-3xl mx-auto"
-    />
-  );
+  return <ProductDetails product={product} locale={locale} />;
 }
