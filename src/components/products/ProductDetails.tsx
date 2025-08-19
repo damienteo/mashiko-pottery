@@ -52,7 +52,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
   return (
     <>
-      <div className="px-4 pt-8 pb-4 sm:px-6 sm:pt-10 sm:pb-5 lg:px-8 lg:pt-12 lg:pb-6 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="px-4 pt-8 pb-3 sm:px-6 sm:pt-10 sm:pb-4 lg:px-8 lg:pt-12 lg:pb-5 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {imageSrc && (
           <div className="relative mb-4 aspect-square w-full overflow-hidden rounded group">
             <Image
@@ -154,7 +154,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <h2 id="related-heading" className="text-lg font-semibold mb-3">
                 {t("moreFromThisPotter", { default: "More from this potter" })}
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {relatedProducts.slice(0, 8).map((rp) => {
                   const rpTitle = rp.title[locale];
                   const rpImg = rp.mainImage || (rp.photos?.[0] ?? "");
@@ -171,7 +171,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             alt={rpTitle || "Product image"}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
-                            sizes="(min-width: 640px) 33vw, 50vw"
+                            sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
                             priority={false}
                           />
                         )}
