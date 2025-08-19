@@ -86,7 +86,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   />
                 </div>
                 {images.length > 1 && (
-                  <div className="hidden md:flex flex-col gap-3 overflow-y-auto max-h-[480px] w-20">
+                  <div className="hidden md:flex flex-col gap-3 overflow-y-auto max-h-[480px] w-20 thumbnail-scroll">
                     {images.map((img, idx) => (
                       <button
                         key={idx}
@@ -94,7 +94,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         onClick={() => setCurrentIndex(idx)}
                         className={`relative w-16 h-16 rounded overflow-hidden border-2 focus:outline-none ${
                           idx === currentIndex
-                            ? "border-blue-600"
+                            ? "border-gray-400"
                             : "border-transparent"
                         }`}
                       >
@@ -114,7 +114,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
             )}
           </div>
           {images.length > 1 && (
-            <div className="md:hidden mt-4 flex gap-3 overflow-x-auto">
+            <div className="md:hidden mt-4 flex gap-3 overflow-x-auto thumbnail-scroll">
               {images.map((img, idx) => (
                 <button
                   key={idx}
@@ -122,7 +122,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                   onClick={() => setCurrentIndex(idx)}
                   className={`relative w-20 h-20 flex-shrink-0 rounded overflow-hidden border-2 focus:outline-none ${
                     idx === currentIndex
-                      ? "border-blue-600"
+                      ? "border-gray-400"
                       : "border-transparent"
                   }`}
                 >

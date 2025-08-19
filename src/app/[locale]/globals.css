@@ -39,3 +39,22 @@
     margin: 1em 0;
   }
 }
+
+.thumbnail-scroll {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #e5e7eb transparent; /* thumb #e5e7eb, track transparent */
+}
+
+.thumbnail-scroll::-webkit-scrollbar {
+  height: 8px; /* for horizontal scrollbars */
+}
+
+.thumbnail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 9999px;
+}
+
+.thumbnail-scroll::-webkit-scrollbar-thumb {
+  background-color: #e5e7eb; /* Tailwind gray-200 */
+  border-radius: 9999px;
+}
