@@ -25,12 +25,13 @@ export default function PotterClient() {
   const error = useAppSelector(selectPotterDetailsError);
 
   useEffect(() => {
-    if (id && !isLoading && !isSuccess) {
+    if (id && (!potter || String(potter.id) !== id)) {
       if (typeof id === "string") {
         dispatch(fetchPotterDetails(id));
       }
     }
-  }, [dispatch, id, isLoading, isSuccess]);
+    // Only refetch when potter changes or id changes
+  }, [dispatch, id, potter]);
 
   if (isLoading) return <p className="p-8">{t("loading")}</p>;
   if (!isLoading && !isSuccess)
@@ -38,22 +39,27 @@ export default function PotterClient() {
   if (!potter) return <p className="p-8">{t("loading")}</p>;
 
   return (
-    <div className="p-8">
-      <div className="w-full h-64 relative mb-6 rounded-lg overflow-hidden">
-        <Image
-          src={potter.imageUrl ?? "/fallback.jpg"}
-          alt={potter.name[locale as keyof typeof potter.name]}
-          fill
-          className="object-cover"
-          priority
-        />
+    <div className="px-4 py-8 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden lg:h-full">
+          <Image
+            src={potter.imageUrl ?? "/fallback.jpg"}
+            alt={potter.name[locale as keyof typeof potter.name]}
+            fill
+            className="object-cover"
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
+          />
+        </div>
+        <div className="flex flex-col justify-center">
+          <h1 className="text-3xl font-semibold mb-4">
+            {potter.name[locale as keyof typeof potter.name]}
+          </h1>
+          <p className="text-gray-700 text-lg">
+            {potter.bio[locale as keyof typeof potter.bio]}
+          </p>
+        </div>
       </div>
-      <h1 className="text-3xl font-semibold">
-        {potter.name[locale as keyof typeof potter.name]}
-      </h1>
-      <p className="mt-2 text-gray-700">
-        {potter.bio[locale as keyof typeof potter.bio]}
-      </p>
     </div>
   );
 }
