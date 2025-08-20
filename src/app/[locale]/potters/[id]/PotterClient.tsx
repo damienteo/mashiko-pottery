@@ -12,6 +12,7 @@ import {
   selectPotterDetailsError,
 } from "@/store/potters/potterDetailsSlice";
 import Image from "next/image";
+import Gallery from "@/components/ui/Gallery";
 
 export default function PotterClient() {
   const t = useTranslations("potter");
@@ -41,14 +42,24 @@ export default function PotterClient() {
   return (
     <div className="px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden lg:h-full">
-          <Image
-            src={potter.imageUrl ?? "/images/potter-fallback.webp"}
-            alt={potter.name[locale as keyof typeof potter.name]}
-            fill
-            className="object-cover"
-            priority
-            sizes="(min-width: 1024px) 50vw, 100vw"
+        <div className="w-full lg:h-full">
+          <Gallery
+            images={(potter.imageUrl ? [potter.imageUrl] : [])
+              .concat(
+                Array.isArray(potter.photos)
+                  ? potter.photos.filter(Boolean)
+                  : []
+              )
+              .filter(Boolean)
+              .filter((v, i, a) => a.indexOf(v) === i)
+              .concat(
+                !potter.imageUrl &&
+                  (!potter.photos || potter.photos.length === 0)
+                  ? ["/images/potter-fallback.webp"]
+                  : []
+              )}
+            title={potter.name[locale as keyof typeof potter.name] || "Potter"}
+            imagePriority
           />
         </div>
         <div className="flex flex-col justify-center">
