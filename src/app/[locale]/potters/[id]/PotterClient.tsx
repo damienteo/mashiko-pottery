@@ -39,7 +39,7 @@ export default function PotterClient() {
   if (!potter) return <p className="p-8">{t("loading")}</p>;
 
   return (
-    <div className="px-4 py-8 sm:px-6 lg:px-8">
+    <div className="px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden lg:h-full">
           <Image
