@@ -43,7 +43,7 @@ export default function PotterClient() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         <div className="relative aspect-[4/3] w-full rounded-lg overflow-hidden lg:h-full">
           <Image
-            src={potter.imageUrl ?? "/fallback.jpg"}
+            src={potter.imageUrl ?? "/images/potter-fallback.webp"}
             alt={potter.name[locale as keyof typeof potter.name]}
             fill
             className="object-cover"
