@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,6 +9,7 @@ import type { Locale } from "@/types/i18n";
 import type { Potter } from "@/types/potter";
 import { formatYen } from "@/utils/format";
 import { useTranslations } from "next-intl";
+import Gallery from "@/components/ui/Gallery";
 
 const formatNum = (n: number, locale: Locale) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n);
@@ -48,9 +49,6 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     return imgs;
   }, [product.mainImage, product.photos]);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const currentImage = images[currentIndex] || "";
-
   const title = product.title[locale];
 
   const L = compactNumber(product.lengthCm);
@@ -72,72 +70,11 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
       <div className="px-4 pt-8 pb-3 sm:px-6 sm:pt-10 sm:pb-4 lg:px-8 lg:pt-12 lg:pb-5 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         {/* Left column: images and thumbnails */}
         <div>
-          <div className="md:flex md:items-start md:gap-4">
-            {currentImage && (
-              <>
-                <div className="relative w-full aspect-square overflow-hidden rounded md:flex-1">
-                  <Image
-                    src={currentImage}
-                    alt={title || "Product image"}
-                    fill
-                    className="object-cover transition-transform duration-300"
-                    sizes="(min-width: 768px) 50vw, 100vw"
-                    priority={imagePriority}
-                  />
-                </div>
-                {images.length > 1 && (
-                  <div className="hidden md:flex flex-col gap-3 overflow-y-auto max-h-[480px] w-20 thumbnail-scroll">
-                    {images.map((img, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        onClick={() => setCurrentIndex(idx)}
-                        className={`relative w-16 h-16 rounded overflow-hidden border-2 focus:outline-none ${
-                          idx === currentIndex
-                            ? "border-gray-400"
-                            : "border-transparent"
-                        }`}
-                      >
-                        <Image
-                          src={img}
-                          alt={`${title || "Product"} thumbnail ${idx + 1}`}
-                          fill
-                          className="object-cover"
-                          sizes="64px"
-                          priority={false}
-                        />
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            )}
-          </div>
-          {images.length > 1 && (
-            <div className="md:hidden mt-4 flex gap-3 overflow-x-auto thumbnail-scroll">
-              {images.map((img, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setCurrentIndex(idx)}
-                  className={`relative w-20 h-20 flex-shrink-0 rounded overflow-hidden border-2 focus:outline-none ${
-                    idx === currentIndex
-                      ? "border-gray-400"
-                      : "border-transparent"
-                  }`}
-                >
-                  <Image
-                    src={img}
-                    alt={`${title || "Product"} thumbnail ${idx + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="80px"
-                    priority={false}
-                  />
-                </button>
-              ))}
-            </div>
-          )}
+          <Gallery
+            images={images}
+            title={title}
+            imagePriority={imagePriority}
+          />
         </div>
 
         {/* Right column: product details */}
