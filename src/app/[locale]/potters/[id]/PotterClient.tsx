@@ -11,7 +11,6 @@ import {
   selectPotterDetailsIsSuccess,
   selectPotterDetailsError,
 } from "@/store/potters/potterDetailsSlice";
-import Image from "next/image";
 import Gallery from "@/components/ui/Gallery";
 
 export default function PotterClient() {
@@ -69,6 +68,16 @@ export default function PotterClient() {
           <p className="text-gray-700 text-lg">
             {potter.bio[locale as keyof typeof potter.bio]}
           </p>
+          <dl className="mt-4 text-gray-600">
+            {potter.style && (
+              <>
+                <dt className="font-medium">{t("style")}</dt>
+                <dd className="mb-2">{potter.style}</dd>
+              </>
+            )}
+            <dt className="font-medium">{t("active")}</dt>
+            <dd className="mb-2">{potter.active ? t("yes") : t("no")}</dd>
+          </dl>
         </div>
       </div>
     </div>

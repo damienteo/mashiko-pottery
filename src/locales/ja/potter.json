@@ -1,5 +1,12 @@
 {
-  "loading": "読み込み中…",
+  "loading": "陶芸家の詳細を読み込み中…",
+  "style": "作風",
+  "active": "活動中",
+  "yes": "はい",
+  "no": "いいえ",
+  "createdAt": "作成日",
+  "updatedAt": "更新日",
+  "draft": "下書き",
   "create": {
     "title": "作家を登録",
     "description": "新しい作家プロフィールを追加します",

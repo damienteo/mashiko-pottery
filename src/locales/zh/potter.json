@@ -1,5 +1,12 @@
 {
-  "loading": "加载中…",
+  "loading": "正在加载陶艺家的详细信息…",
+  "style": "风格",
+  "active": "活跃",
+  "yes": "是",
+  "no": "否",
+  "createdAt": "创建时间",
+  "updatedAt": "更新时间",
+  "draft": "草稿",
   "create": {
     "title": "新增陶艺家",
     "description": "添加新的陶艺家资料",

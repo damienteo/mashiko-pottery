@@ -1,5 +1,12 @@
 {
-  "loading": "Loading…",
+  "loading": "Loading potter details...",
+  "style": "Style",
+  "active": "Active",
+  "yes": "Yes",
+  "no": "No",
+  "createdAt": "Created At",
+  "updatedAt": "Updated At",
+  "draft": "Draft",
   "create": {
     "title": "Create Potter",
     "description": "Add a new potter profile",
