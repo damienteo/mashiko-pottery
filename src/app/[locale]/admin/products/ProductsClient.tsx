@@ -22,6 +22,7 @@ import { formatYen } from "@/utils/format";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import ProductsToolbar from "@/components/products/ProductsToolbar";
 
 const productSchema = yup.object({
   title: yup.string().required("Title is required"),
@@ -126,114 +127,42 @@ export default function ProductsClient() {
         </span>
       </h1>
       {/* Controls: filter + pagination */}
-      <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-        {/* Name filter */}
-        <div className="flex items-center gap-2">
-          <input
-            defaultValue={filters.name ?? ""}
-            placeholder={t("filters.namePlaceholder", {
-              default: "Filter by name…",
-            })}
-            className="border p-2 rounded w-64"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                const name = (e.target as HTMLInputElement).value || null;
-                dispatch(setAdminProductFilters({ name }));
-                dispatch(
-                  fetchProductsList({
-                    page: 1,
-                    limit: pagination.limit,
-                    filters: { ...filters, name },
-                  })
-                );
-              }
-            }}
-          />
-          <Button
-            variant="secondary"
-            onClick={() => {
-              dispatch(setAdminProductFilters({ name: null }));
-              dispatch(
-                fetchProductsList({
-                  page: 1,
-                  limit: pagination.limit,
-                  filters: { ...filters, name: null },
-                })
-              );
-            }}
-          >
-            {t("filters.clear", { default: "Clear" })}
-          </Button>
-        </div>
+      <ProductsToolbar
+        value={filters}
+        onChange={(next) => {
+          dispatch(setAdminProductFilters(next));
+          dispatch(
+            fetchProductsList({
+              page: 1,
+              limit: pagination.limit,
+              filters: next,
+            })
+          );
+        }}
+        categories={["vase", "cup", "plate", "bottle", "bowl"]}
+        styles={["yakishime", "shino", "oribe"]}
+        searchDebounceMs={300}
+        showPotterId
+        // Pagination wired into the bar
+        page={pagination.page}
+        totalPages={pagination.totalPages}
+        limit={pagination.limit}
+        onChangeLimit={(size) => {
+          dispatch(setAdminProductLimit(size));
+          dispatch(fetchProductsList({ page: 1, limit: size, filters }));
+        }}
+        onChangePage={(pageNum) => {
+          dispatch(setAdminProductPage(pageNum));
+          dispatch(
+            fetchProductsList({
+              page: pageNum,
+              limit: pagination.limit,
+              filters,
+            })
+          );
+        }}
+      />
 
-        {/* Page size + Prev/Next */}
-        <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-600">
-            {t("pagination.pageSize", { default: "Page size" })}
-          </label>
-          <select
-            className="border p-2 rounded"
-            value={pagination.limit}
-            onChange={(e) => {
-              const limit = Number(e.target.value);
-              dispatch(setAdminProductLimit(limit));
-              dispatch(fetchProductsList({ page: 1, limit, filters }));
-            }}
-          >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-          </select>
-
-          <Button
-            variant="secondary"
-            onClick={() => {
-              const prev = Math.max(1, pagination.page - 1);
-              dispatch(setAdminProductPage(prev));
-              dispatch(
-                fetchProductsList({
-                  page: prev,
-                  limit: pagination.limit,
-                  filters,
-                })
-              );
-            }}
-            disabled={pagination.page <= 1 || isLoading}
-          >
-            {t("pagination.prev", { default: "Prev" })}
-          </Button>
-
-          <span className="text-sm text-gray-700">
-            {t("pagination.page", {
-              page: pagination.page,
-              default: `Page ${pagination.page}`,
-            })}
-          </span>
-
-          <Button
-            variant="secondary"
-            onClick={() => {
-              const next = pagination.page + 1;
-              dispatch(setAdminProductPage(next));
-              dispatch(
-                fetchProductsList({
-                  page: next,
-                  limit: pagination.limit,
-                  filters,
-                  append: true,
-                })
-              );
-            }}
-            disabled={
-              isLoading ||
-              (pagination.totalPages > 0 &&
-                pagination.page >= pagination.totalPages)
-            }
-          >
-            {t("pagination.next", { default: "Next" })}
-          </Button>
-        </div>
-      </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

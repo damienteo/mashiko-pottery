@@ -1,3 +1,37 @@
 {
-  "title": "商品"
+  "title": "商品",
+  "toolbar": {
+    "search": {
+      "label": "検索",
+      "placeholder": "例：花瓶"
+    },
+    "category": {
+      "label": "カテゴリー",
+      "all": "すべて"
+    },
+    "style": {
+      "label": "スタイル",
+      "all": "すべて"
+    },
+    "active": {
+      "label": "公開状態",
+      "all": "すべて",
+      "true": "公開",
+      "false": "非公開"
+    },
+    "price": {
+      "minLabel": "最小 ¥",
+      "maxLabel": "最大 ¥"
+    },
+    "potter": {
+      "label": "作家ID",
+      "placeholder": "例：1"
+    },
+    "pagination": {
+      "pageSize": "表示数",
+      "prev": "前へ",
+      "next": "次へ",
+      "pageOf": "{totalPages}ページ中 {page}ページ目"
+    }
+  }
 }

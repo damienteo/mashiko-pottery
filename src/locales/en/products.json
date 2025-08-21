@@ -1,3 +1,37 @@
 {
-  "title": "Products"
+  "title": "Products",
+  "toolbar": {
+    "search": {
+      "label": "Search",
+      "placeholder": "e.g. vase"
+    },
+    "category": {
+      "label": "Category",
+      "all": "All"
+    },
+    "style": {
+      "label": "Style",
+      "all": "All"
+    },
+    "active": {
+      "label": "Active",
+      "all": "All",
+      "true": "Active",
+      "false": "Inactive"
+    },
+    "price": {
+      "minLabel": "Min ¥",
+      "maxLabel": "Max ¥"
+    },
+    "potter": {
+      "label": "Potter ID",
+      "placeholder": "e.g. 1"
+    },
+    "pagination": {
+      "pageSize": "Page size",
+      "prev": "Prev",
+      "next": "Next",
+      "pageOf": "Page {page} of {totalPages}"
+    }
+  }
 }
