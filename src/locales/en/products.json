@@ -1,6 +1,7 @@
 {
   "title": "Products",
   "toolbar": {
+    "clear": "Clear filters",
     "search": {
       "label": "Search",
       "placeholder": "e.g. vase"

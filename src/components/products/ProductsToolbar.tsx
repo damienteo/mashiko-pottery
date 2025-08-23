@@ -226,8 +226,32 @@ export default function ProductsToolbar({
             />
           </div>
         )}
+
+        {/* Clear Filters button */}
+        <div className="md:col-start-5 md:col-span-2 flex md:justify-end md:self-end">
+          <button
+            type="button"
+            onClick={() => {
+              setLocalName("");
+              onChange({
+                name: null,
+                category: null,
+                style: null,
+                active: null,
+                priceMin: null,
+                priceMax: null,
+                ...(showPotterId ? { potterId: null } : {}),
+              });
+              onChangePage(1);
+            }}
+            className="rounded border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+          >
+            {t("clear")}
+          </button>
+        </div>
       </div>
-      <div className="grid grid-cols-3 items-center mt-4">
+      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 items-center">
+        {/* Page size (left) */}
         <div className="flex items-center space-x-2">
           <label
             htmlFor="page-size"
@@ -248,8 +272,9 @@ export default function ProductsToolbar({
             ))}
           </select>
         </div>
-        <div /> {/* empty spacer */}
-        <div className="flex justify-end items-center space-x-2 text-sm text-gray-700">
+
+        {/* Pagination controls only */}
+        <div className="mt-3 md:mt-0 flex justify-end items-center text-sm text-gray-700">
           <button
             type="button"
             disabled={page <= 1}

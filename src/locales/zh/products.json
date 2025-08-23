@@ -1,6 +1,7 @@
 {
   "title": "产品",
   "toolbar": {
+    "clear": "清除筛选",
     "search": {
       "label": "搜索",
       "placeholder": "例如：花瓶"

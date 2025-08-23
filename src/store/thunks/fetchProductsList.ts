@@ -22,8 +22,8 @@ export type FetchProductsArgs = {
 const toQuery = (args: FetchProductsArgs) => {
   const params = new URLSearchParams();
 
-  if (args.page) params.set("page", String(args.page));
-  if (args.limit) params.set("limit", String(args.limit));
+  if (typeof args.page === "number") params.set("page", String(args.page));
+  if (typeof args.limit === "number") params.set("limit", String(args.limit));
 
   const f = args.filters ?? {};
   if (f.name) params.set("name", String(f.name));

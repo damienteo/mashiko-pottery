@@ -1,6 +1,7 @@
 {
   "title": "商品",
   "toolbar": {
+    "clear": "フィルターをクリア",
     "search": {
       "label": "検索",
       "placeholder": "例：花瓶"
