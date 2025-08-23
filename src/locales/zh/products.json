@@ -1,5 +1,6 @@
 {
   "title": "产品",
+  "empty": "未找到商品。",
   "toolbar": {
     "clear": "清除筛选",
     "search": {

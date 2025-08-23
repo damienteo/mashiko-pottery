@@ -18,13 +18,14 @@ interface ProductsListState {
 const initialState: ProductsListState = {
   items: [],
   filters: {
-    name: null,
     category: null,
     active: null,
     style: null,
     priceMin: null,
     priceMax: null,
     potterId: null,
+    q: null,
+    locale: null,
   },
   pagination: {
     limit: 10,
@@ -40,7 +41,54 @@ const initialState: ProductsListState = {
 const productsListSlice = createSlice({
   name: "productsList",
   initialState,
-  reducers: {},
+  reducers: {
+    setProductsFilters(state, action: PayloadAction<Partial<ProductFilters>>) {
+      state.filters = { ...state.filters, ...action.payload };
+      state.pagination.page = 1;
+    },
+    resetProductsFilters(state) {
+      state.filters = {
+        category: null,
+        active: null,
+        style: null,
+        priceMin: null,
+        priceMax: null,
+        potterId: null,
+        q: null,
+        locale: null,
+      };
+      state.pagination.page = 1;
+    },
+    setProductsPage(state, action: PayloadAction<number>) {
+      state.pagination.page = action.payload;
+    },
+    setProductsLimit(state, action: PayloadAction<number>) {
+      state.pagination.limit = action.payload;
+      state.pagination.page = 1;
+    },
+    resetProductsListState(state) {
+      state.items = [];
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.error = null;
+      state.filters = {
+        category: null,
+        active: null,
+        style: null,
+        priceMin: null,
+        priceMax: null,
+        potterId: null,
+        q: null,
+        locale: null,
+      };
+      state.pagination = {
+        limit: 10,
+        page: 1,
+        total: 0,
+        totalPages: 0,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsList.pending, (state) => {
@@ -80,5 +128,17 @@ export const selectProductsListIsSuccess = (state: RootState) =>
   state.productsList.isSuccess;
 export const selectProductsListError = (state: RootState) =>
   state.productsList.error;
+export const selectProductsListFilters = (state: RootState) =>
+  state.productsList.filters;
+export const selectProductsListPagination = (state: RootState) =>
+  state.productsList.pagination;
+
+export const {
+  setProductsFilters,
+  resetProductsFilters,
+  setProductsPage,
+  setProductsLimit,
+  resetProductsListState,
+} = productsListSlice.actions;
 
 export default productsListSlice.reducer;

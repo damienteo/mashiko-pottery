@@ -1,5 +1,6 @@
 {
   "title": "商品",
+  "empty": "商品が見つかりません。",
   "toolbar": {
     "clear": "フィルターをクリア",
     "search": {

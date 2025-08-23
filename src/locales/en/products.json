@@ -1,5 +1,6 @@
 {
   "title": "Products",
+  "empty": "No products found.",
   "toolbar": {
     "clear": "Clear filters",
     "search": {
