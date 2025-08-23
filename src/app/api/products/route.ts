@@ -18,8 +18,18 @@ export async function GET(req: NextRequest) {
     const limit = Math.max(1, Math.min(100, parseInt(searchParams.get("limit") || "10", 10)));
     const skip = (page - 1) * limit;
 
-    // Filters (support new + legacy param names)
-    const nameParam = searchParams.get("name") || searchParams.get("title") || undefined;
+    // Unified text query and locale-aware search
+    const textQuery =
+      searchParams.get("q") ||
+      searchParams.get("name") ||
+      searchParams.get("title") ||
+      undefined;
+
+    const localeParam = searchParams.get("locale");
+    const locale = (localeParam === "en" || localeParam === "ja" || localeParam === "zh")
+      ? (localeParam as "en" | "ja" | "zh")
+      : null;
+
     const category = searchParams.get("category") || undefined;
     const style = searchParams.get("style") || undefined; // NOTE: only used if Product has a `style` column
 
@@ -42,6 +52,28 @@ export async function GET(req: NextRequest) {
     const potterIdRaw = searchParams.get("potterId") || "";
     const potterId = parseInt(potterIdRaw, 10);
 
+    // Build a locale-aware text filter against title/description JSON
+    const textFilter: Prisma.ProductWhereInput =
+      textQuery
+        ? (locale
+            ? {
+                OR: [
+                  { title: { path: [locale], string_contains: textQuery } },
+                  { description: { path: [locale], string_contains: textQuery } },
+                ],
+              }
+            : {
+                OR: [
+                  { title: { path: ["en"], string_contains: textQuery } },
+                  { title: { path: ["ja"], string_contains: textQuery } },
+                  { title: { path: ["zh"], string_contains: textQuery } },
+                  { description: { path: ["en"], string_contains: textQuery } },
+                  { description: { path: ["ja"], string_contains: textQuery } },
+                  { description: { path: ["zh"], string_contains: textQuery } },
+                ],
+              })
+        : {};
+
     // Build where clause
     const priceFilter: Prisma.FloatFilter = {};
     if (!Number.isNaN(priceMin)) priceFilter.gte = priceMin;
@@ -50,15 +82,7 @@ export async function GET(req: NextRequest) {
     const whereClause: Prisma.ProductWhereInput = {
       ...(Object.keys(priceFilter).length ? { price: priceFilter } : {}),
       ...(category ? { category } : {}),
-      // Filter on title.en contains if name provided
-      ...(nameParam
-        ? {
-            title: {
-              path: ["en"],
-              string_contains: nameParam,
-            },
-          }
-        : {}),
+      ...textFilter,
       // "active" means in stock and not a draft
       ...(active ? { stock: { gt: 0 }, isDraft: false } : {}),
       ...(Number.isNaN(potterId) ? {} : { potterId }),
@@ -82,7 +106,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       products,
       filters: {
-        name: nameParam ?? null,
+        name: textQuery ?? null,
+        locale: locale ?? null,
         category: category ?? null,
         style: style ?? null,
         active: active ?? null,

@@ -16,6 +16,8 @@ export type FetchProductsArgs = {
     priceMin?: number | null;
     priceMax?: number | null;
     potterId?: number | null;
+    q?: string | null;
+    locale?: "en" | "ja" | "zh" | null;
   };
 };
 
@@ -26,13 +28,16 @@ const toQuery = (args: FetchProductsArgs) => {
   if (typeof args.limit === "number") params.set("limit", String(args.limit));
 
   const f = args.filters ?? {};
-  if (f.name) params.set("name", String(f.name));
+  // Prefer `q` (canonical). Fallback to legacy `name`.
+  const qValue = (typeof f.q === "string" ? f.q : undefined) ?? (typeof f.name === "string" ? f.name : undefined);
+  if (qValue) params.set("q", String(qValue));
   if (f.category) params.set("category", String(f.category));
   if (f.style) params.set("style", String(f.style));
   if (typeof f.active === "boolean") params.set("active", String(f.active));
   if (typeof f.priceMin === "number") params.set("priceMin", String(f.priceMin));
   if (typeof f.priceMax === "number") params.set("priceMax", String(f.priceMax));
   if (typeof f.potterId === "number") params.set("potterId", String(f.potterId));
+  if (f.locale) params.set("locale", String(f.locale));
 
   return params.toString();
 };
@@ -58,18 +63,28 @@ export const fetchProductsList = createAsyncThunk<
   const products: Product[] = json.items ?? json.products ?? [];
 
   const defaultFilters: ProductFilters = {
-    name: null,
+    name: null,          // retained for UI compatibility; server uses `q`
     category: null,
     active: null,
     style: null,
     priceMin: null,
     priceMax: null,
+    potterId: null,
+    locale: null,
   };
 
   const filters: ProductFilters = {
     ...defaultFilters,
     ...(json.filters ?? {}),
   };
+  // Normalize search key: prefer q from server, but keep `name` for UI code expecting it.
+  if (!filters.name && (json.filters?.name || json.filters?.q)) {
+    filters.name = (json.filters?.q ?? json.filters?.name) ?? null;
+  }
+  // Also surface locale if present
+  if (json.filters?.locale) {
+    filters.locale = json.filters.locale;
+  }
 
   const pagination: Pagination & { append?: boolean } = {
     limit: Number(json.pagination?.limit ?? args.limit ?? 10),

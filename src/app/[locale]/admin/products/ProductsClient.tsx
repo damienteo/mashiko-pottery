@@ -2,6 +2,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, SubmitHandler } from "react-hook-form";
+import * as yup from "yup";
+
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   selectAdminProductListItems,
@@ -15,14 +19,13 @@ import {
 } from "@/store/admin/productSlice";
 import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 // import { useToast } from "@/components/ui/Toast";
+import type { Locale } from "@/types/i18n";
+import { formatYen } from "@/utils/format";
+
+import ProductsToolbar from "@/components/products/ProductsToolbar";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
 import Link from "next/link";
-import { formatYen } from "@/utils/format";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import ProductsToolbar from "@/components/products/ProductsToolbar";
 
 const productSchema = yup.object({
   title: yup.string().required("Title is required"),
@@ -46,7 +49,7 @@ type ProductFormValues = yup.InferType<typeof productSchema>;
 
 export default function ProductsClient() {
   const t = useTranslations("product.list");
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const dispatch = useAppDispatch();
   const products = useAppSelector(selectAdminProductListItems);
   const isLoading = useAppSelector(selectAdminProductListLoading);
@@ -82,7 +85,7 @@ export default function ProductsClient() {
       fetchProductsList({
         page: pagination.page,
         limit: pagination.limit,
-        filters,
+        filters: { ...filters, locale },
       })
     );
   }, [dispatch]);
@@ -97,7 +100,7 @@ export default function ProductsClient() {
               fetchProductsList({
                 page: pagination.page,
                 limit: pagination.limit,
-                filters,
+                filters: { ...filters, locale },
               })
             )
           }
@@ -127,7 +130,7 @@ export default function ProductsClient() {
             fetchProductsList({
               page: 1,
               limit: pagination.limit,
-              filters: next,
+              filters: { ...next, locale },
             })
           );
         }}
@@ -140,7 +143,13 @@ export default function ProductsClient() {
         limit={pagination.limit}
         onChangeLimit={(size) => {
           dispatch(setAdminProductLimit(size));
-          dispatch(fetchProductsList({ page: 1, limit: size, filters }));
+          dispatch(
+            fetchProductsList({
+              page: 1,
+              limit: size,
+              filters: { ...filters, locale },
+            })
+          );
         }}
         onChangePage={(pageNum) => {
           dispatch(setAdminProductPage(pageNum));
@@ -148,7 +157,7 @@ export default function ProductsClient() {
             fetchProductsList({
               page: pageNum,
               limit: pagination.limit,
-              filters,
+              filters: { ...filters, locale },
             })
           );
         }}
@@ -200,8 +209,8 @@ export default function ProductsClient() {
             ) : (
               <>
                 {products.map((p) => {
-                  const loc = String(locale) as keyof typeof p.title;
-                  const title = p.title?.[loc] ?? String(p.title);
+                  const loc = locale;
+                  const title = p.title?.[loc] ?? "";
                   const desc = p.description?.[loc] ?? "";
                   const imageSrc =
                     p.mainImage ||

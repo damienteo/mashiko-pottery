@@ -1,9 +1,15 @@
 export interface BaseFilters {
-  name: string | null;
+  name?: string | null;
   active: boolean | null;
 }
 
 export interface ProductFilters extends BaseFilters {
+  /**
+   * Canonical search term for products.
+   * Replaces 'name' as the standard search property.
+   */
+  q?: string | null;
+  locale?: "en" | "ja" | "zh" | null;
   category: string | null;
   style: string | null;
   priceMin: number | null;

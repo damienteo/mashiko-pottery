@@ -19,7 +19,7 @@ export type ProductsToolbarProps = {
 };
 
 type FormValues = {
-  name: string;
+  q: string;
   category: string;
   style: string;
   active: "" | "true" | "false";
@@ -45,7 +45,7 @@ export default function ProductsToolbar({
   // Map incoming filters -> RHF default values
   const defaultValues = useMemo<FormValues>(
     () => ({
-      name: value.name ?? "",
+      q: value.q ?? "",
       category: value.category ?? "",
       style: value.style ?? "",
       active:
@@ -73,7 +73,7 @@ export default function ProductsToolbar({
         : {}),
     }),
     [
-      value.name,
+      value.q,
       value.category,
       value.style,
       value.active,
@@ -97,7 +97,7 @@ export default function ProductsToolbar({
     handleSubmit((data) => {
       const next: ProductFilters = {
         ...value,
-        name: data.name.trim() === "" ? null : data.name.trim(),
+        q: data.q.trim() === "" ? null : data.q.trim(),
         category: data.category === "" ? null : data.category,
         style: data.style === "" ? null : data.style,
         active:
@@ -113,7 +113,7 @@ export default function ProductsToolbar({
 
   const onClear = () => {
     reset({
-      name: "",
+      q: "",
       category: "",
       style: "",
       active: "",
@@ -122,7 +122,7 @@ export default function ProductsToolbar({
       ...(showPotterId ? { potterId: null } : {}),
     });
     onSearch({
-      name: null,
+      q: null,
       category: null,
       style: null,
       active: null,
@@ -147,7 +147,7 @@ export default function ProductsToolbar({
             <input
               id="pfb-name"
               type="text"
-              {...register("name")}
+              {...register("q")}
               onKeyDown={(e) => {
                 if (e.key === "Enter") e.preventDefault();
               }}
