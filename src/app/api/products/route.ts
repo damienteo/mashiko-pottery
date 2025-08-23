@@ -58,18 +58,18 @@ export async function GET(req: NextRequest) {
         ? (locale
             ? {
                 OR: [
-                  { title: { path: [locale], string_contains: textQuery } },
-                  { description: { path: [locale], string_contains: textQuery } },
+                  { title: { path: [locale], string_contains: textQuery, mode: "insensitive" } },
+                  { description: { path: [locale], string_contains: textQuery, mode: "insensitive" } },
                 ],
               }
             : {
                 OR: [
-                  { title: { path: ["en"], string_contains: textQuery } },
-                  { title: { path: ["ja"], string_contains: textQuery } },
-                  { title: { path: ["zh"], string_contains: textQuery } },
-                  { description: { path: ["en"], string_contains: textQuery } },
-                  { description: { path: ["ja"], string_contains: textQuery } },
-                  { description: { path: ["zh"], string_contains: textQuery } },
+                  { title: { path: ["en"], string_contains: textQuery, mode: "insensitive" } },
+                  { title: { path: ["ja"], string_contains: textQuery, mode: "insensitive" } },
+                  { title: { path: ["zh"], string_contains: textQuery, mode: "insensitive" } },
+                  { description: { path: ["en"], string_contains: textQuery, mode: "insensitive" } },
+                  { description: { path: ["ja"], string_contains: textQuery, mode: "insensitive" } },
+                  { description: { path: ["zh"], string_contains: textQuery, mode: "insensitive" } },
                 ],
               })
         : {};
