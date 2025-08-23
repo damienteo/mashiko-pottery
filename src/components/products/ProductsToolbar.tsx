@@ -95,6 +95,7 @@ export default function ProductsToolbar({
     e.preventDefault();
     // RHF's handleSubmit also calls preventDefault internally, but we double-guard here
     handleSubmit((data) => {
+      console.log({ data });
       const next: ProductFilters = {
         ...value,
         q: data.q.trim() === "" ? null : data.q.trim(),
@@ -103,7 +104,8 @@ export default function ProductsToolbar({
         active:
           data.active === "" ? null : data.active === "true" ? true : false,
         priceMin: data.priceMin ?? null,
-        priceMax: data.priceMax ?? null,
+        priceMax:
+          data.priceMax === null || data.priceMax === 0 ? null : data.priceMax,
         ...(showPotterId ? { potterId: data.potterId ?? null } : {}),
       };
       // Parent should set page=1 and fetch on filter changes to avoid double requests

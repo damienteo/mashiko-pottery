@@ -93,6 +93,6 @@ export const fetchProductsList = createAsyncThunk<
     totalPages: Number(json.pagination?.totalPages ?? 0),
     append: args.append,
   };
-
+console.log({filters})
   return { products, filters, pagination };
 });
