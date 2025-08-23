@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useForm } from "react-hook-form";
 import type { ProductFilters } from "@/types/common";
 import { useTranslations } from "next-intl";
@@ -84,14 +84,11 @@ export default function ProductsToolbar({
     ]
   );
 
-  const { register, handleSubmit, reset } = useForm<FormValues>({
-    defaultValues,
-  });
+  const initialDefaultsRef = useRef<FormValues>(defaultValues);
 
-  // Keep form in sync if parent filters change externally
-  useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset]);
+  const { register, handleSubmit, reset } = useForm<FormValues>({
+    defaultValues: initialDefaultsRef.current,
+  });
 
   // Build filters object and send up
   const onSearch = handleSubmit((data) => {
