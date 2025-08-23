@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 
 export type ProductsToolbarProps = {
   value: ProductFilters;
-  onChange: (next: ProductFilters) => void;
+  onSearch: (next: ProductFilters) => void;
   categories?: string[];
   styles?: string[];
   showPotterId?: boolean;
@@ -30,7 +30,7 @@ type FormValues = {
 
 export default function ProductsToolbar({
   value,
-  onChange,
+  onSearch,
   categories = [],
   styles = [],
   showPotterId = false,
@@ -91,7 +91,7 @@ export default function ProductsToolbar({
   });
 
   // Ensure no full-page navigation on submit
-  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // RHF's handleSubmit also calls preventDefault internally, but we double-guard here
     handleSubmit((data) => {
@@ -106,8 +106,8 @@ export default function ProductsToolbar({
         priceMax: data.priceMax ?? null,
         ...(showPotterId ? { potterId: data.potterId ?? null } : {}),
       };
-      onChange(next);
-      onChangePage(1);
+      // Parent should set page=1 and fetch on filter changes to avoid double requests
+      onSearch(next);
     })(e);
   };
 
@@ -121,7 +121,7 @@ export default function ProductsToolbar({
       priceMax: null,
       ...(showPotterId ? { potterId: null } : {}),
     });
-    onChange({
+    onSearch({
       name: null,
       category: null,
       style: null,
@@ -130,12 +130,11 @@ export default function ProductsToolbar({
       priceMax: null,
       ...(showPotterId ? { potterId: null } : {}),
     });
-    onChangePage(1);
   };
 
   return (
     <section className="px-4 py-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur">
-      <form onSubmit={onSearch} noValidate>
+      <form onSubmit={handleSearch} noValidate>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
           {/* Search */}
           <div className="md:col-span-2">

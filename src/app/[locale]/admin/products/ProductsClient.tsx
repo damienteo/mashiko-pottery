@@ -74,18 +74,18 @@ export default function ProductsClient() {
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!hasFetched.current && !isLoading && products.length === 0) {
-      dispatch(
-        fetchProductsList({
-          page: pagination.page,
-          limit: pagination.limit,
-          filters,
-        })
-      );
-      hasFetched.current = true;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, isLoading, products.length]);
+    // Initial fetch only. Subsequent requests are driven by toolbar handlers.
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
+    dispatch(
+      fetchProductsList({
+        page: pagination.page,
+        limit: pagination.limit,
+        filters,
+      })
+    );
+  }, [dispatch]);
 
   if (error) {
     return (
@@ -120,8 +120,9 @@ export default function ProductsClient() {
       {/* Controls: filter + pagination */}
       <ProductsToolbar
         value={filters}
-        onChange={(next) => {
+        onSearch={(next) => {
           dispatch(setAdminProductFilters(next));
+          dispatch(setAdminProductPage(1));
           dispatch(
             fetchProductsList({
               page: 1,
