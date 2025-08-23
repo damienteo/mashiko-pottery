@@ -10,20 +10,20 @@ const DELETE_ENDPOINT = "/api/admin/product";
 
 interface AdminProductState {
   product: Product | null;
+  products: Product[];
   isLoading: boolean;
   isSuccess: boolean;
   error: string | null;
-  items: Product[];
   filters: ProductFilters;
   pagination: Pagination;
 }
 
 const initialState: AdminProductState = {
   product: null,
+  products: [],
   isLoading: false,
   isSuccess: false,
   error: null,
-  items: [],
   filters: {
     name: null,
     category: null,
@@ -128,11 +128,11 @@ const adminProductSlice = createSlice({
       state.pagination.page = 1;
     },
     resetAdminProductState(state) {
-      state.product = null;
+      state.product = null;     
+      state.products = [];
       state.isLoading = false;
       state.isSuccess = false;
       state.error = null;
-      state.items = [];
       state.filters = {
         name: null,
         category: null,
@@ -230,11 +230,8 @@ const adminProductSlice = createSlice({
           state.isSuccess = true;
 
           const incoming = action.payload.products;
-          const { page, append } = action.payload.pagination as Pagination & { append?: boolean };
 
-          // Append when explicitly requested, or when page > 1
-          const shouldAppend = append ?? (page > 1);
-          state.items = shouldAppend ? [...state.items, ...incoming] : incoming;
+          state.products = incoming;
 
           state.filters = action.payload.filters;
           state.pagination = {
@@ -254,7 +251,7 @@ export const selectAdminProduct = (state: RootState) => state.adminProduct.produ
 export const selectAdminProductLoading = (state: RootState) => state.adminProduct.isLoading;
 export const selectAdminProductSuccess = (state: RootState) => state.adminProduct.isSuccess;
 export const selectAdminProductError = (state: RootState) => state.adminProduct.error;
-export const selectAdminProductItems = (state: RootState) => state.adminProduct.items;
+export const selectAdminProductItems = (state: RootState) => state.adminProduct.products;
 export const selectAdminProductFilters = (state: RootState) => state.adminProduct.filters;
 export const selectAdminProductPagination = (state: RootState) => state.adminProduct.pagination;
 
@@ -262,7 +259,7 @@ export const selectAdminProductPagination = (state: RootState) => state.adminPro
 export const selectAdminProductListLoading = (state: RootState) => state.adminProduct.isLoading;
 export const selectAdminProductListSuccess = (state: RootState) => state.adminProduct.isSuccess;
 export const selectAdminProductListError = (state: RootState) => state.adminProduct.error;
-export const selectAdminProductListItems = (state: RootState) => state.adminProduct.items;
+export const selectAdminProductListItems = (state: RootState) => state.adminProduct.products;
 export const selectAdminProductListFilters = (state: RootState) => state.adminProduct.filters;
 export const selectAdminProductListPagination = (state: RootState) => state.adminProduct.pagination;
 
