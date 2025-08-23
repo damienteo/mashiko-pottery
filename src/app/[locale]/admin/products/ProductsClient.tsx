@@ -140,7 +140,6 @@ export default function ProductsClient() {
         }}
         categories={["vase", "cup", "plate", "bottle", "bowl"]}
         styles={["yakishime", "shino", "oribe"]}
-        searchDebounceMs={300}
         showPotterId
         // Pagination wired into the bar
         page={pagination.page}

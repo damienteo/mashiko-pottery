@@ -4,7 +4,8 @@
     "clear": "清除筛选",
     "search": {
       "label": "搜索",
-      "placeholder": "例如：花瓶"
+      "placeholder": "例如：花瓶",
+      "apply": "搜索"
     },
     "category": {
       "label": "类别",

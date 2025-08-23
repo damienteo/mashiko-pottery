@@ -9,7 +9,6 @@ export type ProductsToolbarProps = {
   onChange: (next: ProductFilters) => void;
   categories?: string[];
   styles?: string[];
-  searchDebounceMs?: number;
   showPotterId?: boolean;
   page?: number;
   totalPages?: number;
@@ -23,7 +22,6 @@ export default function ProductsToolbar({
   onChange,
   categories = [],
   styles = [],
-  searchDebounceMs = 300,
   showPotterId = false,
   page = 1,
   totalPages = 0,
@@ -33,49 +31,94 @@ export default function ProductsToolbar({
 }: ProductsToolbarProps) {
   const t = useTranslations("products.toolbar");
   const [localName, setLocalName] = useState<string>(value.name ?? "");
+  const [localMin, setLocalMin] = useState<string>(
+    value.priceMin !== null && value.priceMin !== undefined
+      ? String(value.priceMin)
+      : ""
+  );
+  const [localMax, setLocalMax] = useState<string>(
+    value.priceMax !== null && value.priceMax !== undefined
+      ? String(value.priceMax)
+      : ""
+  );
+  const [localPotter, setLocalPotter] = useState<string>(
+    value.potterId !== null && value.potterId !== undefined
+      ? String(value.potterId)
+      : ""
+  );
+  const [localCategory, setLocalCategory] = useState<string>(
+    value.category ?? ""
+  );
+  const [localStyle, setLocalStyle] = useState<string>(value.style ?? "");
+  const [localActive, setLocalActive] = useState<string>(
+    typeof value.active === "boolean" ? String(value.active) : ""
+  );
 
   // Keep localName in sync if external filters change (e.g., route/preset updates)
   useEffect(() => {
     setLocalName(value.name ?? "");
   }, [value.name]);
 
-  // Debounce search text updates
   useEffect(() => {
-    const id = setTimeout(() => {
-      if (localName !== (value.name ?? "")) {
-        onChange({ ...value, name: localName === "" ? null : localName });
-      }
-    }, searchDebounceMs);
-    return () => clearTimeout(id);
-  }, [localName, value, onChange, searchDebounceMs]);
+    setLocalMin(
+      value.priceMin !== null && value.priceMin !== undefined
+        ? String(value.priceMin)
+        : ""
+    );
+    setLocalMax(
+      value.priceMax !== null && value.priceMax !== undefined
+        ? String(value.priceMax)
+        : ""
+    );
+    setLocalPotter(
+      value.potterId !== null && value.potterId !== undefined
+        ? String(value.potterId)
+        : ""
+    );
+    setLocalCategory(value.category ?? "");
+    setLocalStyle(value.style ?? "");
+    setLocalActive(
+      typeof value.active === "boolean" ? String(value.active) : ""
+    );
+  }, [
+    value.priceMin,
+    value.priceMax,
+    value.potterId,
+    value.category,
+    value.style,
+    value.active,
+  ]);
 
-  const commit = (patch: Partial<ProductFilters>) => {
-    const next = { ...value, ...patch };
+  const preventEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
+  const handleSearch = () => {
+    const parsedMin = localMin === "" ? null : Number(localMin);
+    const parsedMax = localMax === "" ? null : Number(localMax);
+    const parsedPotter = localPotter === "" ? null : Number(localPotter);
+
+    const next: ProductFilters = {
+      ...value,
+      name: localName === "" ? null : localName,
+      category: localCategory === "" ? null : localCategory,
+      style: localStyle === "" ? null : localStyle,
+      active: localActive === "" ? null : localActive === "true",
+      priceMin: Number.isNaN(parsedMin as number) ? null : parsedMin,
+      priceMax: Number.isNaN(parsedMax as number) ? null : parsedMax,
+      ...(showPotterId
+        ? {
+            potterId: Number.isNaN(parsedPotter as number)
+              ? null
+              : parsedPotter,
+          }
+        : {}),
+    };
+
     onChange(next);
-  };
-
-  const handleNumeric =
-    (key: "priceMin" | "priceMax") =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const v = e.target.value.trim();
-      commit({ [key]: v === "" ? null : Number(v) } as Partial<ProductFilters>);
-    };
-
-  const handleSelect =
-    (key: "category" | "style") =>
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const v = e.target.value;
-      commit({ [key]: v === "" ? null : v } as Partial<ProductFilters>);
-    };
-
-  const handleActive = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const v = e.target.value;
-    commit({ active: v === "" ? null : v === "true" });
-  };
-
-  const handlePotter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value.trim();
-    commit({ potterId: raw === "" ? null : Number(raw) });
+    onChangePage(1);
   };
 
   return (
@@ -109,8 +152,8 @@ export default function ProductsToolbar({
           </label>
           <select
             id="pfb-category"
-            value={value.category ?? ""}
-            onChange={handleSelect("category")}
+            value={localCategory}
+            onChange={(e) => setLocalCategory(e.target.value)}
             className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
           >
             <option value="">{t("category.all")}</option>
@@ -132,8 +175,8 @@ export default function ProductsToolbar({
           </label>
           <select
             id="pfb-style"
-            value={value.style ?? ""}
-            onChange={handleSelect("style")}
+            value={localStyle}
+            onChange={(e) => setLocalStyle(e.target.value)}
             className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
           >
             <option value="">{t("style.all")}</option>
@@ -155,10 +198,8 @@ export default function ProductsToolbar({
           </label>
           <select
             id="pfb-active"
-            value={
-              typeof value.active === "boolean" ? String(value.active) : ""
-            }
-            onChange={handleActive}
+            value={localActive}
+            onChange={(e) => setLocalActive(e.target.value)}
             className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
           >
             <option value="">{t("active.all")}</option>
@@ -177,11 +218,12 @@ export default function ProductsToolbar({
           </label>
           <input
             id="pfb-min"
-            type="number"
+            type="text"
             inputMode="numeric"
-            min={0}
-            value={value.priceMin ?? ""}
-            onChange={handleNumeric("priceMin")}
+            pattern="\\d*"
+            value={localMin}
+            onChange={(e) => setLocalMin(e.target.value)}
+            onKeyDown={preventEnter}
             className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
           />
         </div>
@@ -196,11 +238,12 @@ export default function ProductsToolbar({
           </label>
           <input
             id="pfb-max"
-            type="number"
+            type="text"
             inputMode="numeric"
-            min={0}
-            value={value.priceMax ?? ""}
-            onChange={handleNumeric("priceMax")}
+            pattern="\\d*"
+            value={localMax}
+            onChange={(e) => setLocalMax(e.target.value)}
+            onKeyDown={preventEnter}
             className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
           />
         </div>
@@ -216,38 +259,53 @@ export default function ProductsToolbar({
             </label>
             <input
               id="pfb-potter"
-              type="number"
+              type="text"
               inputMode="numeric"
-              min={0}
-              value={value.potterId ?? ""}
-              onChange={handlePotter}
+              pattern="\\d*"
+              value={localPotter}
+              onChange={(e) => setLocalPotter(e.target.value)}
+              onKeyDown={preventEnter}
               className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
               placeholder={t("potter.placeholder")}
             />
           </div>
         )}
 
-        {/* Clear Filters button */}
         <div className="md:col-start-5 md:col-span-2 flex md:justify-end md:self-end">
-          <button
-            type="button"
-            onClick={() => {
-              setLocalName("");
-              onChange({
-                name: null,
-                category: null,
-                style: null,
-                active: null,
-                priceMin: null,
-                priceMax: null,
-                ...(showPotterId ? { potterId: null } : {}),
-              });
-              onChangePage(1);
-            }}
-            className="rounded border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-          >
-            {t("clear")}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleSearch}
+              className="rounded bg-gray-900 text-white px-4 py-2 text-sm hover:bg-black"
+            >
+              {t("search.apply")}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setLocalName("");
+                setLocalMin("");
+                setLocalMax("");
+                setLocalPotter("");
+                setLocalCategory("");
+                setLocalStyle("");
+                setLocalActive("");
+                onChange({
+                  name: null,
+                  category: null,
+                  style: null,
+                  active: null,
+                  priceMin: null,
+                  priceMax: null,
+                  ...(showPotterId ? { potterId: null } : {}),
+                });
+                onChangePage(1);
+              }}
+              className="rounded border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+            >
+              {t("clear")}
+            </button>
+          </div>
         </div>
       </div>
       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 items-center">
@@ -283,7 +341,7 @@ export default function ProductsToolbar({
           >
             {t("pagination.prev")}
           </button>
-          <span>
+          <span className="mx-4">
             {t("pagination.pageOf", {
               page,
               totalPages: Math.max(totalPages, 1),

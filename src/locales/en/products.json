@@ -4,7 +4,8 @@
     "clear": "Clear filters",
     "search": {
       "label": "Search",
-      "placeholder": "e.g. vase"
+      "placeholder": "e.g. vase",
+      "apply": "Search"
     },
     "category": {
       "label": "Category",
