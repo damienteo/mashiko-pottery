@@ -87,14 +87,6 @@ export default function ProductsClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, isLoading, products.length]);
 
-  if (isLoading) {
-    return (
-      <div className="p-8 flex justify-center">
-        <p>{t("loading")}</p>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="p-8 text-center text-red-600">
@@ -195,167 +187,182 @@ export default function ProductsClient() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {products.map((p) => {
-              const loc = String(locale) as keyof typeof p.title;
-              const title = p.title?.[loc] ?? String(p.title);
-              const desc = p.description?.[loc] ?? "";
-              const imageSrc =
-                p.mainImage ||
-                (p.photos?.length
-                  ? p.photos[0]
-                  : "/images/placeholders/product-fallback.svg");
-
-              return (
-                <tr key={p.id}>
-                  <td className="px-4 py-2 whitespace-nowrap">
-                    <div className="w-12 h-12 relative">
-                      <Image
-                        src={imageSrc}
-                        alt={title || "Product image"}
-                        fill
-                        className="object-cover rounded"
-                        sizes="48px"
-                      />
-                    </div>
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap">
-                    {editingId === p.id ? (
-                      <input
-                        {...register("title")}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      title
-                    )}
-                    {errors.title && editingId === p.id && (
-                      <span className="text-red-600 text-xs">
-                        {errors.title.message}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap">
-                    {editingId === p.id ? (
-                      <input
-                        type="number"
-                        {...register("price")}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      formatYen(p.price)
-                    )}
-                    {errors.price && editingId === p.id && (
-                      <span className="text-red-600 text-xs">
-                        {errors.price.message}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 line-clamp-2">
-                    {editingId === p.id ? (
-                      <textarea
-                        {...register("description")}
-                        rows={2}
-                        className="w-full border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      desc
-                    )}
-                    {errors.description && editingId === p.id && (
-                      <span className="text-red-600 text-xs">
-                        {errors.description.message}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap">
-                    {editingId === p.id ? (
-                      <input
-                        type="number"
-                        {...register("stock")}
-                        className="w-20 border p-1 rounded text-sm"
-                      />
-                    ) : (
-                      p.stock
-                    )}
-                    {errors.stock && editingId === p.id && (
-                      <span className="text-red-600 text-xs">
-                        {errors.stock.message}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap">{p.potterId}</td>
-                  <td className="px-4 py-2 whitespace-nowrap">
-                    {p.weight ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap">
-                    {p.category ?? "-"}
-                  </td>
-                  <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2 flex items-center">
-                    {editingId === p.id ? (
-                      <>
-                        <Button
-                          onClick={() => handleSubmit(onSubmit)()}
-                          variant="primary"
-                          disabled={!isValid}
-                        >
-                          {t("actions.confirm")}
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          onClick={() => {
-                            reset();
-                            setEditingId(null);
-                          }}
-                        >
-                          {t("actions.cancel")}
-                        </Button>
-                      </>
-                    ) : (
-                      <>
-                        <Button
-                          variant="secondary"
-                          onClick={() => {
-                            reset({
-                              title,
-                              price: p.price,
-                              description: desc,
-                              stock: p.stock,
-                            });
-                            setEditingId(p.id);
-                          }}
-                        >
-                          {t("actions.edit")}
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          onClick={() => {
-                            /* TODO: delete action */
-                          }}
-                        >
-                          {t("actions.delete")}
-                        </Button>
-                        <Link
-                          href={`/${locale}/admin/products/${p.id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <Button variant="secondary">
-                            {t("actions.details")}
-                          </Button>
-                        </Link>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
-            {products.length === 0 && (
+            {isLoading ? (
               <tr>
                 <td
                   colSpan={9}
                   className="px-4 py-6 text-center text-sm text-gray-500"
                 >
-                  {t("empty")}
+                  {t("loading")}
                 </td>
               </tr>
+            ) : (
+              <>
+                {products.map((p) => {
+                  const loc = String(locale) as keyof typeof p.title;
+                  const title = p.title?.[loc] ?? String(p.title);
+                  const desc = p.description?.[loc] ?? "";
+                  const imageSrc =
+                    p.mainImage ||
+                    (p.photos?.length
+                      ? p.photos[0]
+                      : "/images/placeholders/product-fallback.svg");
+
+                  return (
+                    <tr key={p.id}>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        <div className="w-12 h-12 relative">
+                          <Image
+                            src={imageSrc}
+                            alt={title || "Product image"}
+                            fill
+                            className="object-cover rounded"
+                            sizes="48px"
+                          />
+                        </div>
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {editingId === p.id ? (
+                          <input
+                            {...register("title")}
+                            className="w-full border p-1 rounded text-sm"
+                          />
+                        ) : (
+                          title
+                        )}
+                        {errors.title && editingId === p.id && (
+                          <span className="text-red-600 text-xs">
+                            {errors.title.message}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {editingId === p.id ? (
+                          <input
+                            type="number"
+                            {...register("price")}
+                            className="w-full border p-1 rounded text-sm"
+                          />
+                        ) : (
+                          formatYen(p.price)
+                        )}
+                        {errors.price && editingId === p.id && (
+                          <span className="text-red-600 text-xs">
+                            {errors.price.message}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 line-clamp-2">
+                        {editingId === p.id ? (
+                          <textarea
+                            {...register("description")}
+                            rows={2}
+                            className="w-full border p-1 rounded text-sm"
+                          />
+                        ) : (
+                          desc
+                        )}
+                        {errors.description && editingId === p.id && (
+                          <span className="text-red-600 text-xs">
+                            {errors.description.message}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {editingId === p.id ? (
+                          <input
+                            type="number"
+                            {...register("stock")}
+                            className="w-20 border p-1 rounded text-sm"
+                          />
+                        ) : (
+                          p.stock
+                        )}
+                        {errors.stock && editingId === p.id && (
+                          <span className="text-red-600 text-xs">
+                            {errors.stock.message}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {p.potterId}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {p.weight ?? "-"}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap">
+                        {p.category ?? "-"}
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2 flex items-center">
+                        {editingId === p.id ? (
+                          <>
+                            <Button
+                              onClick={() => handleSubmit(onSubmit)()}
+                              variant="primary"
+                              disabled={!isValid}
+                            >
+                              {t("actions.confirm")}
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              onClick={() => {
+                                reset();
+                                setEditingId(null);
+                              }}
+                            >
+                              {t("actions.cancel")}
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              variant="secondary"
+                              onClick={() => {
+                                reset({
+                                  title,
+                                  price: p.price,
+                                  description: desc,
+                                  stock: p.stock,
+                                });
+                                setEditingId(p.id);
+                              }}
+                            >
+                              {t("actions.edit")}
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              onClick={() => {
+                                /* TODO: delete action */
+                              }}
+                            >
+                              {t("actions.delete")}
+                            </Button>
+                            <Link
+                              href={`/${locale}/admin/products/${p.id}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Button variant="secondary">
+                                {t("actions.details")}
+                              </Button>
+                            </Link>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {products.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan={9}
+                      className="px-4 py-6 text-center text-sm text-gray-500"
+                    >
+                      {t("empty")}
+                    </td>
+                  </tr>
+                )}
+              </>
             )}
           </tbody>
         </table>

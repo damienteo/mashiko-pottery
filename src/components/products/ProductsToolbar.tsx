@@ -90,21 +90,26 @@ export default function ProductsToolbar({
     defaultValues: initialDefaultsRef.current,
   });
 
-  // Build filters object and send up
-  const onSearch = handleSubmit((data) => {
-    const next: ProductFilters = {
-      ...value,
-      name: data.name.trim() === "" ? null : data.name.trim(),
-      category: data.category === "" ? null : data.category,
-      style: data.style === "" ? null : data.style,
-      active: data.active === "" ? null : data.active === "true" ? true : false,
-      priceMin: data.priceMin ?? null,
-      priceMax: data.priceMax ?? null,
-      ...(showPotterId ? { potterId: data.potterId ?? null } : {}),
-    };
-    onChange(next);
-    onChangePage(1);
-  });
+  // Ensure no full-page navigation on submit
+  const onSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // RHF's handleSubmit also calls preventDefault internally, but we double-guard here
+    handleSubmit((data) => {
+      const next: ProductFilters = {
+        ...value,
+        name: data.name.trim() === "" ? null : data.name.trim(),
+        category: data.category === "" ? null : data.category,
+        style: data.style === "" ? null : data.style,
+        active:
+          data.active === "" ? null : data.active === "true" ? true : false,
+        priceMin: data.priceMin ?? null,
+        priceMax: data.priceMax ?? null,
+        ...(showPotterId ? { potterId: data.potterId ?? null } : {}),
+      };
+      onChange(next);
+      onChangePage(1);
+    })(e);
+  };
 
   const onClear = () => {
     reset({
@@ -130,7 +135,7 @@ export default function ProductsToolbar({
 
   return (
     <section className="px-4 py-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur">
-      <form onSubmit={onSearch}>
+      <form onSubmit={onSearch} noValidate>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
           {/* Search */}
           <div className="md:col-span-2">
