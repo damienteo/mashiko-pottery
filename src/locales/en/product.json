@@ -51,6 +51,7 @@
     "loading": "Loading products...",
     "error": "Failed to load products.",
     "retry": "Retry",
+    "empty": "No products found",
     "filters": {
       "namePlaceholder": "Filter by name…",
       "clear": "Clear"

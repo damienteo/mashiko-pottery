@@ -51,6 +51,7 @@
     "loading": "正在加载商品...",
     "error": "加载商品失败。",
     "retry": "重试",
+    "empty": "未找到商品",
     "filters": {
       "namePlaceholder": "按名称筛选…",
       "clear": "清除"

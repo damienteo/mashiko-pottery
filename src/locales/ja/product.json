@@ -51,6 +51,7 @@
     "loading": "商品を読み込んでいます...",
     "error": "商品の読み込みに失敗しました。",
     "retry": "再試行",
+    "empty": "商品が見つかりません",
     "filters": {
       "namePlaceholder": "名前で絞り込む…",
       "clear": "クリア"

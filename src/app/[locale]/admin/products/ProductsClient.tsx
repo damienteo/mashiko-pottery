@@ -56,7 +56,6 @@ export default function ProductsClient() {
   // const { success } = useToast();
 
   const [editingId, setEditingId] = useState<number | null>(null);
-  console.log({ products, isLoading, error });
   const {
     register,
     handleSubmit,
@@ -198,21 +197,25 @@ export default function ProductsClient() {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {products.map((p) => {
-              const title =
-                p.title[locale as keyof typeof p.title] || String(p.title);
-              const desc = p.description
-                ? p.description[locale as keyof typeof p.description]
-                : "";
+              const loc = String(locale) as keyof typeof p.title;
+              const title = p.title?.[loc] ?? String(p.title);
+              const desc = p.description?.[loc] ?? "";
+              const imageSrc =
+                p.mainImage ||
+                (p.photos?.length
+                  ? p.photos[0]
+                  : "/images/placeholders/product-fallback.svg");
 
               return (
                 <tr key={p.id}>
                   <td className="px-4 py-2 whitespace-nowrap">
                     <div className="w-12 h-12 relative">
                       <Image
-                        src={p.mainImage ?? ""}
-                        alt={title}
+                        src={imageSrc}
+                        alt={title || "Product image"}
                         fill
                         className="object-cover rounded"
+                        sizes="48px"
                       />
                     </div>
                   </td>
@@ -345,6 +348,16 @@ export default function ProductsClient() {
                 </tr>
               );
             })}
+            {products.length === 0 && (
+              <tr>
+                <td
+                  colSpan={9}
+                  className="px-4 py-6 text-center text-sm text-gray-500"
+                >
+                  {t("empty")}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
