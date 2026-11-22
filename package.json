@@ -13,6 +13,7 @@
     "test": "jest --config jest.config.cjs",
     "prettier-format": "prettier --config .prettierrc '*/**/*.{ts,tsx}' --write",
     "format:check": "prettier --config .prettierrc --check .",
+    "test": "jest --config jest.config.cjs",
     "dev:migrate": "prisma migrate dev --name",
     "db:push": "prisma db push",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
