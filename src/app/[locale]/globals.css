@@ -29,7 +29,7 @@
   html[lang='ja'] {
     --font-sans:
       var(--font-inter), 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
-      'Yu Gothic', Meiryo, sans-serif;
+      'Yu Gothic', Meiryo, 'Noto Sans CJK JP', 'Noto Sans JP', sans-serif;
     --font-serif:
       var(--font-playfair), 'Hiragino Mincho ProN', 'Yu Mincho', serif;
   }
@@ -37,7 +37,7 @@
   html[lang='zh'] {
     --font-sans:
       var(--font-inter), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
-      'Noto Sans SC', sans-serif;
+      'Noto Sans SC', 'Noto Sans CJK SC', 'Noto Sans CJK TC', sans-serif;
     --font-serif:
       var(--font-playfair), 'Songti SC', STSong, 'Noto Serif SC', serif;
   }

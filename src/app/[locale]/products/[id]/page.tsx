@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import {
   catalogForStaticPage,
+  catalogForStaticPageWithBuildFallback,
   isProductionBuild,
   withCatalogGuard,
 } from '@/lib/catalog/guard'
@@ -79,9 +81,13 @@ export default async function ProductPage({
   setRequestLocale(locale)
   const typedLocale = locale as Locale
   const idNum = Number(id)
-  const product = Number.isNaN(idNum)
-    ? null
-    : await catalogForStaticPage(() => getCachedProductById(idNum), null)
+  if (Number.isNaN(idNum)) notFound()
+
+  const { value: product, buildFallback: productBuildFallback } =
+    await catalogForStaticPageWithBuildFallback(
+      () => getCachedProductById(idNum),
+      null
+    )
   const potter =
     product?.potterId != null
       ? await catalogForStaticPage(
@@ -109,7 +115,11 @@ export default async function ProductPage({
       : null
 
   if (!product) {
-    return <p className="p-8 text-red-600">Product not found.</p>
+    if (productBuildFallback) {
+      const tCommon = await getTranslations('common')
+      return <p className="p-8 text-gray-500">{tCommon('loading')}</p>
+    }
+    notFound()
   }
 
   const relatedProducts = pickRelatedProducts(

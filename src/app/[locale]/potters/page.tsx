@@ -55,7 +55,7 @@ export default async function PottersPage({
           {t('potterSpotlights.title')}
         </h1>
         {initialData.potters.length === 0 ? (
-          <p className="text-center text-gray-500">{t('loading')}</p>
+          <p className="text-center text-gray-500">{t('potters.empty')}</p>
         ) : (
           <PotterGrid potters={initialData.potters} locale={typedLocale} />
         )}

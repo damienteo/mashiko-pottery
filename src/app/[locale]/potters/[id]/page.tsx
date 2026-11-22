@@ -2,7 +2,10 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
-import { catalogForStaticPage } from '@/lib/catalog/guard'
+import {
+  catalogForStaticPage,
+  catalogForStaticPageWithBuildFallback,
+} from '@/lib/catalog/guard'
 import { getCachedPotterById, safeListPotterIds } from '@/lib/catalog/potters'
 import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
 import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
@@ -45,9 +48,13 @@ export default async function PotterPage({
   const typedLocale = locale as Locale
   const t = await getTranslations('potter')
   const idNum = Number(id)
-  const potter = Number.isNaN(idNum)
-    ? null
-    : await catalogForStaticPage(() => getCachedPotterById(idNum), null)
+  if (Number.isNaN(idNum)) notFound()
+
+  const { value: potter, buildFallback: potterBuildFallback } =
+    await catalogForStaticPageWithBuildFallback(
+      () => getCachedPotterById(idNum),
+      null
+    )
   const products =
     potter != null
       ? await catalogForStaticPage(
@@ -64,7 +71,10 @@ export default async function PotterPage({
       : emptyProductList({ potterId: idNum, page: 1, limit: 20 })
 
   if (!potter) {
-    return <p className="p-8 text-red-600">{t('loading')}</p>
+    if (potterBuildFallback) {
+      return <p className="p-8 text-gray-500">{t('loading')}</p>
+    }
+    notFound()
   }
 
   const images = uniqueGalleryImages([

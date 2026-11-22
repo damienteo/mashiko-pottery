@@ -49,10 +49,7 @@ export default function ProductsCatalog({
     []
   )
 
-  // Read the query on the client after paint so this island can SSR the
-  // same title/toolbar/grid markup. useSearchParams + Suspense fallback={null}
-  // left the section empty until hydration and pushed the footer (CLS 0.16).
-  useEffect(() => {
+  const syncFromLocation = useCallback(() => {
     const parsed = parseProductListSearchParams(
       new URLSearchParams(window.location.search),
       locale,
@@ -62,10 +59,23 @@ export default function ProductsCatalog({
       }
     )
     if (!parsed.hasQuery) {
+      setData(initialData)
+      setIsLoading(false)
+      setError(null)
       return
     }
     void load(parsed.page, parsed.limit, { ...parsed.filters, locale })
-  }, [locale, load, initialData.pagination.page, initialData.pagination.limit])
+  }, [initialData, locale, load])
+
+  // SSR the catalog markup; sync query after paint and on Back/Forward (popstate).
+  useEffect(() => {
+    syncFromLocation()
+    const onPopState = () => {
+      syncFromLocation()
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [syncFromLocation])
 
   const pushQuery = (
     page: number,
