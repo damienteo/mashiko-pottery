@@ -75,6 +75,7 @@ describe('FeaturedCollections', () => {
     expect(
       screen.getByRole('link', { name: 'featured.viewAll' })
     ).toHaveAttribute('href', '/en/products')
+    expect(screen.getByText('featured.empty')).toHaveClass('min-h-64')
   })
 
   it('renders compact cards with image, title, and price but not the description', async () => {
@@ -91,5 +92,10 @@ describe('FeaturedCollections', () => {
       '/en/products/42'
     )
     expect(screen.queryByText('featured.empty')).not.toBeInTheDocument()
+    const grid = screen
+      .getByText('Shino bowl')
+      .closest('article')?.parentElement
+    expect(grid).toHaveClass('grid-cols-1', 'sm:grid-cols-3')
+    expect(grid).not.toHaveClass('sm:grid-cols-2')
   })
 })

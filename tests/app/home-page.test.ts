@@ -28,7 +28,7 @@ describe('Home page catalog fetch', () => {
     expect(page).toMatch(/emptyProductList/)
     expect(page).toMatch(/getCachedPotterList/)
     expect(page).toMatch(/featuredProducts=\{products\.products\}/)
-    expect(page).toMatch(/const productQuery = \{ page: 1, limit: 6 \}/)
+    expect(page).toMatch(/const productQuery = \{ page: 1, limit: 3 \}/)
     expect(page).not.toMatch(/active:\s*true/)
     expect(productsPage).toMatch(/const query = \{ page: 1, limit: 10 \}/)
     expect(productsPage).not.toMatch(/active:\s*true/)
