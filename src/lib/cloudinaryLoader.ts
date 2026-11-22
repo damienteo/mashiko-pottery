@@ -1,9 +1,9 @@
 import type { ImageLoaderProps } from 'next/image'
 
 /**
- * Global next/image loader. Cloudinary URLs get f_auto/q_auto/w_ on
- * Cloudinary so they skip Vercel Image Optimization. Local and other
- * URLs are returned unchanged.
+ * next/image loader for Cloudinary URLs only (wired from SmartImage).
+ * Local files must keep the default optimiser; this function returns
+ * them unchanged if it is ever called with a non-Cloudinary src.
  */
 export default function cloudinaryLoader({
   src,
