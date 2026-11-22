@@ -5,16 +5,19 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import dynamic from 'next/dynamic'
+import { Inter, Playfair_Display } from 'next/font/google'
 
 import Analytics from './ClientAnalytics'
 import StoreProvider from './StoreProvider'
-import AuthLoader from '@/components/auth/AuthLoader'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { ToasterContainer } from '@/components/ui/Toast'
 import './globals.css'
 
-import { Inter, Playfair_Display } from 'next/font/google'
+const AuthLoader = dynamic(() => import('@/components/auth/AuthLoader'))
+const ToasterContainer = dynamic(() =>
+  import('@/components/ui/Toast').then((mod) => mod.ToasterContainer)
+)
 
 const inter = Inter({
   subsets: ['latin'],

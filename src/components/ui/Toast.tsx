@@ -1,4 +1,5 @@
-// components/ui/Toast.tsx
+'use client'
+
 import { toast, Toaster, ToastOptions } from 'react-hot-toast'
 
 export function ToasterContainer() {

@@ -1,11 +1,9 @@
-'use client'
 import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
-import React from 'react'
+import { getLocale, getTranslations } from 'next-intl/server'
 
-export default function Footer() {
-  const t = useTranslations()
-  const locale = useLocale()
+export default async function Footer() {
+  const t = await getTranslations()
+  const locale = await getLocale()
 
   return (
     <footer className="bg-white py-6 px-4">
