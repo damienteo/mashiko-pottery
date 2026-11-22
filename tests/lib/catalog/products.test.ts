@@ -14,7 +14,7 @@ jest.mock('next/cache', () => ({
   unstable_cache: <T extends (...args: never[]) => unknown>(fn: T) => fn,
 }))
 
-import { listProducts } from './products'
+import { listProducts } from '@/lib/catalog/products'
 
 function lastWhere() {
   return productFindMany.mock.calls[0][0] as {

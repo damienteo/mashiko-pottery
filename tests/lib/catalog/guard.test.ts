@@ -1,4 +1,4 @@
-import { catalogForStaticPage } from './guard'
+import { catalogForStaticPage } from '@/lib/catalog/guard'
 
 const connection = jest.fn(async () => undefined)
 

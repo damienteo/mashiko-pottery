@@ -14,7 +14,7 @@ jest.mock('next/cache', () => ({
   unstable_cache: <T extends (...args: never[]) => unknown>(fn: T) => fn,
 }))
 
-import { listPotters } from './potters'
+import { listPotters } from '@/lib/catalog/potters'
 
 function lastArgs() {
   return potterFindMany.mock.calls[0][0] as {
