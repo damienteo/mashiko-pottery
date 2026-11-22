@@ -22,11 +22,17 @@ describe('catalogForStaticPage', () => {
 
   it('returns fallback during next build when the catalog load fails', async () => {
     process.env.NEXT_PHASE = 'phase-production-build'
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
     const value = await catalogForStaticPage(async () => {
       throw new Error('db down')
     }, 'fallback')
     expect(value).toBe('fallback')
     expect(connection).toHaveBeenCalled()
+    expect(warn).toHaveBeenCalledWith(
+      '[catalog] DB unavailable during next build; opting out of static generation',
+      expect.any(Error)
+    )
+    warn.mockRestore()
   })
 
   it('rethrows at runtime so ISR can keep the last good page', async () => {

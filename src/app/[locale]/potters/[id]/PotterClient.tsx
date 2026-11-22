@@ -19,11 +19,13 @@ import {
 import {
   hydrateProductsList,
   selectAllProducts,
+  selectProductsListError,
+  selectProductsListFilters,
   selectProductsListIsLoading,
   selectProductsListIsSuccess,
-  selectProductsListError,
   selectProductsListPagination,
 } from '@/store/products/productsListSlice'
+import { pickById, pickScopedProductList } from '@/lib/catalog/pickCached'
 import { fetchProductsList } from '@/store/thunks/fetchProductsList'
 import type { Locale } from '@/types/i18n'
 import type { ProductFilters } from '@/types/common'
@@ -53,20 +55,23 @@ export default function PotterClient({
   const productsSuccess = useAppSelector(selectProductsListIsSuccess)
   const productsError = useAppSelector(selectProductsListError)
   const storePagination = useAppSelector(selectProductsListPagination)
+  const storeFilters = useAppSelector(selectProductsListFilters)
 
-  const potter =
-    storePotter && String(storePotter.id) === id
-      ? storePotter
-      : initialPotter && String(initialPotter.id) === id
-        ? initialPotter
-        : storePotter
-  const allProducts =
-    storeProducts.length > 0
-      ? storeProducts
-      : (initialProductList?.products ?? [])
-  const pagination = storePagination.total
-    ? storePagination
-    : (initialProductList?.pagination ?? storePagination)
+  const numericId = Number(id)
+  const potter = pickById(storePotter, initialPotter, numericId)
+  const productList = pickScopedProductList({
+    store: {
+      products: storeProducts,
+      filters: storeFilters,
+      pagination: storePagination,
+    },
+    initial: initialProductList,
+    expectedPotterId: Number.isNaN(numericId) ? null : numericId,
+    storeReady: productsSuccess || productsLoading,
+  })
+  const allProducts = productList?.products ?? []
+  const pagination =
+    productList?.pagination ?? initialProductList?.pagination ?? storePagination
 
   // Local toolbar state (no potterId shown; it is always forced in the query)
   const defaultFilters = useMemo<ProductFilters>(

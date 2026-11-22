@@ -53,6 +53,12 @@ export async function catalogForStaticPage<T>(
     if (!isProductionBuild()) {
       throw error
     }
+    console.warn(
+      '[catalog] DB unavailable during next build; opting out of static generation',
+      error
+    )
+    // Fallback is returned only after connection() resolves, which tells Next
+    // to render this page per-request instead of writing empty static HTML.
     await deferCatalogToRequest()
     return fallback
   }

@@ -27,15 +27,17 @@ import {
 } from '@/store/potters/potterDetailsSlice'
 import { fetchProductsList } from '@/store/thunks/fetchProductsList'
 import {
-  hydrateProductsList,
   selectAllProducts,
+  selectProductsListError,
+  selectProductsListFilters,
   selectProductsListIsLoading,
   selectProductsListIsSuccess,
-  selectProductsListError,
+  selectProductsListPagination,
 } from '@/store/products/productsListSlice'
 import type { Product } from '@/types/product'
 import type { Potter } from '@/types/potter'
 import type { ProductListResult } from '@/lib/catalog/products'
+import { pickById, pickScopedProductList } from '@/lib/catalog/pickCached'
 
 export default function ProductClient({
   initialProduct = null,
@@ -64,30 +66,40 @@ export default function ProductClient({
   const listIsLoading = useAppSelector(selectProductsListIsLoading)
   const listIsSuccess = useAppSelector(selectProductsListIsSuccess)
   const listError = useAppSelector(selectProductsListError)
+  const storeFilters = useAppSelector(selectProductsListFilters)
+  const storePagination = useAppSelector(selectProductsListPagination)
 
   const numericId = Number(id)
-  const product =
-    storeProduct?.id === numericId
-      ? storeProduct
-      : initialProduct?.id === numericId
-        ? initialProduct
-        : storeProduct
-  const potter = storePotter ?? initialPotter
-  const allProducts =
-    storeProducts.length > 0
-      ? storeProducts
-      : (initialProductList?.products ?? [])
+  const product = pickById(storeProduct, initialProduct, numericId)
+  const potter = pickById(
+    storePotter,
+    initialPotter,
+    product?.potterId ?? initialPotter?.id ?? null
+  )
+  const relatedList = pickScopedProductList({
+    store: {
+      products: storeProducts,
+      filters: storeFilters,
+      pagination: storePagination,
+    },
+    initial: initialProductList,
+    expectedPotterId: product?.potterId ?? null,
+    storeReady: listIsSuccess || listIsLoading,
+  })
+  const allProducts = relatedList?.products ?? []
 
   useEffect(() => {
     if (initialProduct && initialProduct.id === numericId) {
       dispatch(hydrateProductDetails(initialProduct))
     }
-    if (initialPotter) {
+    if (
+      initialPotter &&
+      (product == null || initialPotter.id === product.potterId)
+    ) {
       dispatch(hydratePotterDetails(initialPotter))
     }
-    if (initialProductList) {
-      dispatch(hydrateProductsList(initialProductList))
-    }
+    // Related products stay in initialProductList so they do not overwrite
+    // the catalog productsList singleton used by /products.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
@@ -117,7 +129,7 @@ export default function ProductClient({
       !potterIsSuccess &&
       !potterError // prevent continuous retries after a failure
     ) {
-      dispatch(fetchPotterDetails(String(product.potterId)))
+      void dispatch(fetchPotterDetails(String(product.potterId)))
     }
   }, [
     dispatch,
@@ -129,6 +141,7 @@ export default function ProductClient({
   ])
 
   useEffect(() => {
+    if (initialProductList) return
     if (
       isSuccess &&
       product?.potterId &&
@@ -136,7 +149,7 @@ export default function ProductClient({
       !listIsSuccess &&
       !listError // prevent continuous retries after a failure
     ) {
-      dispatch(
+      void dispatch(
         fetchProductsList({
           filters: { potterId: product.potterId },
           limit: 50,
@@ -146,6 +159,7 @@ export default function ProductClient({
     }
   }, [
     dispatch,
+    initialProductList,
     isSuccess,
     product?.potterId, // depend on the id, not the whole product object
     listIsLoading,

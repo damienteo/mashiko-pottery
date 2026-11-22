@@ -3,6 +3,7 @@ import createMiddleware from 'next-intl/middleware'
 
 import { routing } from './i18n/routing'
 import { updateSession } from './lib/supabase/middleware'
+import { copyCookies } from './lib/supabase/cookies'
 import { isSessionRequiredPath } from './lib/i18n/path'
 
 const LOCALE_MAP: Record<string, string> = {
@@ -52,10 +53,7 @@ export default async function proxy(request: NextRequest) {
   }
 
   const intlResponse = applyIntl(request)
-  authResponse.cookies.getAll().forEach((cookie) => {
-    intlResponse.cookies.set(cookie)
-  })
-  return intlResponse
+  return copyCookies(authResponse, intlResponse)
 }
 
 export const config = {

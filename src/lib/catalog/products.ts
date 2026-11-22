@@ -222,26 +222,6 @@ export async function listProductIds(): Promise<number[]> {
   return rows.map((row) => row.id)
 }
 
-export async function safeListProducts(
-  query: ProductListQuery = {}
-): Promise<ProductListResult> {
-  try {
-    return await withCatalogGuard(() => listProducts(query))
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return emptyProductList(query)
-  }
-}
-
-export async function safeGetProductById(id: number): Promise<Product | null> {
-  try {
-    return await withCatalogGuard(() => getProductById(id))
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return null
-  }
-}
-
 export async function safeListProductIds(): Promise<number[]> {
   try {
     return await withCatalogGuard(() => listProductIds())
@@ -265,27 +245,3 @@ export const getCachedProductById = unstable_cache(
   ['public-product-by-id'],
   { revalidate: 60 }
 )
-
-export async function safeCachedProductList(
-  query: ProductListQuery = {}
-): Promise<ProductListResult> {
-  try {
-    return await withCatalogGuard(() =>
-      getCachedProductList(JSON.stringify(query))
-    )
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return emptyProductList(query)
-  }
-}
-
-export async function safeCachedProductById(
-  id: number
-): Promise<Product | null> {
-  try {
-    return await withCatalogGuard(() => getCachedProductById(id))
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return null
-  }
-}

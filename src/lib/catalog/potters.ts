@@ -126,26 +126,6 @@ export async function listPotterIds(): Promise<number[]> {
   return rows.map((row) => row.id)
 }
 
-export async function safeListPotters(
-  query: PotterListQuery = {}
-): Promise<PotterListResult> {
-  try {
-    return await withCatalogGuard(() => listPotters(query))
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return emptyPotterList(query)
-  }
-}
-
-export async function safeGetPotterById(id: number): Promise<Potter | null> {
-  try {
-    return await withCatalogGuard(() => getPotterById(id))
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return null
-  }
-}
-
 export async function safeListPotterIds(): Promise<number[]> {
   try {
     return await withCatalogGuard(() => listPotterIds())
@@ -169,25 +149,3 @@ export const getCachedPotterById = unstable_cache(
   ['public-potter-by-id'],
   { revalidate: 60 }
 )
-
-export async function safeCachedPotterList(
-  query: PotterListQuery = {}
-): Promise<PotterListResult> {
-  try {
-    return await withCatalogGuard(() =>
-      getCachedPotterList(JSON.stringify(query))
-    )
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return emptyPotterList(query)
-  }
-}
-
-export async function safeCachedPotterById(id: number): Promise<Potter | null> {
-  try {
-    return await withCatalogGuard(() => getCachedPotterById(id))
-  } catch (error) {
-    if (!isProductionBuild()) throw error
-    return null
-  }
-}

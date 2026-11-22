@@ -1,7 +1,11 @@
 import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
-import { catalogForStaticPage, withCatalogGuard } from '@/lib/catalog/guard'
+import {
+  catalogForStaticPage,
+  isProductionBuild,
+  withCatalogGuard,
+} from '@/lib/catalog/guard'
 import {
   emptyProductList,
   getCachedProductById,
@@ -35,7 +39,10 @@ export async function generateMetadata({
   let product
   try {
     product = await withCatalogGuard(() => getCachedProductById(idNum))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) {
+      throw error
+    }
     return { title: 'Mashiko Pottery' }
   }
   if (!product) {

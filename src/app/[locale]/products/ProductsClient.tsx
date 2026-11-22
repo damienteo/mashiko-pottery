@@ -25,6 +25,7 @@ import { fetchProductsList } from '@/store/thunks/fetchProductsList'
 import type { ProductFilters } from '@/types/common'
 import type { Locale } from '@/types/i18n'
 import type { ProductListResult } from '@/lib/catalog/products'
+import { pickScopedProductList } from '@/lib/catalog/pickCached'
 
 type PushQueryParams = Partial<ProductFilters> & {
   page?: number
@@ -51,10 +52,19 @@ export default function ProductsClient({
   const storeFilters = useAppSelector(selectProductsListFilters)
   const storePagination = useAppSelector(selectProductsListPagination)
 
-  const useStore = isSuccess || isLoading
-  const products = useStore ? storeProducts : initialData.products
-  const filters = useStore ? storeFilters : initialData.filters
-  const pagination = useStore ? storePagination : initialData.pagination
+  const scoped = pickScopedProductList({
+    store: {
+      products: storeProducts,
+      filters: storeFilters,
+      pagination: storePagination,
+    },
+    initial: initialData,
+    expectedPotterId: initialData.filters.potterId ?? null,
+    storeReady: isSuccess || isLoading,
+  })
+  const products = scoped?.products ?? initialData.products
+  const filters = scoped?.filters ?? initialData.filters
+  const pagination = scoped?.pagination ?? initialData.pagination
 
   const pushQuery = (q: PushQueryParams) => {
     const params = new URLSearchParams()
