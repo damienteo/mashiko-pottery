@@ -1,7 +1,7 @@
 import cloudinaryLoader from '@/lib/cloudinaryLoader'
 
 describe('cloudinaryLoader', () => {
-  it('leaves local paths unchanged so next/image can optimize them', () => {
+  it('leaves local paths unchanged for the custom loader', () => {
     expect(
       cloudinaryLoader({
         src: '/home/hero-banner.webp',

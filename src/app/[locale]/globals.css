@@ -2,8 +2,10 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Font variables injected via next/font; no theme() calls here to avoid compile hangs */
-  /* --font-inter and --font-playfair are provided by Next.js font loader */
+  /* next/font sets --font-inter and --font-playfair on <html>. Locale CJK
+     fallbacks are applied below so ja/zh never download Noto woff2 files. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
 
   /* Colors, radii, shadows… feel free to add more */
   --color-bg: theme('colors.gray.50');
@@ -14,12 +16,30 @@
 /* 3) Wire them up at the root: */
 @layer base {
   html {
-    /* The next/font loader will override --font-inter for you */
-    font-family: var(--font-inter);
+    --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
+    font-family: var(--font-sans);
     background-color: var(--color-bg);
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Inter covers Latin; system UI fonts cover CJK immediately (no web font). */
+  html[lang='ja'] {
+    --font-sans:
+      var(--font-inter), 'Hiragino Sans', 'Hiragino Kaku Gothic ProN',
+      'Yu Gothic', Meiryo, 'Noto Sans CJK JP', 'Noto Sans JP', sans-serif;
+    --font-serif:
+      var(--font-playfair), 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  }
+
+  html[lang='zh'] {
+    --font-sans:
+      var(--font-inter), 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+      'Noto Sans SC', 'Noto Sans CJK SC', 'Noto Sans CJK TC', sans-serif;
+    --font-serif:
+      var(--font-playfair), 'Songti SC', STSong, 'Noto Serif SC', serif;
   }
 
   h1,
@@ -28,11 +48,11 @@
   h4,
   h5,
   h6 {
-    font-family: var(--font-playfair);
+    font-family: var(--font-serif);
   }
 
   blockquote {
-    font-family: var(--font-playfair);
+    font-family: var(--font-serif);
     font-style: italic;
     border-left: 4px solid var(--color-primary);
     padding-left: 1em;

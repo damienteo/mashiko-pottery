@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
-import { setRequestLocale } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import {
   catalogForStaticPage,
+  catalogForStaticPageWithBuildFallback,
   isProductionBuild,
   withCatalogGuard,
 } from '@/lib/catalog/guard'
@@ -14,7 +16,10 @@ import {
 } from '@/lib/catalog/products'
 import { getCachedPotterById } from '@/lib/catalog/potters'
 import { localizedText } from '@/lib/catalog/serialize'
-import ProductClient from './ProductClient'
+import { pickRelatedProducts } from '@/lib/catalog/relatedProducts'
+import ProductDetails from '@/components/products/ProductDetails'
+import ViewItemBeacon from '@/components/analytics/ViewItemBeacon'
+import type { Locale } from '@/types/i18n'
 
 export const revalidate = 60
 
@@ -74,10 +79,15 @@ export default async function ProductPage({
 }) {
   const { locale, id } = await params
   setRequestLocale(locale)
+  const typedLocale = locale as Locale
   const idNum = Number(id)
-  const product = Number.isNaN(idNum)
-    ? null
-    : await catalogForStaticPage(() => getCachedProductById(idNum), null)
+  if (Number.isNaN(idNum)) notFound()
+
+  const { value: product, buildFallback: productBuildFallback } =
+    await catalogForStaticPageWithBuildFallback(
+      () => getCachedProductById(idNum),
+      null
+    )
   const potter =
     product?.potterId != null
       ? await catalogForStaticPage(
@@ -104,11 +114,32 @@ export default async function ProductPage({
         )
       : null
 
+  if (!product) {
+    if (productBuildFallback) {
+      const tCommon = await getTranslations('common')
+      return <p className="p-8 text-gray-500">{tCommon('loading')}</p>
+    }
+    notFound()
+  }
+
+  const relatedProducts = pickRelatedProducts(
+    related?.products ?? [],
+    product.id
+  )
+
   return (
-    <ProductClient
-      initialProduct={product}
-      initialPotter={potter}
-      initialProductList={related}
-    />
+    <>
+      <ViewItemBeacon
+        id={product.id}
+        title={product.title[typedLocale]}
+        price={product.price}
+      />
+      <ProductDetails
+        product={product}
+        locale={typedLocale}
+        potter={potter}
+        relatedProducts={relatedProducts}
+      />
+    </>
   )
 }

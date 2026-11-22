@@ -43,12 +43,17 @@ export async function deferCatalogToRequest(): Promise<void> {
   await connection()
 }
 
-export async function catalogForStaticPage<T>(
+export type CatalogStaticPageResult<T> = {
+  value: T
+  buildFallback: boolean
+}
+
+async function catalogForStaticPageInner<T>(
   load: () => Promise<T>,
   fallback: T
-): Promise<T> {
+): Promise<CatalogStaticPageResult<T>> {
   try {
-    return await withCatalogGuard(load)
+    return { value: await withCatalogGuard(load), buildFallback: false }
   } catch (error) {
     if (!isProductionBuild()) {
       throw error
@@ -60,6 +65,21 @@ export async function catalogForStaticPage<T>(
     // Fallback is returned only after connection() resolves, which tells Next
     // to render this page per-request instead of writing empty static HTML.
     await deferCatalogToRequest()
-    return fallback
+    return { value: fallback, buildFallback: true }
   }
+}
+
+export async function catalogForStaticPage<T>(
+  load: () => Promise<T>,
+  fallback: T
+): Promise<T> {
+  const { value } = await catalogForStaticPageInner(load, fallback)
+  return value
+}
+
+export async function catalogForStaticPageWithBuildFallback<T>(
+  load: () => Promise<T>,
+  fallback: T
+): Promise<CatalogStaticPageResult<T>> {
+  return catalogForStaticPageInner(load, fallback)
 }

@@ -1,4 +1,7 @@
-import { catalogForStaticPage } from '@/lib/catalog/guard'
+import {
+  catalogForStaticPage,
+  catalogForStaticPageWithBuildFallback,
+} from '@/lib/catalog/guard'
 
 const connection = jest.fn(async () => undefined)
 
@@ -43,5 +46,20 @@ describe('catalogForStaticPage', () => {
       }, 'fallback')
     ).rejects.toThrow('db down')
     expect(connection).not.toHaveBeenCalled()
+  })
+
+  it('exposes buildFallback only on the catalog load that failed', async () => {
+    process.env.NEXT_PHASE = 'phase-production-build'
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => undefined)
+    const result = await catalogForStaticPageWithBuildFallback(async () => {
+      throw new Error('db down')
+    }, null)
+    expect(result).toEqual({ value: null, buildFallback: true })
+    const ok = await catalogForStaticPageWithBuildFallback(
+      async () => 'ok',
+      'x'
+    )
+    expect(ok).toEqual({ value: 'ok', buildFallback: false })
+    warn.mockRestore()
   })
 })

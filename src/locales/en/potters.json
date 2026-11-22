@@ -2,5 +2,6 @@
   "title": "Potters",
   "spotlightTitle": "Potter Spotlights",
   "exploreAll": "Explore All Potters",
-  "loading": "Loading…"
+  "loading": "Loading…",
+  "empty": "No potters found."
 }

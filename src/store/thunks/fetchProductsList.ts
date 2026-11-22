@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { toProductListQueryString } from '@/lib/catalog/productListQuery'
 import type { Product } from '@/types/product'
 import type { ProductFilters, Pagination } from '@/types/common'
 
@@ -21,29 +22,6 @@ export type FetchProductsArgs = {
   }
 }
 
-const toQuery = (args: FetchProductsArgs) => {
-  const params = new URLSearchParams()
-
-  if (typeof args.page === 'number') params.set('page', String(args.page))
-  if (typeof args.limit === 'number') params.set('limit', String(args.limit))
-
-  const f = args.filters ?? {}
-  // Prefer `q` (canonical). Fallback to legacy `name`.
-  const qValue =
-    (typeof f.q === 'string' ? f.q : undefined) ??
-    (typeof f.name === 'string' ? f.name : undefined)
-  if (qValue) params.set('q', String(qValue))
-  if (f.category) params.set('category', String(f.category))
-  if (f.style) params.set('style', String(f.style))
-  if (typeof f.active === 'boolean') params.set('active', String(f.active))
-  if (typeof f.priceMin === 'number') params.set('priceMin', String(f.priceMin))
-  if (typeof f.priceMax === 'number') params.set('priceMax', String(f.priceMax))
-  if (typeof f.potterId === 'number') params.set('potterId', String(f.potterId))
-  if (f.locale) params.set('locale', String(f.locale))
-
-  return params.toString()
-}
-
 export const fetchProductsList = createAsyncThunk<
   {
     products: Product[]
@@ -52,7 +30,7 @@ export const fetchProductsList = createAsyncThunk<
   },
   FetchProductsArgs | undefined
 >('productsList/fetchAll', async (args = {}, { rejectWithValue }) => {
-  const qs = toQuery(args)
+  const qs = toProductListQueryString(args)
   const res = await fetch(`/api/products${qs ? `?${qs}` : ''}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
@@ -99,6 +77,5 @@ export const fetchProductsList = createAsyncThunk<
     totalPages: Number(json.pagination?.totalPages ?? 0),
     append: args.append,
   }
-  console.log({ filters })
   return { products, filters, pagination }
 })

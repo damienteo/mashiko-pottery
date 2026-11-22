@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import type { User, Credentials } from '@/types/user'
-import { supabase } from '@/lib/supabase/client'
+
+async function supabaseClient() {
+  const { supabase } = await import('@/lib/supabase/client')
+  return supabase
+}
 
 interface AuthState {
   user: User | null
@@ -21,6 +25,7 @@ const initialState: AuthState = {
 export const signUpWithOtp = createAsyncThunk<void, string>(
   'auth/signUpWithOtp',
   async (email, { rejectWithValue }) => {
+    const supabase = await supabaseClient()
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -42,6 +47,7 @@ export const signInWithPasswordOrOtp = createAsyncThunk<
 >(
   'auth/signInWithPasswordOrOtp',
   async ({ email, password, callback }, { rejectWithValue }) => {
+    const supabase = await supabaseClient()
     const { data, error } = password
       ? await supabase.auth.signInWithPassword({ email, password })
       : await supabase.auth.signInWithOtp({
@@ -67,6 +73,7 @@ export const verifyEmailOtp = createAsyncThunk<
   User,
   { email: string; token: string }
 >('auth/verifyEmailOtp', async ({ email, token }, { rejectWithValue }) => {
+  const supabase = await supabaseClient()
   const { data, error } = await supabase.auth.verifyOtp({
     email,
     token,
@@ -87,6 +94,7 @@ export const verifyEmailOtp = createAsyncThunk<
 export const logoutUser = createAsyncThunk<void>(
   'auth/logoutUser',
   async (_, { rejectWithValue }) => {
+    const supabase = await supabaseClient()
     const { error } = await supabase.auth.signOut()
     if (error) return rejectWithValue(error.message)
   }
@@ -95,6 +103,7 @@ export const logoutUser = createAsyncThunk<void>(
 export const fetchSupabaseUser = createAsyncThunk<User | null>(
   'auth/fetchSupabaseUser',
   async () => {
+    const supabase = await supabaseClient()
     const { data: sessionData, error: sessionError } =
       await supabase.auth.getSession()
 

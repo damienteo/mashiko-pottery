@@ -1,5 +1,3 @@
-'use client'
-
 import SmartImage from '@/components/ui/SmartImage'
 import Link from 'next/link'
 // import { useTranslations } from "next-intl";

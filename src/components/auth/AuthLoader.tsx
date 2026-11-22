@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { fetchSupabaseUser, selectCurrentUser } from '@/store/user/authSlice'
-import { supabase } from '@/lib/supabase/client'
 import { fetchUserProfile } from '@/store/user/userSlice'
 
 export default function AuthLoader() {
@@ -29,12 +28,21 @@ export default function AuthLoader() {
   // Subscribe to auth state changes
   // This will ensure the user state across tabs is updated on login/logout
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      dispatch(fetchSupabaseUser())
+    let active = true
+    let unsubscribe: (() => void) | undefined
+    void import('@/lib/supabase/client').then(({ supabase }) => {
+      if (!active) return
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange(() => {
+        dispatch(fetchSupabaseUser())
+      })
+      unsubscribe = () => subscription.unsubscribe()
     })
-    return () => subscription.unsubscribe()
+    return () => {
+      active = false
+      unsubscribe?.()
+    }
   }, [dispatch])
 
   return null

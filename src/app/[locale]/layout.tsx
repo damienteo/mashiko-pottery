@@ -5,21 +5,19 @@ import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import dynamic from 'next/dynamic'
+import { Inter, Playfair_Display } from 'next/font/google'
 
 import Analytics from './ClientAnalytics'
 import StoreProvider from './StoreProvider'
-import AuthLoader from '@/components/auth/AuthLoader'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
-import { ToasterContainer } from '@/components/ui/Toast'
 import './globals.css'
 
-import {
-  Inter,
-  Playfair_Display,
-  Noto_Sans_JP,
-  Noto_Serif_SC,
-} from 'next/font/google'
+const AuthLoader = dynamic(() => import('@/components/auth/AuthLoader'))
+const ToasterContainer = dynamic(() =>
+  import('@/components/ui/Toast').then((mod) => mod.ToasterContainer)
+)
 
 const inter = Inter({
   subsets: ['latin'],
@@ -30,20 +28,6 @@ const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   display: 'swap',
-})
-const notoSansJP = Noto_Sans_JP({
-  subsets: ['latin'],
-  weight: 'variable',
-  variable: '--font-inter',
-  display: 'swap',
-  preload: false,
-})
-const notoSerifSC = Noto_Serif_SC({
-  subsets: ['latin'],
-  weight: 'variable',
-  variable: '--font-inter',
-  display: 'swap',
-  preload: false,
 })
 
 export function generateStaticParams() {
@@ -88,17 +72,13 @@ export default async function RootLayout({
   }
   setRequestLocale(locale)
 
-  const bodyFont =
-    locale === 'ja'
-      ? notoSansJP.variable
-      : locale === 'zh'
-        ? notoSerifSC.variable
-        : inter.variable
-
+  // Latin only: CJK glyphs use the locale system stacks in globals.css.
+  // Instantiating Noto here would emit every unicode-range @font-face on
+  // every locale, including the unused family's CSS.
   return (
     <html
       lang={locale}
-      className={`${bodyFont} ${playfair.variable} antialiased`}
+      className={`${inter.variable} ${playfair.variable} antialiased`}
     >
       <body className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <NextIntlClientProvider>

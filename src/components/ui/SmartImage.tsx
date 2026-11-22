@@ -7,11 +7,20 @@ function isCloudinarySrc(src: ImageProps['src']): boolean {
   return typeof src === 'string' && src.includes('res.cloudinary.com')
 }
 
+function isUnoptimizedSrc(src: ImageProps['src']): boolean {
+  return typeof src === 'string' && /^(data:|blob:)/.test(src)
+}
+
 /**
- * `next/image` wrapper. Cloudinary URLs use the custom loader (function stays
- * in this Client Component). Local files use the default optimizer.
+ * Local files use Next's default `/_next/image` optimiser. Cloudinary URLs
+ * use `cloudinaryLoader` inside this client module so a loader function is
+ * never passed across the server/client boundary.
  */
 export default function SmartImage({ alt, src, ...props }: ImageProps) {
+  if (isUnoptimizedSrc(src)) {
+    return <Image {...props} src={src} alt={alt} unoptimized />
+  }
+
   return (
     <Image
       {...props}
