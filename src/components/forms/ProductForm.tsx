@@ -151,7 +151,6 @@ export default function ProductForm({
     formState: { errors, isSubmitting },
     reset,
   } = useForm<UnifiedFormValues>({
-    // @ts-expect-error — dynamic schema typing with yup.lazy() isn't fully resolved
     resolver: yupResolver(schema),
     defaultValues: initialValues,
   });

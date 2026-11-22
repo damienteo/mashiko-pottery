@@ -10,7 +10,7 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!routing.locales.includes(locale as "en" | "ja" | "zh")) notFound();

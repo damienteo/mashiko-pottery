@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient, Prisma } from "@/generated/prisma/client";
 
 import { prisma } from "@/lib/prisma";
 import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";

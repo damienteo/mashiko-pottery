@@ -1,7 +1,9 @@
 import { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-const nextConfig: NextConfig = { images: {
+const nextConfig: NextConfig = {
+  agentRules: false,
+  images: {
     remotePatterns: [
       {
         protocol: 'https',
@@ -9,7 +11,8 @@ const nextConfig: NextConfig = { images: {
         pathname: `/${process.env.CLOUDINARY_CLOUD_NAME}/**`
       }
     ]
-  },};
+  },
+};
 
 // ✅ Log APP_ENV during build
 console.log(

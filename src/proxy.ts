@@ -20,7 +20,7 @@ function normalizeLocale(locale: string): "en" | "ja" | "zh" {
 
 const supportedLocales = routing.locales;
 
-export default async function middleware(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
   const requestWithAuth = await updateSession(request);
 
   const acceptLang = requestWithAuth.headers.get("accept-language");

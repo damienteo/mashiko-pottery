@@ -41,5 +41,8 @@ yarn-error.log*
 next-env.d.ts
 .env
 
+# prisma generated client
+/src/generated
+
 #misc files
 /backup
