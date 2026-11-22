@@ -166,14 +166,14 @@ Admin, seller, login, register, and profile stay `force-dynamic`. Those trees us
 ### Fonts
 
 - Merriweather is gone. Blockquotes, if any appear later, use Playfair.
-- Inter and Playfair stay as the heading/English stack. Only the locale's body family is applied: Inter on English, Noto Sans JP (`400`/`700`, `preload: false`) on Japanese, Noto Serif SC (same) on Chinese. Playfair stays for headings. Variable Noto files were avoided because they are huge at build time.
+- Inter and Playfair are variable fonts. Only the locale's body family is applied: Inter on English, Noto Sans JP (`weight: 'variable'`, `preload: false`) on Japanese, Noto Serif SC (same) on Chinese. Playfair stays for headings.
 - English pages should not download Noto woff2 files. The language toggle still uses the browser CJK fallback for 「日本語」.
 
 ### Images and static files
 
 - Hero is `public/home/hero-banner.webp` (about 114 KB on disk, `sizes="100vw"`, reserved `h-64 md:h-96`).
 - Deleted unreferenced `public/potters/*.png` and unused pottery mock PNGs. `public/` is about **11 MB**.
-- `SmartImage` sends Cloudinary URLs through `cloudinaryLoader`. Local files still use the default optimizer.
+- `next.config.ts` uses a global custom image loader (`src/lib/cloudinaryLoader.ts`). Cloudinary URLs get `f_auto,q_auto,w_` on Cloudinary; local files are returned unchanged. `SmartImage` does not pass a `loader` function into `next/image` (that breaks RSC prerender).
 - Only the first potter card is `priority`. Shipping-guarantee SVG is not.
 
 ### Home is mostly RSC

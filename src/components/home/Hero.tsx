@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Image from 'next/image'
+import SmartImage from '@/components/ui/SmartImage'
 import { getLocale, getTranslations } from 'next-intl/server'
 
 export default async function Hero() {
@@ -9,7 +9,7 @@ export default async function Hero() {
   return (
     <section className="relative bg-gray-100">
       <div className="w-full h-64 md:h-96 relative">
-        <Image
+        <SmartImage
           src="/home/hero-banner.webp"
           alt={t('home.tagline')}
           fill
