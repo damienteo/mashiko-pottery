@@ -1,25 +1,25 @@
-"use client";
+'use client'
 
-import React from "react";
-import { Controller, Control } from "react-hook-form";
-import { Path } from "react-hook-form";
-import type { InitialConfigType } from "@lexical/react/LexicalComposer";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
-import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
-import { $generateHtmlFromNodes } from "@lexical/html";
-import { deserializeHtmlToEditor } from "@/lib/lexical/deserializeHtmlToEditor";
+import React from 'react'
+import { Controller, Control } from 'react-hook-form'
+import { Path } from 'react-hook-form'
+import type { InitialConfigType } from '@lexical/react/LexicalComposer'
+import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
+import { $generateHtmlFromNodes } from '@lexical/html'
+import { deserializeHtmlToEditor } from '@/lib/lexical/deserializeHtmlToEditor'
 
 interface RichTextFieldProps<T extends Record<string, unknown>> {
-  control: Control<T>;
-  name: Path<T>;
-  label: string;
-  error?: string;
-  defaultValue?: string;
-  editorConfig: InitialConfigType;
+  control: Control<T>
+  name: Path<T>
+  label: string
+  error?: string
+  defaultValue?: string
+  editorConfig: InitialConfigType
 }
 
 // TODO: Need to show iframe and update toolbar
@@ -43,11 +43,11 @@ export default function RichTextField<T extends Record<string, unknown>>({
             initialConfig={{
               ...editorConfig,
               editorState: (editor) => {
-                const html = String(field.value || "");
+                const html = String(field.value || '')
                 if (html) {
-                  deserializeHtmlToEditor(html, editor);
+                  deserializeHtmlToEditor(html, editor)
                 }
-                return editor.getEditorState();
+                return editor.getEditorState()
               },
             }}
           >
@@ -62,9 +62,9 @@ export default function RichTextField<T extends Record<string, unknown>>({
             <OnChangePlugin
               onChange={(editorState, editor) => {
                 editorState.read(() => {
-                  const html = $generateHtmlFromNodes(editor, undefined);
-                  field.onChange(html);
-                });
+                  const html = $generateHtmlFromNodes(editor, undefined)
+                  field.onChange(html)
+                })
               }}
             />
           </LexicalComposer>
@@ -72,5 +72,5 @@ export default function RichTextField<T extends Record<string, unknown>>({
         </div>
       )}
     />
-  );
+  )
 }

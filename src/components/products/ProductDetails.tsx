@@ -1,28 +1,28 @@
-"use client";
+'use client'
 
-import { useMemo } from "react";
-import SmartImage from "@/components/ui/SmartImage";
-import Link from "next/link";
+import { useMemo } from 'react'
+import SmartImage from '@/components/ui/SmartImage'
+import Link from 'next/link'
 
-import type { Product } from "@/types/product";
-import type { Locale } from "@/types/i18n";
-import type { Potter } from "@/types/potter";
-import { formatYen } from "@/utils/format";
-import { useTranslations } from "next-intl";
-import Gallery from "@/components/ui/Gallery";
+import type { Product } from '@/types/product'
+import type { Locale } from '@/types/i18n'
+import type { Potter } from '@/types/potter'
+import { formatYen } from '@/utils/format'
+import { useTranslations } from 'next-intl'
+import Gallery from '@/components/ui/Gallery'
 
 const formatNum = (n: number, locale: Locale) =>
-  new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n);
+  new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n)
 
 const compactNumber = (n?: number) =>
-  Number.isFinite(n) ? (n as number) : undefined;
+  Number.isFinite(n) ? (n as number) : undefined
 
 interface ProductDetailsProps {
-  product: Product;
-  locale: Locale;
-  imagePriority?: boolean;
-  potter?: Potter | null;
-  relatedProducts?: Product[];
+  product: Product
+  locale: Locale
+  imagePriority?: boolean
+  potter?: Potter | null
+  relatedProducts?: Product[]
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
@@ -32,38 +32,38 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   potter,
   relatedProducts,
 }) => {
-  const t = useTranslations("product");
+  const t = useTranslations('product')
 
   const images = useMemo(() => {
-    const imgs: string[] = [];
+    const imgs: string[] = []
     if (product.mainImage) {
-      imgs.push(product.mainImage);
+      imgs.push(product.mainImage)
     }
     if (product.photos?.length) {
       product.photos.forEach((photo) => {
         if (photo && photo !== product.mainImage) {
-          imgs.push(photo);
+          imgs.push(photo)
         }
-      });
+      })
     }
-    return imgs;
-  }, [product.mainImage, product.photos]);
+    return imgs
+  }, [product.mainImage, product.photos])
 
-  const title = product.title[locale];
+  const title = product.title[locale]
 
-  const L = compactNumber(product.lengthCm);
-  const W = compactNumber(product.widthCm);
-  const H = compactNumber(product.heightCm);
+  const L = compactNumber(product.lengthCm)
+  const W = compactNumber(product.widthCm)
+  const H = compactNumber(product.heightCm)
   const dimParts = [L, W, H]
-    .filter((v): v is number => typeof v === "number")
-    .map((v) => formatNum(v, locale));
+    .filter((v): v is number => typeof v === 'number')
+    .map((v) => formatNum(v, locale))
   const dimensionsStr = dimParts.length
-    ? `${dimParts.join(" × ")} ${t("unitCm")}`
-    : null;
+    ? `${dimParts.join(' × ')} ${t('unitCm')}`
+    : null
   const weightStr =
-    typeof product.weight === "number"
-      ? `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(product.weight)} ${t("unitG")}`
-      : null;
+    typeof product.weight === 'number'
+      ? `${new Intl.NumberFormat(locale, { maximumFractionDigits: 0 }).format(product.weight)} ${t('unitG')}`
+      : null
 
   return (
     <>
@@ -91,13 +91,13 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
                 {dimensionsStr && (
                   <>
-                    <dt className="text-gray-500">{t("dimensions")}</dt>
+                    <dt className="text-gray-500">{t('dimensions')}</dt>
                     <dd>{dimensionsStr}</dd>
                   </>
                 )}
                 {weightStr && (
                   <>
-                    <dt className="text-gray-500">{t("weight")}</dt>
+                    <dt className="text-gray-500">{t('weight')}</dt>
                     <dd>{weightStr}</dd>
                   </>
                 )}
@@ -109,14 +109,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
                 {product.category && (
                   <>
-                    <dt className="text-gray-500">{t("category")}</dt>
+                    <dt className="text-gray-500">{t('category')}</dt>
                     <dd>{product.category}</dd>
                   </>
                 )}
                 {product.tags && product.tags.length > 0 && (
                   <>
-                    <dt className="text-gray-500">{t("tags")}</dt>
-                    <dd>{product.tags.join(", ")}</dd>
+                    <dt className="text-gray-500">{t('tags')}</dt>
+                    <dd>{product.tags.join(', ')}</dd>
                   </>
                 )}
               </dl>
@@ -133,14 +133,14 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {potter && (
             <section aria-labelledby="potter-heading">
               <h2 id="potter-heading" className="text-lg font-semibold mb-3">
-                {t("aboutPotter", { default: "About the potter" })}
+                {t('aboutPotter', { default: 'About the potter' })}
               </h2>
               <div className="flex items-start gap-4">
                 {potter.imageUrl && (
                   <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded">
                     <SmartImage
                       src={potter.imageUrl}
-                      alt={potter.name[locale] || "Potter"}
+                      alt={potter.name[locale] || 'Potter'}
                       fill
                       className="object-cover"
                       sizes="64px"
@@ -165,12 +165,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {relatedProducts && relatedProducts.length > 0 && (
             <section aria-labelledby="related-heading" className="pt-8">
               <h2 id="related-heading" className="text-lg font-semibold mb-3">
-                {t("moreFromThisPotter", { default: "More from this potter" })}
+                {t('moreFromThisPotter', { default: 'More from this potter' })}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                 {relatedProducts.slice(0, 8).map((rp) => {
-                  const rpTitle = rp.title[locale];
-                  const rpImg = rp.mainImage || (rp.photos?.[0] ?? "");
+                  const rpTitle = rp.title[locale]
+                  const rpImg = rp.mainImage || (rp.photos?.[0] ?? '')
                   return (
                     <Link
                       key={rp.id}
@@ -181,7 +181,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         {rpImg && (
                           <SmartImage
                             src={rpImg}
-                            alt={rpTitle || "Product image"}
+                            alt={rpTitle || 'Product image'}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                             sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
@@ -196,7 +196,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         {formatYen(rp.price)}
                       </div>
                     </Link>
-                  );
+                  )
                 })}
               </div>
             </section>
@@ -204,7 +204,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default ProductDetails;
+export default ProductDetails

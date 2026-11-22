@@ -1,23 +1,23 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
 
-import type { Product } from "@/types/product";
+import type { Product } from '@/types/product'
 
 // Async thunk: fetch one product
 export const fetchProductDetails = createAsyncThunk<Product, string>(
-  "productDetails/fetchById",
+  'productDetails/fetchById',
   async (id) => {
-    const res = await fetch(`/api/products/${id}`);
-    if (!res.ok) throw new Error("Failed to load product");
-    return (await res.json()) as Product;
-  },
-);
+    const res = await fetch(`/api/products/${id}`)
+    if (!res.ok) throw new Error('Failed to load product')
+    return (await res.json()) as Product
+  }
+)
 
 interface ProductDetailState {
-  entity: Product | null;
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: string | null;
+  entity: Product | null
+  isLoading: boolean
+  isSuccess: boolean
+  error: string | null
 }
 
 const initialState: ProductDetailState = {
@@ -25,51 +25,51 @@ const initialState: ProductDetailState = {
   isLoading: false,
   isSuccess: false,
   error: null,
-};
+}
 
 const productDetailsSlice = createSlice({
-  name: "productDetails",
+  name: 'productDetails',
   initialState,
   reducers: {
     hydrateProductDetails(state, action: PayloadAction<Product>) {
-      state.entity = action.payload;
-      state.isLoading = false;
-      state.isSuccess = true;
-      state.error = null;
+      state.entity = action.payload
+      state.isLoading = false
+      state.isSuccess = true
+      state.error = null
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductDetails.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         fetchProductDetails.fulfilled,
         (state, action: PayloadAction<Product>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.entity = action.payload;
-        },
+          state.isLoading = false
+          state.isSuccess = true
+          state.entity = action.payload
+        }
       )
       .addCase(fetchProductDetails.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error = action.error.message ?? "Unknown error";
-      });
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = action.error.message ?? 'Unknown error'
+      })
   },
-});
+})
 
 export const selectProductDetails = (state: RootState) =>
-  state.productDetails.entity;
+  state.productDetails.entity
 export const selectProductDetailsIsLoading = (state: RootState) =>
-  state.productDetails.isLoading;
+  state.productDetails.isLoading
 export const selectProductDetailsIsSuccess = (state: RootState) =>
-  state.productDetails.isSuccess;
+  state.productDetails.isSuccess
 export const selectProductDetailsError = (state: RootState) =>
-  state.productDetails.error;
+  state.productDetails.error
 
-export const { hydrateProductDetails } = productDetailsSlice.actions;
+export const { hydrateProductDetails } = productDetailsSlice.actions
 
-export default productDetailsSlice.reducer;
+export default productDetailsSlice.reducer

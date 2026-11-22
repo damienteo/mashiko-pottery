@@ -1,43 +1,43 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 
-import { prisma } from "@/lib/prisma";
-import { assertAdminAccess } from "@/lib/auth/assertAdminAccess";
-import { validateUserExists } from "@/lib/validation/validateUserExists";
-import { updateUserRole } from "@/lib/user/updateUserRole";
-import { finaliseDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
+import { prisma } from '@/lib/prisma'
+import { assertAdminAccess } from '@/lib/auth/assertAdminAccess'
+import { validateUserExists } from '@/lib/validation/validateUserExists'
+import { updateUserRole } from '@/lib/user/updateUserRole'
+import { finaliseDraftImages } from '@/lib/cloudinary/finaliseDraftImages'
 
 export async function POST(req: Request) {
-  await assertAdminAccess();
+  await assertAdminAccess()
 
-  const { userId, name, bio, style, imageUrl, photos } = await req.json();
+  const { userId, name, bio, style, imageUrl, photos } = await req.json()
 
-  await validateUserExists(userId);
+  await validateUserExists(userId)
 
-  const existingPotter = await prisma.potter.findUnique({ where: { userId } });
+  const existingPotter = await prisma.potter.findUnique({ where: { userId } })
   if (existingPotter) {
     return NextResponse.json(
-      { error: "User is already a potter" },
-      { status: 400 },
-    );
+      { error: 'User is already a potter' },
+      { status: 400 }
+    )
   }
 
   const potter = await prisma.potter.create({
     data: { userId, name, bio, style, imageUrl },
-  });
+  })
 
   // Finalize image if needed
   const finalized = await finaliseDraftImages({
     imageUrl,
     photos,
-    folderType: "potters",
+    folderType: 'potters',
     finalId: potter.id.toString(),
-  });
+  })
 
   if (finalized.imageUrl !== imageUrl) {
     await prisma.potter.update({
       where: { id: potter.id },
       data: { imageUrl: finalized.imageUrl },
-    });
+    })
   }
 
   if (
@@ -47,43 +47,43 @@ export async function POST(req: Request) {
     await prisma.potter.update({
       where: { id: potter.id },
       data: { photos: finalized.photos },
-    });
+    })
   }
 
-  await updateUserRole(userId, "SELLER");
+  await updateUserRole(userId, 'SELLER')
 
-  return NextResponse.json({ potter }, { status: 201 });
+  return NextResponse.json({ potter }, { status: 201 })
 }
 
 export async function PATCH(req: Request) {
-  await assertAdminAccess();
+  await assertAdminAccess()
 
   const { userId, name, bio, style, imageUrl, photos, active } =
-    await req.json();
+    await req.json()
 
-  const potter = await prisma.potter.findUnique({ where: { userId } });
+  const potter = await prisma.potter.findUnique({ where: { userId } })
   if (!potter) {
-    return NextResponse.json({ error: "Potter not found" }, { status: 404 });
+    return NextResponse.json({ error: 'Potter not found' }, { status: 404 })
   }
 
   const updatedPotter = await prisma.potter.update({
     where: { userId },
     data: { name, bio, style, imageUrl, active },
-  });
+  })
 
   // Finalize image if needed
   const finalized = await finaliseDraftImages({
     imageUrl,
     photos,
-    folderType: "potters",
+    folderType: 'potters',
     finalId: potter.id.toString(),
-  });
+  })
 
   if (finalized.imageUrl !== imageUrl) {
     await prisma.potter.update({
       where: { id: potter.id },
       data: { imageUrl: finalized.imageUrl },
-    });
+    })
   }
 
   if (
@@ -93,33 +93,33 @@ export async function PATCH(req: Request) {
     await prisma.potter.update({
       where: { id: potter.id },
       data: { photos: finalized.photos },
-    });
+    })
   }
 
-  return NextResponse.json({ potter: updatedPotter }, { status: 200 });
+  return NextResponse.json({ potter: updatedPotter }, { status: 200 })
 }
 
 export async function DELETE(req: Request) {
-  await assertAdminAccess();
+  await assertAdminAccess()
 
-  const { searchParams } = new URL(req.url);
-  const userId = searchParams.get("userId");
+  const { searchParams } = new URL(req.url)
+  const userId = searchParams.get('userId')
 
   if (!userId) {
-    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
+    return NextResponse.json({ error: 'Missing userId' }, { status: 400 })
   }
 
-  const potter = await prisma.potter.findUnique({ where: { userId } });
+  const potter = await prisma.potter.findUnique({ where: { userId } })
   if (!potter) {
-    return NextResponse.json({ error: "Potter not found" }, { status: 404 });
+    return NextResponse.json({ error: 'Potter not found' }, { status: 404 })
   }
 
-  await prisma.potter.delete({ where: { userId } });
+  await prisma.potter.delete({ where: { userId } })
 
-  await updateUserRole(userId, "CUSTOMER");
+  await updateUserRole(userId, 'CUSTOMER')
 
   return NextResponse.json(
-    { message: "Potter deleted and user role reverted." },
-    { status: 200 },
-  );
+    { message: 'Potter deleted and user role reverted.' },
+    { status: 200 }
+  )
 }

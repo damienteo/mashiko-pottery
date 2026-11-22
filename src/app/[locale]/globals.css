@@ -1,14 +1,14 @@
 /* globals.css */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Font variables injected via next/font; no theme() calls here to avoid compile hangs */
   /* --font-inter and --font-playfair are provided by Next.js font loader */
 
   /* Colors, radii, shadows… feel free to add more */
-  --color-bg: theme("colors.gray.50");
-  --color-text: theme("colors.gray.800");
-  --color-primary: theme("colors.blue.600");
+  --color-bg: theme('colors.gray.50');
+  --color-text: theme('colors.gray.800');
+  --color-primary: theme('colors.blue.600');
 }
 
 /* 3) Wire them up at the root: */

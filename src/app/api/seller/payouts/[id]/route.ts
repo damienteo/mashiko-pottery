@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 // import { prisma } from "@/lib/prisma";
 
 //
@@ -34,7 +34,7 @@ export async function GET() {
   // });
 
   // if (!payout) {
-  return NextResponse.json({ message: "Payout not found" }, { status: 404 });
+  return NextResponse.json({ message: 'Payout not found' }, { status: 404 })
   // }
 
   // return NextResponse.json(payout);

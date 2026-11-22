@@ -1,32 +1,32 @@
-import { unstable_cache } from "next/cache";
-import { Prisma } from "@/generated/prisma/client";
-import { prisma } from "@/lib/prisma";
-import type { Pagination, ProductFilters } from "@/types/common";
-import type { Product } from "@/types/product";
-import { serializePotter, serializeProduct } from "./serialize";
+import { unstable_cache } from 'next/cache'
+import { Prisma } from '@/generated/prisma/client'
+import { prisma } from '@/lib/prisma'
+import type { Pagination, ProductFilters } from '@/types/common'
+import type { Product } from '@/types/product'
+import { serializePotter, serializeProduct } from './serialize'
 
 export type ProductListQuery = {
-  page?: number;
-  limit?: number;
-  q?: string | null;
-  locale?: "en" | "ja" | "zh" | null;
-  category?: string | null;
-  style?: string | null;
-  active?: boolean | null;
-  priceMin?: number | null;
-  priceMax?: number | null;
-  potterId?: number | null;
-};
+  page?: number
+  limit?: number
+  q?: string | null
+  locale?: 'en' | 'ja' | 'zh' | null
+  category?: string | null
+  style?: string | null
+  active?: boolean | null
+  priceMin?: number | null
+  priceMax?: number | null
+  potterId?: number | null
+}
 
 export type ProductListResult = {
-  products: Product[];
-  filters: ProductFilters;
-  pagination: Pagination;
-};
+  products: Product[]
+  filters: ProductFilters
+  pagination: Pagination
+}
 
 function buildWhere(query: ProductListQuery): Prisma.ProductWhereInput {
-  const textQuery = query.q || undefined;
-  const locale = query.locale ?? null;
+  const textQuery = query.q || undefined
+  const locale = query.locale ?? null
 
   const textFilter: Prisma.ProductWhereInput = textQuery
     ? locale
@@ -36,14 +36,14 @@ function buildWhere(query: ProductListQuery): Prisma.ProductWhereInput {
               title: {
                 path: [locale],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
             {
               description: {
                 path: [locale],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
           ],
@@ -52,56 +52,56 @@ function buildWhere(query: ProductListQuery): Prisma.ProductWhereInput {
           OR: [
             {
               title: {
-                path: ["en"],
+                path: ['en'],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
             {
               title: {
-                path: ["ja"],
+                path: ['ja'],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
             {
               title: {
-                path: ["zh"],
+                path: ['zh'],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
             {
               description: {
-                path: ["en"],
+                path: ['en'],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
             {
               description: {
-                path: ["ja"],
+                path: ['ja'],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
             {
               description: {
-                path: ["zh"],
+                path: ['zh'],
                 string_contains: textQuery,
-                mode: "insensitive",
+                mode: 'insensitive',
               },
             },
           ],
         }
-    : {};
+    : {}
 
-  const priceFilter: Prisma.FloatFilter = {};
-  if (typeof query.priceMin === "number" && !Number.isNaN(query.priceMin)) {
-    priceFilter.gte = query.priceMin;
+  const priceFilter: Prisma.FloatFilter = {}
+  if (typeof query.priceMin === 'number' && !Number.isNaN(query.priceMin)) {
+    priceFilter.gte = query.priceMin
   }
-  if (typeof query.priceMax === "number" && !Number.isNaN(query.priceMax)) {
-    priceFilter.lte = query.priceMax;
+  if (typeof query.priceMax === 'number' && !Number.isNaN(query.priceMax)) {
+    priceFilter.lte = query.priceMax
   }
 
   return {
@@ -109,16 +109,16 @@ function buildWhere(query: ProductListQuery): Prisma.ProductWhereInput {
     ...(query.category ? { category: query.category } : {}),
     ...textFilter,
     ...(query.active ? { stock: { gt: 0 }, isDraft: false } : {}),
-    ...(typeof query.potterId === "number" && !Number.isNaN(query.potterId)
+    ...(typeof query.potterId === 'number' && !Number.isNaN(query.potterId)
       ? { potterId: query.potterId }
       : {}),
-    ...(query.style ? ({} as Prisma.ProductWhereInput) : {}),
-  };
+    ...(query.style ? {} : {}),
+  }
 }
 
 function emptyProductList(query: ProductListQuery): ProductListResult {
-  const page = Math.max(1, query.page ?? 1);
-  const limit = Math.max(1, Math.min(100, query.limit ?? 10));
+  const page = Math.max(1, query.page ?? 1)
+  const limit = Math.max(1, Math.min(100, query.limit ?? 10))
   return {
     products: [],
     filters: {
@@ -138,16 +138,16 @@ function emptyProductList(query: ProductListQuery): ProductListResult {
       total: 0,
       totalPages: 0,
     },
-  };
+  }
 }
 
 export async function listProducts(
-  query: ProductListQuery = {},
+  query: ProductListQuery = {}
 ): Promise<ProductListResult> {
-  const page = Math.max(1, query.page ?? 1);
-  const limit = Math.max(1, Math.min(100, query.limit ?? 10));
-  const skip = (page - 1) * limit;
-  const whereClause = buildWhere(query);
+  const page = Math.max(1, query.page ?? 1)
+  const limit = Math.max(1, Math.min(100, query.limit ?? 10))
+  const skip = (page - 1) * limit
+  const whereClause = buildWhere(query)
 
   const [rows, total] = await Promise.all([
     prisma.product.findMany({
@@ -155,23 +155,21 @@ export async function listProducts(
       take: limit,
       where: whereClause,
       include: { potter: true },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: 'desc' },
     }),
     prisma.product.count({ where: whereClause }),
-  ]);
+  ])
 
   return {
     products: rows.map((row) => {
-      const product = serializeProduct(
-        row as unknown as Record<string, unknown>,
-      );
-      const potterRow = (row as { potter?: Record<string, unknown> }).potter;
+      const product = serializeProduct(row)
+      const potterRow = (row as { potter?: Record<string, unknown> }).potter
       return potterRow
         ? ({
             ...product,
             potter: serializePotter(potterRow),
           } as Product)
-        : product;
+        : product
     }),
     filters: {
       name: query.q ?? null,
@@ -181,15 +179,15 @@ export async function listProducts(
       style: query.style ?? null,
       active: query.active ?? null,
       priceMin:
-        typeof query.priceMin === "number" && !Number.isNaN(query.priceMin)
+        typeof query.priceMin === 'number' && !Number.isNaN(query.priceMin)
           ? query.priceMin
           : null,
       priceMax:
-        typeof query.priceMax === "number" && !Number.isNaN(query.priceMax)
+        typeof query.priceMax === 'number' && !Number.isNaN(query.priceMax)
           ? query.priceMax
           : null,
       potterId:
-        typeof query.potterId === "number" && !Number.isNaN(query.potterId)
+        typeof query.potterId === 'number' && !Number.isNaN(query.potterId)
           ? query.potterId
           : null,
     },
@@ -199,92 +197,87 @@ export async function listProducts(
       total,
       totalPages: Math.ceil(total / limit),
     },
-  };
+  }
 }
 
 export async function getProductById(id: number): Promise<Product | null> {
   const row = await prisma.product.findUnique({
     where: { id },
     include: { potter: true },
-  });
-  if (!row) return null;
-  const product = serializeProduct(row as unknown as Record<string, unknown>);
-  const potterRow = (row as { potter?: Record<string, unknown> }).potter;
+  })
+  if (!row) return null
+  const product = serializeProduct(row)
+  const potterRow = (row as { potter?: Record<string, unknown> }).potter
   return potterRow
     ? ({ ...product, potter: serializePotter(potterRow) } as Product)
-    : product;
+    : product
 }
 
 export async function listProductIds(): Promise<number[]> {
   const rows = await prisma.product.findMany({
     select: { id: true },
-    orderBy: { id: "asc" },
-  });
-  return rows.map((row) => row.id);
+    orderBy: { id: 'asc' },
+  })
+  return rows.map((row) => row.id)
 }
 
 export async function safeListProducts(
-  query: ProductListQuery = {},
+  query: ProductListQuery = {}
 ): Promise<ProductListResult> {
   try {
-    return await listProducts(query);
+    return await listProducts(query)
   } catch (error) {
-    console.error("safeListProducts failed", error);
-    return emptyProductList(query);
+    return emptyProductList(query)
   }
 }
 
 export async function safeGetProductById(id: number): Promise<Product | null> {
   try {
-    return await getProductById(id);
+    return await getProductById(id)
   } catch (error) {
-    console.error("safeGetProductById failed", error);
-    return null;
+    return null
   }
 }
 
 export async function safeListProductIds(): Promise<number[]> {
   try {
-    return await listProductIds();
+    return await listProductIds()
   } catch (error) {
-    console.error("safeListProductIds failed", error);
-    return [];
+    return []
   }
 }
 
 export const getCachedProductList = unstable_cache(
   async (key: string) => {
-    const query = JSON.parse(key) as ProductListQuery;
-    return listProducts(query);
+    const query = JSON.parse(key) as ProductListQuery
+    return listProducts(query)
   },
-  ["public-product-list"],
-  { revalidate: 60 },
-);
+  ['public-product-list'],
+  { revalidate: 60 }
+)
 
 export const getCachedProductById = unstable_cache(
   async (id: number) => getProductById(id),
-  ["public-product-by-id"],
-  { revalidate: 60 },
-);
+  ['public-product-by-id'],
+  { revalidate: 60 }
+)
 
 export async function safeCachedProductList(
-  query: ProductListQuery = {},
+  query: ProductListQuery = {}
 ): Promise<ProductListResult> {
   try {
-    return await getCachedProductList(JSON.stringify(query));
+    return await getCachedProductList(JSON.stringify(query))
   } catch (error) {
-    console.error("safeCachedProductList failed", error);
-    return emptyProductList(query);
+    return emptyProductList(query)
   }
 }
 
 export async function safeCachedProductById(
-  id: number,
+  id: number
 ): Promise<Product | null> {
   try {
-    return await getCachedProductById(id);
+    return await getCachedProductById(id)
   } catch (error) {
-    console.error("safeCachedProductById failed", error);
-    return null;
+    return null
   }
 }

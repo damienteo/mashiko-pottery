@@ -1,26 +1,26 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import cartReducer, { cartPersistenceMiddleware } from "./cartSlice";
-import { loadCartFromStorage } from "./localStorage";
-import { initialState as cartInitialState } from "./cartSlice";
-import adminPotterReducer from "./admin/potterSlice";
-import adminProductReducer from "./admin/productSlice";
-import productsListReducer from "./products/productsListSlice";
-import productDetailReducer from "./products/productDetailsSlice";
-import pottersListReducer from "./potters/pottersListSlice";
-import potterDetailReducer from "./potters/potterDetailsSlice";
-import authReducer from "./user/authSlice";
-import userReducer from "./user/userSlice";
-import uiReducer from "./uiSlice";
-import settingsReducer from "./settingsSlice";
-import notificationReducer from "./notificationSlice";
-import ordersListReducer from "./orders/ordersListSlice";
-import orderDetailsReducer from "./orders/orderDetailsSlice";
-import payoutsListReducer from "./payouts/payoutsListSlice";
-import payoutDetailsReducer from "./payouts/payoutDetailsSlice";
-import sellerProfileReducer from "./seller/sellerSlice";
-import sellerInventoryReducer from "./seller/sellerInventorySlice";
-import sellerPayoutListReducer from "./seller/sellerPayoutListSlice";
-import sellerPayoutDetailsReducer from "./seller/sellerPayoutDetailsSlice";
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import cartReducer, { cartPersistenceMiddleware } from './cartSlice'
+import { loadCartFromStorage } from './localStorage'
+import { initialState as cartInitialState } from './cartSlice'
+import adminPotterReducer from './admin/potterSlice'
+import adminProductReducer from './admin/productSlice'
+import productsListReducer from './products/productsListSlice'
+import productDetailReducer from './products/productDetailsSlice'
+import pottersListReducer from './potters/pottersListSlice'
+import potterDetailReducer from './potters/potterDetailsSlice'
+import authReducer from './user/authSlice'
+import userReducer from './user/userSlice'
+import uiReducer from './uiSlice'
+import settingsReducer from './settingsSlice'
+import notificationReducer from './notificationSlice'
+import ordersListReducer from './orders/ordersListSlice'
+import orderDetailsReducer from './orders/orderDetailsSlice'
+import payoutsListReducer from './payouts/payoutsListSlice'
+import payoutDetailsReducer from './payouts/payoutDetailsSlice'
+import sellerProfileReducer from './seller/sellerSlice'
+import sellerInventoryReducer from './seller/sellerInventorySlice'
+import sellerPayoutListReducer from './seller/sellerPayoutListSlice'
+import sellerPayoutDetailsReducer from './seller/sellerPayoutDetailsSlice'
 
 const rootReducer = combineReducers({
   // admin features
@@ -57,7 +57,7 @@ const rootReducer = combineReducers({
   sellerInventory: sellerInventoryReducer,
   sellerPayoutList: sellerPayoutListReducer,
   sellerPayoutDetails: sellerPayoutDetailsReducer,
-});
+})
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -69,7 +69,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(cartPersistenceMiddleware),
-});
+})
 
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof rootReducer>
+export type AppDispatch = typeof store.dispatch

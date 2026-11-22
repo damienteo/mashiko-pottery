@@ -1,12 +1,12 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { Payout } from "@/types/payout";
-import { RootState } from "../store";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { Payout } from '@/types/payout'
+import { RootState } from '../store'
 
 interface SellerPayoutListState {
-  items: Payout[];
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: string | null;
+  items: Payout[]
+  isLoading: boolean
+  isSuccess: boolean
+  error: string | null
 }
 
 const initialState: SellerPayoutListState = {
@@ -14,52 +14,52 @@ const initialState: SellerPayoutListState = {
   isLoading: false,
   isSuccess: false,
   error: null,
-};
+}
 
 export const fetchSellerPayoutList = createAsyncThunk(
-  "sellerPayoutList/fetchSellerPayoutList",
+  'sellerPayoutList/fetchSellerPayoutList',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch("/api/seller/payouts");
-      if (!res.ok) throw new Error("Failed to fetch payouts");
-      return (await res.json()) as Payout[];
+      const res = await fetch('/api/seller/payouts')
+      if (!res.ok) throw new Error('Failed to fetch payouts')
+      return (await res.json()) as Payout[]
     } catch (err) {
-      return rejectWithValue((err as Error).message);
+      return rejectWithValue((err as Error).message)
     }
-  },
-);
+  }
+)
 
 const sellerPayoutListSlice = createSlice({
-  name: "sellerPayoutList",
+  name: 'sellerPayoutList',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchSellerPayoutList.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(fetchSellerPayoutList.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.items = action.payload;
+        state.isLoading = false
+        state.isSuccess = true
+        state.items = action.payload
       })
       .addCase(fetchSellerPayoutList.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error = action.payload as string;
-      });
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = action.payload as string
+      })
   },
-});
+})
 
 export const selectSellerPayoutList = (state: RootState) =>
-  state.sellerPayoutList.items;
+  state.sellerPayoutList.items
 export const selectSellerPayoutListLoading = (state: RootState) =>
-  state.sellerPayoutList.isLoading;
+  state.sellerPayoutList.isLoading
 export const selectSellerPayoutListError = (state: RootState) =>
-  state.sellerPayoutList.error;
+  state.sellerPayoutList.error
 export const selectSellerPayoutListSuccess = (state: RootState) =>
-  state.sellerPayoutList.isSuccess;
+  state.sellerPayoutList.isSuccess
 
-export default sellerPayoutListSlice.reducer;
+export default sellerPayoutListSlice.reducer

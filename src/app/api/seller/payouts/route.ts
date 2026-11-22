@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 // import { PrismaClient, Prisma, PayoutStatus } from "@/generated/prisma/client";
 
 //
@@ -11,9 +11,9 @@ export async function GET() {
 
   // if (!potter) {
   return NextResponse.json(
-    { error: "Seller profile not found" },
-    { status: 404 },
-  );
+    { error: 'Seller profile not found' },
+    { status: 404 }
+  )
   // }
 
   // const { searchParams } = new URL(req.url);

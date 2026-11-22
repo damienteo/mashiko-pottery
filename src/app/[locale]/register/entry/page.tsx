@@ -1,33 +1,33 @@
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 
-import RegisterClient from "./RegisterEntryClient";
-import { routing } from "@/i18n/routing";
+import RegisterClient from './RegisterEntryClient'
+import { routing } from '@/i18n/routing'
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic'
 
 export function generateStaticParams() {
   // Build locale‐prefixed paths
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale } = await params
 
   const t = await getTranslations({
     locale: locale,
-    namespace: "register.entry",
-  });
+    namespace: 'register.entry',
+  })
   return {
-    title: t("pageTitle"),
-    description: t("pageDescription") ?? t("pageTitle"),
-  };
+    title: t('pageTitle'),
+    description: t('pageDescription') ?? t('pageTitle'),
+  }
 }
 
 export default async function RegisterEntryPage() {
-  return <RegisterClient />;
+  return <RegisterClient />
 }

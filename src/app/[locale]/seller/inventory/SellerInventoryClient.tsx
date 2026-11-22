@@ -1,47 +1,47 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState, AppDispatch } from "@/store/store";
-import { fetchSellerInventory } from "@/store/seller/sellerInventorySlice";
-import { useTranslations } from "next-intl";
-import Button from "@/components/ui/Button";
-import EditableInventoryRow from "./EditableInventoryRow";
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState, AppDispatch } from '@/store/store'
+import { fetchSellerInventory } from '@/store/seller/sellerInventorySlice'
+import { useTranslations } from 'next-intl'
+import Button from '@/components/ui/Button'
+import EditableInventoryRow from './EditableInventoryRow'
 
 export default function SellerInventoryClient({ title }: { title: string }) {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>()
   const { items, isLoading, error } = useSelector(
-    (state: RootState) => state.sellerInventory,
-  );
-  const t = useTranslations("seller.inventory");
+    (state: RootState) => state.sellerInventory
+  )
+  const t = useTranslations('seller.inventory')
   // Per-item editing state: set of editing item IDs
-  const [editIds, setEditIds] = useState<Set<string>>(new Set());
+  const [editIds, setEditIds] = useState<Set<string>>(new Set())
 
   useEffect(() => {
-    dispatch(fetchSellerInventory());
-  }, [dispatch]);
+    dispatch(fetchSellerInventory())
+  }, [dispatch])
 
   // Toggle edit mode for a specific item
   const toggleEdit = (id: string) => {
     setEditIds((prev) => {
-      const next = new Set(prev);
+      const next = new Set(prev)
       if (next.has(id)) {
-        next.delete(id);
+        next.delete(id)
       } else {
-        next.add(id);
+        next.add(id)
       }
-      return next;
-    });
-  };
+      return next
+    })
+  }
 
   // Cancel editing for a specific item
   const handleCancelEdit = (id: string) => {
     setEditIds((prev) => {
-      const next = new Set(prev);
-      next.delete(id);
-      return next;
-    });
-  };
+      const next = new Set(prev)
+      next.delete(id)
+      return next
+    })
+  }
 
   return (
     <div className="space-y-6">
@@ -52,7 +52,7 @@ export default function SellerInventoryClient({ title }: { title: string }) {
         </span>
       </h1>
       {isLoading ? (
-        <p>{t("loading")}</p>
+        <p>{t('loading')}</p>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : (
@@ -60,37 +60,37 @@ export default function SellerInventoryClient({ title }: { title: string }) {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("product")}
+                {t('product')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("sku")}
+                {t('sku')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("stock")}
+                {t('stock')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("price")}
+                {t('price')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("potterId")}
+                {t('potterId')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("weight")}
+                {t('weight')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("category")}
+                {t('category')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("status")}
+                {t('status')}
               </th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {t("actions")}
+                {t('actions')}
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200 text-sm">
             {items.map((item) => {
-              const isEditing = editIds.has(item.id);
+              const isEditing = editIds.has(item.id)
               if (isEditing) {
                 return (
                   <EditableInventoryRow
@@ -98,7 +98,7 @@ export default function SellerInventoryClient({ title }: { title: string }) {
                     item={item}
                     onCancel={() => handleCancelEdit(item.id)}
                   />
-                );
+                )
               } else {
                 return (
                   <tr key={item.id} id={`row-${item.id}`}>
@@ -112,30 +112,30 @@ export default function SellerInventoryClient({ title }: { title: string }) {
                       {item.potterId}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
-                      {item.weight ?? "-"}
+                      {item.weight ?? '-'}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
-                      {item.category ?? "-"}
+                      {item.category ?? '-'}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
                       {item.active ? (
-                        <span className="text-green-600">{t("active")}</span>
+                        <span className="text-green-600">{t('active')}</span>
                       ) : (
-                        <span className="text-red-500">{t("inactive")}</span>
+                        <span className="text-red-500">{t('inactive')}</span>
                       )}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap space-x-2 flex items-center">
                       <Button onClick={() => toggleEdit(item.id)}>
-                        {t("edit")}
+                        {t('edit')}
                       </Button>
                     </td>
                   </tr>
-                );
+                )
               }
             })}
           </tbody>
         </table>
       )}
     </div>
-  );
+  )
 }

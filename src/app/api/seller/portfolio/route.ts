@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 // import { createClient } from "@supabase/supabase-js";
 
 // const supabase = createClient(
@@ -13,7 +13,7 @@ export async function POST() {
   // const file = formData.get("file") as File;
 
   // if (!file) {
-  return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+  return NextResponse.json({ error: 'No file uploaded' }, { status: 400 })
   // }
 
   // const allowedTypes = ["image/jpeg", "image/png", "image/webp"];

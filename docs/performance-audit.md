@@ -161,7 +161,7 @@ Admin, seller, login, register, and profile stay `force-dynamic`. Those trees us
 
 ### Proxy no longer talks to Supabase on public HTML
 
-`updateSession` / `getUser()` run only for `/admin`, `/seller`, and `/profile` (locale prefix stripped). Unauthenticated visits to those paths redirect to `/{locale}/login`. Public pages skip the auth round trip so CDN HTML can stick.
+`updateSession` / `getUser()` run for every route that needs a session or cookie refresh: `/admin`, `/seller`, `/profile`, `/login`, and `/register` (locale prefix stripped). Unauthenticated visits to admin, seller, and profile redirect to `/{locale}/login`. Login and register still call `getUser()` so OTP/magic-link cookies refresh, but they are not redirected (that would loop). Public catalog pages skip the auth round trip so CDN HTML can stick.
 
 ### Fonts
 

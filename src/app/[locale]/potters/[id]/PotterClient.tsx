@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useParams } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
 
-import Gallery from "@/components/ui/Gallery";
-import ProductCard from "@/components/products/ProductCard";
-import ProductsToolbar from "@/components/products/ProductsToolbar"; // <-- NEW
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import Gallery from '@/components/ui/Gallery'
+import ProductCard from '@/components/products/ProductCard'
+import ProductsToolbar from '@/components/products/ProductsToolbar' // <-- NEW
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchPotterDetails,
   hydratePotterDetails,
@@ -15,7 +15,7 @@ import {
   selectPotterDetailsIsLoading,
   selectPotterDetailsIsSuccess,
   selectPotterDetailsError,
-} from "@/store/potters/potterDetailsSlice";
+} from '@/store/potters/potterDetailsSlice'
 import {
   hydrateProductsList,
   selectAllProducts,
@@ -23,50 +23,50 @@ import {
   selectProductsListIsSuccess,
   selectProductsListError,
   selectProductsListPagination,
-} from "@/store/products/productsListSlice";
-import { fetchProductsList } from "@/store/thunks/fetchProductsList";
-import type { Locale } from "@/types/i18n";
-import type { ProductFilters } from "@/types/common";
-import type { Potter } from "@/types/potter";
-import type { ProductListResult } from "@/lib/catalog/products";
+} from '@/store/products/productsListSlice'
+import { fetchProductsList } from '@/store/thunks/fetchProductsList'
+import type { Locale } from '@/types/i18n'
+import type { ProductFilters } from '@/types/common'
+import type { Potter } from '@/types/potter'
+import type { ProductListResult } from '@/lib/catalog/products'
 
 export default function PotterClient({
   initialPotter = null,
   initialProductList = null,
 }: {
-  initialPotter?: Potter | null;
-  initialProductList?: ProductListResult | null;
+  initialPotter?: Potter | null
+  initialProductList?: ProductListResult | null
 }) {
-  const t = useTranslations("potter");
-  const tProduct = useTranslations("product");
-  const locale = useLocale() as Locale;
-  const { id } = useParams() as { id: string };
-  const dispatch = useAppDispatch();
+  const t = useTranslations('potter')
+  const tProduct = useTranslations('product')
+  const locale = useLocale() as Locale
+  const { id } = useParams<{ id: string }>()
+  const dispatch = useAppDispatch()
 
-  const storePotter = useAppSelector(selectPotterDetails);
-  const isLoading = useAppSelector(selectPotterDetailsIsLoading);
-  const isSuccess = useAppSelector(selectPotterDetailsIsSuccess);
-  const error = useAppSelector(selectPotterDetailsError);
+  const storePotter = useAppSelector(selectPotterDetails)
+  const isLoading = useAppSelector(selectPotterDetailsIsLoading)
+  const isSuccess = useAppSelector(selectPotterDetailsIsSuccess)
+  const error = useAppSelector(selectPotterDetailsError)
 
-  const storeProducts = useAppSelector(selectAllProducts);
-  const productsLoading = useAppSelector(selectProductsListIsLoading);
-  const productsSuccess = useAppSelector(selectProductsListIsSuccess);
-  const productsError = useAppSelector(selectProductsListError);
-  const storePagination = useAppSelector(selectProductsListPagination);
+  const storeProducts = useAppSelector(selectAllProducts)
+  const productsLoading = useAppSelector(selectProductsListIsLoading)
+  const productsSuccess = useAppSelector(selectProductsListIsSuccess)
+  const productsError = useAppSelector(selectProductsListError)
+  const storePagination = useAppSelector(selectProductsListPagination)
 
   const potter =
     storePotter && String(storePotter.id) === id
       ? storePotter
       : initialPotter && String(initialPotter.id) === id
         ? initialPotter
-        : storePotter;
+        : storePotter
   const allProducts =
     storeProducts.length > 0
       ? storeProducts
-      : (initialProductList?.products ?? []);
+      : (initialProductList?.products ?? [])
   const pagination = storePagination.total
     ? storePagination
-    : (initialProductList?.pagination ?? storePagination);
+    : (initialProductList?.pagination ?? storePagination)
 
   // Local toolbar state (no potterId shown; it is always forced in the query)
   const defaultFilters = useMemo<ProductFilters>(
@@ -80,37 +80,35 @@ export default function PotterClient({
       potterId: null, // will be injected on search
       locale: null, // will be injected on search
     }),
-    [],
-  );
+    []
+  )
   const [filtersLocal, setFiltersLocal] =
-    useState<ProductFilters>(defaultFilters);
+    useState<ProductFilters>(defaultFilters)
 
   useEffect(() => {
     if (initialPotter && String(initialPotter.id) === id) {
-      dispatch(hydratePotterDetails(initialPotter));
+      dispatch(hydratePotterDetails(initialPotter))
     }
     if (initialProductList) {
-      dispatch(hydrateProductsList(initialProductList));
+      dispatch(hydrateProductsList(initialProductList))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id])
 
   // Fetch potter details (one-time per id)
   useEffect(() => {
     if (id && (!potter || String(potter.id) !== id)) {
-      dispatch(fetchPotterDetails(id));
+      dispatch(fetchPotterDetails(id))
     }
-  }, [dispatch, id, potter]);
+  }, [dispatch, id, potter])
 
   // Fetch this potter's products on first ready
   useEffect(() => {
     if (initialProductList && potter) {
-      return;
+      return
     }
     if (potter && !productsLoading && !productsSuccess && !productsError) {
-      dispatch(
-        fetchProductsList({ filters: { potterId: Number(id), locale } }),
-      );
+      dispatch(fetchProductsList({ filters: { potterId: Number(id), locale } }))
     }
   }, [
     dispatch,
@@ -121,12 +119,12 @@ export default function PotterClient({
     productsSuccess,
     productsError,
     initialProductList,
-  ]);
+  ])
 
-  if (isLoading && !potter) return <p className="p-8">{t("loading")}</p>;
+  if (isLoading && !potter) return <p className="p-8">{t('loading')}</p>
   if (!potter && !isLoading && !isSuccess)
-    return <p className="p-8 text-red-600">{error}</p>;
-  if (!potter) return <p className="p-8">{t("loading")}</p>;
+    return <p className="p-8 text-red-600">{error}</p>
+  if (!potter) return <p className="p-8">{t('loading')}</p>
 
   return (
     <div className="px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -137,36 +135,32 @@ export default function PotterClient({
               .concat(
                 Array.isArray(potter.photos)
                   ? potter.photos.filter(Boolean)
-                  : [],
+                  : []
               )
               .filter(Boolean)
               .filter((v, i, a) => a.indexOf(v) === i)
               .concat(
                 !potter.imageUrl &&
                   (!potter.photos || potter.photos.length === 0)
-                  ? ["/images/potter-fallback.webp"]
-                  : [],
+                  ? ['/images/potter-fallback.webp']
+                  : []
               )}
-            title={potter.name[locale as keyof typeof potter.name] || "Potter"}
+            title={potter.name[locale] || 'Potter'}
             imagePriority
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-3xl font-semibold mb-4">
-            {potter.name[locale as keyof typeof potter.name]}
-          </h1>
-          <p className="text-gray-700 text-lg">
-            {potter.bio[locale as keyof typeof potter.bio]}
-          </p>
+          <h1 className="text-3xl font-semibold mb-4">{potter.name[locale]}</h1>
+          <p className="text-gray-700 text-lg">{potter.bio[locale]}</p>
           <dl className="mt-4 text-gray-600">
             {potter.style && (
               <>
-                <dt className="font-medium">{t("style")}</dt>
+                <dt className="font-medium">{t('style')}</dt>
                 <dd className="mb-2">{potter.style}</dd>
               </>
             )}
-            <dt className="font-medium">{t("active")}</dt>
-            <dd className="mb-2">{potter.active ? t("yes") : t("no")}</dd>
+            <dt className="font-medium">{t('active')}</dt>
+            <dd className="mb-2">{potter.active ? t('yes') : t('no')}</dd>
           </dl>
         </div>
       </div>
@@ -174,14 +168,14 @@ export default function PotterClient({
       {/* Products from this potter – toolbar + grid */}
       <section className="mt-12">
         <h2 className="text-2xl font-semibold mb-6">
-          {tProduct("moreFromThisPotter")}
+          {tProduct('moreFromThisPotter')}
         </h2>
 
         {/* Toolbar: potterId hidden, every search is forced to this potter */}
         <ProductsToolbar
           value={filtersLocal}
           onSearch={(next) => {
-            setFiltersLocal(next);
+            setFiltersLocal(next)
             dispatch(
               fetchProductsList({
                 page: 1,
@@ -191,11 +185,11 @@ export default function PotterClient({
                   potterId: Number(id), // lock to current potter
                   locale,
                 },
-              }),
-            );
+              })
+            )
           }}
-          categories={["vase", "cup", "plate", "bottle", "bowl"]}
-          styles={["yakishime", "shino", "oribe"]}
+          categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
+          styles={['yakishime', 'shino', 'oribe']}
           showPotterId={false}
           page={pagination?.page || 1}
           totalPages={pagination?.totalPages || 0}
@@ -206,8 +200,8 @@ export default function PotterClient({
                 page: 1,
                 limit: size,
                 filters: { ...filtersLocal, potterId: Number(id), locale },
-              }),
-            );
+              })
+            )
           }}
           onChangePage={(pageNum) => {
             dispatch(
@@ -215,8 +209,8 @@ export default function PotterClient({
                 page: pageNum,
                 limit: pagination?.limit || 20,
                 filters: { ...filtersLocal, potterId: Number(id), locale },
-              }),
-            );
+              })
+            )
           }}
         />
 
@@ -227,10 +221,10 @@ export default function PotterClient({
               type="button"
               className="mt-2 rounded bg-gray-800 text-white px-3 py-1"
               onClick={() =>
-                dispatch(
+                void dispatch(
                   fetchProductsList({
                     filters: { ...filtersLocal, potterId: Number(id), locale },
-                  }),
+                  })
                 )
               }
             >
@@ -240,11 +234,11 @@ export default function PotterClient({
         )}
 
         {productsLoading && !productsError && (
-          <p className="p-8">{tProduct("loading")}</p>
+          <p className="p-8">{tProduct('loading')}</p>
         )}
 
         {!productsLoading && !productsError && allProducts.length === 0 && (
-          <p className="p-8">{tProduct("list.empty")}</p>
+          <p className="p-8">{tProduct('list.empty')}</p>
         )}
 
         {!productsLoading && !productsError && allProducts.length > 0 && (
@@ -256,5 +250,5 @@ export default function PotterClient({
         )}
       </section>
     </div>
-  );
+  )
 }

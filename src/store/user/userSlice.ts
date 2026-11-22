@@ -1,16 +1,16 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
-import type { UserProfile } from "@/types/user";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
+import type { UserProfile } from '@/types/user'
 
-const CREATE_ENDPOINT = "/api/user/create";
-const FETCH_ENDPOINT = "/api/user/profile";
-const UPDATE_ENDPOINT = "/api/user/update-profile";
+const CREATE_ENDPOINT = '/api/user/create'
+const FETCH_ENDPOINT = '/api/user/profile'
+const UPDATE_ENDPOINT = '/api/user/update-profile'
 
 interface UserProfileState {
-  profile: UserProfile | null;
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: string | null;
+  profile: UserProfile | null
+  isLoading: boolean
+  isSuccess: boolean
+  error: string | null
 }
 
 const initialState: UserProfileState = {
@@ -18,117 +18,114 @@ const initialState: UserProfileState = {
   isLoading: false,
   isSuccess: false,
   error: null,
-};
+}
 
 export const createUserProfile = createAsyncThunk<
   UserProfile,
   Partial<UserProfile>
->("user/createUserProfile", async (profileData, { rejectWithValue }) => {
+>('user/createUserProfile', async (profileData, { rejectWithValue }) => {
   const res = await fetch(CREATE_ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(profileData),
-  });
+  })
   if (!res.ok) {
-    const err = await res.json();
-    return rejectWithValue(err.message || "Profile creation failed");
+    const err = await res.json()
+    return rejectWithValue(err.message || 'Profile creation failed')
   }
-  return (await res.json()) as UserProfile;
-});
+  return (await res.json()) as UserProfile
+})
 
 export const updateUserProfile = createAsyncThunk<
   UserProfile,
   Partial<UserProfile>
->("user/updateUserProfile", async (profileData, { rejectWithValue }) => {
+>('user/updateUserProfile', async (profileData, { rejectWithValue }) => {
   const res = await fetch(UPDATE_ENDPOINT, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(profileData),
-  });
+  })
   if (!res.ok) {
-    const err = await res.json();
-    return rejectWithValue(err.message || "Profile update failed");
+    const err = await res.json()
+    return rejectWithValue(err.message || 'Profile update failed')
   }
-  return (await res.json()) as UserProfile;
-});
+  return (await res.json()) as UserProfile
+})
 
 export const fetchUserProfile = createAsyncThunk<UserProfile | null>(
-  "user/fetchUserProfile",
+  'user/fetchUserProfile',
   async (_, { rejectWithValue }) => {
-    const res = await fetch(FETCH_ENDPOINT);
+    const res = await fetch(FETCH_ENDPOINT)
     if (!res.ok) {
-      return rejectWithValue("Failed to fetch user profile");
+      return rejectWithValue('Failed to fetch user profile')
     }
-    return (await res.json()) as UserProfile;
-  },
-);
+    return (await res.json()) as UserProfile
+  }
+)
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(createUserProfile.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         createUserProfile.fulfilled,
         (state, action: PayloadAction<UserProfile>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.profile = action.payload;
-        },
+          state.isLoading = false
+          state.isSuccess = true
+          state.profile = action.payload
+        }
       )
       .addCase(createUserProfile.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = (action.payload as string) || action.error.message || null
       })
       .addCase(updateUserProfile.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         updateUserProfile.fulfilled,
         (state, action: PayloadAction<UserProfile>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.profile = action.payload;
-        },
+          state.isLoading = false
+          state.isSuccess = true
+          state.profile = action.payload
+        }
       )
       .addCase(updateUserProfile.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = (action.payload as string) || action.error.message || null
       })
       .addCase(fetchUserProfile.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        state.isLoading = true
+        state.error = null
       })
       .addCase(
         fetchUserProfile.fulfilled,
         (state, action: PayloadAction<UserProfile | null>) => {
-          state.isLoading = false;
-          state.profile = action.payload;
-        },
+          state.isLoading = false
+          state.profile = action.payload
+        }
       )
       .addCase(fetchUserProfile.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
-      });
+        state.isLoading = false
+        state.error = (action.payload as string) || action.error.message || null
+      })
   },
-});
+})
 
-export const selectUserProfile = (state: RootState) => state.user.profile;
-export const selectUserLoading = (state: RootState) => state.user.isLoading;
-export const selectUserSuccess = (state: RootState) => state.user.isSuccess;
-export const selectUserError = (state: RootState) => state.user.error;
+export const selectUserProfile = (state: RootState) => state.user.profile
+export const selectUserLoading = (state: RootState) => state.user.isLoading
+export const selectUserSuccess = (state: RootState) => state.user.isSuccess
+export const selectUserError = (state: RootState) => state.user.error
 
-export default userSlice.reducer;
+export default userSlice.reducer

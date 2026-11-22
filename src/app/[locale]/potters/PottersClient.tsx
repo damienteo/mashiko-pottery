@@ -1,58 +1,58 @@
-"use client";
+'use client'
 
-import { useEffect, useRef } from "react";
-import Link from "next/link";
-import { useTranslations, useLocale } from "next-intl";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect, useRef } from 'react'
+import Link from 'next/link'
+import { useTranslations, useLocale } from 'next-intl'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   selectAllPotters,
   selectPottersListIsLoading,
   selectPottersListError,
   hydratePottersList,
-} from "@/store/potters/pottersListSlice";
-import { fetchPottersList } from "@/store/thunks/fetchPottersList";
-import SmartImage from "@/components/ui/SmartImage";
-import type { PotterListResult } from "@/lib/catalog/potters";
+} from '@/store/potters/pottersListSlice'
+import { fetchPottersList } from '@/store/thunks/fetchPottersList'
+import SmartImage from '@/components/ui/SmartImage'
+import type { PotterListResult } from '@/lib/catalog/potters'
 
 export default function PottersClient({
   initialData,
 }: {
-  initialData: PotterListResult;
+  initialData: PotterListResult
 }) {
-  const t = useTranslations();
-  const locale = useLocale();
-  const dispatch = useAppDispatch();
+  const t = useTranslations()
+  const locale = useLocale()
+  const dispatch = useAppDispatch()
 
-  const storePotters = useAppSelector(selectAllPotters);
-  const isLoading = useAppSelector(selectPottersListIsLoading);
-  const error = useAppSelector(selectPottersListError);
-  const potters = storePotters.length > 0 ? storePotters : initialData.potters;
+  const storePotters = useAppSelector(selectAllPotters)
+  const isLoading = useAppSelector(selectPottersListIsLoading)
+  const error = useAppSelector(selectPottersListError)
+  const potters = storePotters.length > 0 ? storePotters : initialData.potters
 
-  const hasFetched = useRef(false);
+  const hasFetched = useRef(false)
   useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
+    if (hasFetched.current) return
+    hasFetched.current = true
     if (initialData.potters.length > 0) {
-      dispatch(hydratePottersList(initialData));
-      return;
+      dispatch(hydratePottersList(initialData))
+      return
     }
     if (!isLoading && potters.length === 0) {
-      dispatch(fetchPottersList({}));
+      dispatch(fetchPottersList({}))
     }
-  }, [dispatch, initialData, isLoading, potters.length]);
+  }, [dispatch, initialData, isLoading, potters.length])
 
   if (isLoading && potters.length === 0) {
-    return <p className="p-8 text-center text-gray-500">{t("loading")}</p>;
+    return <p className="p-8 text-center text-gray-500">{t('loading')}</p>
   }
   if (error && potters.length === 0) {
-    return <p className="p-8 text-center text-red-600">{error}</p>;
+    return <p className="p-8 text-center text-red-600">{error}</p>
   }
 
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {t("potterSpotlights.title")}
+          {t('potterSpotlights.title')}
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {potters.map((potter, index) => (
@@ -63,7 +63,7 @@ export default function PottersClient({
             >
               <div className="w-full aspect-square relative mb-4 overflow-hidden rounded-lg bg-gray-100">
                 <SmartImage
-                  src={potter.imageUrl ?? "/images/potter-fallback.webp"}
+                  src={potter.imageUrl ?? '/images/potter-fallback.webp'}
                   alt={potter.name[locale as keyof typeof potter.name]}
                   fill
                   className="object-cover"
@@ -82,5 +82,5 @@ export default function PottersClient({
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,74 +1,74 @@
-import { createClient } from "@/lib/supabase/server";
-import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
-import { listPotters } from "@/lib/catalog/potters";
+import { createClient } from '@/lib/supabase/server'
+import { assertSellerAccess } from '@/lib/auth/assertSellerAccess'
+import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
+import { listPotters } from '@/lib/catalog/potters'
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url);
-    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+    const { searchParams } = new URL(req.url)
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10))
     const limit = Math.min(
-      Math.max(1, parseInt(searchParams.get("limit") || "10", 10)),
-      100,
-    );
+      Math.max(1, parseInt(searchParams.get('limit') || '10', 10)),
+      100
+    )
 
-    const name = searchParams.get("name");
-    const style = searchParams.get("style");
-    const active = searchParams.get("active");
+    const name = searchParams.get('name')
+    const style = searchParams.get('style')
+    const active = searchParams.get('active')
 
     const result = await listPotters({
       page,
       limit,
       name,
       style,
-      active: active === "true" ? true : active === "false" ? false : null,
+      active: active === 'true' ? true : active === 'false' ? false : null,
       includeProducts: true,
-    });
+    })
 
     return NextResponse.json({
       potters: result.potters,
       filters: { name, style, active },
       pagination: result.pagination,
-    });
+    })
   } catch (error) {
-    console.error("Error fetching potters:", error);
+    console.error('Error fetching potters:', error)
     return NextResponse.json(
-      { error: "Failed to fetch potters" },
-      { status: 500 },
-    );
+      { error: 'Failed to fetch potters' },
+      { status: 500 }
+    )
   }
 }
 
 export async function POST(req: NextRequest) {
-  const supabase = await createClient();
+  const supabase = await createClient()
   const {
     data: { user },
     error: authError,
-  } = await supabase.auth.getUser();
+  } = await supabase.auth.getUser()
 
   if (authError || !user) {
-    return new NextResponse(JSON.stringify({ error: "Unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
       status: 401,
-    });
+    })
   }
 
-  await assertSellerAccess(user.id);
+  await assertSellerAccess(user.id)
 
-  const data = await req.json();
+  const data = await req.json()
 
   try {
     const existingPotter = await prisma.potter.findUnique({
       where: { userId: user.id },
-    });
+    })
 
     if (existingPotter) {
       return new NextResponse(
-        JSON.stringify({ error: "Potter already exists" }),
+        JSON.stringify({ error: 'Potter already exists' }),
         {
           status: 400,
-        },
-      );
+        }
+      )
     }
 
     const newPotter = await prisma.potter.create({
@@ -76,14 +76,14 @@ export async function POST(req: NextRequest) {
         ...data,
         userId: user.id,
       },
-    });
+    })
 
-    return NextResponse.json(newPotter, { status: 201 });
+    return NextResponse.json(newPotter, { status: 201 })
   } catch (err) {
-    console.error("Create potter failed:", err);
-    return new NextResponse(JSON.stringify({ error: "Create failed" }), {
+    console.error('Create potter failed:', err)
+    return new NextResponse(JSON.stringify({ error: 'Create failed' }), {
       status: 500,
-    });
+    })
   }
 }
 

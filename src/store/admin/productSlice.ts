@@ -1,21 +1,21 @@
-import type { ProductFilters, Pagination } from "@/types/common";
-import { fetchProductsList } from "@/store/thunks/fetchProductsList";
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
-import type { Product } from "@/types/product";
+import type { ProductFilters, Pagination } from '@/types/common'
+import { fetchProductsList } from '@/store/thunks/fetchProductsList'
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
+import type { Product } from '@/types/product'
 
-const CREATE_ENDPOINT = "/api/admin/product";
-const UPDATE_ENDPOINT = "/api/admin/product";
-const DELETE_ENDPOINT = "/api/admin/product";
+const CREATE_ENDPOINT = '/api/admin/product'
+const UPDATE_ENDPOINT = '/api/admin/product'
+const DELETE_ENDPOINT = '/api/admin/product'
 
 interface AdminProductState {
-  product: Product | null;
-  products: Product[];
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: string | null;
-  filters: ProductFilters;
-  pagination: Pagination;
+  product: Product | null
+  products: Product[]
+  isLoading: boolean
+  isSuccess: boolean
+  error: string | null
+  filters: ProductFilters
+  pagination: Pagination
 }
 
 const initialState: AdminProductState = {
@@ -38,79 +38,79 @@ const initialState: AdminProductState = {
     total: 0,
     totalPages: 0,
   },
-};
+}
 
 export const createAdminProduct = createAsyncThunk<Product, Partial<Product>>(
-  "adminProduct/create",
+  'adminProduct/create',
   async (productData, { rejectWithValue }) => {
     const res = await fetch(CREATE_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(productData),
-    });
+    })
     if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Product creation failed");
+      const err = await res.json()
+      return rejectWithValue(err.message || 'Product creation failed')
     }
-    return (await res.json()) as Product;
-  },
-);
+    return (await res.json()) as Product
+  }
+)
 
 export const updateAdminProduct = createAsyncThunk<Product, Partial<Product>>(
-  "adminProduct/update",
+  'adminProduct/update',
   async (productData, { rejectWithValue }) => {
     const res = await fetch(UPDATE_ENDPOINT, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(productData),
-    });
+    })
     if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Product update failed");
+      const err = await res.json()
+      return rejectWithValue(err.message || 'Product update failed')
     }
-    return (await res.json()) as Product;
-  },
-);
+    return (await res.json()) as Product
+  }
+)
 
 export const deleteAdminProduct = createAsyncThunk<{ id: number }, number>(
-  "adminProduct/delete",
+  'adminProduct/delete',
   async (productId, { rejectWithValue }) => {
     const res = await fetch(DELETE_ENDPOINT, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: productId }),
-    });
+    })
     if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Product deletion failed");
+      const err = await res.json()
+      return rejectWithValue(err.message || 'Product deletion failed')
     }
-    return { id: productId };
-  },
-);
+    return { id: productId }
+  }
+)
 
 export const fetchAdminProduct = createAsyncThunk<Product, number>(
-  "adminProduct/fetch",
+  'adminProduct/fetch',
   async (productId, { rejectWithValue }) => {
-    const res = await fetch(`/api/products/${productId}`);
+    const res = await fetch(`/api/products/${productId}`)
     if (!res.ok) {
-      const err = await res.json();
-      return rejectWithValue(err.message || "Failed to fetch product");
+      const err = await res.json()
+      return rejectWithValue(err.message || 'Failed to fetch product')
     }
-    return (await res.json()) as Product;
-  },
-);
+    return (await res.json()) as Product
+  }
+)
 
 const adminProductSlice = createSlice({
-  name: "adminProduct",
+  name: 'adminProduct',
   initialState,
   reducers: {
     setAdminProductFilters(
       state,
-      action: PayloadAction<Partial<ProductFilters>>,
+      action: PayloadAction<Partial<ProductFilters>>
     ) {
-      state.filters = { ...state.filters, ...action.payload };
+      state.filters = { ...state.filters, ...action.payload }
       // Whenever filters change, reset to page 1 by default
-      state.pagination.page = 1;
+      state.pagination.page = 1
     },
     resetAdminProductFilters(state) {
       state.filters = {
@@ -120,22 +120,22 @@ const adminProductSlice = createSlice({
         style: null,
         priceMin: null,
         priceMax: null,
-      };
-      state.pagination.page = 1;
+      }
+      state.pagination.page = 1
     },
     setAdminProductPage(state, action: PayloadAction<number>) {
-      state.pagination.page = action.payload;
+      state.pagination.page = action.payload
     },
     setAdminProductLimit(state, action: PayloadAction<number>) {
-      state.pagination.limit = action.payload;
-      state.pagination.page = 1;
+      state.pagination.limit = action.payload
+      state.pagination.page = 1
     },
     resetAdminProductState(state) {
-      state.product = null;
-      state.products = [];
-      state.isLoading = false;
-      state.isSuccess = false;
-      state.error = null;
+      state.product = null
+      state.products = []
+      state.isLoading = false
+      state.isSuccess = false
+      state.error = null
       state.filters = {
         name: null,
         category: null,
@@ -143,160 +143,156 @@ const adminProductSlice = createSlice({
         style: null,
         priceMin: null,
         priceMax: null,
-      };
+      }
       state.pagination = {
         limit: 10,
         page: 1,
         total: 0,
         totalPages: 0,
-      };
+      }
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(createAdminProduct.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         createAdminProduct.fulfilled,
         (state, action: PayloadAction<Product>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.product = action.payload;
-        },
+          state.isLoading = false
+          state.isSuccess = true
+          state.product = action.payload
+        }
       )
       .addCase(createAdminProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = (action.payload as string) || action.error.message || null
       })
       .addCase(updateAdminProduct.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         updateAdminProduct.fulfilled,
         (state, action: PayloadAction<Product>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.product = action.payload;
-        },
+          state.isLoading = false
+          state.isSuccess = true
+          state.product = action.payload
+        }
       )
       .addCase(updateAdminProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = (action.payload as string) || action.error.message || null
       })
       .addCase(deleteAdminProduct.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(deleteAdminProduct.fulfilled, (state) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.product = null;
+        state.isLoading = false
+        state.isSuccess = true
+        state.product = null
       })
       .addCase(deleteAdminProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = (action.payload as string) || action.error.message || null
       })
       .addCase(fetchAdminProduct.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         fetchAdminProduct.fulfilled,
         (state, action: PayloadAction<Product>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.product = action.payload;
-        },
+          state.isLoading = false
+          state.isSuccess = true
+          state.product = action.payload
+        }
       )
       .addCase(fetchAdminProduct.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error =
-          (action.payload as string) || action.error.message || null;
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = (action.payload as string) || action.error.message || null
       })
       .addCase(fetchProductsList.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         fetchProductsList.fulfilled,
         (
           state,
           action: PayloadAction<{
-            products: Product[];
-            filters: ProductFilters;
-            pagination: Pagination & { append?: boolean };
-          }>,
+            products: Product[]
+            filters: ProductFilters
+            pagination: Pagination & { append?: boolean }
+          }>
         ) => {
-          state.isLoading = false;
-          state.isSuccess = true;
+          state.isLoading = false
+          state.isSuccess = true
 
-          const incoming = action.payload.products;
+          const incoming = action.payload.products
 
-          state.products = incoming;
+          state.products = incoming
 
-          state.filters = action.payload.filters;
+          state.filters = action.payload.filters
           state.pagination = {
             ...action.payload.pagination,
-          };
-        },
+          }
+        }
       )
       .addCase(fetchProductsList.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error = action.error.message ?? "Unknown error";
-      });
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = action.error.message ?? 'Unknown error'
+      })
   },
-});
+})
 
 export const selectAdminProduct = (state: RootState) =>
-  state.adminProduct.product;
+  state.adminProduct.product
 export const selectAdminProductLoading = (state: RootState) =>
-  state.adminProduct.isLoading;
+  state.adminProduct.isLoading
 export const selectAdminProductSuccess = (state: RootState) =>
-  state.adminProduct.isSuccess;
+  state.adminProduct.isSuccess
 export const selectAdminProductError = (state: RootState) =>
-  state.adminProduct.error;
+  state.adminProduct.error
 export const selectAdminProductItems = (state: RootState) =>
-  state.adminProduct.products;
+  state.adminProduct.products
 export const selectAdminProductFilters = (state: RootState) =>
-  state.adminProduct.filters;
+  state.adminProduct.filters
 export const selectAdminProductPagination = (state: RootState) =>
-  state.adminProduct.pagination;
+  state.adminProduct.pagination
 
 // Selectors for admin product list (fetchProductsList)
 export const selectAdminProductListLoading = (state: RootState) =>
-  state.adminProduct.isLoading;
+  state.adminProduct.isLoading
 export const selectAdminProductListSuccess = (state: RootState) =>
-  state.adminProduct.isSuccess;
+  state.adminProduct.isSuccess
 export const selectAdminProductListError = (state: RootState) =>
-  state.adminProduct.error;
+  state.adminProduct.error
 export const selectAdminProductListItems = (state: RootState) =>
-  state.adminProduct.products;
+  state.adminProduct.products
 export const selectAdminProductListFilters = (state: RootState) =>
-  state.adminProduct.filters;
+  state.adminProduct.filters
 export const selectAdminProductListPagination = (state: RootState) =>
-  state.adminProduct.pagination;
+  state.adminProduct.pagination
 
-export default adminProductSlice.reducer;
+export default adminProductSlice.reducer
 export const {
   setAdminProductFilters,
   resetAdminProductFilters,
   setAdminProductPage,
   setAdminProductLimit,
   resetAdminProductState,
-} = adminProductSlice.actions;
+} = adminProductSlice.actions

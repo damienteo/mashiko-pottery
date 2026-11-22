@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 
 /**
  * Create a standardized JSON error response.
@@ -8,8 +8,8 @@ import { NextResponse } from "next/server";
  */
 export function jsonErrorResponse(
   message: string | Record<string, unknown>,
-  status: number = 400,
+  status = 400
 ) {
-  const payload = typeof message === "string" ? { error: message } : message;
-  return NextResponse.json(payload, { status });
+  const payload = typeof message === 'string' ? { error: message } : message
+  return NextResponse.json(payload, { status })
 }

@@ -1,33 +1,33 @@
-import React from "react";
-import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import React from 'react'
+import Image from 'next/image'
+import { getTranslations } from 'next-intl/server'
 
 export default async function HowItWorks() {
-  const t = await getTranslations();
+  const t = await getTranslations()
 
   const steps = [
     {
-      icon: "/icons/step1.svg",
-      title: t("howItWorks.step1"),
-      description: t("howItWorks.step1"),
+      icon: '/icons/step1.svg',
+      title: t('howItWorks.step1'),
+      description: t('howItWorks.step1'),
     },
     {
-      icon: "/icons/step2.svg",
-      title: t("howItWorks.step2"),
-      description: t("howItWorks.step2"),
+      icon: '/icons/step2.svg',
+      title: t('howItWorks.step2'),
+      description: t('howItWorks.step2'),
     },
     {
-      icon: "/icons/step3.svg",
-      title: t("howItWorks.step3"),
-      description: t("howItWorks.step3"),
+      icon: '/icons/step3.svg',
+      title: t('howItWorks.step3'),
+      description: t('howItWorks.step3'),
     },
-  ];
+  ]
 
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
-          {t("howItWorks.title")}
+          {t('howItWorks.title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step, idx) => (
@@ -53,5 +53,5 @@ export default async function HowItWorks() {
         </div>
       </div>
     </section>
-  );
+  )
 }
