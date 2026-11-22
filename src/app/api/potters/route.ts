@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@/generated/prisma/client";
 
 
 export async function GET(req: NextRequest) {

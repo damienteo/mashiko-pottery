@@ -8,7 +8,7 @@ import { selectUserProfile } from "@/store/user/userSlice";
 // import { selectCartCount } from "@/store/cartSlice";
 import { logoutUser, selectCurrentUser } from "@/store/user/authSlice";
 import Button from "@/components/ui/Button";
-import { Role } from "@prisma/client";
+import { Role } from "@/generated/prisma/enums";
 
 export default function Navbar() {
   const t = useTranslations();

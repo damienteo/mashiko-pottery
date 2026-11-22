@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-// import { PrismaClient, Prisma, PayoutStatus } from "@prisma/client";
+// import { PrismaClient, Prisma, PayoutStatus } from "@/generated/prisma/client";
 
 // 
 export async function GET() {

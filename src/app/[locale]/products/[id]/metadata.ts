@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 export async function generateMetadata({
   params,
 }: {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
   const res = await fetch(
