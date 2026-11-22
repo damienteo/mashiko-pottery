@@ -1,23 +1,10 @@
-'use client'
-
 import Image, { type ImageProps } from 'next/image'
-import cloudinaryLoader from '@/lib/cloudinaryLoader'
-
-function isCloudinarySrc(src: ImageProps['src']): boolean {
-  return typeof src === 'string' && src.includes('res.cloudinary.com')
-}
 
 /**
- * `next/image` wrapper. Cloudinary URLs use the custom loader (function stays
- * in this Client Component). Local files use the default optimizer.
+ * `next/image` wrapper. Cloudinary transforms come from the global
+ * `images.loaderFile` in next.config.ts so this file can stay a Server
+ * Component (passing a loader function here would force a client boundary).
  */
-export default function SmartImage({ alt, src, ...props }: ImageProps) {
-  return (
-    <Image
-      {...props}
-      src={src}
-      alt={alt}
-      loader={isCloudinarySrc(src) ? cloudinaryLoader : undefined}
-    />
-  )
+export default function SmartImage({ alt, ...props }: ImageProps) {
+  return <Image {...props} alt={alt} />
 }

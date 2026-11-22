@@ -1,6 +1,3 @@
-'use client'
-
-import { useMemo } from 'react'
 import SmartImage from '@/components/ui/SmartImage'
 import Link from 'next/link'
 
@@ -8,8 +5,9 @@ import type { Product } from '@/types/product'
 import type { Locale } from '@/types/i18n'
 import type { Potter } from '@/types/potter'
 import { formatYen } from '@/utils/format'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 import Gallery from '@/components/ui/Gallery'
+import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
 
 const formatNum = (n: number, locale: Locale) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n)
@@ -25,29 +23,19 @@ interface ProductDetailsProps {
   relatedProducts?: Product[]
 }
 
-const ProductDetails: React.FC<ProductDetailsProps> = ({
+export default async function ProductDetails({
   product,
   locale,
   imagePriority = true,
   potter,
   relatedProducts,
-}) => {
-  const t = useTranslations('product')
+}: ProductDetailsProps) {
+  const t = await getTranslations('product')
 
-  const images = useMemo(() => {
-    const imgs: string[] = []
-    if (product.mainImage) {
-      imgs.push(product.mainImage)
-    }
-    if (product.photos?.length) {
-      product.photos.forEach((photo) => {
-        if (photo && photo !== product.mainImage) {
-          imgs.push(photo)
-        }
-      })
-    }
-    return imgs
-  }, [product.mainImage, product.photos])
+  const images = uniqueGalleryImages([
+    product.mainImage,
+    ...(product.photos ?? []),
+  ])
 
   const title = product.title[locale]
 
@@ -206,5 +194,3 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     </>
   )
 }
-
-export default ProductDetails

@@ -95,7 +95,6 @@ export default function ProductsToolbar({
     e.preventDefault()
     // RHF's handleSubmit also calls preventDefault internally, but we double-guard here
     handleSubmit((data) => {
-      console.log({ data })
       const next: ProductFilters = {
         ...value,
         q: data.q.trim() === '' ? null : data.q.trim(),

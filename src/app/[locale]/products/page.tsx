@@ -3,7 +3,9 @@ import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { catalogForStaticPage } from '@/lib/catalog/guard'
 import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
-import ProductsClient from './ProductsClient'
+import ProductGrid from '@/components/products/ProductGrid'
+import ProductsCatalog from './ProductsCatalog'
+import type { Locale } from '@/types/i18n'
 
 export const revalidate = 60
 
@@ -38,6 +40,7 @@ export default async function ProductsPage({
 }) {
   const { locale } = await params
   setRequestLocale(locale)
+  const typedLocale = locale as Locale
 
   const query = { page: 1, limit: 10 }
   const initialData = await catalogForStaticPage(
@@ -45,5 +48,13 @@ export default async function ProductsPage({
     emptyProductList(query)
   )
 
-  return <ProductsClient initialData={initialData} />
+  return (
+    <ProductsCatalog
+      initialData={initialData}
+      locale={typedLocale}
+      serverGrid={
+        <ProductGrid products={initialData.products} locale={typedLocale} />
+      }
+    />
+  )
 }

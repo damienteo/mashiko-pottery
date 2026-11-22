@@ -14,7 +14,10 @@ import {
 } from '@/lib/catalog/products'
 import { getCachedPotterById } from '@/lib/catalog/potters'
 import { localizedText } from '@/lib/catalog/serialize'
-import ProductClient from './ProductClient'
+import { pickRelatedProducts } from '@/lib/catalog/relatedProducts'
+import ProductDetails from '@/components/products/ProductDetails'
+import ViewItemBeacon from '@/components/analytics/ViewItemBeacon'
+import type { Locale } from '@/types/i18n'
 
 export const revalidate = 60
 
@@ -74,6 +77,7 @@ export default async function ProductPage({
 }) {
   const { locale, id } = await params
   setRequestLocale(locale)
+  const typedLocale = locale as Locale
   const idNum = Number(id)
   const product = Number.isNaN(idNum)
     ? null
@@ -104,11 +108,28 @@ export default async function ProductPage({
         )
       : null
 
+  if (!product) {
+    return <p className="p-8 text-red-600">Product not found.</p>
+  }
+
+  const relatedProducts = pickRelatedProducts(
+    related?.products ?? [],
+    product.id
+  )
+
   return (
-    <ProductClient
-      initialProduct={product}
-      initialPotter={potter}
-      initialProductList={related}
-    />
+    <>
+      <ViewItemBeacon
+        id={product.id}
+        title={product.title[typedLocale]}
+        price={product.price}
+      />
+      <ProductDetails
+        product={product}
+        locale={typedLocale}
+        potter={potter}
+        relatedProducts={relatedProducts}
+      />
+    </>
   )
 }
