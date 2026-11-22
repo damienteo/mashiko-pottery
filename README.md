@@ -377,6 +377,17 @@ Loaded via `next/font/google` (e.g., Inter, Playfair Display, Noto Sans JP, Noto
 - **Backend**: Vercel Serverless Functions or containerized Express
 - **Database**: Supabase, AWS RDS, PlanetScale, etc.
 
+### Supabase TLS (Prisma 7 + `pg`)
+
+With `@prisma/adapter-pg`, `sslmode=require` in `DATABASE_URL` is treated like full
+certificate verification. If production fails with a self-signed certificate in
+the chain (Prisma `P1011`), set **`DATABASE_CA_CERT`** on Vercel (Production and
+Preview) to the PEM from **Supabase → Project Settings → Database → SSL
+certificate** (paste the PEM as-is, or use `\n` for newlines in a single-line env
+value). You can then use a normal `DATABASE_URL` with `?sslmode=require` and remove
+temporary `uselibpqcompat=true` workarounds. Unset `DATABASE_CA_CERT` to roll back
+to the previous connection-string-only behaviour.
+
 ---
 
 ## Roadmap & Next Steps

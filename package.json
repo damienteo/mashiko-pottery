@@ -12,6 +12,7 @@
     "lint": "tsc --noEmit && eslint '*/**/*.{ts,tsx}' --quiet --fix",
     "prettier-format": "prettier --config .prettierrc '*/**/*.{ts,tsx}' --write",
     "format:check": "prettier --config .prettierrc --check .",
+    "test": "jest --config jest.config.cjs",
     "dev:migrate": "prisma migrate dev --name",
     "db:push": "prisma db push",
     "db:push:local": "dotenv -e .env.local -- prisma db push",
@@ -61,6 +62,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
     "@tailwindcss/postcss": "^4.3.5",
+    "@types/jest": "^30.0.0",
     "@types/node": "^26",
     "@types/pg": "^8.23.1",
     "@types/react": "^19.3.0",
