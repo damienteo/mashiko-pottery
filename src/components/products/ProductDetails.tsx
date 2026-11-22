@@ -1,5 +1,5 @@
 import SmartImage from '@/components/ui/SmartImage'
-import Link from 'next/link'
+import IntentLink from '@/components/ui/IntentLink'
 
 import type { Product } from '@/types/product'
 import type { Locale } from '@/types/i18n'
@@ -160,7 +160,7 @@ export default async function ProductDetails({
                   const rpTitle = rp.title[locale]
                   const rpImg = rp.mainImage || (rp.photos?.[0] ?? '')
                   return (
-                    <Link
+                    <IntentLink
                       key={rp.id}
                       href={`/${locale}/products/${rp.id}`}
                       className="group block"
@@ -183,7 +183,7 @@ export default async function ProductDetails({
                       <div className="text-sm text-gray-600">
                         {formatYen(rp.price)}
                       </div>
-                    </Link>
+                    </IntentLink>
                   )
                 })}
               </div>

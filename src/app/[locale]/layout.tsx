@@ -12,6 +12,10 @@ import Analytics from './ClientAnalytics'
 import StoreProvider from './StoreProvider'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import {
+  NavigationPendingMain,
+  NavigationPendingProvider,
+} from '@/components/navigation/NavigationPendingProvider'
 import './globals.css'
 
 const AuthLoader = dynamic(() => import('@/components/auth/AuthLoader'))
@@ -89,12 +93,12 @@ export default async function RootLayout({
                 <Analytics />
               </Suspense>
             ) : null}
-            <main className="flex-grow">
+            <NavigationPendingProvider>
               <Navbar />
               <ToasterContainer />
-              {children}
-            </main>
-            <Footer />
+              <NavigationPendingMain>{children}</NavigationPendingMain>
+              <Footer />
+            </NavigationPendingProvider>
           </StoreProvider>
         </NextIntlClientProvider>
         {process.env.NODE_ENV === 'production' ? <SpeedInsights /> : null}

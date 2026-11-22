@@ -1,12 +1,12 @@
 'use client'
-import NextLink from 'next/link'
 import { Suspense, useState, type ComponentProps } from 'react'
-
-function Link(props: ComponentProps<typeof NextLink>) {
-  return <NextLink prefetch={false} {...props} />
-}
-import { useTranslations } from 'next-intl'
+import IntentLink from '@/components/ui/IntentLink'
+import { useLocale, useTranslations } from 'next-intl'
 import LanguageSelector from './LanguageSelector'
+
+function Link(props: ComponentProps<typeof IntentLink>) {
+  return <IntentLink {...props} />
+}
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { selectUserProfile } from '@/store/user/userSlice'
 // import { selectCartCount } from "@/store/cartSlice";
@@ -16,6 +16,7 @@ import { Role } from '@/generated/prisma/enums'
 
 export default function Navbar() {
   const t = useTranslations()
+  const locale = useLocale()
   const [menuOpen, setMenuOpen] = useState(false)
   // const cartCount = useAppSelector(selectCartCount);
   const dispatch = useAppDispatch()
@@ -31,7 +32,10 @@ export default function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
           {/* Logo / Site Title */}
-          <Link href="/" className="text-xl font-[var(--font-playfair)]">
+          <Link
+            href={`/${locale}`}
+            className="text-xl font-[var(--font-playfair)]"
+          >
             {t('common.site.title')}
           </Link>
           {/* Menu toggle for mobile */}
@@ -46,12 +50,12 @@ export default function Navbar() {
           {/* Desktop menu items */}
           <ul className="hidden sm:flex sm:space-x-6 items-center">
             <li>
-              <Link href="/products" className="hover:underline">
+              <Link href={`/${locale}/products`} className="hover:underline">
                 {t('products.title')}
               </Link>
             </li>
             <li>
-              <Link href="/potters" className="hover:underline">
+              <Link href={`/${locale}/potters`} className="hover:underline">
                 {t('potters.title')}
               </Link>
             </li>
@@ -177,7 +181,7 @@ export default function Navbar() {
                 <ul className="space-y-4">
                   <li>
                     <Link
-                      href="/products"
+                      href={`/${locale}/products`}
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
@@ -186,7 +190,7 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
-                      href="/potters"
+                      href={`/${locale}/potters`}
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >

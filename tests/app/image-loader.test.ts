@@ -6,6 +6,10 @@ const smartImage = readFileSync(
   join(process.cwd(), 'src/components/ui/SmartImage.tsx'),
   'utf8'
 )
+const smartImageLoader = readFileSync(
+  join(process.cwd(), 'src/lib/smartImageLoader.ts'),
+  'utf8'
+)
 
 describe('image loaders', () => {
   it('does not set a global custom image loader', () => {
@@ -15,7 +19,8 @@ describe('image loaders', () => {
 
   it('keeps the Cloudinary loader inside the client SmartImage module', () => {
     expect(smartImage).toMatch(/'use client'/)
-    expect(smartImage).toMatch(/cloudinaryLoader/)
-    expect(smartImage).toMatch(/res\.cloudinary\.com/)
+    expect(smartImage).toMatch(/resolveSmartImageLoader/)
+    expect(smartImageLoader).toMatch(/cloudinaryLoader/)
+    expect(smartImageLoader).toMatch(/res\.cloudinary\.com/)
   })
 })

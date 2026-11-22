@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import IntentLink from '@/components/ui/IntentLink'
 import SmartImage from '@/components/ui/SmartImage'
 import type { Potter } from '@/types/potter'
 import type { Locale } from '@/types/i18n'
@@ -13,7 +13,7 @@ export default function PotterGrid({
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       {potters.map((potter, index) => (
-        <Link
+        <IntentLink
           key={potter.id}
           href={`/${locale}/potters/${potter.id}`}
           className="block"
@@ -33,7 +33,7 @@ export default function PotterGrid({
             {potter.name[locale]}
           </h2>
           <p className="text-gray-600 text-center">{potter.bio[locale]}</p>
-        </Link>
+        </IntentLink>
       ))}
     </div>
   )

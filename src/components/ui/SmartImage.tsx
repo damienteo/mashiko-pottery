@@ -1,11 +1,7 @@
 'use client'
 
 import Image, { type ImageProps } from 'next/image'
-import cloudinaryLoader from '@/lib/cloudinaryLoader'
-
-function isCloudinarySrc(src: ImageProps['src']): boolean {
-  return typeof src === 'string' && src.includes('res.cloudinary.com')
-}
+import { resolveSmartImageLoader } from '@/lib/smartImageLoader'
 
 function isUnoptimizedSrc(src: ImageProps['src']): boolean {
   return typeof src === 'string' && /^(data:|blob:)/.test(src)
@@ -26,7 +22,9 @@ export default function SmartImage({ alt, src, ...props }: ImageProps) {
       {...props}
       src={src}
       alt={alt}
-      loader={isCloudinarySrc(src) ? cloudinaryLoader : undefined}
+      loader={
+        typeof src === 'string' ? resolveSmartImageLoader(src) : undefined
+      }
     />
   )
 }
