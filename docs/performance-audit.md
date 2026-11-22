@@ -166,7 +166,7 @@ Admin, seller, login, register, and profile stay `force-dynamic`. Those trees us
 ### Fonts
 
 - Merriweather is gone. Blockquotes, if any appear later, use Playfair.
-- Inter and Playfair are variable fonts. Only the locale's body family is applied: Inter on English, Noto Sans JP (`weight: 'variable'`, `preload: false`) on Japanese, Noto Serif SC (same) on Chinese. Playfair stays for headings.
+- Inter and Playfair stay as the heading/English stack. Only the locale's body family is applied: Inter on English, Noto Sans JP (`400`/`700`, `preload: false`) on Japanese, Noto Serif SC (same) on Chinese. Playfair stays for headings. Variable Noto files were avoided because they are huge at build time.
 - English pages should not download Noto woff2 files. The language toggle still uses the browser CJK fallback for 「日本語」.
 
 ### Images and static files
