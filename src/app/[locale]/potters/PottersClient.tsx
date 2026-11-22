@@ -6,13 +6,17 @@ import { useTranslations, useLocale } from 'next-intl'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   selectAllPotters,
+  selectPottersListFilters,
+  selectPottersListPagination,
   selectPottersListIsLoading,
+  selectPottersListIsSuccess,
   selectPottersListError,
   hydratePottersList,
 } from '@/store/potters/pottersListSlice'
 import { fetchPottersList } from '@/store/thunks/fetchPottersList'
 import SmartImage from '@/components/ui/SmartImage'
 import type { PotterListResult } from '@/lib/catalog/potters'
+import { pickScopedPotterList } from '@/lib/catalog/pickCached'
 
 export default function PottersClient({
   initialData,
@@ -24,9 +28,22 @@ export default function PottersClient({
   const dispatch = useAppDispatch()
 
   const storePotters = useAppSelector(selectAllPotters)
+  const storeFilters = useAppSelector(selectPottersListFilters)
+  const storePagination = useAppSelector(selectPottersListPagination)
   const isLoading = useAppSelector(selectPottersListIsLoading)
+  const isSuccess = useAppSelector(selectPottersListIsSuccess)
   const error = useAppSelector(selectPottersListError)
-  const potters = storePotters.length > 0 ? storePotters : initialData.potters
+  const scoped = pickScopedPotterList({
+    store: {
+      potters: storePotters,
+      filters: storeFilters,
+      pagination: storePagination,
+    },
+    initial: initialData,
+    expectedFilters: initialData.filters,
+    storeReady: isSuccess || isLoading,
+  })
+  const potters = scoped?.potters ?? initialData.potters
 
   const hasFetched = useRef(false)
   useEffect(() => {
@@ -69,6 +86,7 @@ export default function PottersClient({
                   className="object-cover"
                   sizes="(min-width: 768px) 33vw, 100vw"
                   priority={index === 0}
+                  fetchPriority={index === 0 ? 'high' : undefined}
                 />
               </div>
               <h2 className="text-xl font-semibold text-center mb-2">

@@ -30,7 +30,7 @@ export default async function PotterSpotlights({
           {t('potterSpotlights.title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {potters.map((potter, index) => (
+          {potters.map((potter) => (
             <Link
               key={potter.id}
               href={`/${locale}/potters/${potter.id}`}
@@ -43,7 +43,6 @@ export default async function PotterSpotlights({
                   fill
                   className="object-cover"
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  priority={index === 0}
                 />
               </div>
               <h3 className="text-xl md:text-2xl font-semibold text-center mb-2">

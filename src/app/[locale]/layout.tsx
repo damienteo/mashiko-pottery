@@ -104,9 +104,11 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <StoreProvider>
             <AuthLoader />
-            <Suspense fallback={null}>
-              <Analytics />
-            </Suspense>
+            {process.env.NEXT_PUBLIC_GA_ID ? (
+              <Suspense fallback={null}>
+                <Analytics />
+              </Suspense>
+            ) : null}
             <main className="flex-grow">
               <Navbar />
               <ToasterContainer />
@@ -115,7 +117,7 @@ export default async function RootLayout({
             <Footer />
           </StoreProvider>
         </NextIntlClientProvider>
-        <SpeedInsights />
+        {process.env.NODE_ENV === 'production' ? <SpeedInsights /> : null}
       </body>
     </html>
   )

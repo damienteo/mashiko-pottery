@@ -1,6 +1,11 @@
-import { pickById, pickScopedProductList } from '@/lib/catalog/pickCached'
+import {
+  pickById,
+  pickScopedProductList,
+  pickScopedPotterList,
+} from '@/lib/catalog/pickCached'
 import type { Product } from '@/types/product'
-import type { ProductFilters, Pagination } from '@/types/common'
+import type { Potter } from '@/types/potter'
+import type { ProductFilters, PotterFilters, Pagination } from '@/types/common'
 
 const filters = (potterId: number | null): ProductFilters => ({
   name: null,
@@ -91,5 +96,74 @@ describe('pickScopedProductList', () => {
       storeReady: false,
     })
     expect(picked?.products[0]?.id).toBe(1)
+  })
+})
+
+const potterFilters = (
+  overrides: Partial<PotterFilters> = {}
+): PotterFilters => ({
+  name: null,
+  style: null,
+  active: null,
+  ...overrides,
+})
+
+const potter = (id: number): Potter => ({
+  id,
+  name: { en: `p${id}`, ja: `p${id}`, zh: `p${id}` },
+  bio: { en: '', ja: '', zh: '' },
+  active: true,
+  photos: [],
+  createdAt: '',
+  updatedAt: '',
+  isDraft: false,
+})
+
+describe('pickScopedPotterList', () => {
+  const catalog = {
+    potters: [potter(1)],
+    filters: potterFilters(),
+    pagination: pagination(1),
+  }
+  const filtered = {
+    potters: [potter(9)],
+    filters: potterFilters({ style: 'oribe' }),
+    pagination: pagination(1),
+  }
+
+  it('does not let a filtered store leak onto the catalog page', () => {
+    const picked = pickScopedPotterList({
+      store: filtered,
+      initial: catalog,
+      expectedFilters: catalog.filters,
+      storeReady: true,
+    })
+    expect(picked?.potters[0]?.id).toBe(1)
+  })
+
+  it('uses the store once its query matches', () => {
+    const page2 = {
+      potters: [potter(4)],
+      filters: potterFilters(),
+      pagination: pagination(2),
+    }
+    const picked = pickScopedPotterList({
+      store: page2,
+      initial: catalog,
+      expectedFilters: catalog.filters,
+      storeReady: true,
+    })
+    expect(picked?.pagination.page).toBe(2)
+    expect(picked?.potters[0]?.id).toBe(4)
+  })
+
+  it('prefers initial on first paint when the store is not ready', () => {
+    const picked = pickScopedPotterList({
+      store: filtered,
+      initial: catalog,
+      expectedFilters: catalog.filters,
+      storeReady: false,
+    })
+    expect(picked?.potters[0]?.id).toBe(1)
   })
 })

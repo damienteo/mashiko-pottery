@@ -86,6 +86,10 @@ const pottersListSlice = createSlice({
 })
 
 export const selectAllPotters = (state: RootState) => state.pottersList.items
+export const selectPottersListFilters = (state: RootState) =>
+  state.pottersList.filters
+export const selectPottersListPagination = (state: RootState) =>
+  state.pottersList.pagination
 export const selectPottersListIsLoading = (state: RootState) =>
   state.pottersList.isLoading
 export const selectPottersListIsSuccess = (state: RootState) =>
