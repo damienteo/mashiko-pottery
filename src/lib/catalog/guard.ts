@@ -49,7 +49,10 @@ export async function catalogForStaticPage<T>(
 ): Promise<T> {
   try {
     return await withCatalogGuard(load)
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) {
+      throw error
+    }
     await deferCatalogToRequest()
     return fallback
   }

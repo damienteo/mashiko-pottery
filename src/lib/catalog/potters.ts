@@ -3,7 +3,7 @@ import { Prisma } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 import type { Pagination, PotterFilters } from '@/types/common'
 import type { Potter } from '@/types/potter'
-import { withCatalogGuard } from './guard'
+import { isProductionBuild, withCatalogGuard } from './guard'
 import { serializePotter, serializeProduct } from './serialize'
 
 export type PotterListQuery = {
@@ -131,7 +131,8 @@ export async function safeListPotters(
 ): Promise<PotterListResult> {
   try {
     return await withCatalogGuard(() => listPotters(query))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return emptyPotterList(query)
   }
 }
@@ -139,7 +140,8 @@ export async function safeListPotters(
 export async function safeGetPotterById(id: number): Promise<Potter | null> {
   try {
     return await withCatalogGuard(() => getPotterById(id))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return null
   }
 }
@@ -147,7 +149,8 @@ export async function safeGetPotterById(id: number): Promise<Potter | null> {
 export async function safeListPotterIds(): Promise<number[]> {
   try {
     return await withCatalogGuard(() => listPotterIds())
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return []
   }
 }
@@ -174,7 +177,8 @@ export async function safeCachedPotterList(
     return await withCatalogGuard(() =>
       getCachedPotterList(JSON.stringify(query))
     )
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return emptyPotterList(query)
   }
 }
@@ -182,7 +186,8 @@ export async function safeCachedPotterList(
 export async function safeCachedPotterById(id: number): Promise<Potter | null> {
   try {
     return await withCatalogGuard(() => getCachedPotterById(id))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return null
   }
 }

@@ -3,7 +3,7 @@ import { Prisma } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 import type { Pagination, ProductFilters } from '@/types/common'
 import type { Product } from '@/types/product'
-import { withCatalogGuard } from './guard'
+import { isProductionBuild, withCatalogGuard } from './guard'
 import { serializePotter, serializeProduct } from './serialize'
 
 export type ProductListQuery = {
@@ -227,7 +227,8 @@ export async function safeListProducts(
 ): Promise<ProductListResult> {
   try {
     return await withCatalogGuard(() => listProducts(query))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return emptyProductList(query)
   }
 }
@@ -235,7 +236,8 @@ export async function safeListProducts(
 export async function safeGetProductById(id: number): Promise<Product | null> {
   try {
     return await withCatalogGuard(() => getProductById(id))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return null
   }
 }
@@ -243,7 +245,8 @@ export async function safeGetProductById(id: number): Promise<Product | null> {
 export async function safeListProductIds(): Promise<number[]> {
   try {
     return await withCatalogGuard(() => listProductIds())
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return []
   }
 }
@@ -270,7 +273,8 @@ export async function safeCachedProductList(
     return await withCatalogGuard(() =>
       getCachedProductList(JSON.stringify(query))
     )
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return emptyProductList(query)
   }
 }
@@ -280,7 +284,8 @@ export async function safeCachedProductById(
 ): Promise<Product | null> {
   try {
     return await withCatalogGuard(() => getCachedProductById(id))
-  } catch {
+  } catch (error) {
+    if (!isProductionBuild()) throw error
     return null
   }
 }
