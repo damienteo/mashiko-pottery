@@ -1,10 +1,8 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 
 import RegisterEmailSentClient from './RegisterEmailSentClient'
 import { routing } from '@/i18n/routing'
-
-export const dynamic = 'force-dynamic'
 
 export function generateStaticParams() {
   // Build locale‐prefixed paths
@@ -28,6 +26,12 @@ export async function generateMetadata({
   }
 }
 
-export default async function RegisterEmailSentPage() {
+export default async function RegisterEmailSentPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
   return <RegisterEmailSentClient />
 }

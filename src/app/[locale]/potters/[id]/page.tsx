@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
 import { catalogForStaticPage } from '@/lib/catalog/guard'
@@ -36,7 +36,8 @@ export default async function PotterPage({
 }: {
   params: Promise<{ locale: string; id: string }>
 }) {
-  const { id } = await params
+  const { locale, id } = await params
+  setRequestLocale(locale)
   const idNum = Number(id)
   const potter = Number.isNaN(idNum)
     ? null

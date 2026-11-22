@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { catalogForStaticPage, withCatalogGuard } from '@/lib/catalog/guard'
 import {
@@ -64,7 +65,8 @@ export default async function ProductPage({
 }: {
   params: Promise<{ locale: string; id: string }>
 }) {
-  const { id } = await params
+  const { locale, id } = await params
+  setRequestLocale(locale)
   const idNum = Number(id)
   const product = Number.isNaN(idNum)
     ? null

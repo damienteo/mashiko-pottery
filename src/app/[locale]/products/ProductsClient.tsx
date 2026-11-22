@@ -1,23 +1,24 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { Suspense } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
-import { useRouter, usePathname, useSearchParams } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 
 import ProductCard from '@/components/products/ProductCard'
 import ProductsToolbar from '@/components/products/ProductsToolbar'
+import ProductsQuerySync from './ProductsQuerySync'
 
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   selectAllProducts,
   selectProductsListIsLoading,
+  selectProductsListIsSuccess,
   selectProductsListError,
   selectProductsListFilters,
   selectProductsListPagination,
   setProductsFilters,
   setProductsPage,
   setProductsLimit,
-  hydrateProductsList,
 } from '@/store/products/productsListSlice'
 import { fetchProductsList } from '@/store/thunks/fetchProductsList'
 
@@ -43,17 +44,17 @@ export default function ProductsClient({
   const router = useRouter()
   const pathname = usePathname()
 
-  const searchParams = useSearchParams()
-
   const storeProducts = useAppSelector(selectAllProducts)
   const isLoading = useAppSelector(selectProductsListIsLoading)
+  const isSuccess = useAppSelector(selectProductsListIsSuccess)
   const error = useAppSelector(selectProductsListError)
-  const filters = useAppSelector(selectProductsListFilters)
-  const pagination = useAppSelector(selectProductsListPagination)
+  const storeFilters = useAppSelector(selectProductsListFilters)
+  const storePagination = useAppSelector(selectProductsListPagination)
 
-  const products =
-    storeProducts.length > 0 ? storeProducts : initialData.products
-  const hasFetched = useRef(false)
+  const useStore = isSuccess || isLoading
+  const products = useStore ? storeProducts : initialData.products
+  const filters = useStore ? storeFilters : initialData.filters
+  const pagination = useStore ? storePagination : initialData.pagination
 
   const pushQuery = (q: PushQueryParams) => {
     const params = new URLSearchParams()
@@ -76,70 +77,6 @@ export default function ProductsClient({
     router.push(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
-  useEffect(() => {
-    if (hasFetched.current) return
-    hasFetched.current = true
-
-    const num = (v: string | null) => (v == null ? undefined : Number(v))
-    const bool = (v: string | null) =>
-      v == null ? undefined : v === 'true' || v === '1'
-
-    const pageParam = num(searchParams.get('page'))
-    const limitParam = num(searchParams.get('limit'))
-    const category = searchParams.get('category') || null
-    const style = searchParams.get('style') || null
-    const priceMinParam = num(searchParams.get('priceMin'))
-    const priceMaxParam = num(searchParams.get('priceMax'))
-    const activeParam = bool(searchParams.get('active'))
-    const potterIdParam = num(searchParams.get('potterId'))
-    const q = searchParams.get('q') || null
-    const urlLocale = (searchParams.get('locale') as Locale | null) ?? locale
-
-    const hasQuery = searchParams.toString().length > 0
-
-    if (!hasQuery && initialData) {
-      dispatch(hydrateProductsList(initialData))
-      return
-    }
-
-    const page = pageParam && pageParam > 0 ? pageParam : (pagination.page ?? 1)
-    const limit =
-      limitParam && limitParam > 0 ? limitParam : (pagination.limit ?? 50)
-
-    const initialFilters: Partial<ProductFilters> = {
-      category: category ?? null,
-      style: style ?? null,
-      priceMin:
-        typeof priceMinParam === 'number' && !Number.isNaN(priceMinParam)
-          ? priceMinParam
-          : null,
-      priceMax:
-        typeof priceMaxParam === 'number' && !Number.isNaN(priceMaxParam)
-          ? priceMaxParam
-          : null,
-      active: typeof activeParam === 'boolean' ? activeParam : null,
-      potterId:
-        typeof potterIdParam === 'number' && !Number.isNaN(potterIdParam)
-          ? potterIdParam
-          : null,
-      q,
-      locale: urlLocale,
-    }
-
-    dispatch(setProductsPage(page))
-    dispatch(setProductsLimit(limit))
-    dispatch(setProductsFilters(initialFilters))
-
-    dispatch(
-      fetchProductsList({
-        page,
-        limit,
-        filters: initialFilters,
-      })
-    )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,12 +84,16 @@ export default function ProductsClient({
           {t('products.title')}
         </h1>
 
+        <Suspense fallback={null}>
+          <ProductsQuerySync initialData={initialData} locale={locale} />
+        </Suspense>
+
         <ProductsToolbar
           value={filters}
           onSearch={(next: Partial<ProductFilters>) => {
             dispatch(setProductsFilters(next))
             dispatch(setProductsPage(1))
-            dispatch(
+            void dispatch(
               fetchProductsList({
                 page: 1,
                 limit: pagination.limit,
@@ -175,7 +116,7 @@ export default function ProductsClient({
           onChangeLimit={(size) => {
             dispatch(setProductsLimit(size))
             dispatch(setProductsPage(1))
-            dispatch(
+            void dispatch(
               fetchProductsList({
                 page: 1,
                 limit: size,
@@ -191,7 +132,7 @@ export default function ProductsClient({
           }}
           onChangePage={(pageNum) => {
             dispatch(setProductsPage(pageNum))
-            dispatch(
+            void dispatch(
               fetchProductsList({
                 page: pageNum,
                 limit: pagination.limit,

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { catalogForStaticPage } from '@/lib/catalog/guard'
 import { emptyPotterList, getCachedPotterList } from '@/lib/catalog/potters'
@@ -27,7 +27,14 @@ export async function generateMetadata({
   }
 }
 
-export default async function PottersPage() {
+export default async function PottersPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const query = {
     page: 1,
     limit: 10,

@@ -1,6 +1,5 @@
-import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { catalogForStaticPage } from '@/lib/catalog/guard'
 import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
@@ -32,16 +31,19 @@ export async function generateMetadata({
   }
 }
 
-export default async function ProductsPage() {
+export default async function ProductsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  setRequestLocale(locale)
+
   const query = { page: 1, limit: 10 }
   const initialData = await catalogForStaticPage(
     () => getCachedProductList(JSON.stringify(query)),
     emptyProductList(query)
   )
 
-  return (
-    <Suspense>
-      <ProductsClient initialData={initialData} />
-    </Suspense>
-  )
+  return <ProductsClient initialData={initialData} />
 }
