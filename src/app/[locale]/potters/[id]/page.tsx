@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
-import { safeCachedPotterById, safeListPotterIds } from '@/lib/catalog/potters'
-import { safeCachedProductList } from '@/lib/catalog/products'
+import { catalogForStaticPage } from '@/lib/catalog/guard'
+import { getCachedPotterById, safeListPotterIds } from '@/lib/catalog/potters'
+import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
 import PotterClient from './PotterClient'
 
 export const revalidate = 60
@@ -37,14 +38,22 @@ export default async function PotterPage({
 }) {
   const { id } = await params
   const idNum = Number(id)
-  const potter = Number.isNaN(idNum) ? null : await safeCachedPotterById(idNum)
+  const potter = Number.isNaN(idNum)
+    ? null
+    : await catalogForStaticPage(() => getCachedPotterById(idNum), null)
   const products =
     potter != null
-      ? await safeCachedProductList({
-          potterId: potter.id,
-          page: 1,
-          limit: 20,
-        })
+      ? await catalogForStaticPage(
+          () =>
+            getCachedProductList(
+              JSON.stringify({
+                potterId: potter.id,
+                page: 1,
+                limit: 20,
+              })
+            ),
+          emptyProductList({ potterId: potter.id, page: 1, limit: 20 })
+        )
       : null
 
   return <PotterClient initialPotter={potter} initialProductList={products} />

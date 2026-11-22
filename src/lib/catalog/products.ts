@@ -3,6 +3,7 @@ import { Prisma } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 import type { Pagination, ProductFilters } from '@/types/common'
 import type { Product } from '@/types/product'
+import { withCatalogGuard } from './guard'
 import { serializePotter, serializeProduct } from './serialize'
 
 export type ProductListQuery = {
@@ -116,7 +117,7 @@ function buildWhere(query: ProductListQuery): Prisma.ProductWhereInput {
   }
 }
 
-function emptyProductList(query: ProductListQuery): ProductListResult {
+export function emptyProductList(query: ProductListQuery): ProductListResult {
   const page = Math.max(1, query.page ?? 1)
   const limit = Math.max(1, Math.min(100, query.limit ?? 10))
   return {
@@ -225,24 +226,24 @@ export async function safeListProducts(
   query: ProductListQuery = {}
 ): Promise<ProductListResult> {
   try {
-    return await listProducts(query)
-  } catch (error) {
+    return await withCatalogGuard(() => listProducts(query))
+  } catch {
     return emptyProductList(query)
   }
 }
 
 export async function safeGetProductById(id: number): Promise<Product | null> {
   try {
-    return await getProductById(id)
-  } catch (error) {
+    return await withCatalogGuard(() => getProductById(id))
+  } catch {
     return null
   }
 }
 
 export async function safeListProductIds(): Promise<number[]> {
   try {
-    return await listProductIds()
-  } catch (error) {
+    return await withCatalogGuard(() => listProductIds())
+  } catch {
     return []
   }
 }
@@ -266,8 +267,10 @@ export async function safeCachedProductList(
   query: ProductListQuery = {}
 ): Promise<ProductListResult> {
   try {
-    return await getCachedProductList(JSON.stringify(query))
-  } catch (error) {
+    return await withCatalogGuard(() =>
+      getCachedProductList(JSON.stringify(query))
+    )
+  } catch {
     return emptyProductList(query)
   }
 }
@@ -276,8 +279,8 @@ export async function safeCachedProductById(
   id: number
 ): Promise<Product | null> {
   try {
-    return await getCachedProductById(id)
-  } catch (error) {
+    return await withCatalogGuard(() => getCachedProductById(id))
+  } catch {
     return null
   }
 }

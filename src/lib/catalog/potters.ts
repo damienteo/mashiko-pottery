@@ -3,6 +3,7 @@ import { Prisma } from '@/generated/prisma/client'
 import { prisma } from '@/lib/prisma'
 import type { Pagination, PotterFilters } from '@/types/common'
 import type { Potter } from '@/types/potter'
+import { withCatalogGuard } from './guard'
 import { serializePotter, serializeProduct } from './serialize'
 
 export type PotterListQuery = {
@@ -39,7 +40,7 @@ function buildWhere(query: PotterListQuery): Prisma.PotterWhereInput {
   return whereClause
 }
 
-function emptyPotterList(query: PotterListQuery): PotterListResult {
+export function emptyPotterList(query: PotterListQuery): PotterListResult {
   const page = Math.max(1, query.page ?? 1)
   const limit = Math.min(Math.max(1, query.limit ?? 10), 100)
   return {
@@ -129,24 +130,24 @@ export async function safeListPotters(
   query: PotterListQuery = {}
 ): Promise<PotterListResult> {
   try {
-    return await listPotters(query)
-  } catch (error) {
+    return await withCatalogGuard(() => listPotters(query))
+  } catch {
     return emptyPotterList(query)
   }
 }
 
 export async function safeGetPotterById(id: number): Promise<Potter | null> {
   try {
-    return await getPotterById(id)
-  } catch (error) {
+    return await withCatalogGuard(() => getPotterById(id))
+  } catch {
     return null
   }
 }
 
 export async function safeListPotterIds(): Promise<number[]> {
   try {
-    return await listPotterIds()
-  } catch (error) {
+    return await withCatalogGuard(() => listPotterIds())
+  } catch {
     return []
   }
 }
@@ -170,16 +171,18 @@ export async function safeCachedPotterList(
   query: PotterListQuery = {}
 ): Promise<PotterListResult> {
   try {
-    return await getCachedPotterList(JSON.stringify(query))
-  } catch (error) {
+    return await withCatalogGuard(() =>
+      getCachedPotterList(JSON.stringify(query))
+    )
+  } catch {
     return emptyPotterList(query)
   }
 }
 
 export async function safeCachedPotterById(id: number): Promise<Potter | null> {
   try {
-    return await getCachedPotterById(id)
-  } catch (error) {
+    return await withCatalogGuard(() => getCachedPotterById(id))
+  } catch {
     return null
   }
 }

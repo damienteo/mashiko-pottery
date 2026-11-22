@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
-import { safeCachedPotterList } from '@/lib/catalog/potters'
+import { catalogForStaticPage } from '@/lib/catalog/guard'
+import { emptyPotterList, getCachedPotterList } from '@/lib/catalog/potters'
 import PottersClient from './PottersClient'
 
 export const revalidate = 60
@@ -27,11 +28,15 @@ export async function generateMetadata({
 }
 
 export default async function PottersPage() {
-  const initialData = await safeCachedPotterList({
+  const query = {
     page: 1,
     limit: 10,
-    includeProducts: false,
-  })
+    includeProducts: false as const,
+  }
+  const initialData = await catalogForStaticPage(
+    () => getCachedPotterList(JSON.stringify(query)),
+    emptyPotterList(query)
+  )
 
   return <PottersClient initialData={initialData} />
 }

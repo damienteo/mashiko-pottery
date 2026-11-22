@@ -2,7 +2,8 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { routing } from '@/i18n/routing'
-import { safeCachedProductList } from '@/lib/catalog/products'
+import { catalogForStaticPage } from '@/lib/catalog/guard'
+import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
 import ProductsClient from './ProductsClient'
 
 export const revalidate = 60
@@ -32,10 +33,11 @@ export async function generateMetadata({
 }
 
 export default async function ProductsPage() {
-  const initialData = await safeCachedProductList({
-    page: 1,
-    limit: 10,
-  })
+  const query = { page: 1, limit: 10 }
+  const initialData = await catalogForStaticPage(
+    () => getCachedProductList(JSON.stringify(query)),
+    emptyProductList(query)
+  )
 
   return (
     <Suspense>

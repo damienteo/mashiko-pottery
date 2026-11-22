@@ -155,7 +155,7 @@ Home scores are LCP, not TBT. Japanese LCP is fonts plus a dynamic document. Chi
 
 Home, products, and potters now export `revalidate = 60` and load the first page of Prisma data on the server (`unstable_cache`, 60 s). Client components still own filters and pagination; they hydrate from the server payload and only hit `/api/*` when the visitor changes query state.
 
-Product and potter detail `page.tsx` files do the same: direct Prisma (cached), not `NEXT_PUBLIC_BASE_URL`. `generateStaticParams` lists ids when the database is reachable. If it is not (this lab VM), the helpers return `[]` and the route stays `●` for on-demand ISR rather than failing the build.
+Product and potter detail `page.tsx` files do the same: direct Prisma (cached), not `NEXT_PUBLIC_BASE_URL`. `generateStaticParams` lists ids when the database is reachable. If `DATABASE_URL` is missing or the database times out during `next build` (Preview builds often cannot reach Postgres), params are `[]` and list/home prerender defers to the request via `connection()`, so the build does not fail and we do not bake empty catalog HTML. When the database is reachable at runtime, the same queries run as before (ISR on first request for missing ids).
 
 Admin, seller, login, register, and profile stay `force-dynamic`. Those trees use `useSearchParams` and sessions.
 
@@ -192,7 +192,7 @@ Hero, featured, how-it-works, spotlights, shipping, and testimonials are server 
 
 `npx tsc --noEmit`, `npm run lint` (0 errors; the six `react-hooks/exhaustive-deps` warnings were already on `main`), `npx prettier --check .`, and `npm run build` passed.
 
-After `next build` (this VM has no database, so detail `[id]` params are empty and lists prerender empty):
+After `next build` with a reachable database, locale catalog routes prerender (`●`). If `DATABASE_URL` is missing or the database errors/times out during the build, home/products/potters lists become `ƒ` (request-time) and detail `[id]` params are empty (`●` on-demand ISR) instead of failing the build. This VM:
 
 ```text
 ├   /[locale]

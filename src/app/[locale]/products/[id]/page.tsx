@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import { routing } from '@/i18n/routing'
+import { catalogForStaticPage, withCatalogGuard } from '@/lib/catalog/guard'
 import {
-  safeCachedProductById,
-  safeCachedProductList,
+  emptyProductList,
+  getCachedProductById,
+  getCachedProductList,
   safeListProductIds,
 } from '@/lib/catalog/products'
-import { safeCachedPotterById } from '@/lib/catalog/potters'
+import { getCachedPotterById } from '@/lib/catalog/potters'
 import { localizedText } from '@/lib/catalog/serialize'
 import ProductClient from './ProductClient'
 
@@ -29,7 +31,12 @@ export async function generateMetadata({
     return { title: 'Mashiko Pottery' }
   }
 
-  const product = await safeCachedProductById(idNum)
+  let product
+  try {
+    product = await withCatalogGuard(() => getCachedProductById(idNum))
+  } catch {
+    return { title: 'Mashiko Pottery' }
+  }
   if (!product) {
     return { title: 'Mashiko Pottery' }
   }
@@ -61,18 +68,31 @@ export default async function ProductPage({
   const idNum = Number(id)
   const product = Number.isNaN(idNum)
     ? null
-    : await safeCachedProductById(idNum)
+    : await catalogForStaticPage(() => getCachedProductById(idNum), null)
   const potter =
     product?.potterId != null
-      ? await safeCachedPotterById(product.potterId)
+      ? await catalogForStaticPage(
+          () => getCachedPotterById(product.potterId),
+          null
+        )
       : null
   const related =
     product?.potterId != null
-      ? await safeCachedProductList({
-          potterId: product.potterId,
-          page: 1,
-          limit: 50,
-        })
+      ? await catalogForStaticPage(
+          () =>
+            getCachedProductList(
+              JSON.stringify({
+                potterId: product.potterId,
+                page: 1,
+                limit: 50,
+              })
+            ),
+          emptyProductList({
+            potterId: product.potterId,
+            page: 1,
+            limit: 50,
+          })
+        )
       : null
 
   return (
