@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server'
 // import { prisma } from "@/lib/prisma";
 
-// 
+//
 /**
  * This route allows a seller to view a specific payout record.
  * Only the GET method is supported here.
@@ -34,7 +34,7 @@ export async function GET() {
   // });
 
   // if (!payout) {
-  return NextResponse.json({ message: "Payout not found" }, { status: 404 });
+  return NextResponse.json({ message: 'Payout not found' }, { status: 404 })
   // }
 
   // return NextResponse.json(payout);

@@ -1,29 +1,29 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import { useAppSelector } from "@/store/hooks";
-import { selectSellerProfile } from "@/store/seller/sellerSlice";
-import { useTranslations } from "next-intl";
-import { localeLabels } from "@/constants/localeLabels";
-import RichTextViewer from "@/components/ui/RichTextViewer";
-import Button from "@/components/ui/Button";
+import Image from 'next/image'
+import { useAppSelector } from '@/store/hooks'
+import { selectSellerProfile } from '@/store/seller/sellerSlice'
+import { useTranslations } from 'next-intl'
+import { localeLabels } from '@/constants/localeLabels'
+import RichTextViewer from '@/components/ui/RichTextViewer'
+import Button from '@/components/ui/Button'
 
 type SellerProfileViewProps = {
-  onEdit: () => void;
-};
+  onEdit: () => void
+}
 
 export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
-  const t = useTranslations("seller.profile");
-  const profile = useAppSelector(selectSellerProfile);
+  const t = useTranslations('seller.profile')
+  const profile = useAppSelector(selectSellerProfile)
 
   return (
     <div className="mt-8 space-y-6">
-      <h1 className="text-2xl font-bold text-blue-700">{t("title")}</h1>
+      <h1 className="text-2xl font-bold text-blue-700">{t('title')}</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(["en", "ja", "zh"] as const).map((loc) => (
+        {(['en', 'ja', 'zh'] as const).map((loc) => (
           <div key={loc}>
             <h2 className="font-medium">
-              {t("fields.name")} ({localeLabels[loc]})
+              {t('fields.name')} ({localeLabels[loc]})
             </h2>
             <p>{profile?.name[loc]}</p>
           </div>
@@ -32,7 +32,7 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
 
       {profile?.image && (
         <div>
-          <h2 className="font-medium">{t("fields.image")}</h2>
+          <h2 className="font-medium">{t('fields.image')}</h2>
           <Image
             src={profile.image}
             alt="Profile"
@@ -45,34 +45,34 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
 
       {profile?.style && (
         <div>
-          <h2 className="font-medium">{t("fields.style")}</h2>
+          <h2 className="font-medium">{t('fields.style')}</h2>
           <p>{profile.style}</p>
         </div>
       )}
 
       {profile?.active !== undefined && (
         <div>
-          <h2 className="font-medium">{t("fields.active")}</h2>
-          <p>{profile.active ? t("status.active") : t("status.inactive")}</p>
+          <h2 className="font-medium">{t('fields.active')}</h2>
+          <p>{profile.active ? t('status.active') : t('status.inactive')}</p>
         </div>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(["en", "ja", "zh"] as const).map((loc) => (
+        {(['en', 'ja', 'zh'] as const).map((loc) => (
           <div key={loc}>
             <h2 className="font-medium">
-              {t("fields.bio")} ({localeLabels[loc]})
+              {t('fields.bio')} ({localeLabels[loc]})
             </h2>
-            <RichTextViewer html={profile?.bio[loc] || ""} />
+            <RichTextViewer html={profile?.bio[loc] || ''} />
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {(["en", "ja", "zh"] as const).map((loc) => (
+        {(['en', 'ja', 'zh'] as const).map((loc) => (
           <div key={loc}>
             <h2 className="font-medium">
-              {t("fields.portfolio")} ({localeLabels[loc]})
+              {t('fields.portfolio')} ({localeLabels[loc]})
             </h2>
             <p>{profile?.portfolio[loc]}</p>
           </div>
@@ -82,21 +82,21 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
       <div className="text-sm text-gray-500">
         {profile?.createdAt && (
           <p>
-            {t("fields.createdAt")}:{" "}
+            {t('fields.createdAt')}:{' '}
             {new Date(profile.createdAt).toLocaleDateString()}
           </p>
         )}
         {profile?.updatedAt && (
           <p>
-            {t("fields.updatedAt")}:{" "}
+            {t('fields.updatedAt')}:{' '}
             {new Date(profile.updatedAt).toLocaleDateString()}
           </p>
         )}
       </div>
 
       <Button variant="primary" onClick={onEdit}>
-        {t("actions.edit")}
+        {t('actions.edit')}
       </Button>
     </div>
-  );
+  )
 }

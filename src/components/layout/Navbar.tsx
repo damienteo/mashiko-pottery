@@ -1,22 +1,22 @@
-"use client";
-import Link from "next/link";
-import { useTranslations } from "next-intl";
-import LanguageSelector from "./LanguageSelector";
-import { useState } from "react";
-import { useAppSelector, useAppDispatch } from "@/store/hooks";
-import { selectUserProfile } from "@/store/user/userSlice";
+'use client'
+import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import LanguageSelector from './LanguageSelector'
+import { useState } from 'react'
+import { useAppSelector, useAppDispatch } from '@/store/hooks'
+import { selectUserProfile } from '@/store/user/userSlice'
 // import { selectCartCount } from "@/store/cartSlice";
-import { logoutUser, selectCurrentUser } from "@/store/user/authSlice";
-import Button from "@/components/ui/Button";
-import { Role } from "@/generated/prisma/enums";
+import { logoutUser, selectCurrentUser } from '@/store/user/authSlice'
+import Button from '@/components/ui/Button'
+import { Role } from '@/generated/prisma/enums'
 
 export default function Navbar() {
-  const t = useTranslations();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const t = useTranslations()
+  const [menuOpen, setMenuOpen] = useState(false)
   // const cartCount = useAppSelector(selectCartCount);
-  const dispatch = useAppDispatch();
-  const userProfile = useAppSelector(selectUserProfile);
-  const authUser = useAppSelector(selectCurrentUser);
+  const dispatch = useAppDispatch()
+  const userProfile = useAppSelector(selectUserProfile)
+  const authUser = useAppSelector(selectCurrentUser)
   // const [hasMounted, setHasMounted] = useState(false);
   // useEffect(() => {
   //   setHasMounted(true);
@@ -28,27 +28,27 @@ export default function Navbar() {
         <div className="flex items-center justify-between py-4">
           {/* Logo / Site Title */}
           <Link href="/" className="text-xl font-[var(--font-playfair)]">
-            {t("common.site.title")}
+            {t('common.site.title')}
           </Link>
           {/* Menu toggle for mobile */}
           <button
             type="button"
             className="sm:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            aria-label={t("common.menu")}
+            aria-label={t('common.menu')}
             onClick={() => setMenuOpen((prev) => !prev)}
           >
-            <span className="text-base font-medium">{t("common.menu")}</span>
+            <span className="text-base font-medium">{t('common.menu')}</span>
           </button>
           {/* Desktop menu items */}
           <ul className="hidden sm:flex sm:space-x-6 items-center">
             <li>
               <Link href="/products" className="hover:underline">
-                {t("products.title")}
+                {t('products.title')}
               </Link>
             </li>
             <li>
               <Link href="/potters" className="hover:underline">
-                {t("potters.title")}
+                {t('potters.title')}
               </Link>
             </li>
             {/* <li>
@@ -65,7 +65,7 @@ export default function Navbar() {
                     href="/admin/products"
                     className="hover:underline text-red-600"
                   >
-                    {t("admin.nav.products.headline")}
+                    {t('admin.nav.products.headline')}
                   </Link>
                 </li>
                 {/* <li>
@@ -94,7 +94,7 @@ export default function Navbar() {
                     href="/seller/profile"
                     className="hover:underline text-green-600"
                   >
-                    {t("seller.nav.profile")}
+                    {t('seller.nav.profile')}
                   </Link>
                 </li>
                 <li>
@@ -102,7 +102,7 @@ export default function Navbar() {
                     href="/seller/inventory"
                     className="hover:underline text-green-600"
                   >
-                    {t("seller.nav.inventory")}
+                    {t('seller.nav.inventory')}
                   </Link>
                 </li>
                 {/* <li>
@@ -119,7 +119,7 @@ export default function Navbar() {
               <>
                 <li>
                   <Link href="/profile" className="hover:underline">
-                    {t("profile.link")}
+                    {t('profile.link')}
                   </Link>
                 </li>
                 <li>
@@ -128,7 +128,7 @@ export default function Navbar() {
                     onClick={() => dispatch(logoutUser())}
                     className="hover:underline"
                   >
-                    {t("common.logout.title")}
+                    {t('common.logout.title')}
                   </Button>
                 </li>
               </>
@@ -136,12 +136,12 @@ export default function Navbar() {
               <>
                 <li>
                   <Link href="/login" className="hover:underline">
-                    {t("common.login.title")}
+                    {t('common.login.title')}
                   </Link>
                 </li>
                 <li>
                   <Link href="/register/entry" className="hover:underline">
-                    {t("register.title")}
+                    {t('register.title')}
                   </Link>
                 </li>
               </>
@@ -156,15 +156,15 @@ export default function Navbar() {
             <div
               className={`fixed inset-0 bg-black/30 transition-opacity duration-300 ${
                 menuOpen
-                  ? "opacity-100 pointer-events-auto"
-                  : "opacity-0 pointer-events-none"
+                  ? 'opacity-100 pointer-events-auto'
+                  : 'opacity-0 pointer-events-none'
               }`}
               onClick={() => setMenuOpen(false)}
             />
             {/* Drawer panel */}
             <div
               className={`fixed top-0 right-0 h-full w-48 bg-white p-6 shadow transform transition-transform duration-300 ease-in-out pointer-events-auto ${
-                menuOpen ? "translate-x-0" : "translate-x-full"
+                menuOpen ? 'translate-x-0' : 'translate-x-full'
               }`}
             >
               <nav>
@@ -175,7 +175,7 @@ export default function Navbar() {
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
-                      {t("products.title")}
+                      {t('products.title')}
                     </Link>
                   </li>
                   <li>
@@ -184,7 +184,7 @@ export default function Navbar() {
                       onClick={() => setMenuOpen(false)}
                       className="block text-lg"
                     >
-                      {t("potters.title")}
+                      {t('potters.title')}
                     </Link>
                   </li>
                   {/* <li>
@@ -205,7 +205,7 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className="block text-lg text-red-600"
                         >
-                          {t("admin.nav.products.headline")}
+                          {t('admin.nav.products.headline')}
                         </Link>
                       </li>
                       {/* <li>
@@ -237,7 +237,7 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className="block text-lg text-green-600"
                         >
-                          {t("seller.nav.profile")}
+                          {t('seller.nav.profile')}
                         </Link>
                       </li>
                       <li>
@@ -246,7 +246,7 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className="block text-lg text-green-600"
                         >
-                          {t("seller.nav.inventory")}
+                          {t('seller.nav.inventory')}
                         </Link>
                       </li>
                       {/* <li>
@@ -268,19 +268,19 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className="block text-lg"
                         >
-                          {t("profile.title")}
+                          {t('profile.title')}
                         </Link>
                       </li>
                       <li>
                         <Button
                           variant="secondary"
                           onClick={() => {
-                            dispatch(logoutUser());
-                            setMenuOpen(false);
+                            dispatch(logoutUser())
+                            setMenuOpen(false)
                           }}
                           className="block text-lg w-full text-left"
                         >
-                          {t("common.logout.title")}
+                          {t('common.logout.title')}
                         </Button>
                       </li>
                     </>
@@ -292,15 +292,15 @@ export default function Navbar() {
                           onClick={() => setMenuOpen(false)}
                           className="block text-lg"
                         >
-                          {t("common.login.title")}
+                          {t('common.login.title')}
                         </Link>
-                      </li>{" "}
+                      </li>{' '}
                       <li>
                         <Link
                           href="/register/entry"
                           className="hover:underline"
                         >
-                          {t("register.title")}
+                          {t('register.title')}
                         </Link>
                       </li>
                     </>
@@ -315,5 +315,5 @@ export default function Navbar() {
         </div>
       </nav>
     </header>
-  );
+  )
 }

@@ -1,5 +1,5 @@
-import { PrismaClient } from "@/generated/prisma/client";
-import { NextResponse } from "next/server";
+import { PrismaClient } from '@/generated/prisma/client'
+import { NextResponse } from 'next/server'
 
 export const validateProductExists = async (
   productId: number,
@@ -7,11 +7,11 @@ export const validateProductExists = async (
 ) => {
   const product = await prisma.product.findUnique({
     where: { id: productId },
-  });
+  })
 
   if (!product) {
-    throw new NextResponse("Product not found", { status: 404 });
+    throw new NextResponse('Product not found', { status: 404 })
   }
 
-  return product;
-};
+  return product
+}

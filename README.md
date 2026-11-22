@@ -280,10 +280,10 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
   ```js
   module.exports = {
     i18n: {
-      locales: ["en", "ja", "zh"],
-      defaultLocale: "en",
+      locales: ['en', 'ja', 'zh'],
+      defaultLocale: 'en',
     },
-  };
+  }
   ```
 - **Translations** in `src/locales/{en,ja,zh}.json`
 - **Hooks**: `useTranslations()` (client) and `getTranslations()` (server)
@@ -295,7 +295,7 @@ Built with Next.js v15 (App Router) for customer-facing pages and an Express/Typ
 - **Tailwind CSS v4** with CSS-first theming
 - Import in `src/app/[locale]/globals.css`:
   ```css
-  @import "tailwindcss";
+  @import 'tailwindcss';
   @theme {
     /* Custom CSS variables (colors, radii, etc.) */
   }

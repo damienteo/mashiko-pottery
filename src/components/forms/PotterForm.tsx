@@ -1,65 +1,65 @@
-"use client";
+'use client'
 
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { v4 as uuidv4 } from "uuid";
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { v4 as uuidv4 } from 'uuid'
 
-import Button from "@/components/ui/Button";
-import { useTranslations } from "next-intl";
-import PhotoUploadField from "@/components/forms/PhotoUploadField";
+import Button from '@/components/ui/Button'
+import { useTranslations } from 'next-intl'
+import PhotoUploadField from '@/components/forms/PhotoUploadField'
 
 export interface PotterFormValues {
-  userId?: string;
+  userId?: string
   name: {
-    en: string;
-    ja: string;
-    zh: string;
-  };
+    en: string
+    ja: string
+    zh: string
+  }
   bio: {
-    en: string;
-    ja: string;
-    zh: string;
-  };
-  style: string;
-  imageUrl?: string;
-  photos?: string[];
-  active?: boolean;
-  isDraft?: boolean;
+    en: string
+    ja: string
+    zh: string
+  }
+  style: string
+  imageUrl?: string
+  photos?: string[]
+  active?: boolean
+  isDraft?: boolean
 }
 
 interface PotterFormProps {
-  initialValues?: PotterFormValues;
-  onSubmit: (data: PotterFormValues) => void;
-  isLoading: boolean;
-  errorsFromServer?: string | null;
-  submitText?: string;
-  showUserIdInput?: boolean; // ← new: show a visible input
-  requireUserId?: boolean; // ← new: make it required via validation
+  initialValues?: PotterFormValues
+  onSubmit: (data: PotterFormValues) => void
+  isLoading: boolean
+  errorsFromServer?: string | null
+  submitText?: string
+  showUserIdInput?: boolean // ← new: show a visible input
+  requireUserId?: boolean // ← new: make it required via validation
 }
 
 const schema: yup.ObjectSchema<PotterFormValues> = yup.object({
-  userId: yup.string().when("$requireUserId", {
+  userId: yup.string().when('$requireUserId', {
     is: true,
-    then: (schema) => schema.required("User ID is required"),
+    then: (schema) => schema.required('User ID is required'),
     otherwise: (schema) => schema.optional(),
   }),
   name: yup.object({
-    en: yup.string().required("English name is required"),
-    ja: yup.string().required("Japanese name is required"),
-    zh: yup.string().required("Chinese name is required"),
+    en: yup.string().required('English name is required'),
+    ja: yup.string().required('Japanese name is required'),
+    zh: yup.string().required('Chinese name is required'),
   }),
   bio: yup.object({
-    en: yup.string().required("English bio is required"),
-    ja: yup.string().required("Japanese bio is required"),
-    zh: yup.string().required("Chinese bio is required"),
+    en: yup.string().required('English bio is required'),
+    ja: yup.string().required('Japanese bio is required'),
+    zh: yup.string().required('Chinese bio is required'),
   }),
-  style: yup.string().required("Style is required"),
+  style: yup.string().required('Style is required'),
   imageUrl: yup.string().optional(),
   photos: yup.array().of(yup.string().url().required()).required(),
   active: yup.boolean().optional(),
   isDraft: yup.boolean().optional(),
-});
+})
 
 export default function PotterForm({
   initialValues,
@@ -70,7 +70,7 @@ export default function PotterForm({
   showUserIdInput = false,
   requireUserId = false,
 }: PotterFormProps) {
-  const t = useTranslations();
+  const t = useTranslations()
 
   const {
     register,
@@ -80,21 +80,21 @@ export default function PotterForm({
   } = useForm<PotterFormValues>({
     resolver: yupResolver(schema, { context: { requireUserId } }),
     defaultValues: initialValues,
-  });
+  })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         {showUserIdInput && (
           <label htmlFor="userId" className="block text-sm">
-            {t("potter.create.userId")}
+            {t('potter.create.userId')}
           </label>
         )}
         <input
           id="userId"
-          type={showUserIdInput ? "text" : "hidden"}
-          {...register("userId")}
-          className={showUserIdInput ? "w-full p-2 border rounded" : undefined}
+          type={showUserIdInput ? 'text' : 'hidden'}
+          {...register('userId')}
+          className={showUserIdInput ? 'w-full p-2 border rounded' : undefined}
         />
         {showUserIdInput && errors.userId && (
           <p className="text-red-600 text-sm">{errors.userId.message}</p>
@@ -104,9 +104,9 @@ export default function PotterForm({
       {/* Localized Name */}
       <fieldset className="space-y-2">
         <legend className="font-semibold mb-1">
-          {t("potter.create.name")}
+          {t('potter.create.name')}
         </legend>
-        {(["en", "ja", "zh"] as const).map((lang) => (
+        {(['en', 'ja', 'zh'] as const).map((lang) => (
           <div key={lang}>
             <label htmlFor={`name.${lang}`} className="block text-sm">
               {t(`potter.create.name${lang.toUpperCase()}`)}
@@ -127,8 +127,8 @@ export default function PotterForm({
 
       {/* Localized Bio */}
       <fieldset className="space-y-2">
-        <legend className="font-semibold mb-1">{t("potter.create.bio")}</legend>
-        {(["en", "ja", "zh"] as const).map((lang) => (
+        <legend className="font-semibold mb-1">{t('potter.create.bio')}</legend>
+        {(['en', 'ja', 'zh'] as const).map((lang) => (
           <div key={lang}>
             <label htmlFor={`bio.${lang}`} className="block text-sm">
               {t(`potter.create.bio${lang.toUpperCase()}`)}
@@ -150,11 +150,11 @@ export default function PotterForm({
 
       <div>
         <label htmlFor="style" className="block mb-1">
-          {t("potter.create.style")}
+          {t('potter.create.style')}
         </label>
         <input
           id="style"
-          {...register("style")}
+          {...register('style')}
           className="w-full p-2 border rounded"
         />
         {errors.style && (
@@ -165,7 +165,7 @@ export default function PotterForm({
       <PhotoUploadField<PotterFormValues>
         name="imageUrl"
         control={control}
-        label={t("potter.create.imageUrl")}
+        label={t('potter.create.imageUrl')}
         multiple={false}
         getPublicId={() =>
           initialValues?.userId
@@ -177,7 +177,7 @@ export default function PotterForm({
       <PhotoUploadField<PotterFormValues>
         name="photos"
         control={control}
-        label={t("potter.create.photos")}
+        label={t('potter.create.photos')}
         multiple
         getPublicId={() =>
           initialValues?.userId
@@ -188,28 +188,28 @@ export default function PotterForm({
 
       <div>
         <label htmlFor="active" className="block mb-1">
-          {t("potter.create.active")}
+          {t('potter.create.active')}
         </label>
         <input
           id="active"
           type="checkbox"
-          {...register("active")}
+          {...register('active')}
           className="mr-2"
         />
-        <span>{t("potter.create.activeLabel")}</span>
+        <span>{t('potter.create.activeLabel')}</span>
       </div>
 
       <div>
         <label htmlFor="isDraft" className="block mb-1">
-          {t("potter.create.isDraft")}
+          {t('potter.create.isDraft')}
         </label>
         <input
           id="isDraft"
           type="checkbox"
-          {...register("isDraft")}
+          {...register('isDraft')}
           className="mr-2"
         />
-        <span>{t("potter.create.isDraftLabel")}</span>
+        <span>{t('potter.create.isDraftLabel')}</span>
       </div>
 
       <Button
@@ -218,13 +218,13 @@ export default function PotterForm({
         className="w-full"
       >
         {isLoading || isSubmitting
-          ? t("potter.create.submitting")
-          : (submitText ?? t("potter.create.submit"))}
+          ? t('potter.create.submitting')
+          : (submitText ?? t('potter.create.submit'))}
       </Button>
 
       {errorsFromServer && (
         <p className="text-red-600 mt-2 text-sm">{errorsFromServer}</p>
       )}
     </form>
-  );
+  )
 }

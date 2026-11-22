@@ -1,39 +1,39 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect, useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   selectAdminPotters,
   selectAdminPotterLoading,
   selectAdminPotterError,
-} from "@/store/admin/potterSlice";
-import { fetchPottersList } from "@/store/thunks/fetchPottersList";
+} from '@/store/admin/potterSlice'
+import { fetchPottersList } from '@/store/thunks/fetchPottersList'
 // import { useToast } from "@/components/ui/Toast";
-import Button from "@/components/ui/Button";
-import Image from "next/image";
-import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import Button from '@/components/ui/Button'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 const potterSchema = yup.object({
-  name: yup.string().required("Name is required"),
-  bio: yup.string().required("Bio is required"),
-  style: yup.string().required("Style is required"),
-});
-type PotterFormValues = yup.InferType<typeof potterSchema>;
+  name: yup.string().required('Name is required'),
+  bio: yup.string().required('Bio is required'),
+  style: yup.string().required('Style is required'),
+})
+type PotterFormValues = yup.InferType<typeof potterSchema>
 
 export default function PottersClient() {
-  const t = useTranslations("admin.pages.potters");
-  const locale = useLocale();
-  const dispatch = useAppDispatch();
-  const potters = useAppSelector(selectAdminPotters);
-  const isLoading = useAppSelector(selectAdminPotterLoading);
-  const error = useAppSelector(selectAdminPotterError);
+  const t = useTranslations('admin.pages.potters')
+  const locale = useLocale()
+  const dispatch = useAppDispatch()
+  const potters = useAppSelector(selectAdminPotters)
+  const isLoading = useAppSelector(selectAdminPotterLoading)
+  const error = useAppSelector(selectAdminPotterError)
   // const { success } = useToast();
 
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<number | null>(null)
 
   const {
     register,
@@ -41,47 +41,47 @@ export default function PottersClient() {
     formState: { errors, isValid },
     reset,
   } = useForm<PotterFormValues>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: yupResolver(potterSchema),
-  });
+  })
 
   const onSubmit: SubmitHandler<PotterFormValues> = () => {
     // TODO: dispatch updatePotter({ id: editingId!, ...data });
-    setEditingId(null);
-  };
+    setEditingId(null)
+  }
 
-  const [hasFetched, setHasFetched] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false)
 
   useEffect(() => {
     if (!hasFetched && !isLoading && potters.length === 0) {
-      dispatch(fetchPottersList({}));
-      setHasFetched(true);
+      dispatch(fetchPottersList({}))
+      setHasFetched(true)
     }
-  }, [dispatch, isLoading, potters.length, hasFetched]);
+  }, [dispatch, isLoading, potters.length, hasFetched])
 
   if (isLoading) {
     return (
       <div className="p-8 flex justify-center">
-        <p>{t("loading")}</p>
+        <p>{t('loading')}</p>
       </div>
-    );
+    )
   }
 
   if (error) {
     return (
       <div className="p-8 text-center text-red-600">
-        <p>{t("error")}</p>
+        <p>{t('error')}</p>
         <Button onClick={() => dispatch(fetchPottersList({}))} className="mt-4">
-          {t("retry")}
+          {t('retry')}
         </Button>
       </div>
-    );
+    )
   }
 
   return (
     <div className="p-4 sm:p-8 space-y-6 max-w-7xl mx-auto bg-gray-50 border-l-4 border-yellow-500">
       <h1 className="text-2xl font-bold text-yellow-700 flex items-center space-x-2">
-        <span>{t("title")}</span>
+        <span>{t('title')}</span>
         <span className="inline-block px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
           Admin
         </span>
@@ -91,33 +91,33 @@ export default function PottersClient() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("image")}
+                {t('image')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("name")}
+                {t('name')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("bio")}
+                {t('bio')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("style")}
+                {t('style')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("active")}
+                {t('active')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("id")}
+                {t('id')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("actions")}
+                {t('actions')}
               </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {potters.map((p) => {
               const name =
-                p.name[locale as keyof typeof p.name] || String(p.name);
-              const desc = p.bio ? p.bio[locale as keyof typeof p.bio] : "";
+                p.name[locale as keyof typeof p.name] || String(p.name)
+              const desc = p.bio ? p.bio[locale as keyof typeof p.bio] : ''
 
               return (
                 <tr key={p.id}>
@@ -138,7 +138,7 @@ export default function PottersClient() {
                   <td className="px-4 py-2 whitespace-nowrap">
                     {editingId === p.id ? (
                       <input
-                        {...register("name")}
+                        {...register('name')}
                         className="w-full border p-1 rounded text-sm"
                       />
                     ) : (
@@ -153,7 +153,7 @@ export default function PottersClient() {
                   <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600 line-clamp-2">
                     {editingId === p.id ? (
                       <textarea
-                        {...register("bio")}
+                        {...register('bio')}
                         rows={2}
                         className="w-full border p-1 rounded text-sm"
                       />
@@ -169,11 +169,11 @@ export default function PottersClient() {
                   <td className="px-4 py-2 whitespace-nowrap">
                     {editingId === p.id ? (
                       <input
-                        {...register("style")}
+                        {...register('style')}
                         className="w-full border p-1 rounded text-sm"
                       />
                     ) : (
-                      (p.style ?? "-")
+                      (p.style ?? '-')
                     )}
                     {errors.style && editingId === p.id && (
                       <span className="text-red-600 text-xs">
@@ -182,7 +182,7 @@ export default function PottersClient() {
                     )}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap">
-                    {p.active ? t("active") : "-"}
+                    {p.active ? t('active') : '-'}
                   </td>
                   <td className="px-4 py-2 whitespace-nowrap">{p.id}</td>
                   <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2 flex items-center">
@@ -193,16 +193,16 @@ export default function PottersClient() {
                           variant="primary"
                           disabled={!isValid}
                         >
-                          {t("confirm")}
+                          {t('confirm')}
                         </Button>
                         <Button
                           variant="secondary"
                           onClick={() => {
-                            reset();
-                            setEditingId(null);
+                            reset()
+                            setEditingId(null)
                           }}
                         >
-                          {t("cancel")}
+                          {t('cancel')}
                         </Button>
                       </>
                     ) : (
@@ -213,12 +213,12 @@ export default function PottersClient() {
                             reset({
                               name,
                               bio: desc,
-                              style: p.style ?? "",
-                            });
-                            setEditingId(p.id);
+                              style: p.style ?? '',
+                            })
+                            setEditingId(p.id)
                           }}
                         >
-                          {t("edit")}
+                          {t('edit')}
                         </Button>
                         <Button
                           variant="secondary"
@@ -226,25 +226,25 @@ export default function PottersClient() {
                             /* TODO: delete */
                           }}
                         >
-                          {t("delete")}
+                          {t('delete')}
                         </Button>
                         <Link
                           href={`/${locale}/admin/potters/${p.id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <Button variant="secondary">{t("details")}</Button>
+                          <Button variant="secondary">{t('details')}</Button>
                         </Link>
                       </>
                     )}
                   </td>
                 </tr>
-              );
+              )
             })}
           </tbody>
         </table>
       </div>
       {/* end table */}
     </div>
-  );
+  )
 }

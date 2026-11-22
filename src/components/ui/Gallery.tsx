@@ -1,25 +1,25 @@
-import React, { useState, useMemo } from "react";
-import Image from "next/image";
+import React, { useState, useMemo } from 'react'
+import Image from 'next/image'
 
 export type GalleryProps = {
-  images: string[];
-  title?: string;
-  imagePriority?: boolean;
-};
+  images: string[]
+  title?: string
+  imagePriority?: boolean
+}
 
 const Gallery: React.FC<GalleryProps> = ({
   images,
-  title = "Product image",
+  title = 'Product image',
   imagePriority = false,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const currentImage = useMemo(
-    () => images?.[currentIndex] || "",
+    () => images?.[currentIndex] || '',
     [images, currentIndex]
-  );
+  )
 
-  if (!images || images.length === 0) return null;
+  if (!images || images.length === 0) return null
 
   return (
     <>
@@ -29,7 +29,7 @@ const Gallery: React.FC<GalleryProps> = ({
             <div className="relative w-full aspect-square overflow-hidden rounded md:flex-1">
               <Image
                 src={currentImage}
-                alt={title || "Product image"}
+                alt={title || 'Product image'}
                 fill
                 className="object-cover transition-transform duration-300"
                 sizes="(min-width: 768px) 50vw, 100vw"
@@ -45,15 +45,15 @@ const Gallery: React.FC<GalleryProps> = ({
                     onClick={() => setCurrentIndex(idx)}
                     className={`relative w-16 h-16 rounded overflow-hidden border-2 focus:outline-none ${
                       idx === currentIndex
-                        ? "border-gray-400"
-                        : "border-transparent"
+                        ? 'border-gray-400'
+                        : 'border-transparent'
                     }`}
                     aria-label={`Select image ${idx + 1}`}
                     title={`Select image ${idx + 1}`}
                   >
                     <Image
                       src={img}
-                      alt={`${title || "Product"} thumbnail ${idx + 1}`}
+                      alt={`${title || 'Product'} thumbnail ${idx + 1}`}
                       fill
                       className="object-cover"
                       sizes="64px"
@@ -74,14 +74,14 @@ const Gallery: React.FC<GalleryProps> = ({
               type="button"
               onClick={() => setCurrentIndex(idx)}
               className={`relative w-20 h-20 flex-shrink-0 rounded overflow-hidden border-2 focus:outline-none ${
-                idx === currentIndex ? "border-gray-400" : "border-transparent"
+                idx === currentIndex ? 'border-gray-400' : 'border-transparent'
               }`}
               aria-label={`Select image ${idx + 1}`}
               title={`Select image ${idx + 1}`}
             >
               <Image
                 src={img}
-                alt={`${title || "Product"} thumbnail ${idx + 1}`}
+                alt={`${title || 'Product'} thumbnail ${idx + 1}`}
                 fill
                 className="object-cover"
                 sizes="80px"
@@ -92,7 +92,7 @@ const Gallery: React.FC<GalleryProps> = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Gallery;
+export default Gallery

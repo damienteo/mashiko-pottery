@@ -1,5 +1,5 @@
-import PotterClient from "./PotterClient";
+import PotterClient from './PotterClient'
 
 export default function PotterPage() {
-  return <PotterClient />;
+  return <PotterClient />
 }

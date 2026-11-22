@@ -1,17 +1,17 @@
-"use client";
-import React from "react";
-import Link from "next/link";
-import { useTranslations, useLocale } from "next-intl";
+'use client'
+import React from 'react'
+import Link from 'next/link'
+import { useTranslations, useLocale } from 'next-intl'
 interface AdminLayoutClientProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function AdminLayoutClient({
   children,
 }: AdminLayoutClientProps) {
-  const locale = useLocale();
+  const locale = useLocale()
   // Scope translations to the 'admin' namespace
-  const t = useTranslations("admin");
+  const t = useTranslations('admin')
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -21,25 +21,25 @@ export default function AdminLayoutClient({
             href={`/${locale}/admin/products`}
             className="hover:text-gray-400"
           >
-            {t("nav.products.headline")}
+            {t('nav.products.headline')}
           </Link>
           <Link
             href={`/${locale}/admin/products/create`}
             className="hover:text-gray-400"
           >
-            {t("nav.products.create")}
+            {t('nav.products.create')}
           </Link>
           <Link
             href={`/${locale}/admin/potters`}
             className="hover:text-gray-400"
           >
-            {t("nav.potters.headline")}
+            {t('nav.potters.headline')}
           </Link>
           <Link
             href={`/${locale}/admin/potters/create`}
             className="hover:text-gray-400"
           >
-            {t("nav.potters.create")}
+            {t('nav.potters.create')}
           </Link>
           {/* <Link
             href={`/${locale}/admin/orders`}
@@ -57,5 +57,5 @@ export default function AdminLayoutClient({
       </header>
       <main className="flex-1 p-6 bg-white">{children}</main>
     </div>
-  );
+  )
 }

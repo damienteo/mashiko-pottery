@@ -1,17 +1,17 @@
-import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
-import SellerInventoryClient from "./SellerInventoryClient";
+import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
+import SellerInventoryClient from './SellerInventoryClient'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("seller.inventory");
+  const t = await getTranslations('seller.inventory')
   return {
-    title: t("title"),
-    description: t("description"),
-  };
+    title: t('title'),
+    description: t('description'),
+  }
 }
 
 export default async function SellerInventoryPage() {
-  const t = await getTranslations("seller.inventory");
+  const t = await getTranslations('seller.inventory')
 
-  return <SellerInventoryClient title={t("title")} />;
+  return <SellerInventoryClient title={t('title')} />
 }
