@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { useTranslations } from 'next-intl'
 import ProductsToolbar from '@/components/products/ProductsToolbar'
 import ProductGrid from '@/components/products/ProductGrid'
+import { PendingSurface } from '@/components/navigation/pendingUi'
 import { fetchProductListFromApi } from '@/lib/catalog/fetchProductList'
 import { emptyProductFilters } from '@/lib/catalog/productListQuery'
 import type { ProductListResult } from '@/lib/catalog/products'
@@ -22,12 +23,13 @@ export default function PotterProductsCatalog({
   serverGrid: React.ReactNode
 }) {
   const tProduct = useTranslations('product')
+  const tCommon = useTranslations('common')
+  const [isPending, startTransition] = useTransition()
   const [data, setData] = useState<ProductListResult>(initialData)
   const [filtersLocal, setFiltersLocal] = useState<ProductFilters>({
     ...emptyProductFilters(),
     locale,
   })
-  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [usingServerGrid, setUsingServerGrid] = useState(true)
 
@@ -38,21 +40,28 @@ export default function PotterProductsCatalog({
     limit: number,
     nextFilters: ProductFilters
   ) => {
-    setIsLoading(true)
-    setError(null)
+    const result = await fetchProductListFromApi({
+      page,
+      limit,
+      filters: { ...nextFilters, potterId, locale },
+    })
     setUsingServerGrid(false)
-    try {
-      const result = await fetchProductListFromApi({
-        page,
-        limit,
-        filters: { ...nextFilters, potterId, locale },
-      })
-      setData(result)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err))
-    } finally {
-      setIsLoading(false)
-    }
+    setData(result)
+  }
+
+  const runLoad = (
+    page: number,
+    limit: number,
+    nextFilters: ProductFilters
+  ) => {
+    startTransition(async () => {
+      setError(null)
+      try {
+        await load(page, limit, nextFilters)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err))
+      }
+    })
   }
 
   return (
@@ -65,7 +74,7 @@ export default function PotterProductsCatalog({
         value={filtersLocal}
         onSearch={(next) => {
           setFiltersLocal(next)
-          void load(1, pagination.limit || 20, next)
+          runLoad(1, pagination.limit || 20, next)
         }}
         categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
         styles={['yakishime', 'shino', 'oribe']}
@@ -74,35 +83,33 @@ export default function PotterProductsCatalog({
         totalPages={pagination.totalPages || 0}
         limit={pagination.limit || 20}
         onChangeLimit={(size) => {
-          void load(1, size, filtersLocal)
+          runLoad(1, size, filtersLocal)
         }}
         onChangePage={(pageNum) => {
-          void load(pageNum, pagination.limit || 20, filtersLocal)
+          runLoad(pageNum, pagination.limit || 20, filtersLocal)
         }}
       />
 
-      {error && (
+      {error ? (
         <div className="p-8 text-red-600">
           <p>{error}</p>
           <button
             type="button"
             className="mt-2 rounded bg-gray-800 text-white px-3 py-1"
-            onClick={() => void load(1, pagination.limit || 20, filtersLocal)}
+            onClick={() => runLoad(1, pagination.limit || 20, filtersLocal)}
           >
             Retry
           </button>
         </div>
-      )}
-
-      {isLoading && !error && <p className="p-8">{tProduct('loading')}</p>}
-
-      {!isLoading && !error && data.products.length === 0 && (
-        <p className="p-8">{tProduct('list.empty')}</p>
-      )}
-
-      {!isLoading && !error && data.products.length > 0 && (
-        <div className="mt-6">
-          {usingServerGrid ? (
+      ) : (
+        <PendingSurface
+          isPending={isPending}
+          loadingLabel={tCommon('loading')}
+          className="mt-6"
+        >
+          {data.products.length === 0 ? (
+            <p className="p-8">{tProduct('list.empty')}</p>
+          ) : usingServerGrid ? (
             serverGrid
           ) : (
             <ProductGrid
@@ -111,7 +118,7 @@ export default function PotterProductsCatalog({
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
             />
           )}
-        </div>
+        </PendingSurface>
       )}
     </section>
   )

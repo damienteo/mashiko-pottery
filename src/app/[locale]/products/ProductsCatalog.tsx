@@ -1,10 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState, useTransition } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import ProductsToolbar from '@/components/products/ProductsToolbar'
 import ProductGrid from '@/components/products/ProductGrid'
+import { PendingSurface } from '@/components/navigation/pendingUi'
 import { fetchProductListFromApi } from '@/lib/catalog/fetchProductList'
 import {
   emptyProductFilters,
@@ -27,24 +28,14 @@ export default function ProductsCatalog({
   const t = useTranslations()
   const router = useRouter()
   const pathname = usePathname()
+  const [isPending, startTransition] = useTransition()
   const [data, setData] = useState<ProductListResult>(initialData)
-  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const load = useCallback(
     async (page: number, limit: number, filters: Partial<ProductFilters>) => {
-      setIsLoading(true)
-      setError(null)
-      try {
-        const next = await fetchProductListFromApi({ page, limit, filters })
-        setData(next)
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to fetch products'
-        )
-      } finally {
-        setIsLoading(false)
-      }
+      const next = await fetchProductListFromApi({ page, limit, filters })
+      setData(next)
     },
     []
   )
@@ -59,12 +50,22 @@ export default function ProductsCatalog({
       }
     )
     if (!parsed.hasQuery) {
-      setData(initialData)
-      setIsLoading(false)
-      setError(null)
+      startTransition(() => {
+        setData(initialData)
+        setError(null)
+      })
       return
     }
-    void load(parsed.page, parsed.limit, { ...parsed.filters, locale })
+    startTransition(async () => {
+      setError(null)
+      try {
+        await load(parsed.page, parsed.limit, { ...parsed.filters, locale })
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : 'Failed to fetch products'
+        )
+      }
+    })
   }, [initialData, locale, load])
 
   // SSR the catalog markup; sync query after paint and on Back/Forward (popstate).
@@ -87,8 +88,17 @@ export default function ProductsCatalog({
       limit,
       filters: { ...filters, locale },
     })
-    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
-    void load(page, limit, { ...filters, locale })
+    startTransition(async () => {
+      setError(null)
+      try {
+        router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+        await load(page, limit, { ...filters, locale })
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : 'Failed to fetch products'
+        )
+      }
+    })
   }
 
   const filters: ProductFilters = {
@@ -97,7 +107,7 @@ export default function ProductsCatalog({
     locale,
   }
   const pagination = data.pagination
-  const showServerGrid = data === initialData && !isLoading
+  const showServerGrid = data === initialData
 
   return (
     <section className="py-12 bg-white">
@@ -126,16 +136,23 @@ export default function ProductsCatalog({
         />
 
         <div className="mt-8">
-          {isLoading && data.products.length === 0 ? (
-            <p className="text-center text-gray-500">{t('common.loading')}</p>
-          ) : error ? (
+          {error ? (
             <p className="text-center text-red-600">{error}</p>
-          ) : data.products.length === 0 ? (
-            <p className="text-center text-gray-500">{t('products.empty')}</p>
-          ) : showServerGrid ? (
-            serverGrid
           ) : (
-            <ProductGrid products={data.products} locale={locale} />
+            <PendingSurface
+              isPending={isPending}
+              loadingLabel={t('common.loading')}
+            >
+              {data.products.length === 0 ? (
+                <p className="text-center text-gray-500">
+                  {t('products.empty')}
+                </p>
+              ) : showServerGrid ? (
+                serverGrid
+              ) : (
+                <ProductGrid products={data.products} locale={locale} />
+              )}
+            </PendingSurface>
           )}
         </div>
       </div>
