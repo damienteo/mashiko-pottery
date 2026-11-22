@@ -30,7 +30,7 @@ export default function PotterClient() {
   const t = useTranslations('potter')
   const tProduct = useTranslations('product')
   const locale = useLocale() as Locale
-  const { id } = useParams() as { id: string }
+  const { id } = useParams<{ id: string }>()
   const dispatch = useAppDispatch()
 
   const potter = useAppSelector(selectPotterDetails)
@@ -107,17 +107,13 @@ export default function PotterClient() {
                   ? ['/images/potter-fallback.webp']
                   : []
               )}
-            title={potter.name[locale as keyof typeof potter.name] || 'Potter'}
+            title={potter.name[locale] || 'Potter'}
             imagePriority
           />
         </div>
         <div className="flex flex-col justify-center">
-          <h1 className="text-3xl font-semibold mb-4">
-            {potter.name[locale as keyof typeof potter.name]}
-          </h1>
-          <p className="text-gray-700 text-lg">
-            {potter.bio[locale as keyof typeof potter.bio]}
-          </p>
+          <h1 className="text-3xl font-semibold mb-4">{potter.name[locale]}</h1>
+          <p className="text-gray-700 text-lg">{potter.bio[locale]}</p>
           <dl className="mt-4 text-gray-600">
             {potter.style && (
               <>
@@ -186,13 +182,13 @@ export default function PotterClient() {
             <button
               type="button"
               className="mt-2 rounded bg-gray-800 text-white px-3 py-1"
-              onClick={() =>
-                dispatch(
+              onClick={() => {
+                void dispatch(
                   fetchProductsList({
                     filters: { ...filtersLocal, potterId: Number(id), locale },
                   })
                 )
-              }
+              }}
             >
               Retry
             </button>

@@ -108,8 +108,7 @@ export default function ProductsPage() {
         typeof priceMaxParam === 'number' && !Number.isNaN(priceMaxParam)
           ? priceMaxParam
           : null,
-      active:
-        typeof activeParam === 'boolean' ? (activeParam as boolean) : null,
+      active: typeof activeParam === 'boolean' ? activeParam : null,
       potterId:
         typeof potterIdParam === 'number' && !Number.isNaN(potterIdParam)
           ? potterIdParam

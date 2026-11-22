@@ -125,7 +125,9 @@ export default function Navbar() {
                 <li>
                   <Button
                     variant="secondary"
-                    onClick={() => dispatch(logoutUser())}
+                    onClick={() => {
+                      void dispatch(logoutUser())
+                    }}
                     className="hover:underline"
                   >
                     {t('common.logout.title')}

@@ -59,7 +59,7 @@ export const signInWithPasswordOrOtp = createAsyncThunk<
     return {
       id,
       email: userEmail,
-    } as User
+    }
   }
 )
 
@@ -81,7 +81,7 @@ export const verifyEmailOtp = createAsyncThunk<
   return {
     id,
     email: userEmail,
-  } as User
+  }
 })
 
 export const logoutUser = createAsyncThunk<void>(
@@ -104,7 +104,7 @@ export const fetchSupabaseUser = createAsyncThunk<User | null>(
     return {
       id,
       email,
-    } as User
+    }
   }
 )
 

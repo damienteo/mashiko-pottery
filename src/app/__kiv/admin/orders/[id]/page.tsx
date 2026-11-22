@@ -55,7 +55,9 @@ export default function AdminOrderDetailPage() {
       <div className="p-8 text-center">
         <p className="text-red-600">{t('error')}</p>
         <Button
-          onClick={() => id && dispatch(fetchOrderDetails(id))}
+          onClick={() => {
+            if (id) void dispatch(fetchOrderDetails(id))
+          }}
           className="mt-4"
         >
           {t('retry')}

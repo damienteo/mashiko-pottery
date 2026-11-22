@@ -59,9 +59,7 @@ export const fetchProductsList = createAsyncThunk<
   })
 
   if (!res.ok) {
-    const err = await res
-      .json()
-      .catch(() => ({ message: '' }) as { message?: string })
+    const err = await res.json().catch(() => ({ message: '' }))
     return rejectWithValue(err.message || 'Failed to fetch products')
   }
 

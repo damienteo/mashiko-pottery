@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   } else {
     const ts =
       typeof paramsToSign.timestamp === 'string'
-        ? parseInt(paramsToSign.timestamp as string, 10)
+        ? parseInt(paramsToSign.timestamp, 10)
         : Number(paramsToSign.timestamp)
     paramsToSign.timestamp = ts > 9_999_999_999 ? Math.floor(ts / 1000) : ts
   }
@@ -62,7 +62,7 @@ export async function POST(req: Request) {
   // Dev-only: log the exact string we are signing
   const stringToSign = Object.keys(paramsToSign)
     .sort()
-    .map((k) => `${k}=${paramsToSign[k as keyof typeof paramsToSign]}`)
+    .map((k) => `${k}=${paramsToSign[k]}`)
     .join('&')
   console.log('[cloudinary] string_to_sign:', stringToSign)
   console.log('[cloudinary] params:', paramsToSign)

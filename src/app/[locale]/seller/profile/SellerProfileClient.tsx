@@ -136,7 +136,9 @@ export default function SellerProfileClient() {
         reset(defaults)
         setIsEditing(false)
       }}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        void handleSubmit(onSubmit)(e)
+      }}
       control={control}
       errors={errors}
       isValid={isValid}

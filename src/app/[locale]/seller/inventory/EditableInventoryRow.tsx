@@ -123,7 +123,9 @@ export default function EditableInventoryRow({
       <td className="px-3 py-2 whitespace-nowrap space-x-2 flex items-center">
         <Button
           variant="confirm"
-          onClick={handleSubmit(onSubmit)}
+          onClick={() => {
+            void handleSubmit(onSubmit)()
+          }}
           disabled={!isValid}
         >
           ✅ {t('done')}

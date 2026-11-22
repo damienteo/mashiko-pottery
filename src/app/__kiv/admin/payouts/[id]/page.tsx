@@ -20,10 +20,7 @@ const payoutSchema = yup.object({
   month: yup.string().required(),
   amount: yup.number().min(0).required(),
   commissionRate: yup.number().min(0).max(1).required(),
-  status: yup
-    .mixed<PayoutStatus>()
-    .oneOf(payoutStatusOptions as PayoutStatus[])
-    .required(),
+  status: yup.mixed<PayoutStatus>().oneOf(payoutStatusOptions).required(),
 })
 type PayoutFormValues = yup.InferType<typeof payoutSchema>
 
@@ -89,7 +86,12 @@ export default function AdminPayoutDetailPage() {
           Admin
         </span>
       </h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={(e) => {
+          void handleSubmit(onSubmit)(e)
+        }}
+        className="space-y-4"
+      >
         {/* Potter ID (read-only) */}
         <div>
           <label className="block text-sm font-medium">

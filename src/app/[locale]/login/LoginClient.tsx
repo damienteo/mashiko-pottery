@@ -71,7 +71,9 @@ export default function LoginClient({ callback }: Props) {
         </div>
       )}
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          void handleSubmit(onSubmit)(e)
+        }}
         className="space-y-4"
         autoComplete="on"
       >

@@ -71,7 +71,12 @@ export default function PottersClient() {
     return (
       <div className="p-8 text-center text-red-600">
         <p>{t('error')}</p>
-        <Button onClick={() => dispatch(fetchPottersList({}))} className="mt-4">
+        <Button
+          onClick={() => {
+            void dispatch(fetchPottersList({}))
+          }}
+          className="mt-4"
+        >
           {t('retry')}
         </Button>
       </div>
@@ -189,7 +194,9 @@ export default function PottersClient() {
                     {editingId === p.id ? (
                       <>
                         <Button
-                          onClick={() => handleSubmit(onSubmit)()}
+                          onClick={() => {
+                            void handleSubmit(onSubmit)()
+                          }}
                           variant="primary"
                           disabled={!isValid}
                         >

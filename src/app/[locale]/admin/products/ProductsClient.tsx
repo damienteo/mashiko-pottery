@@ -95,15 +95,15 @@ export default function ProductsClient() {
       <div className="p-8 text-center text-red-600">
         <p>{t('error')}</p>
         <Button
-          onClick={() =>
-            dispatch(
+          onClick={() => {
+            void dispatch(
               fetchProductsList({
                 page: pagination.page,
                 limit: pagination.limit,
                 filters: { ...filters, locale },
               })
             )
-          }
+          }}
           className="mt-4"
         >
           {t('retry')}
@@ -307,7 +307,9 @@ export default function ProductsClient() {
                         {editingId === p.id ? (
                           <>
                             <Button
-                              onClick={() => handleSubmit(onSubmit)()}
+                              onClick={() => {
+                                void handleSubmit(onSubmit)()
+                              }}
                               variant="primary"
                               disabled={!isValid}
                             >

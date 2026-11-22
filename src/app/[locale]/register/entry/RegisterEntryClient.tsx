@@ -56,7 +56,9 @@ export default function RegistryEntryClient() {
         </div>
       )}
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          void handleSubmit(onSubmit)(e)
+        }}
         className="space-y-4"
         autoComplete="on"
       >

@@ -117,7 +117,9 @@ export default function EditablePayoutRow({
           <>
             <Button
               variant="confirm"
-              onClick={handleSubmit(onSubmit)}
+              onClick={() => {
+                void handleSubmit(onSubmit)()
+              }}
               disabled={!isValid}
             >
               {t('buttons.confirm')}

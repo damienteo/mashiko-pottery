@@ -40,7 +40,9 @@ export default function SellerPayoutListClient() {
       <div className="p-8 text-center text-red-600">
         <p>{t('error')}</p>
         <Button
-          onClick={() => dispatch(fetchSellerPayoutList())}
+          onClick={() => {
+            void dispatch(fetchSellerPayoutList())
+          }}
           className="mt-4"
         >
           {t('retry')}

@@ -29,7 +29,7 @@ export interface FormData {
 }
 
 interface Props {
-  onSubmit: (data: FormData) => void
+  onSubmit: (data: FormData) => unknown
   submitLabel?: string
 }
 
@@ -128,7 +128,9 @@ const UserProfileForm = ({ onSubmit, submitLabel }: Props) => {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={(e) => {
+        void handleSubmit(onSubmit)(e)
+      }}
       className="space-y-4"
       autoComplete="on"
     >

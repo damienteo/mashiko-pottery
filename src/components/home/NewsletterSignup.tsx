@@ -49,7 +49,9 @@ export default function NewsletterSignup() {
         </h2>
         <p className="text-gray-600 mb-6">{t('newsletter.description')}</p>
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={(e) => {
+            void handleSubmit(onSubmit)(e)
+          }}
           className="flex flex-col sm:flex-row gap-2"
         >
           <input

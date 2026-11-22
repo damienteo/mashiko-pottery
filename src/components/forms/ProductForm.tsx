@@ -69,7 +69,7 @@ export type UnifiedFormValues = Partial<ProductFormValues> &
 
 interface ProductFormProps {
   initialValues?: UnifiedFormValues
-  onSubmit: (data: UnifiedFormValues) => void
+  onSubmit: (data: UnifiedFormValues) => unknown
   isLoading: boolean
   errorsFromServer?: string | null
   submitText?: string
@@ -162,7 +162,12 @@ export default function ProductForm({
   }, [initialValues, reset])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        void handleSubmit(onSubmit)(e)
+      }}
+      className="space-y-4"
+    >
       {initialValues?.id && (
         <input type="hidden" value={initialValues.id} {...register('id')} />
       )}

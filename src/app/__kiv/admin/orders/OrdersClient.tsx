@@ -40,7 +40,12 @@ export default function OrdersClient() {
     return (
       <div className="p-8 text-center">
         <p className="text-red-600">{t('error')}</p>
-        <Button onClick={() => dispatch(fetchOrdersList())} className="mt-4">
+        <Button
+          onClick={() => {
+            void dispatch(fetchOrdersList())
+          }}
+          className="mt-4"
+        >
           {t('retry')}
         </Button>
       </div>

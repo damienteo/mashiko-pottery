@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     const localeParam = searchParams.get('locale')
     const locale =
       localeParam === 'en' || localeParam === 'ja' || localeParam === 'zh'
-        ? (localeParam as 'en' | 'ja' | 'zh')
+        ? localeParam
         : null
 
     const category = searchParams.get('category') || undefined
@@ -139,7 +139,7 @@ export async function GET(req: NextRequest) {
       ...(active ? { stock: { gt: 0 }, isDraft: false } : {}),
       ...(Number.isNaN(potterId) ? {} : { potterId }),
       // If your Product model has a `style` column, enable the next line
-      ...(style ? ({/* style */} as Prisma.ProductWhereInput) : {}),
+      ...(style ? {/* style */} : {}),
     }
 
     const [products, total] = await Promise.all([

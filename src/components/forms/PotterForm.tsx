@@ -30,7 +30,7 @@ export interface PotterFormValues {
 
 interface PotterFormProps {
   initialValues?: PotterFormValues
-  onSubmit: (data: PotterFormValues) => void
+  onSubmit: (data: PotterFormValues) => unknown
   isLoading: boolean
   errorsFromServer?: string | null
   submitText?: string
@@ -83,7 +83,12 @@ export default function PotterForm({
   })
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        void handleSubmit(onSubmit)(e)
+      }}
+      className="space-y-4"
+    >
       <div>
         {showUserIdInput && (
           <label htmlFor="userId" className="block text-sm">

@@ -34,7 +34,7 @@ import {
 export default function ProductClient() {
   const t = useTranslations('product')
   const locale = useLocale() as Locale
-  const { id } = useParams() as { id: string }
+  const { id } = useParams<{ id: string }>()
   const dispatch = useAppDispatch()
   const product = useAppSelector(selectProductDetails)
   const isLoading = useAppSelector(selectProductDetailsIsLoading)
