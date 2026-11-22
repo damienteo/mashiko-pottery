@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import IntentLink from '@/components/ui/IntentLink'
 import { getLocale, getTranslations } from 'next-intl/server'
 import SmartImage from '@/components/ui/SmartImage'
 import type { Potter } from '@/types/potter'
@@ -31,7 +31,7 @@ export default async function PotterSpotlights({
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {potters.map((potter) => (
-            <Link
+            <IntentLink
               key={potter.id}
               href={`/${locale}/potters/${potter.id}`}
               className="block"
@@ -51,7 +51,7 @@ export default async function PotterSpotlights({
               <p className="text-gray-600 text-center">
                 {potter.bio[locale as keyof typeof potter.bio]}
               </p>
-            </Link>
+            </IntentLink>
           ))}
         </div>
       </div>

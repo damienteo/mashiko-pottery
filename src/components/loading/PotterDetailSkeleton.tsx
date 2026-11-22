@@ -14,7 +14,7 @@ export default function PotterDetailSkeleton({
   loadingText,
 }: PotterDetailSkeletonProps) {
   return (
-    <LoadingStatus loadingText={loadingText}>
+    <LoadingStatus loadingText={loadingText} skeleton="potter-detail">
       <div className="px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
           <div className="w-full lg:h-full">

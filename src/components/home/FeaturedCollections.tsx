@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import IntentLink from '@/components/ui/IntentLink'
 import { getLocale, getTranslations } from 'next-intl/server'
 
 export default async function FeaturedCollections() {
@@ -11,13 +11,12 @@ export default async function FeaturedCollections() {
       <p className="mb-6 italic text-gray-600">{t('featured.season')}</p>
 
       <div className="mt-6 text-center">
-        <Link
+        <IntentLink
           href={`/${locale}/products`}
-          prefetch={false}
           className="text-blue-600 underline"
         >
           {t('featured.viewAll')}
-        </Link>
+        </IntentLink>
       </div>
     </section>
   )

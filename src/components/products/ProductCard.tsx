@@ -1,5 +1,5 @@
 import SmartImage from '@/components/ui/SmartImage'
-import Link from 'next/link'
+import IntentLink from '@/components/ui/IntentLink'
 // import { useTranslations } from "next-intl";
 
 import type { Product } from '@/types/product'
@@ -32,7 +32,7 @@ export default function ProductCard({
 
   return (
     <article className="group flex flex-col h-full">
-      <Link
+      <IntentLink
         href={productHref}
         className="block"
         aria-label={title || 'Product'}
@@ -58,7 +58,7 @@ export default function ProductCard({
             </p>
           )}
         </div>
-      </Link>
+      </IntentLink>
 
       {/* KIV: Until E-commerce is implemented, we will not show the "Add to Cart" button. */}
       {/* {onAddToCart && (

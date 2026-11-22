@@ -60,5 +60,6 @@ describe('route loading skeletons', () => {
     )
     expect(status).toMatch(/aria-busy="true"/)
     expect(status).toMatch(/sr-only/)
+    expect(status).toMatch(/data-skeleton/)
   })
 })

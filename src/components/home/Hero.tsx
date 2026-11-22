@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import IntentLink from '@/components/ui/IntentLink'
 import SmartImage from '@/components/ui/SmartImage'
 import { getLocale, getTranslations } from 'next-intl/server'
 
@@ -25,20 +25,18 @@ export default async function Hero() {
           {t('home.tagline')}
         </h1>
         <div className="flex flex-col md:flex-row gap-2 md:space-x-4">
-          <Link
+          <IntentLink
             href={`/${locale}/products`}
-            prefetch={false}
             className="bg-white text-black px-4 py-2 rounded"
           >
             {t('home.cta.shop')}
-          </Link>
-          <Link
+          </IntentLink>
+          <IntentLink
             href={`/${locale}/potters`}
-            prefetch={false}
             className="bg-transparent border border-white text-white px-4 py-2 rounded"
           >
             {t('home.cta.meet')}
-          </Link>
+          </IntentLink>
         </div>
       </div>
     </section>

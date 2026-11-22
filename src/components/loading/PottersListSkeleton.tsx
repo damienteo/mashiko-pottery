@@ -12,7 +12,7 @@ export default function PottersListSkeleton({
   loadingText,
 }: PottersListSkeletonProps) {
   return (
-    <LoadingStatus loadingText={loadingText}>
+    <LoadingStatus loadingText={loadingText} skeleton="potters-list">
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SkeletonTitleBar className="h-9 w-64" />
