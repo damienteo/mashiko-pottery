@@ -41,11 +41,7 @@ export default async function Page({
     limit: 3,
     includeProducts: false as const,
   }
-  const productQuery = {
-    page: 1,
-    limit: 6,
-    active: true as const,
-  }
+  const productQuery = { page: 1, limit: 6 }
 
   const [potters, products] = await Promise.all([
     catalogForStaticPage(

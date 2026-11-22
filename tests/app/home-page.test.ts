@@ -5,6 +5,10 @@ const page = readFileSync(
   join(process.cwd(), 'src/app/[locale]/page.tsx'),
   'utf8'
 )
+const productsPage = readFileSync(
+  join(process.cwd(), 'src/app/[locale]/products/page.tsx'),
+  'utf8'
+)
 const homeClient = readFileSync(
   join(process.cwd(), 'src/app/[locale]/HomeClient.tsx'),
   'utf8'
@@ -24,8 +28,10 @@ describe('Home page catalog fetch', () => {
     expect(page).toMatch(/emptyProductList/)
     expect(page).toMatch(/getCachedPotterList/)
     expect(page).toMatch(/featuredProducts=\{products\.products\}/)
-    expect(page).toMatch(/active: true/)
-    expect(page).toMatch(/limit: 6/)
+    expect(page).toMatch(/const productQuery = \{ page: 1, limit: 6 \}/)
+    expect(page).not.toMatch(/active:\s*true/)
+    expect(productsPage).toMatch(/const query = \{ page: 1, limit: 10 \}/)
+    expect(productsPage).not.toMatch(/active:\s*true/)
   })
 
   it('passes featured products into FeaturedCollections', () => {
