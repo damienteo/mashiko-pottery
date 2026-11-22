@@ -1,9 +1,9 @@
 import React from 'react'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { getTranslations } from 'next-intl/server'
 
-export default function ShippingGuarantee() {
-  const t = useTranslations()
+export default async function ShippingGuarantee() {
+  const t = await getTranslations()
 
   return (
     <section className="py-10 bg-gray-50 flex items-center justify-center">
@@ -15,7 +15,6 @@ export default function ShippingGuarantee() {
             fill
             className="object-contain"
             sizes="56px"
-            priority
           />
         </div>
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3">

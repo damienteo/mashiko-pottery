@@ -1,9 +1,10 @@
-// src/app/[locale]/layout.tsx
 import type { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { Suspense } from 'react'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { routing } from '@/i18n/routing'
 import { notFound } from 'next/navigation'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 import Analytics from './ClientAnalytics'
 import StoreProvider from './StoreProvider'
@@ -16,45 +17,39 @@ import './globals.css'
 import {
   Inter,
   Playfair_Display,
-  Merriweather,
   Noto_Sans_JP,
   Noto_Serif_SC,
 } from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '600', '700'],
   variable: '--font-inter',
+  display: 'swap',
 })
 const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: ['400', '700'],
   variable: '--font-playfair',
+  display: 'swap',
 })
-const merriweather = Merriweather({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-merriweather',
-})
-// Locale-specific font fallbacks (reuse Inter variable)
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: 'variable',
   variable: '--font-inter',
+  display: 'swap',
+  preload: false,
 })
 const notoSerifSC = Noto_Serif_SC({
   subsets: ['latin'],
-  weight: ['400', '700'],
+  weight: 'variable',
   variable: '--font-inter',
+  display: 'swap',
+  preload: false,
 })
 
-// Pre-render all locale variants
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
 }
 
-// Generate localized metadata
 export async function generateMetadata({
   params,
 }: {
@@ -91,25 +86,29 @@ export default async function RootLayout({
   if (!hasLocale(routing.locales, locale)) {
     notFound()
   }
+  setRequestLocale(locale)
 
-  // Choose font variable based on locale (default to Inter)
-  const localeFonts: Record<string, string> = {
-    ja: notoSansJP.variable,
-    zh: notoSerifSC.variable,
-  }
-  const fontClass = localeFonts[locale] ?? inter.variable
+  const bodyFont =
+    locale === 'ja'
+      ? notoSansJP.variable
+      : locale === 'zh'
+        ? notoSerifSC.variable
+        : inter.variable
 
   return (
     <html
       lang={locale}
-      className={`${inter.variable} ${playfair.variable} ${merriweather.variable} ${fontClass} antialiased`}
+      className={`${bodyFont} ${playfair.variable} antialiased`}
     >
       <body className="flex flex-col min-h-screen bg-gray-50 text-gray-800">
         <NextIntlClientProvider>
           <StoreProvider>
             <AuthLoader />
-            <Analytics />
-            {/* main content grows to push footer to bottom */}
+            {process.env.NEXT_PUBLIC_GA_ID ? (
+              <Suspense fallback={null}>
+                <Analytics />
+              </Suspense>
+            ) : null}
             <main className="flex-grow">
               <Navbar />
               <ToasterContainer />
@@ -118,6 +117,7 @@ export default async function RootLayout({
             <Footer />
           </StoreProvider>
         </NextIntlClientProvider>
+        {process.env.NODE_ENV === 'production' ? <SpeedInsights /> : null}
       </body>
     </html>
   )

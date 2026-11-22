@@ -88,6 +88,21 @@ const productsListSlice = createSlice({
         totalPages: 0,
       }
     },
+    hydrateProductsList(
+      state,
+      action: PayloadAction<{
+        products: Product[]
+        filters: ProductFilters
+        pagination: Pagination
+      }>
+    ) {
+      state.items = action.payload.products
+      state.filters = { ...state.filters, ...action.payload.filters }
+      state.pagination = action.payload.pagination
+      state.isLoading = false
+      state.isSuccess = true
+      state.error = null
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -139,6 +154,7 @@ export const {
   setProductsPage,
   setProductsLimit,
   resetProductsListState,
+  hydrateProductsList,
 } = productsListSlice.actions
 
 export default productsListSlice.reducer

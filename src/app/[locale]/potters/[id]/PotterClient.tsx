@@ -10,39 +10,68 @@ import ProductsToolbar from '@/components/products/ProductsToolbar' // <-- NEW
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchPotterDetails,
+  hydratePotterDetails,
   selectPotterDetails,
   selectPotterDetailsIsLoading,
   selectPotterDetailsIsSuccess,
   selectPotterDetailsError,
 } from '@/store/potters/potterDetailsSlice'
 import {
+  hydrateProductsList,
   selectAllProducts,
+  selectProductsListError,
+  selectProductsListFilters,
   selectProductsListIsLoading,
   selectProductsListIsSuccess,
-  selectProductsListError,
   selectProductsListPagination,
 } from '@/store/products/productsListSlice'
+import { pickById, pickScopedProductList } from '@/lib/catalog/pickCached'
 import { fetchProductsList } from '@/store/thunks/fetchProductsList'
 import type { Locale } from '@/types/i18n'
-import type { ProductFilters } from '@/types/common' // <-- NEW (for toolbar value typing)
+import type { ProductFilters } from '@/types/common'
+import type { Potter } from '@/types/potter'
+import type { ProductListResult } from '@/lib/catalog/products'
 
-export default function PotterClient() {
+export default function PotterClient({
+  initialPotter = null,
+  initialProductList = null,
+}: {
+  initialPotter?: Potter | null
+  initialProductList?: ProductListResult | null
+}) {
   const t = useTranslations('potter')
   const tProduct = useTranslations('product')
   const locale = useLocale() as Locale
   const { id } = useParams<{ id: string }>()
   const dispatch = useAppDispatch()
 
-  const potter = useAppSelector(selectPotterDetails)
+  const storePotter = useAppSelector(selectPotterDetails)
   const isLoading = useAppSelector(selectPotterDetailsIsLoading)
   const isSuccess = useAppSelector(selectPotterDetailsIsSuccess)
   const error = useAppSelector(selectPotterDetailsError)
 
-  const allProducts = useAppSelector(selectAllProducts)
+  const storeProducts = useAppSelector(selectAllProducts)
   const productsLoading = useAppSelector(selectProductsListIsLoading)
   const productsSuccess = useAppSelector(selectProductsListIsSuccess)
   const productsError = useAppSelector(selectProductsListError)
-  const pagination = useAppSelector(selectProductsListPagination)
+  const storePagination = useAppSelector(selectProductsListPagination)
+  const storeFilters = useAppSelector(selectProductsListFilters)
+
+  const numericId = Number(id)
+  const potter = pickById(storePotter, initialPotter, numericId)
+  const productList = pickScopedProductList({
+    store: {
+      products: storeProducts,
+      filters: storeFilters,
+      pagination: storePagination,
+    },
+    initial: initialProductList,
+    expectedPotterId: Number.isNaN(numericId) ? null : numericId,
+    storeReady: productsSuccess || productsLoading,
+  })
+  const allProducts = productList?.products ?? []
+  const pagination =
+    productList?.pagination ?? initialProductList?.pagination ?? storePagination
 
   // Local toolbar state (no potterId shown; it is always forced in the query)
   const defaultFilters = useMemo<ProductFilters>(
@@ -61,6 +90,16 @@ export default function PotterClient() {
   const [filtersLocal, setFiltersLocal] =
     useState<ProductFilters>(defaultFilters)
 
+  useEffect(() => {
+    if (initialPotter && String(initialPotter.id) === id) {
+      dispatch(hydratePotterDetails(initialPotter))
+    }
+    if (initialProductList) {
+      dispatch(hydrateProductsList(initialProductList))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
+
   // Fetch potter details (one-time per id)
   useEffect(() => {
     if (id && (!potter || String(potter.id) !== id)) {
@@ -70,6 +109,9 @@ export default function PotterClient() {
 
   // Fetch this potter's products on first ready
   useEffect(() => {
+    if (initialProductList && potter) {
+      return
+    }
     if (potter && !productsLoading && !productsSuccess && !productsError) {
       dispatch(fetchProductsList({ filters: { potterId: Number(id), locale } }))
     }
@@ -81,10 +123,11 @@ export default function PotterClient() {
     productsLoading,
     productsSuccess,
     productsError,
+    initialProductList,
   ])
 
-  if (isLoading) return <p className="p-8">{t('loading')}</p>
-  if (!isLoading && !isSuccess)
+  if (isLoading && !potter) return <p className="p-8">{t('loading')}</p>
+  if (!potter && !isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>
   if (!potter) return <p className="p-8">{t('loading')}</p>
 
@@ -182,13 +225,13 @@ export default function PotterClient() {
             <button
               type="button"
               className="mt-2 rounded bg-gray-800 text-white px-3 py-1"
-              onClick={() => {
+              onClick={() =>
                 void dispatch(
                   fetchProductsList({
                     filters: { ...filtersLocal, potterId: Number(id), locale },
                   })
                 )
-              }}
+              }
             >
               Retry
             </button>

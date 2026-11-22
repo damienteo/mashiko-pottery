@@ -1,8 +1,12 @@
 'use client'
-import Link from 'next/link'
+import NextLink from 'next/link'
+import { Suspense, useState, type ComponentProps } from 'react'
+
+function Link(props: ComponentProps<typeof NextLink>) {
+  return <NextLink prefetch={false} {...props} />
+}
 import { useTranslations } from 'next-intl'
 import LanguageSelector from './LanguageSelector'
-import { useState } from 'react'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'
 import { selectUserProfile } from '@/store/user/userSlice'
 // import { selectCartCount } from "@/store/cartSlice";
@@ -125,9 +129,7 @@ export default function Navbar() {
                 <li>
                   <Button
                     variant="secondary"
-                    onClick={() => {
-                      void dispatch(logoutUser())
-                    }}
+                    onClick={() => void dispatch(logoutUser())}
                     className="hover:underline"
                   >
                     {t('common.logout.title')}
@@ -149,7 +151,9 @@ export default function Navbar() {
               </>
             )}
             <li>
-              <LanguageSelector />
+              <Suspense fallback={null}>
+                <LanguageSelector />
+              </Suspense>
             </li>
           </ul>
           {/* Mobile slide-in menu (always mounted for transitions) */}
@@ -277,7 +281,7 @@ export default function Navbar() {
                         <Button
                           variant="secondary"
                           onClick={() => {
-                            dispatch(logoutUser())
+                            void dispatch(logoutUser())
                             setMenuOpen(false)
                           }}
                           className="block text-lg w-full text-left"
@@ -308,7 +312,9 @@ export default function Navbar() {
                     </>
                   )}
                   <li>
-                    <LanguageSelector />
+                    <Suspense fallback={null}>
+                      <LanguageSelector />
+                    </Suspense>
                   </li>
                 </ul>
               </nav>

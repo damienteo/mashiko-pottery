@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useState, useMemo } from 'react'
-import Image from 'next/image'
+import SmartImage from '@/components/ui/SmartImage'
 
 export type GalleryProps = {
   images: string[]
@@ -27,13 +29,14 @@ const Gallery: React.FC<GalleryProps> = ({
         {currentImage && (
           <>
             <div className="relative w-full aspect-square overflow-hidden rounded md:flex-1">
-              <Image
+              <SmartImage
                 src={currentImage}
                 alt={title || 'Product image'}
                 fill
                 className="object-cover transition-transform duration-300"
                 sizes="(min-width: 768px) 50vw, 100vw"
                 priority={imagePriority}
+                fetchPriority={imagePriority ? 'high' : 'auto'}
               />
             </div>
             {images.length > 1 && (
@@ -51,7 +54,7 @@ const Gallery: React.FC<GalleryProps> = ({
                     aria-label={`Select image ${idx + 1}`}
                     title={`Select image ${idx + 1}`}
                   >
-                    <Image
+                    <SmartImage
                       src={img}
                       alt={`${title || 'Product'} thumbnail ${idx + 1}`}
                       fill
@@ -79,7 +82,7 @@ const Gallery: React.FC<GalleryProps> = ({
               aria-label={`Select image ${idx + 1}`}
               title={`Select image ${idx + 1}`}
             >
-              <Image
+              <SmartImage
                 src={img}
                 alt={`${title || 'Product'} thumbnail ${idx + 1}`}
                 fill

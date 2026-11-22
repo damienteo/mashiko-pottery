@@ -1,5 +1,22 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { isProtectedPath, localeFromPathname } from '@/lib/i18n/path'
+import { isSafeRelativeCallback } from '@/lib/i18n/callback'
+import { routing } from '@/i18n/routing'
+import { copyCookies } from '@/lib/supabase/cookies'
+
+export function unauthenticatedLoginUrl(request: NextRequest): URL {
+  const url = request.nextUrl.clone()
+  const locale =
+    localeFromPathname(request.nextUrl.pathname) ?? routing.defaultLocale
+  url.pathname = `/${locale}/login`
+  url.search = ''
+  const callback = `${request.nextUrl.pathname}${request.nextUrl.search}`
+  if (isSafeRelativeCallback(callback)) {
+    url.searchParams.set('callback', callback)
+  }
+  return url
+}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -33,15 +50,11 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser()
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+  if (!user && isProtectedPath(request.nextUrl.pathname)) {
+    const redirectResponse = NextResponse.redirect(
+      unauthenticatedLoginUrl(request)
+    )
+    return copyCookies(supabaseResponse, redirectResponse)
   }
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:

@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import Image from 'next/image'
+import SmartImage from '@/components/ui/SmartImage'
 import Link from 'next/link'
 
 import type { Product } from '@/types/product'
@@ -138,7 +138,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
               <div className="flex items-start gap-4">
                 {potter.imageUrl && (
                   <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded">
-                    <Image
+                    <SmartImage
                       src={potter.imageUrl}
                       alt={potter.name[locale] || 'Potter'}
                       fill
@@ -179,7 +179,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     >
                       <div className="relative aspect-square w-full overflow-hidden rounded">
                         {rpImg && (
-                          <Image
+                          <SmartImage
                             src={rpImg}
                             alt={rpTitle || 'Product image'}
                             fill

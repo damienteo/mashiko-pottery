@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import SmartImage from '@/components/ui/SmartImage'
 import Link from 'next/link'
 // import { useTranslations } from "next-intl";
 
@@ -40,7 +40,7 @@ export default function ProductCard({
         aria-label={title || 'Product'}
       >
         <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-100">
-          <Image
+          <SmartImage
             src={imageSrc}
             alt={title || 'Product image'}
             fill

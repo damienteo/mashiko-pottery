@@ -9,6 +9,7 @@ import ProductDetails from '@/components/products/ProductDetails'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchProductDetails,
+  hydrateProductDetails,
   selectProductDetails,
   selectProductDetailsIsLoading,
   selectProductDetailsIsSuccess,
@@ -18,6 +19,7 @@ import { logViewItem } from '@/lib/analytics'
 import type { Locale } from '@/types/i18n'
 import {
   fetchPotterDetails,
+  hydratePotterDetails,
   selectPotterDetails,
   selectPotterDetailsIsLoading,
   selectPotterDetailsIsSuccess,
@@ -26,51 +28,98 @@ import {
 import { fetchProductsList } from '@/store/thunks/fetchProductsList'
 import {
   selectAllProducts,
+  selectProductsListError,
+  selectProductsListFilters,
   selectProductsListIsLoading,
   selectProductsListIsSuccess,
-  selectProductsListError,
+  selectProductsListPagination,
 } from '@/store/products/productsListSlice'
+import type { Product } from '@/types/product'
+import type { Potter } from '@/types/potter'
+import type { ProductListResult } from '@/lib/catalog/products'
+import { pickById, pickScopedProductList } from '@/lib/catalog/pickCached'
 
-export default function ProductClient() {
+export default function ProductClient({
+  initialProduct = null,
+  initialPotter = null,
+  initialProductList = null,
+}: {
+  initialProduct?: Product | null
+  initialPotter?: Potter | null
+  initialProductList?: ProductListResult | null
+}) {
   const t = useTranslations('product')
   const locale = useLocale() as Locale
   const { id } = useParams<{ id: string }>()
   const dispatch = useAppDispatch()
-  const product = useAppSelector(selectProductDetails)
+  const storeProduct = useAppSelector(selectProductDetails)
   const isLoading = useAppSelector(selectProductDetailsIsLoading)
   const isSuccess = useAppSelector(selectProductDetailsIsSuccess)
   const error = useAppSelector(selectProductDetailsError)
 
-  const potter = useAppSelector(selectPotterDetails)
+  const storePotter = useAppSelector(selectPotterDetails)
   const potterIsLoading = useAppSelector(selectPotterDetailsIsLoading)
   const potterIsSuccess = useAppSelector(selectPotterDetailsIsSuccess)
   const potterError = useAppSelector(selectPotterDetailsError)
 
-  const allProducts = useAppSelector(selectAllProducts)
+  const storeProducts = useAppSelector(selectAllProducts)
   const listIsLoading = useAppSelector(selectProductsListIsLoading)
   const listIsSuccess = useAppSelector(selectProductsListIsSuccess)
   const listError = useAppSelector(selectProductsListError)
+  const storeFilters = useAppSelector(selectProductsListFilters)
+  const storePagination = useAppSelector(selectProductsListPagination)
+
+  const numericId = Number(id)
+  const product = pickById(storeProduct, initialProduct, numericId)
+  const potter = pickById(
+    storePotter,
+    initialPotter,
+    product?.potterId ?? initialPotter?.id ?? null
+  )
+  const relatedList = pickScopedProductList({
+    store: {
+      products: storeProducts,
+      filters: storeFilters,
+      pagination: storePagination,
+    },
+    initial: initialProductList,
+    expectedPotterId: product?.potterId ?? null,
+    storeReady: listIsSuccess || listIsLoading,
+  })
+  const allProducts = relatedList?.products ?? []
+
+  useEffect(() => {
+    if (initialProduct && initialProduct.id === numericId) {
+      dispatch(hydrateProductDetails(initialProduct))
+    }
+    if (
+      initialPotter &&
+      (product == null || initialPotter.id === product.potterId)
+    ) {
+      dispatch(hydratePotterDetails(initialPotter))
+    }
+    // Related products stay in initialProductList so they do not overwrite
+    // the catalog productsList singleton used by /products.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   useEffect(() => {
     if (!id) return
-    const numericId = Number(id)
-    // Refetch when:
-    // - we don't have a successful fetch yet, OR
-    // - the loaded product is for a different id
+    if (product?.id === numericId) return
     if (!isLoading && (!isSuccess || product?.id !== numericId)) {
       dispatch(fetchProductDetails(id))
     }
-  }, [dispatch, id, product?.id, isLoading, isSuccess])
+  }, [dispatch, id, product?.id, isLoading, isSuccess, numericId, product])
 
   useEffect(() => {
-    if (isSuccess && product) {
+    if (product) {
       logViewItem({
         id: product.id,
         title: product.title[locale],
         price: product.price,
       })
     }
-  }, [isSuccess, product, locale])
+  }, [product, locale])
 
   useEffect(() => {
     if (
@@ -80,7 +129,7 @@ export default function ProductClient() {
       !potterIsSuccess &&
       !potterError // prevent continuous retries after a failure
     ) {
-      dispatch(fetchPotterDetails(String(product.potterId)))
+      void dispatch(fetchPotterDetails(String(product.potterId)))
     }
   }, [
     dispatch,
@@ -92,6 +141,7 @@ export default function ProductClient() {
   ])
 
   useEffect(() => {
+    if (initialProductList) return
     if (
       isSuccess &&
       product?.potterId &&
@@ -99,7 +149,7 @@ export default function ProductClient() {
       !listIsSuccess &&
       !listError // prevent continuous retries after a failure
     ) {
-      dispatch(
+      void dispatch(
         fetchProductsList({
           filters: { potterId: product.potterId },
           limit: 50,
@@ -109,6 +159,7 @@ export default function ProductClient() {
     }
   }, [
     dispatch,
+    initialProductList,
     isSuccess,
     product?.potterId, // depend on the id, not the whole product object
     listIsLoading,
@@ -144,9 +195,8 @@ export default function ProductClient() {
     return seeded.slice(0, 8)
   })()
 
-  // TODO: Pass potter and relatedProducts into ProductDetails once its API includes those props.
-  if (isLoading) return <p className="p-8">{t('loading')}</p>
-  if (!isLoading && !isSuccess)
+  if (isLoading && !product) return <p className="p-8">{t('loading')}</p>
+  if (!product && !isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>
   if (!product) return <p className="p-8 text-red-600">{error}</p>
 

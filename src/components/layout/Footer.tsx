@@ -10,16 +10,32 @@ export default function Footer() {
   return (
     <footer className="bg-white py-6 px-4">
       <nav className="flex justify-center space-x-6 mb-4">
-        <Link href={`/${locale}/products`} className="hover:underline">
+        <Link
+          href={`/${locale}/products`}
+          prefetch={false}
+          className="hover:underline"
+        >
           {t('footer.nav.shop')}
         </Link>
-        <Link href={`/${locale}/products`} className="hover:underline">
+        <Link
+          href={`/${locale}/products`}
+          prefetch={false}
+          className="hover:underline"
+        >
           {t('footer.nav.about')}
         </Link>
-        <Link href={`/${locale}/products`} className="hover:underline">
+        <Link
+          href={`/${locale}/products`}
+          prefetch={false}
+          className="hover:underline"
+        >
           {t('footer.nav.faq')}
         </Link>
-        <Link href={`/${locale}/products`} className="hover:underline">
+        <Link
+          href={`/${locale}/products`}
+          prefetch={false}
+          className="hover:underline"
+        >
           {t('footer.nav.contact')}
         </Link>
       </nav>

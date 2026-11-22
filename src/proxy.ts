@@ -3,6 +3,8 @@ import createMiddleware from 'next-intl/middleware'
 
 import { routing } from './i18n/routing'
 import { updateSession } from './lib/supabase/middleware'
+import { copyCookies } from './lib/supabase/cookies'
+import { isSessionRequiredPath } from './lib/i18n/path'
 
 const LOCALE_MAP: Record<string, string> = {
   'zh-CN': 'zh',
@@ -20,14 +22,11 @@ function normalizeLocale(locale: string): 'en' | 'ja' | 'zh' {
 
 const supportedLocales = routing.locales
 
-export default async function proxy(request: NextRequest) {
-  const requestWithAuth = await updateSession(request)
-
-  const acceptLang = requestWithAuth.headers.get('accept-language')
+function applyIntl(request: NextRequest) {
+  const acceptLang = request.headers.get('accept-language')
   const preferredLocale = acceptLang?.split(',')?.[0] ?? routing.defaultLocale
   const normalizedLocale = normalizeLocale(preferredLocale)
 
-  // Update the routing object with the normalized locale
   const resolvedRouting = {
     ...routing,
     locales: supportedLocales,
@@ -42,7 +41,21 @@ export default async function proxy(request: NextRequest) {
   return createMiddleware(resolvedRouting)(request)
 }
 
-// Skips all paths that start with /api, /trpc, _next/static, _next/image, _vercel, favicon.ico, or any file with the specified extensions
+export default async function proxy(request: NextRequest) {
+  // Public catalog pages skip Supabase so HTML can stay static at the edge.
+  if (!isSessionRequiredPath(request.nextUrl.pathname)) {
+    return applyIntl(request)
+  }
+
+  const authResponse = await updateSession(request)
+  if (authResponse.headers.get('location')) {
+    return authResponse
+  }
+
+  const intlResponse = applyIntl(request)
+  return copyCookies(authResponse, intlResponse)
+}
+
 export const config = {
   matcher: [
     '/((?!api|trpc|_next/static|_next/image|_vercel|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|js|css|ts|html|ico|woff2?)$).*)',

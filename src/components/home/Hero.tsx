@@ -1,23 +1,22 @@
-'use client'
-
 import Link from 'next/link'
-import Image from 'next/image'
-import { useLocale, useTranslations } from 'next-intl'
-import React from 'react'
+import SmartImage from '@/components/ui/SmartImage'
+import { getLocale, getTranslations } from 'next-intl/server'
 
-export default function Hero() {
-  const t = useTranslations()
-  const locale = useLocale()
+export default async function Hero() {
+  const t = await getTranslations()
+  const locale = await getLocale()
 
   return (
     <section className="relative bg-gray-100">
       <div className="w-full h-64 md:h-96 relative">
-        <Image
-          src="/home/hero-banner.png"
+        <SmartImage
+          src="/home/hero-banner.webp"
           alt={t('home.tagline')}
           fill
           className="object-cover"
+          sizes="100vw"
           priority
+          fetchPriority="high"
         />
       </div>
       <div className="absolute inset-0 bg-black opacity-70 flex" />
@@ -28,12 +27,14 @@ export default function Hero() {
         <div className="flex flex-col md:flex-row gap-2 md:space-x-4">
           <Link
             href={`/${locale}/products`}
+            prefetch={false}
             className="bg-white text-black px-4 py-2 rounded"
           >
             {t('home.cta.shop')}
           </Link>
           <Link
             href={`/${locale}/potters`}
+            prefetch={false}
             className="bg-transparent border border-white text-white px-4 py-2 rounded"
           >
             {t('home.cta.meet')}

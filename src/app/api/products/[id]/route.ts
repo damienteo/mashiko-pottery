@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { assertSellerAccess } from '@/lib/auth/assertSellerAccess'
 import { createClient } from '@/lib/supabase/server'
+import { getProductById } from '@/lib/catalog/products'
 
 async function findSellerProduct(userId: string, productId: number) {
   const product = await prisma.product.findUnique({ where: { id: productId } })
@@ -32,10 +33,7 @@ export async function GET(
     })
   }
 
-  const product = await prisma.product.findUnique({
-    where: { id: idNum },
-    include: { potter: true },
-  })
+  const product = await getProductById(idNum)
 
   if (!product) {
     return new NextResponse(null, { status: 404 })

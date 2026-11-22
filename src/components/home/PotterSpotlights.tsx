@@ -1,42 +1,24 @@
-'use client'
-
-import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
-import { useLocale, useTranslations } from 'next-intl'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import {
-  selectAllPotters,
-  selectPottersListIsLoading,
-  selectPottersListError,
-} from '@/store/potters/pottersListSlice'
-import { fetchPottersList } from '@/store/thunks/fetchPottersList'
+import { getLocale, getTranslations } from 'next-intl/server'
+import SmartImage from '@/components/ui/SmartImage'
+import type { Potter } from '@/types/potter'
 
-export default function PotterSpotlights() {
-  const t = useTranslations()
-  const locale = useLocale()
-  const dispatch = useAppDispatch()
+export default async function PotterSpotlights({
+  potters,
+}: {
+  potters: Potter[]
+}) {
+  const t = await getTranslations()
+  const locale = await getLocale()
 
-  const potters = useAppSelector(selectAllPotters)
-  const isLoading = useAppSelector(selectPottersListIsLoading)
-  const error = useAppSelector(selectPottersListError)
-
-  React.useEffect(() => {
-    dispatch(fetchPottersList({ limit: 3 }))
-  }, [dispatch])
-
-  if (isLoading) {
+  if (potters.length === 0) {
     return (
-      <section className="py-12 bg-white text-center">
-        <p className="text-gray-600">{t('potterSpotlights.loading')}</p>
-      </section>
-    )
-  }
-
-  if (error) {
-    return (
-      <section className="py-12 bg-white text-center">
-        <p className="text-red-600">{t('potterSpotlights.error')}</p>
+      <section className="py-12 bg-white min-h-[24rem]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
+            {t('potterSpotlights.title')}
+          </h2>
+        </div>
       </section>
     )
   }
@@ -54,13 +36,13 @@ export default function PotterSpotlights() {
               href={`/${locale}/potters/${potter.id}`}
               className="block"
             >
-              <div className="w-full aspect-square mb-4 relative rounded-lg overflow-hidden">
-                <Image
-                  src={potter.imageUrl ?? '/fallback.jpg'}
+              <div className="w-full aspect-square mb-4 relative rounded-lg overflow-hidden bg-gray-100">
+                <SmartImage
+                  src={potter.imageUrl ?? '/images/potter-fallback.webp'}
                   alt={potter.name[locale as keyof typeof potter.name]}
                   fill
                   className="object-cover"
-                  priority
+                  sizes="(min-width: 768px) 33vw, 100vw"
                 />
               </div>
               <h3 className="text-xl md:text-2xl font-semibold text-center mb-2">

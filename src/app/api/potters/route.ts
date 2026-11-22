@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { assertSellerAccess } from '@/lib/auth/assertSellerAccess'
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@/generated/prisma/client'
+import { listPotters } from '@/lib/catalog/potters'
 
 export async function GET(req: NextRequest) {
   try {
@@ -12,56 +12,24 @@ export async function GET(req: NextRequest) {
       Math.max(1, parseInt(searchParams.get('limit') || '10', 10)),
       100
     )
-    const skip = (page - 1) * limit
 
     const name = searchParams.get('name')
     const style = searchParams.get('style')
     const active = searchParams.get('active')
 
-    const whereClause: Prisma.PotterWhereInput = {}
-
-    // KIV: This assumes `name` is a JSON object with an "en" key. May need fallback or validation.
-    if (name) {
-      whereClause.name = {
-        path: ['en'],
-        string_contains: name,
-      }
-    }
-
-    if (style) {
-      whereClause.style = style
-    }
-
-    if (active === 'true') {
-      whereClause.active = true
-    } else if (active === 'false') {
-      whereClause.active = false
-    }
-
-    const [potters, total] = await Promise.all([
-      prisma.potter.findMany({
-        where: whereClause,
-        skip,
-        take: limit,
-        orderBy: { createdAt: 'desc' },
-        include: {
-          products: true,
-        },
-      }),
-      prisma.potter.count({
-        where: whereClause,
-      }),
-    ])
+    const result = await listPotters({
+      page,
+      limit,
+      name,
+      style,
+      active: active === 'true' ? true : active === 'false' ? false : null,
+      includeProducts: true,
+    })
 
     return NextResponse.json({
-      potters,
+      potters: result.potters,
       filters: { name, style, active },
-      pagination: {
-        page,
-        limit,
-        total,
-        totalPages: Math.max(1, Math.ceil(total / limit)),
-      },
+      pagination: result.pagination,
     })
   } catch (error) {
     console.error('Error fetching potters:', error)

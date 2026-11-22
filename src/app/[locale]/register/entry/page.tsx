@@ -4,6 +4,8 @@ import { getTranslations } from 'next-intl/server'
 import RegisterClient from './RegisterEntryClient'
 import { routing } from '@/i18n/routing'
 
+export const dynamic = 'force-dynamic'
+
 export function generateStaticParams() {
   // Build locale‐prefixed paths
   return routing.locales.map((locale) => ({ locale }))

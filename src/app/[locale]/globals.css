@@ -3,7 +3,7 @@
 
 @theme {
   /* Font variables injected via next/font; no theme() calls here to avoid compile hangs */
-  /* --font-inter, --font-playfair, --font-merriweather are provided by Next.js font loader */
+  /* --font-inter and --font-playfair are provided by Next.js font loader */
 
   /* Colors, radii, shadows… feel free to add more */
   --color-bg: theme('colors.gray.50');
@@ -32,7 +32,7 @@
   }
 
   blockquote {
-    font-family: var(--font-merriweather);
+    font-family: var(--font-playfair);
     font-style: italic;
     border-left: 4px solid var(--color-primary);
     padding-left: 1em;

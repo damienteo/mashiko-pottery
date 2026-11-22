@@ -30,7 +30,14 @@ const initialState: ProductDetailState = {
 const productDetailsSlice = createSlice({
   name: 'productDetails',
   initialState,
-  reducers: {},
+  reducers: {
+    hydrateProductDetails(state, action: PayloadAction<Product>) {
+      state.entity = action.payload
+      state.isLoading = false
+      state.isSuccess = true
+      state.error = null
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductDetails.pending, (state) => {
@@ -62,5 +69,7 @@ export const selectProductDetailsIsSuccess = (state: RootState) =>
   state.productDetails.isSuccess
 export const selectProductDetailsError = (state: RootState) =>
   state.productDetails.error
+
+export const { hydrateProductDetails } = productDetailsSlice.actions
 
 export default productDetailsSlice.reducer

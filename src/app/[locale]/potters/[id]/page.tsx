@@ -1,5 +1,61 @@
+import type { Metadata } from 'next'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { routing } from '@/i18n/routing'
+import { notFound } from 'next/navigation'
+import { catalogForStaticPage } from '@/lib/catalog/guard'
+import { getCachedPotterById, safeListPotterIds } from '@/lib/catalog/potters'
+import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
 import PotterClient from './PotterClient'
 
-export default function PotterPage() {
-  return <PotterClient />
+export const revalidate = 60
+
+export async function generateStaticParams() {
+  const ids = await safeListPotterIds()
+  return routing.locales.flatMap((locale) =>
+    ids.map((id) => ({ locale, id: String(id) }))
+  )
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; id: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  if (!routing.locales.includes(locale as 'en' | 'ja' | 'zh')) notFound()
+
+  const t = await getTranslations({ locale, namespace: 'meta.potter' })
+  return {
+    title: t('title'),
+    description: t('description'),
+  }
+}
+
+export default async function PotterPage({
+  params,
+}: {
+  params: Promise<{ locale: string; id: string }>
+}) {
+  const { locale, id } = await params
+  setRequestLocale(locale)
+  const idNum = Number(id)
+  const potter = Number.isNaN(idNum)
+    ? null
+    : await catalogForStaticPage(() => getCachedPotterById(idNum), null)
+  const products =
+    potter != null
+      ? await catalogForStaticPage(
+          () =>
+            getCachedProductList(
+              JSON.stringify({
+                potterId: potter.id,
+                page: 1,
+                limit: 20,
+              })
+            ),
+          emptyProductList({ potterId: potter.id, page: 1, limit: 20 })
+        )
+      : null
+
+  return <PotterClient initialPotter={potter} initialProductList={products} />
 }
