@@ -77,9 +77,15 @@ describe('FeaturedCollections', () => {
     ).toHaveAttribute('href', '/en/products')
   })
 
-  it('renders a product grid with IntentLinks to product pages', async () => {
+  it('renders compact cards with image, title, and price but not the description', async () => {
     render(await FeaturedCollections({ products: [sampleProduct] }))
+    expect(screen.getByRole('img', { name: 'Shino bowl' })).toHaveAttribute(
+      'src',
+      '/products/bowl.webp'
+    )
     expect(screen.getByText('Shino bowl')).toBeInTheDocument()
+    expect(screen.getByText('￥8,800')).toBeInTheDocument()
+    expect(screen.queryByText('A wheel-thrown bowl.')).not.toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Shino bowl/ })).toHaveAttribute(
       'href',
       '/en/products/42'

@@ -10,6 +10,7 @@ export interface ProductCardProps {
   product: Product
   locale: Locale
   href?: string
+  variant?: 'default' | 'compact'
   //   onAddToCart?: (product: Product) => void;
 }
 
@@ -19,6 +20,7 @@ export default function ProductCard({
   product,
   locale,
   href,
+  variant = 'default',
   //   onAddToCart,
 }: ProductCardProps) {
   //   const t = useTranslations();
@@ -52,7 +54,7 @@ export default function ProductCard({
             {title}
           </h3>
           <p className="text-gray-800">{formatYen(product.price)}</p>
-          {!!description && (
+          {variant !== 'compact' && !!description && (
             <p className="mt-1 text-md text-justify text-gray-600 line-clamp-4">
               {description}
             </p>
