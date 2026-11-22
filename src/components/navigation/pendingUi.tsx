@@ -42,14 +42,16 @@ export function PendingSurface({
         {children}
       </div>
       {showUi ? (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div className="absolute inset-0 pointer-events-none">
           <span className="sr-only" role="status">
             {loadingLabel}
           </span>
-          <div
-            className="h-8 w-8 rounded-full border-2 border-gray-300 border-t-gray-700 animate-spin motion-reduce:animate-none"
-            aria-hidden
-          />
+          <div className="sticky top-[33vh] flex justify-center -translate-y-1/2">
+            <div
+              className="h-8 w-8 rounded-full border-2 border-gray-300 border-t-gray-700 animate-spin motion-reduce:animate-none"
+              aria-hidden
+            />
+          </div>
         </div>
       ) : null}
     </div>

@@ -72,6 +72,11 @@ describe('NavigationPendingProvider', () => {
       'opacity-60'
     )
     expect(screen.getByRole('status')).toHaveTextContent('Loading…')
+    expect(screen.getByRole('status').nextElementSibling).toHaveClass(
+      'sticky',
+      'top-[33vh]',
+      'justify-center'
+    )
     expect(screen.getByText('Nav').closest('main')).toBeNull()
     expect(screen.getByText('Foot').closest('main')).toBeNull()
   })

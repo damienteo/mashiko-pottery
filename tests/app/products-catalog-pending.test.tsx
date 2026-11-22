@@ -108,6 +108,10 @@ describe('ProductsCatalog pending grid', () => {
       'opacity-60'
     )
     expect(screen.getByRole('status')).toBeInTheDocument()
+    expect(screen.getByRole('status').nextElementSibling).toHaveClass(
+      'sticky',
+      'top-[33vh]'
+    )
 
     await act(async () => {
       fetchGate({
