@@ -4,8 +4,6 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const nextConfig: NextConfig = {
   agentRules: false,
   images: {
-    loader: 'custom',
-    loaderFile: './src/lib/cloudinaryLoader.ts',
     remotePatterns: [
       {
         protocol: 'https',

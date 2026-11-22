@@ -16,6 +16,7 @@ export default async function Hero() {
           className="object-cover"
           sizes="100vw"
           priority
+          fetchPriority="high"
         />
       </div>
       <div className="absolute inset-0 bg-black opacity-70 flex" />
@@ -26,12 +27,14 @@ export default async function Hero() {
         <div className="flex flex-col md:flex-row gap-2 md:space-x-4">
           <Link
             href={`/${locale}/products`}
+            prefetch={false}
             className="bg-white text-black px-4 py-2 rounded"
           >
             {t('home.cta.shop')}
           </Link>
           <Link
             href={`/${locale}/potters`}
+            prefetch={false}
             className="bg-transparent border border-white text-white px-4 py-2 rounded"
           >
             {t('home.cta.meet')}

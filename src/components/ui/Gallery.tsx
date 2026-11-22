@@ -36,6 +36,7 @@ const Gallery: React.FC<GalleryProps> = ({
                 className="object-cover transition-transform duration-300"
                 sizes="(min-width: 768px) 50vw, 100vw"
                 priority={imagePriority}
+                fetchPriority={imagePriority ? 'high' : 'auto'}
               />
             </div>
             {images.length > 1 && (

@@ -1,6 +1,10 @@
 'use client'
-import Link from 'next/link'
-import { Suspense, useState } from 'react'
+import NextLink from 'next/link'
+import { Suspense, useState, type ComponentProps } from 'react'
+
+function Link(props: ComponentProps<typeof NextLink>) {
+  return <NextLink prefetch={false} {...props} />
+}
 import { useTranslations } from 'next-intl'
 import LanguageSelector from './LanguageSelector'
 import { useAppSelector, useAppDispatch } from '@/store/hooks'

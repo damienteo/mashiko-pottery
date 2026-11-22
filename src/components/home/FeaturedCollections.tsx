@@ -11,7 +11,11 @@ export default async function FeaturedCollections() {
       <p className="mb-6 italic text-gray-600">{t('featured.season')}</p>
 
       <div className="mt-6 text-center">
-        <Link href={`/${locale}/products`} className="text-blue-600 underline">
+        <Link
+          href={`/${locale}/products`}
+          prefetch={false}
+          className="text-blue-600 underline"
+        >
           {t('featured.viewAll')}
         </Link>
       </div>
