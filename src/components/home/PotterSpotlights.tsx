@@ -18,6 +18,9 @@ export default async function PotterSpotlights({
           <h2 className="text-2xl md:text-3xl font-bold text-center mb-8">
             {t('potterSpotlights.title')}
           </h2>
+          <p className="text-center text-gray-500">
+            {t('potterSpotlights.empty')}
+          </p>
         </div>
       </section>
     )

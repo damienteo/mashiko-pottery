@@ -1,8 +1,7 @@
 {
-  "title": "Don’t miss our next drop — get notified first.",
-  "description": "Stay updated with our latest drops and promotions.",
+  "title": "Be first to see new work",
+  "description": "Studio notes and new pieces from Mashiko, sent occasionally when we have something worth sharing.",
+  "comingSoon": "Newsletter coming soon",
   "placeholder": "Your email address",
-  "button": "Subscribe",
-  "loading": "Submitting...",
-  "thanks": "Thank you for subscribing!"
+  "button": "Subscribe"
 }

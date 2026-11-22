@@ -1,45 +1,7 @@
-'use client'
+import { getTranslations } from 'next-intl/server'
 
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { useTranslations } from 'next-intl'
-
-interface FormData {
-  email: string
-}
-
-const schema = yup
-  .object({
-    email: yup
-      .string()
-      .email('Invalid email address')
-      .required('Email is required'),
-  })
-  .required()
-
-export default function NewsletterSignup() {
-  const t = useTranslations('')
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting, isSubmitSuccessful },
-  } = useForm<FormData>({
-    resolver: yupResolver(schema),
-  })
-
-  const onSubmit = async ({ email }: FormData) => {
-    try {
-      await fetch('/api/newsletter', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      })
-    } catch {
-      // handle error globally or via formState
-    }
-  }
+export default async function NewsletterSignup() {
+  const t = await getTranslations()
 
   return (
     <section className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -48,32 +10,25 @@ export default function NewsletterSignup() {
           {t('newsletter.title')}
         </h2>
         <p className="text-gray-600 mb-6">{t('newsletter.description')}</p>
-        <form
-          onSubmit={(e) => {
-            void handleSubmit(onSubmit)(e)
-          }}
-          className="flex flex-col sm:flex-row gap-2"
-        >
+        <p className="text-gray-700 font-medium mb-4">
+          {t('newsletter.comingSoon')}
+        </p>
+        <div className="flex flex-col sm:flex-row gap-2">
           <input
             type="email"
-            {...register('email')}
+            disabled
             placeholder={t('newsletter.placeholder')}
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            aria-disabled="true"
+            className="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-500 cursor-not-allowed"
           />
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 bg-indigo-600 text-white font-medium rounded hover:bg-indigo-700 disabled:opacity-50"
+            type="button"
+            disabled
+            className="mt-2 sm:mt-0 sm:ml-2 px-4 py-2 bg-indigo-600 text-white font-medium rounded opacity-50 cursor-not-allowed"
           >
-            {isSubmitting ? t('newsletter.loading') : t('newsletter.button')}
+            {t('newsletter.button')}
           </button>
-        </form>
-        {errors.email && (
-          <p className="mt-2 text-red-600 text-sm">{errors.email.message}</p>
-        )}
-        {isSubmitSuccessful && (
-          <p className="mt-4 text-green-600">{t('newsletter.success')}</p>
-        )}
+        </div>
       </div>
     </section>
   )

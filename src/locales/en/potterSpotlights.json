@@ -1,5 +1,6 @@
 {
   "title": "Potter Spotlights",
   "loading": "Loading potters…",
-  "error": "Failed to load potters."
+  "error": "Failed to load potters.",
+  "empty": "Potter profiles coming soon"
 }
