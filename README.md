@@ -403,3 +403,17 @@ to the previous connection-string-only behaviour.
 ## License
 
 MIT © 2025 Mashiko Pottery
+
+---
+
+## Vercel preview deployments
+
+Production builds on `main` always run. Preview deployments for other branches or pull requests run only when the commit message includes `[preview]`.
+
+To trigger a preview for a PR or branch push:
+
+```bash
+git commit --allow-empty -m "chore: [preview]"
+```
+
+Push that commit to the branch; Vercel will build the preview. Commits without `[preview]` skip the preview build.
