@@ -1,7 +1,7 @@
 'use client'
 
-import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import ProductsToolbar from '@/components/products/ProductsToolbar'
 import ProductGrid from '@/components/products/ProductGrid'
@@ -15,7 +15,7 @@ import type { ProductListResult } from '@/lib/catalog/products'
 import type { ProductFilters } from '@/types/common'
 import type { Locale } from '@/types/i18n'
 
-function ProductsCatalogInner({
+export default function ProductsCatalog({
   initialData,
   locale,
   serverGrid,
@@ -27,25 +27,8 @@ function ProductsCatalogInner({
   const t = useTranslations()
   const router = useRouter()
   const pathname = usePathname()
-  const searchParams = useSearchParams()
-  const parsed = useMemo(
-    () =>
-      parseProductListSearchParams(searchParams, locale, {
-        page: initialData.pagination.page,
-        limit: initialData.pagination.limit,
-      }),
-    [
-      searchParams,
-      locale,
-      initialData.pagination.page,
-      initialData.pagination.limit,
-    ]
-  )
-
-  const [data, setData] = useState<ProductListResult | null>(
-    parsed.hasQuery ? null : initialData
-  )
-  const [isLoading, setIsLoading] = useState(parsed.hasQuery)
+  const [data, setData] = useState<ProductListResult>(initialData)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const load = useCallback(
@@ -66,16 +49,23 @@ function ProductsCatalogInner({
     []
   )
 
+  // Read the query on the client after paint so this island can SSR the
+  // same title/toolbar/grid markup. useSearchParams + Suspense fallback={null}
+  // left the section empty until hydration and pushed the footer (CLS 0.16).
   useEffect(() => {
+    const parsed = parseProductListSearchParams(
+      new URLSearchParams(window.location.search),
+      locale,
+      {
+        page: initialData.pagination.page,
+        limit: initialData.pagination.limit,
+      }
+    )
     if (!parsed.hasQuery) {
-      setData(initialData)
-      setIsLoading(false)
       return
     }
     void load(parsed.page, parsed.limit, { ...parsed.filters, locale })
-    // URL is the source of truth; run when the query string changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams.toString()])
+  }, [locale, load, initialData.pagination.page, initialData.pagination.limit])
 
   const pushQuery = (
     page: number,
@@ -88,16 +78,16 @@ function ProductsCatalogInner({
       filters: { ...filters, locale },
     })
     router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+    void load(page, limit, { ...filters, locale })
   }
 
-  const shown = data ?? initialData
   const filters: ProductFilters = {
     ...emptyProductFilters(),
-    ...shown.filters,
+    ...data.filters,
     locale,
   }
-  const pagination = shown.pagination
-  const showServerGrid = !parsed.hasQuery && data === initialData && !isLoading
+  const pagination = data.pagination
+  const showServerGrid = data === initialData && !isLoading
 
   return (
     <section className="py-12 bg-white">
@@ -126,39 +116,19 @@ function ProductsCatalogInner({
         />
 
         <div className="mt-8">
-          {isLoading && (!data || data.products.length === 0) ? (
+          {isLoading && data.products.length === 0 ? (
             <p className="text-center text-gray-500">{t('common.loading')}</p>
           ) : error ? (
             <p className="text-center text-red-600">{error}</p>
-          ) : shown.products.length === 0 ? (
+          ) : data.products.length === 0 ? (
             <p className="text-center text-gray-500">{t('products.empty')}</p>
           ) : showServerGrid ? (
             serverGrid
           ) : (
-            <ProductGrid products={shown.products} locale={locale} />
+            <ProductGrid products={data.products} locale={locale} />
           )}
         </div>
       </div>
     </section>
-  )
-}
-
-export default function ProductsCatalog({
-  initialData,
-  locale,
-  serverGrid,
-}: {
-  initialData: ProductListResult
-  locale: Locale
-  serverGrid: React.ReactNode
-}) {
-  return (
-    <Suspense fallback={null}>
-      <ProductsCatalogInner
-        initialData={initialData}
-        locale={locale}
-        serverGrid={serverGrid}
-      />
-    </Suspense>
   )
 }
