@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // import { prisma } from "@/lib/prisma";
 
-// 
+//
 export async function GET() {
   // const user = await assertSellerAccess();
 
@@ -13,7 +13,7 @@ export async function GET() {
   // if (!potter) {
   return NextResponse.json(
     { error: "Seller profile not found" },
-    { status: 404 }
+    { status: 404 },
   );
   // }
 

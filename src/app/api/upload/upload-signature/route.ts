@@ -52,9 +52,10 @@ export async function POST(req: Request) {
   if (paramsToSign.timestamp == null) {
     paramsToSign.timestamp = Math.round(Date.now() / 1000);
   } else {
-    const ts = typeof paramsToSign.timestamp === "string"
-      ? parseInt(paramsToSign.timestamp as string, 10)
-      : Number(paramsToSign.timestamp);
+    const ts =
+      typeof paramsToSign.timestamp === "string"
+        ? parseInt(paramsToSign.timestamp as string, 10)
+        : Number(paramsToSign.timestamp);
     paramsToSign.timestamp = ts > 9_999_999_999 ? Math.floor(ts / 1000) : ts;
   }
 
@@ -68,7 +69,7 @@ export async function POST(req: Request) {
 
   const signature = cloudinary.utils.api_sign_request(
     paramsToSign,
-    (process.env.CLOUDINARY_API_SECRET || "").trim()
+    (process.env.CLOUDINARY_API_SECRET || "").trim(),
   );
 
   return NextResponse.json({

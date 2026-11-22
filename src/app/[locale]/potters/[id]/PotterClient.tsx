@@ -10,12 +10,14 @@ import ProductsToolbar from "@/components/products/ProductsToolbar"; // <-- NEW
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchPotterDetails,
+  hydratePotterDetails,
   selectPotterDetails,
   selectPotterDetailsIsLoading,
   selectPotterDetailsIsSuccess,
   selectPotterDetailsError,
 } from "@/store/potters/potterDetailsSlice";
 import {
+  hydrateProductsList,
   selectAllProducts,
   selectProductsListIsLoading,
   selectProductsListIsSuccess,
@@ -24,25 +26,47 @@ import {
 } from "@/store/products/productsListSlice";
 import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 import type { Locale } from "@/types/i18n";
-import type { ProductFilters } from "@/types/common"; // <-- NEW (for toolbar value typing)
+import type { ProductFilters } from "@/types/common";
+import type { Potter } from "@/types/potter";
+import type { ProductListResult } from "@/lib/catalog/products";
 
-export default function PotterClient() {
+export default function PotterClient({
+  initialPotter = null,
+  initialProductList = null,
+}: {
+  initialPotter?: Potter | null;
+  initialProductList?: ProductListResult | null;
+}) {
   const t = useTranslations("potter");
   const tProduct = useTranslations("product");
   const locale = useLocale() as Locale;
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
 
-  const potter = useAppSelector(selectPotterDetails);
+  const storePotter = useAppSelector(selectPotterDetails);
   const isLoading = useAppSelector(selectPotterDetailsIsLoading);
   const isSuccess = useAppSelector(selectPotterDetailsIsSuccess);
   const error = useAppSelector(selectPotterDetailsError);
 
-  const allProducts = useAppSelector(selectAllProducts);
+  const storeProducts = useAppSelector(selectAllProducts);
   const productsLoading = useAppSelector(selectProductsListIsLoading);
   const productsSuccess = useAppSelector(selectProductsListIsSuccess);
   const productsError = useAppSelector(selectProductsListError);
-  const pagination = useAppSelector(selectProductsListPagination);
+  const storePagination = useAppSelector(selectProductsListPagination);
+
+  const potter =
+    storePotter && String(storePotter.id) === id
+      ? storePotter
+      : initialPotter && String(initialPotter.id) === id
+        ? initialPotter
+        : storePotter;
+  const allProducts =
+    storeProducts.length > 0
+      ? storeProducts
+      : (initialProductList?.products ?? []);
+  const pagination = storePagination.total
+    ? storePagination
+    : (initialProductList?.pagination ?? storePagination);
 
   // Local toolbar state (no potterId shown; it is always forced in the query)
   const defaultFilters = useMemo<ProductFilters>(
@@ -56,10 +80,20 @@ export default function PotterClient() {
       potterId: null, // will be injected on search
       locale: null, // will be injected on search
     }),
-    []
+    [],
   );
   const [filtersLocal, setFiltersLocal] =
     useState<ProductFilters>(defaultFilters);
+
+  useEffect(() => {
+    if (initialPotter && String(initialPotter.id) === id) {
+      dispatch(hydratePotterDetails(initialPotter));
+    }
+    if (initialProductList) {
+      dispatch(hydrateProductsList(initialProductList));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   // Fetch potter details (one-time per id)
   useEffect(() => {
@@ -70,9 +104,12 @@ export default function PotterClient() {
 
   // Fetch this potter's products on first ready
   useEffect(() => {
+    if (initialProductList && potter) {
+      return;
+    }
     if (potter && !productsLoading && !productsSuccess && !productsError) {
       dispatch(
-        fetchProductsList({ filters: { potterId: Number(id), locale } })
+        fetchProductsList({ filters: { potterId: Number(id), locale } }),
       );
     }
   }, [
@@ -83,10 +120,11 @@ export default function PotterClient() {
     productsLoading,
     productsSuccess,
     productsError,
+    initialProductList,
   ]);
 
-  if (isLoading) return <p className="p-8">{t("loading")}</p>;
-  if (!isLoading && !isSuccess)
+  if (isLoading && !potter) return <p className="p-8">{t("loading")}</p>;
+  if (!potter && !isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>;
   if (!potter) return <p className="p-8">{t("loading")}</p>;
 
@@ -99,7 +137,7 @@ export default function PotterClient() {
               .concat(
                 Array.isArray(potter.photos)
                   ? potter.photos.filter(Boolean)
-                  : []
+                  : [],
               )
               .filter(Boolean)
               .filter((v, i, a) => a.indexOf(v) === i)
@@ -107,7 +145,7 @@ export default function PotterClient() {
                 !potter.imageUrl &&
                   (!potter.photos || potter.photos.length === 0)
                   ? ["/images/potter-fallback.webp"]
-                  : []
+                  : [],
               )}
             title={potter.name[locale as keyof typeof potter.name] || "Potter"}
             imagePriority
@@ -153,7 +191,7 @@ export default function PotterClient() {
                   potterId: Number(id), // lock to current potter
                   locale,
                 },
-              })
+              }),
             );
           }}
           categories={["vase", "cup", "plate", "bottle", "bowl"]}
@@ -168,7 +206,7 @@ export default function PotterClient() {
                 page: 1,
                 limit: size,
                 filters: { ...filtersLocal, potterId: Number(id), locale },
-              })
+              }),
             );
           }}
           onChangePage={(pageNum) => {
@@ -177,7 +215,7 @@ export default function PotterClient() {
                 page: pageNum,
                 limit: pagination?.limit || 20,
                 filters: { ...filtersLocal, potterId: Number(id), locale },
-              })
+              }),
             );
           }}
         />
@@ -192,7 +230,7 @@ export default function PotterClient() {
                 dispatch(
                   fetchProductsList({
                     filters: { ...filtersLocal, potterId: Number(id), locale },
-                  })
+                  }),
                 )
               }
             >

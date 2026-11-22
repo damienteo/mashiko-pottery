@@ -6,7 +6,6 @@ import { validateUserExists } from "@/lib/validation/validateUserExists";
 import { updateUserRole } from "@/lib/user/updateUserRole";
 import { finaliseDraftImages } from "@/lib/cloudinary/finaliseDraftImages";
 
-
 export async function POST(req: Request) {
   await assertAdminAccess();
 
@@ -16,7 +15,10 @@ export async function POST(req: Request) {
 
   const existingPotter = await prisma.potter.findUnique({ where: { userId } });
   if (existingPotter) {
-    return NextResponse.json({ error: "User is already a potter" }, { status: 400 });
+    return NextResponse.json(
+      { error: "User is already a potter" },
+      { status: 400 },
+    );
   }
 
   const potter = await prisma.potter.create({
@@ -38,7 +40,10 @@ export async function POST(req: Request) {
     });
   }
 
-  if (finalized.photos && JSON.stringify(finalized.photos) !== JSON.stringify(photos)) {
+  if (
+    finalized.photos &&
+    JSON.stringify(finalized.photos) !== JSON.stringify(photos)
+  ) {
     await prisma.potter.update({
       where: { id: potter.id },
       data: { photos: finalized.photos },
@@ -53,7 +58,8 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   await assertAdminAccess();
 
-  const { userId, name, bio, style, imageUrl, photos, active } = await req.json();
+  const { userId, name, bio, style, imageUrl, photos, active } =
+    await req.json();
 
   const potter = await prisma.potter.findUnique({ where: { userId } });
   if (!potter) {
@@ -80,7 +86,10 @@ export async function PATCH(req: Request) {
     });
   }
 
-  if (finalized.photos && JSON.stringify(finalized.photos) !== JSON.stringify(photos)) {
+  if (
+    finalized.photos &&
+    JSON.stringify(finalized.photos) !== JSON.stringify(photos)
+  ) {
     await prisma.potter.update({
       where: { id: potter.id },
       data: { photos: finalized.photos },
@@ -109,5 +118,8 @@ export async function DELETE(req: Request) {
 
   await updateUserRole(userId, "CUSTOMER");
 
-  return NextResponse.json({ message: "Potter deleted and user role reverted." }, { status: 200 });
+  return NextResponse.json(
+    { message: "Potter deleted and user role reverted." },
+    { status: 200 },
+  );
 }

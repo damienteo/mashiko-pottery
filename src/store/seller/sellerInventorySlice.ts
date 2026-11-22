@@ -40,7 +40,7 @@ const sellerInventorySlice = createSlice({
     },
     updateItem(state, action: PayloadAction<SellerInventoryRow>) {
       const index = state.items.findIndex(
-        (item) => item.id === action.payload.id
+        (item) => item.id === action.payload.id,
       );
       if (index !== -1) {
         state.items[index] = action.payload;

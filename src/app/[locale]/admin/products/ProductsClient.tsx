@@ -86,7 +86,7 @@ export default function ProductsClient() {
         page: pagination.page,
         limit: pagination.limit,
         filters: { ...filters, locale },
-      })
+      }),
     );
   }, [dispatch]);
 
@@ -101,7 +101,7 @@ export default function ProductsClient() {
                 page: pagination.page,
                 limit: pagination.limit,
                 filters: { ...filters, locale },
-              })
+              }),
             )
           }
           className="mt-4"
@@ -131,7 +131,7 @@ export default function ProductsClient() {
               page: 1,
               limit: pagination.limit,
               filters: { ...next, locale },
-            })
+            }),
           );
         }}
         categories={["vase", "cup", "plate", "bottle", "bowl"]}
@@ -148,7 +148,7 @@ export default function ProductsClient() {
               page: 1,
               limit: size,
               filters: { ...filters, locale },
-            })
+            }),
           );
         }}
         onChangePage={(pageNum) => {
@@ -158,7 +158,7 @@ export default function ProductsClient() {
               page: pageNum,
               limit: pagination.limit,
               filters: { ...filters, locale },
-            })
+            }),
           );
         }}
       />

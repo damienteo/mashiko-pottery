@@ -10,7 +10,7 @@ export const fetchProductDetails = createAsyncThunk<Product, string>(
     const res = await fetch(`/api/products/${id}`);
     if (!res.ok) throw new Error("Failed to load product");
     return (await res.json()) as Product;
-  }
+  },
 );
 
 interface ProductDetailState {
@@ -30,7 +30,14 @@ const initialState: ProductDetailState = {
 const productDetailsSlice = createSlice({
   name: "productDetails",
   initialState,
-  reducers: {},
+  reducers: {
+    hydrateProductDetails(state, action: PayloadAction<Product>) {
+      state.entity = action.payload;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductDetails.pending, (state) => {
@@ -44,7 +51,7 @@ const productDetailsSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.entity = action.payload;
-        }
+        },
       )
       .addCase(fetchProductDetails.rejected, (state, action) => {
         state.isLoading = false;
@@ -62,5 +69,7 @@ export const selectProductDetailsIsSuccess = (state: RootState) =>
   state.productDetails.isSuccess;
 export const selectProductDetailsError = (state: RootState) =>
   state.productDetails.error;
+
+export const { hydrateProductDetails } = productDetailsSlice.actions;
 
 export default productDetailsSlice.reducer;

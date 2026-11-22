@@ -36,7 +36,23 @@ const initialState: PottersListState = {
 const pottersListSlice = createSlice({
   name: "pottersList",
   initialState,
-  reducers: {},
+  reducers: {
+    hydratePottersList(
+      state,
+      action: PayloadAction<{
+        potters: Potter[];
+        filters: PotterFilters;
+        pagination: Pagination;
+      }>,
+    ) {
+      state.items = action.payload.potters;
+      state.filters = { ...state.filters, ...action.payload.filters };
+      state.pagination = action.payload.pagination;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchPottersList.pending, (state) => {
@@ -52,14 +68,14 @@ const pottersListSlice = createSlice({
             potters: Potter[];
             filters: PotterFilters;
             pagination: Pagination;
-          }>
+          }>,
         ) => {
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload.potters;
           state.filters = action.payload.filters;
           state.pagination = action.payload.pagination;
-        }
+        },
       )
       .addCase(fetchPottersList.rejected, (state, action) => {
         state.isLoading = false;
@@ -76,5 +92,7 @@ export const selectPottersListIsSuccess = (state: RootState) =>
   state.pottersList.isSuccess;
 export const selectPottersListError = (state: RootState) =>
   state.pottersList.error;
+
+export const { hydratePottersList } = pottersListSlice.actions;
 
 export default pottersListSlice.reducer;

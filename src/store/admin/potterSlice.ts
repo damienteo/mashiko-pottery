@@ -20,7 +20,7 @@ interface AdminPotterState {
 const initialState: AdminPotterState = {
   potter: null,
   items: [],
-   filters: {
+  filters: {
     name: null,
     style: null,
     active: null,
@@ -49,7 +49,7 @@ export const createAdminPotter = createAsyncThunk<Potter, Partial<Potter>>(
       return rejectWithValue(err.message || "Potter creation failed");
     }
     return (await res.json()).potter as Potter;
-  }
+  },
 );
 
 export const updateAdminPotter = createAsyncThunk<Potter, Partial<Potter>>(
@@ -65,7 +65,7 @@ export const updateAdminPotter = createAsyncThunk<Potter, Partial<Potter>>(
       return rejectWithValue(err.message || "Potter update failed");
     }
     return (await res.json()).potter as Potter;
-  }
+  },
 );
 
 export const fetchAdminPotter = createAsyncThunk<Potter, number>(
@@ -77,7 +77,7 @@ export const fetchAdminPotter = createAsyncThunk<Potter, number>(
       return rejectWithValue(err.message || "Failed to fetch potter");
     }
     return (await res.json()) as Potter;
-  }
+  },
 );
 
 export const deleteAdminPotter = createAsyncThunk<number, number>(
@@ -91,7 +91,7 @@ export const deleteAdminPotter = createAsyncThunk<number, number>(
       return rejectWithValue(err.message || "Failed to delete potter");
     }
     return potterId;
-  }
+  },
 );
 
 const adminPotterSlice = createSlice({
@@ -105,42 +105,54 @@ const adminPotterSlice = createSlice({
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(createAdminPotter.fulfilled, (state, action: PayloadAction<Potter>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.potter = action.payload;
-      })
+      .addCase(
+        createAdminPotter.fulfilled,
+        (state, action: PayloadAction<Potter>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.potter = action.payload;
+        },
+      )
       .addCase(createAdminPotter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(updateAdminPotter.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(updateAdminPotter.fulfilled, (state, action: PayloadAction<Potter>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.potter = action.payload;
-      })
+      .addCase(
+        updateAdminPotter.fulfilled,
+        (state, action: PayloadAction<Potter>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.potter = action.payload;
+        },
+      )
       .addCase(updateAdminPotter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(fetchAdminPotter.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchAdminPotter.fulfilled, (state, action: PayloadAction<Potter>) => {
-        state.isLoading = false;
-        state.potter = action.payload;
-      })
+      .addCase(
+        fetchAdminPotter.fulfilled,
+        (state, action: PayloadAction<Potter>) => {
+          state.isLoading = false;
+          state.potter = action.payload;
+        },
+      )
       .addCase(fetchAdminPotter.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(deleteAdminPotter.pending, (state) => {
         state.isLoading = true;
@@ -154,7 +166,8 @@ const adminPotterSlice = createSlice({
       .addCase(deleteAdminPotter.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(fetchPottersList.pending, (state) => {
         state.isLoading = true;
@@ -169,14 +182,14 @@ const adminPotterSlice = createSlice({
             potters: Potter[];
             filters: PotterFilters;
             pagination: Pagination;
-          }>
+          }>,
         ) => {
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload.potters;
           state.filters = action.payload.filters;
           state.pagination = action.payload.pagination;
-        }
+        },
       )
       .addCase(fetchPottersList.rejected, (state, action) => {
         state.isLoading = false;
@@ -187,12 +200,17 @@ const adminPotterSlice = createSlice({
 });
 
 export const selectAdminPotter = (state: RootState) => state.adminPotter.potter;
-export const selectAdminPotterLoading = (state: RootState) => state.adminPotter.isLoading;
-export const selectAdminPotterSuccess = (state: RootState) => state.adminPotter.isSuccess;
-export const selectAdminPotterError = (state: RootState) => state.adminPotter.error;
+export const selectAdminPotterLoading = (state: RootState) =>
+  state.adminPotter.isLoading;
+export const selectAdminPotterSuccess = (state: RootState) =>
+  state.adminPotter.isSuccess;
+export const selectAdminPotterError = (state: RootState) =>
+  state.adminPotter.error;
 
 export const selectAdminPotters = (state: RootState) => state.adminPotter.items;
-export const selectAdminPotterFilters = (state: RootState) => state.adminPotter.filters;
-export const selectAdminPotterPagination = (state: RootState) => state.adminPotter.pagination;
+export const selectAdminPotterFilters = (state: RootState) =>
+  state.adminPotter.filters;
+export const selectAdminPotterPagination = (state: RootState) =>
+  state.adminPotter.pagination;
 
 export default adminPotterSlice.reducer;

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { assertSellerAccess } from "@/lib/auth/assertSellerAccess";
 import { createClient } from "@/lib/supabase/server";
+import { getProductById } from "@/lib/catalog/products";
 
 async function findSellerProduct(userId: string, productId: number) {
   const product = await prisma.product.findUnique({ where: { id: productId } });
@@ -9,7 +10,9 @@ async function findSellerProduct(userId: string, productId: number) {
     return { error: { message: "Product not found", status: 404 } };
   }
 
-  const potter = await prisma.potter.findUnique({ where: { id: product.potterId } });
+  const potter = await prisma.potter.findUnique({
+    where: { id: product.potterId },
+  });
   if (!potter || potter.userId !== userId) {
     return { error: { message: "Forbidden", status: 403 } };
   }
@@ -19,7 +22,7 @@ async function findSellerProduct(userId: string, productId: number) {
 
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const idNum = Number(id);
@@ -30,10 +33,7 @@ export async function GET(
     });
   }
 
-  const product = await prisma.product.findUnique({
-    where: { id: idNum },
-    include: { potter: true },
-  });
+  const product = await getProductById(idNum);
 
   if (!product) {
     return new NextResponse(null, { status: 404 });
@@ -44,7 +44,7 @@ export async function GET(
 
 export async function PATCH(
   req: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const idNum = Number(id);
@@ -55,7 +55,10 @@ export async function PATCH(
   }
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
   if (authError || !user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -65,7 +68,10 @@ export async function PATCH(
 
   const { error: findError } = await findSellerProduct(user.id, idNum);
   if (findError) {
-    return NextResponse.json({ error: findError.message }, { status: findError.status });
+    return NextResponse.json(
+      { error: findError.message },
+      { status: findError.status },
+    );
   }
 
   try {
@@ -81,7 +87,7 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const idNum = Number(id);
@@ -93,7 +99,10 @@ export async function DELETE(
   }
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
   if (authError || !user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -103,7 +112,10 @@ export async function DELETE(
 
   const { error: findError } = await findSellerProduct(user.id, idNum);
   if (findError) {
-    return NextResponse.json({ error: findError.message }, { status: findError.status });
+    return NextResponse.json(
+      { error: findError.message },
+      { status: findError.status },
+    );
   }
 
   try {

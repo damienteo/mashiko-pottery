@@ -26,7 +26,7 @@ export const fetchSellerPayoutList = createAsyncThunk(
     } catch (err) {
       return rejectWithValue((err as Error).message);
     }
-  }
+  },
 );
 
 const sellerPayoutListSlice = createSlice({

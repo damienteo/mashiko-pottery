@@ -11,7 +11,7 @@ import EditableInventoryRow from "./EditableInventoryRow";
 export default function SellerInventoryClient({ title }: { title: string }) {
   const dispatch = useDispatch<AppDispatch>();
   const { items, isLoading, error } = useSelector(
-    (state: RootState) => state.sellerInventory
+    (state: RootState) => state.sellerInventory,
   );
   const t = useTranslations("seller.inventory");
   // Per-item editing state: set of editing item IDs

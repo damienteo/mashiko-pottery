@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export const validatePotterExists = async (
   potterId: number,
-  prisma: PrismaClient
+  prisma: PrismaClient,
 ) => {
   const potter = await prisma.potter.findUnique({
     where: { id: potterId },

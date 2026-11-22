@@ -1,22 +1,20 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { useLocale, useTranslations } from "next-intl";
-import React from "react";
+import { getLocale, getTranslations } from "next-intl/server";
 
-export default function Hero() {
-  const t = useTranslations();
-  const locale = useLocale();
+export default async function Hero() {
+  const t = await getTranslations();
+  const locale = await getLocale();
 
   return (
     <section className="relative bg-gray-100">
       <div className="w-full h-64 md:h-96 relative">
         <Image
-          src="/home/hero-banner.png"
+          src="/home/hero-banner.webp"
           alt={t("home.tagline")}
           fill
           className="object-cover"
+          sizes="100vw"
           priority
         />
       </div>

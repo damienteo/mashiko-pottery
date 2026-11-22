@@ -102,7 +102,7 @@ export default function CartClient() {
                         updateQuantity({
                           id: item.id,
                           quantity: item.quantity - 1,
-                        })
+                        }),
                       )
                     }
                     className="px-2"
@@ -116,7 +116,7 @@ export default function CartClient() {
                         updateQuantity({
                           id: item.id,
                           quantity: item.quantity + 1,
-                        })
+                        }),
                       )
                     }
                     className="px-2"
@@ -155,7 +155,7 @@ export default function CartClient() {
             ) : (
               <Link
                 href={`/${locale}/login?callback=${encodeURIComponent(
-                  `/${locale}/cart`
+                  `/${locale}/cart`,
                 )}`}
               >
                 <Button variant="primary">{t("common.login.title")}</Button>

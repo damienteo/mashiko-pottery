@@ -69,7 +69,7 @@ export default function EditableInventoryRow({
         potterId: item.potterId,
         ...data,
         active: data.active ?? false,
-      })
+      }),
     );
     onCancel();
   };

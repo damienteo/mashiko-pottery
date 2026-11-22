@@ -52,7 +52,7 @@ export default function LoginClient({ callback }: Props) {
 
   const onSubmit = async (data: FormData) => {
     const result = await dispatch(
-      signInWithPasswordOrOtp({ email: data.email, callback })
+      signInWithPasswordOrOtp({ email: data.email, callback }),
     );
     if (signInWithPasswordOrOtp.fulfilled.match(result)) {
       setEmailSent(true);

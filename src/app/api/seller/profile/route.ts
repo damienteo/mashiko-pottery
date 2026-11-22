@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // import { prisma } from "@/lib/prisma";
 
-// 
+//
 /**
  * GET /api/seller/profile
  * Returns the current seller's potter profile from the database.
@@ -16,7 +16,7 @@ export async function GET() {
   // if (!potter) {
   return NextResponse.json(
     { error: "Seller profile not found" },
-    { status: 404 }
+    { status: 404 },
   );
   //   }
 

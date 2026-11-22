@@ -27,7 +27,7 @@ export const fetchSettings = createAsyncThunk<Settings>(
     const res = await fetch("/api/settings");
     if (!res.ok) throw new Error("Failed to load settings");
     return (await res.json()) as Settings;
-  }
+  },
 );
 
 const settingsSlice = createSlice({
@@ -54,7 +54,7 @@ const settingsSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.config = action.payload;
-        }
+        },
       )
       .addCase(fetchSettings.rejected, (state, action) => {
         state.isLoading = false;

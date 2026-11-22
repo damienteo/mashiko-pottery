@@ -29,7 +29,7 @@ export const signUpWithOtp = createAsyncThunk<void, string>(
       },
     });
     if (error) return rejectWithValue(error.message);
-  }
+  },
 );
 
 // Async thunk to sign in with either password or OTP (magic-link)
@@ -60,7 +60,7 @@ export const signInWithPasswordOrOtp = createAsyncThunk<
       id,
       email: userEmail,
     } as User;
-  }
+  },
 );
 
 export const verifyEmailOtp = createAsyncThunk<
@@ -89,7 +89,7 @@ export const logoutUser = createAsyncThunk<void>(
   async (_, { rejectWithValue }) => {
     const { error } = await supabase.auth.signOut();
     if (error) return rejectWithValue(error.message);
-  }
+  },
 );
 
 export const fetchSupabaseUser = createAsyncThunk<User | null>(
@@ -105,7 +105,7 @@ export const fetchSupabaseUser = createAsyncThunk<User | null>(
       id,
       email,
     } as User;
-  }
+  },
 );
 
 const authSlice = createSlice({
@@ -140,7 +140,7 @@ const authSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = !!action.payload;
           state.user = action.payload;
-        }
+        },
       )
       .addCase(signInWithPasswordOrOtp.rejected, (state, action) => {
         state.isLoading = false;
@@ -159,7 +159,7 @@ const authSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.user = action.payload;
-        }
+        },
       )
       .addCase(verifyEmailOtp.rejected, (state, action) => {
         state.isLoading = false;
@@ -190,7 +190,7 @@ const authSlice = createSlice({
         (state, action: PayloadAction<User | null>) => {
           state.isLoading = false;
           state.user = action.payload;
-        }
+        },
       )
       .addCase(fetchSupabaseUser.rejected, (state, action) => {
         state.isLoading = false;

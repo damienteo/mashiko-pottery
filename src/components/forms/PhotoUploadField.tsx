@@ -24,7 +24,7 @@ type CloudinaryUploadWidget = {
 type CloudinaryGlobal = {
   createUploadWidget: (
     options: Record<string, unknown>,
-    callback: (error: unknown, result: unknown) => void
+    callback: (error: unknown, result: unknown) => void,
   ) => CloudinaryUploadWidget;
 };
 
@@ -66,7 +66,9 @@ export default function PhotoUploadField<T extends FieldValues>({
         if (Array.isArray(v)) {
           // v is string[] or possibly array of objects; normalize to { url }
           return (v as unknown[]).map((item) =>
-            typeof item === "string" ? { url: item } : (item as { url: string })
+            typeof item === "string"
+              ? { url: item }
+              : (item as { url: string }),
           );
         }
         return [];
@@ -74,7 +76,7 @@ export default function PhotoUploadField<T extends FieldValues>({
         if (typeof v === "string" && v) return [{ url: v }];
         return [];
       }
-    })()
+    })(),
   );
 
   const [isUploading, setIsUploading] = useState(false);
@@ -110,7 +112,7 @@ export default function PhotoUploadField<T extends FieldValues>({
         sources: ["local", "url", "camera"],
         clientAllowedFormats: ["jpg", "jpeg", "png", "webp", "heic", "heif"],
         prepareUploadParams: async (
-          cb: (params: Record<string, string | number | boolean>) => void
+          cb: (params: Record<string, string | number | boolean>) => void,
         ) => {
           // basePublicId is like "drafts/potters/some-base-name" when provided
           const baseName = basePublicId?.split("/").pop();
@@ -139,7 +141,7 @@ export default function PhotoUploadField<T extends FieldValues>({
           }
 
           const params = Object.fromEntries(
-            Object.entries(draftParams).filter(([, v]) => v !== undefined)
+            Object.entries(draftParams).filter(([, v]) => v !== undefined),
           ) as Record<string, string | number | boolean>;
 
           const res = await fetch("/api/upload/upload-signature", {
@@ -208,7 +210,7 @@ export default function PhotoUploadField<T extends FieldValues>({
             toastError(t("photo-upload.uploadFail"));
           }
         }
-      }
+      },
     );
 
     widget.open();
@@ -231,8 +233,10 @@ export default function PhotoUploadField<T extends FieldValues>({
       if (Array.isArray(v)) {
         setPreviews(
           (v as unknown[]).map((item) =>
-            typeof item === "string" ? { url: item } : (item as { url: string })
-          )
+            typeof item === "string"
+              ? { url: item }
+              : (item as { url: string }),
+          ),
         );
       }
     } else {

@@ -23,7 +23,7 @@ export const fetchOrderDetails = createAsyncThunk<OrderDetails, string>(
     const res = await fetch(`/api/orders/${orderId}`);
     if (!res.ok) throw new Error("Failed to fetch order detail");
     return (await res.json()) as OrderDetails;
-  }
+  },
 );
 
 // Thunk to update an order by ID
@@ -66,7 +66,7 @@ const orderDetailSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.details = action.payload;
-        }
+        },
       )
       .addCase(fetchOrderDetails.rejected, (state, action) => {
         state.isLoading = false;
@@ -84,7 +84,7 @@ const orderDetailSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.details = action.payload;
-        }
+        },
       )
       .addCase(updateOrderDetails.rejected, (state, action) => {
         state.isLoading = false;

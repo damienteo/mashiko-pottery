@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export const validateProductExists = async (
   productId: number,
-  prisma: PrismaClient
+  prisma: PrismaClient,
 ) => {
   const product = await prisma.product.findUnique({
     where: { id: productId },

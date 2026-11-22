@@ -60,7 +60,7 @@ export const fetchUserProfile = createAsyncThunk<UserProfile | null>(
       return rejectWithValue("Failed to fetch user profile");
     }
     return (await res.json()) as UserProfile;
-  }
+  },
 );
 
 const userSlice = createSlice({
@@ -80,7 +80,7 @@ const userSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.profile = action.payload;
-        }
+        },
       )
       .addCase(createUserProfile.rejected, (state, action) => {
         state.isLoading = false;
@@ -99,7 +99,7 @@ const userSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.profile = action.payload;
-        }
+        },
       )
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.isLoading = false;
@@ -116,7 +116,7 @@ const userSlice = createSlice({
         (state, action: PayloadAction<UserProfile | null>) => {
           state.isLoading = false;
           state.profile = action.payload;
-        }
+        },
       )
       .addCase(fetchUserProfile.rejected, (state, action) => {
         state.isLoading = false;

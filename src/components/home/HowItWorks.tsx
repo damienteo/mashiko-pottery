@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
-export default function HowItWorks() {
-  const t = useTranslations();
+export default async function HowItWorks() {
+  const t = await getTranslations();
 
   const steps = [
     {
@@ -41,6 +41,7 @@ export default function HowItWorks() {
                   alt={step.title}
                   fill
                   className="object-contain"
+                  sizes="64px"
                 />
               </div>
               <h3 className="text-xl md:text-2xl font-semibold mb-2">

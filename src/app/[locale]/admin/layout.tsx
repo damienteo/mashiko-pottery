@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { routing } from "@/i18n/routing";
 import AdminLayoutClient from "./AdminLayoutClient";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Admin – Mashiko Pottery",
   description: "Administration dashboard for Mashiko Pottery",

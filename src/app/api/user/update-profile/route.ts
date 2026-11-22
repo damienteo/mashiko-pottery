@@ -34,7 +34,7 @@ export async function PATCH(req: NextRequest) {
     console.error("Error updating user:", err);
     return NextResponse.json(
       { error: "Failed to update user" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

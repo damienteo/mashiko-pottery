@@ -23,7 +23,7 @@ export const fetchPayoutDetails = createAsyncThunk<PayoutDetails, string>(
     const res = await fetch(`/api/payouts/${payoutId}`);
     if (!res.ok) throw new Error("Failed to fetch payout details");
     return (await res.json()) as PayoutDetails;
-  }
+  },
 );
 
 export const updatePayoutDetails = createAsyncThunk<
@@ -65,7 +65,7 @@ const payoutDetailsSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.detail = action.payload;
-        }
+        },
       )
       .addCase(fetchPayoutDetails.rejected, (state, action) => {
         state.isLoading = false;
@@ -83,7 +83,7 @@ const payoutDetailsSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.detail = action.payload;
-        }
+        },
       )
       .addCase(updatePayoutDetails.rejected, (state, action) => {
         state.isLoading = false;

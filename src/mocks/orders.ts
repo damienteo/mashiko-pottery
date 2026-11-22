@@ -116,7 +116,7 @@ export const mockOrders: OrderDetails[] = [
 export const mockOrder = (items: CartItem[]): OrderSummary => {
   const totalAmount = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
   return {
     id: `order-${Date.now()}`,

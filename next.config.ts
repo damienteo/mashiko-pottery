@@ -6,11 +6,11 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'res.cloudinary.com',
-        pathname: `/${process.env.CLOUDINARY_CLOUD_NAME}/**`
-      }
-    ]
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: `/${process.env.CLOUDINARY_CLOUD_NAME}/**`,
+      },
+    ],
   },
 };
 
@@ -19,7 +19,7 @@ console.log(
   "✅ APP_ENV from next.config.js (process.env.NODE_ENV =",
   process.env.NODE_ENV,
   ") → APP_ENV =",
-  process.env.APP_ENV
+  process.env.APP_ENV,
 );
 
 const withNextIntl = createNextIntlPlugin();

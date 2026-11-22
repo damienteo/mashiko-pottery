@@ -42,7 +42,7 @@ export const logViewItem = (product: {
  */
 export const logAddToCart = (
   product: { id: number; title: string; price: number },
-  quantity = 1
+  quantity = 1,
 ) => {
   gaEvent(EVENT_ADD_TO_CART, {
     items: [
@@ -60,7 +60,7 @@ export const logAddToCart = (
  * Log beginning of checkout.
  */
 export const logBeginCheckout = (
-  items: Array<{ id: number; quantity: number; price: number }>
+  items: Array<{ id: number; quantity: number; price: number }>,
 ) => {
   gaEvent(EVENT_BEGIN_CHECKOUT, {
     items: items.map((i) => ({

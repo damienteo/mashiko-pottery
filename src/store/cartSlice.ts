@@ -37,7 +37,7 @@ export const fetchCart = createAsyncThunk<
       // Only fetch if the cart is currently empty
       return cart.items.length === 0;
     },
-  }
+  },
 );
 
 const cartSlice = createSlice({
@@ -57,7 +57,7 @@ const cartSlice = createSlice({
     },
     updateQuantity(
       state,
-      action: PayloadAction<{ id: number; quantity: number }>
+      action: PayloadAction<{ id: number; quantity: number }>,
     ) {
       const { id, quantity } = action.payload;
       const existing = state.items.find((item) => item.id === id);
@@ -83,7 +83,7 @@ const cartSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload;
-        }
+        },
       )
       .addCase(fetchCart.rejected, (state, action) => {
         state.isLoading = false;
@@ -125,7 +125,7 @@ export const selectCartError = (state: RootState) => state.cart.error;
 export const selectCartCount = (state: RootState): number =>
   state.cart.items.reduce(
     (sum: number, item: CartItem): number => sum + item.quantity,
-    0
+    0,
   );
 
 /**
@@ -134,7 +134,7 @@ export const selectCartCount = (state: RootState): number =>
 export const selectCartTotal = (state: RootState): number =>
   state.cart.items.reduce(
     (sum: number, item: CartItem): number => sum + item.quantity * item.price,
-    0
+    0,
   );
 
 export default cartSlice.reducer;
@@ -153,7 +153,7 @@ export const cartPersistenceMiddleware: Middleware<unknown, RootState> =
     ];
     // Cast action.type to string to satisfy includes()
     const isCartAction = cartActionTypes.includes(
-      (action as { type: string }).type
+      (action as { type: string }).type,
     );
     const state = storeAPI.getState();
     const user = selectCurrentUser(state);

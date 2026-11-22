@@ -1,5 +1,5 @@
 import React from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 
 interface Testimonial {
   quote: Record<string, string>;
@@ -45,9 +45,9 @@ const mockTestimonials: Testimonial[] = [
   },
 ];
 
-export default function Testimonials() {
-  const t = useTranslations();
-  const locale = useLocale();
+export default async function Testimonials() {
+  const t = await getTranslations();
+  const locale = await getLocale();
 
   return (
     <section className="py-12 bg-white">

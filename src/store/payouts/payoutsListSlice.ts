@@ -24,7 +24,7 @@ export const fetchPayoutsList = createAsyncThunk<PayoutSummary[], void>(
     const res = await fetch("/api/payouts");
     if (!res.ok) throw new Error("Failed to fetch payouts list");
     return (await res.json()) as PayoutSummary[];
-  }
+  },
 );
 
 const payoutsListSlice = createSlice({
@@ -37,11 +37,11 @@ const payoutsListSlice = createSlice({
         potterId: string;
         month: string;
         status: PayoutStatus;
-      }>
+      }>,
     ) {
       const { potterId, month, status } = action.payload;
       const payout = state.items.find(
-        (p) => p.potterId === potterId && p.month === month
+        (p) => p.potterId === potterId && p.month === month,
       );
       if (payout) {
         payout.status = status;
@@ -61,7 +61,7 @@ const payoutsListSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload;
-        }
+        },
       )
       .addCase(fetchPayoutsList.rejected, (state, action) => {
         state.isLoading = false;

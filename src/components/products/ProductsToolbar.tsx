@@ -81,7 +81,7 @@ export default function ProductsToolbar({
       value.priceMax,
       value.potterId,
       showPotterId,
-    ]
+    ],
   );
 
   const initialDefaultsRef = useRef<FormValues>(defaultValues);

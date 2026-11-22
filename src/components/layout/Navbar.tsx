@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
+import { Suspense, useState } from "react";
 import { useTranslations } from "next-intl";
 import LanguageSelector from "./LanguageSelector";
-import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { selectUserProfile } from "@/store/user/userSlice";
 // import { selectCartCount } from "@/store/cartSlice";
@@ -147,7 +147,9 @@ export default function Navbar() {
               </>
             )}
             <li>
-              <LanguageSelector />
+              <Suspense fallback={null}>
+                <LanguageSelector />
+              </Suspense>
             </li>
           </ul>
           {/* Mobile slide-in menu (always mounted for transitions) */}
@@ -306,7 +308,9 @@ export default function Navbar() {
                     </>
                   )}
                   <li>
-                    <LanguageSelector />
+                    <Suspense fallback={null}>
+                      <LanguageSelector />
+                    </Suspense>
                   </li>
                 </ul>
               </nav>

@@ -27,7 +27,7 @@ export const fetchNotifications = createAsyncThunk<Notification[]>(
     const res = await fetch("/api/notifications");
     if (!res.ok) throw new Error("Failed to fetch notifications");
     return (await res.json()) as Notification[];
-  }
+  },
 );
 
 const notificationSlice = createSlice({
@@ -51,7 +51,7 @@ const notificationSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload;
-        }
+        },
       )
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.isLoading = false;

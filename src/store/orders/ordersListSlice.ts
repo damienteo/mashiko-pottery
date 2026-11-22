@@ -24,7 +24,7 @@ export const fetchOrdersList = createAsyncThunk<OrderSummary[], void>(
     const res = await fetch("/api/orders");
     if (!res.ok) throw new Error("Failed to fetch orders");
     return (await res.json()) as OrderSummary[];
-  }
+  },
 );
 
 const ordersListSlice = createSlice({
@@ -33,7 +33,7 @@ const ordersListSlice = createSlice({
   reducers: {
     updateOrderStatus(
       state,
-      action: PayloadAction<{ id: string; status: OrderStatus }>
+      action: PayloadAction<{ id: string; status: OrderStatus }>,
     ) {
       const { id, status } = action.payload;
       const order = state.items.find((o) => o.id === id);
@@ -55,7 +55,7 @@ const ordersListSlice = createSlice({
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload;
-        }
+        },
       )
       .addCase(fetchOrdersList.rejected, (state, action) => {
         state.isLoading = false;

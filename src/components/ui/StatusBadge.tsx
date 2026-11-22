@@ -20,7 +20,7 @@ export default function StatusBadge({
   const badgeClasses =
     type === "order" ? statusBadgeClasses : payoutStatusBadgeClasses;
   const normalizedStatus = Object.keys(badgeClasses).find(
-    (key) => key.toLowerCase() === status.toLowerCase()
+    (key) => key.toLowerCase() === status.toLowerCase(),
   );
   const classes = normalizedStatus
     ? badgeClasses[normalizedStatus as keyof typeof badgeClasses]

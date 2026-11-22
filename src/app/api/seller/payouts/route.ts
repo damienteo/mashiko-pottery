@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 // import { PrismaClient, Prisma, PayoutStatus } from "@/generated/prisma/client";
 
-// 
+//
 export async function GET() {
   // const user = await assertSellerAccess();
   // // TODO: To be updated
@@ -12,7 +12,7 @@ export async function GET() {
   // if (!potter) {
   return NextResponse.json(
     { error: "Seller profile not found" },
-    { status: 404 }
+    { status: 404 },
   );
   // }
 

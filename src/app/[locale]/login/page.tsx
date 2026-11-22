@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server";
 import LoginClient from "./LoginClient";
 import { routing } from "@/i18n/routing";
 
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   // Build locale‐prefixed paths
   return routing.locales.map((locale) => ({ locale }));

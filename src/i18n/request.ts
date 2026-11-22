@@ -1,12 +1,19 @@
 import { getRequestConfig } from "next-intl/server";
 import { hasLocale } from "next-intl";
+import { locale as localeParam } from "next/root-params";
 import { routing } from "./routing";
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  const requested = await requestLocale;
-  const locale = hasLocale(routing.locales, requested)
-    ? requested
-    : routing.defaultLocale;
+export default getRequestConfig(async (params) => {
+  // `next/root-params` reads the `[locale]` segment without calling
+  // `headers()`, so pages can be statically rendered. `setRequestLocale`
+  // is the older workaround and is deprecated in next-intl 4.
+  let locale = params.locale;
+  if (!locale) {
+    const requested = await localeParam();
+    locale = hasLocale(routing.locales, requested)
+      ? requested
+      : routing.defaultLocale;
+  }
 
   const messages = {
     common: (await import(`../locales/${locale}/common.json`)).default,

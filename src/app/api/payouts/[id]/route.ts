@@ -3,7 +3,7 @@ import { mockPayoutDetails } from "@/mocks/payouts";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const payout = mockPayoutDetails[id];
@@ -15,7 +15,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const existing = mockPayoutDetails[id];

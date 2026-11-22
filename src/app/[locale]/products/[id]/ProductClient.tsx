@@ -9,6 +9,7 @@ import ProductDetails from "@/components/products/ProductDetails";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   fetchProductDetails,
+  hydrateProductDetails,
   selectProductDetails,
   selectProductDetailsIsLoading,
   selectProductDetailsIsSuccess,
@@ -18,6 +19,7 @@ import { logViewItem } from "@/lib/analytics";
 import type { Locale } from "@/types/i18n";
 import {
   fetchPotterDetails,
+  hydratePotterDetails,
   selectPotterDetails,
   selectPotterDetailsIsLoading,
   selectPotterDetailsIsSuccess,
@@ -25,52 +27,87 @@ import {
 } from "@/store/potters/potterDetailsSlice";
 import { fetchProductsList } from "@/store/thunks/fetchProductsList";
 import {
+  hydrateProductsList,
   selectAllProducts,
   selectProductsListIsLoading,
   selectProductsListIsSuccess,
   selectProductsListError,
 } from "@/store/products/productsListSlice";
+import type { Product } from "@/types/product";
+import type { Potter } from "@/types/potter";
+import type { ProductListResult } from "@/lib/catalog/products";
 
-export default function ProductClient() {
+export default function ProductClient({
+  initialProduct = null,
+  initialPotter = null,
+  initialProductList = null,
+}: {
+  initialProduct?: Product | null;
+  initialPotter?: Potter | null;
+  initialProductList?: ProductListResult | null;
+}) {
   const t = useTranslations("product");
   const locale = useLocale() as Locale;
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
-  const product = useAppSelector(selectProductDetails);
+  const storeProduct = useAppSelector(selectProductDetails);
   const isLoading = useAppSelector(selectProductDetailsIsLoading);
   const isSuccess = useAppSelector(selectProductDetailsIsSuccess);
   const error = useAppSelector(selectProductDetailsError);
 
-  const potter = useAppSelector(selectPotterDetails);
+  const storePotter = useAppSelector(selectPotterDetails);
   const potterIsLoading = useAppSelector(selectPotterDetailsIsLoading);
   const potterIsSuccess = useAppSelector(selectPotterDetailsIsSuccess);
   const potterError = useAppSelector(selectPotterDetailsError);
 
-  const allProducts = useAppSelector(selectAllProducts);
+  const storeProducts = useAppSelector(selectAllProducts);
   const listIsLoading = useAppSelector(selectProductsListIsLoading);
   const listIsSuccess = useAppSelector(selectProductsListIsSuccess);
   const listError = useAppSelector(selectProductsListError);
 
+  const numericId = Number(id);
+  const product =
+    storeProduct?.id === numericId
+      ? storeProduct
+      : initialProduct?.id === numericId
+        ? initialProduct
+        : storeProduct;
+  const potter = storePotter ?? initialPotter;
+  const allProducts =
+    storeProducts.length > 0
+      ? storeProducts
+      : (initialProductList?.products ?? []);
+
+  useEffect(() => {
+    if (initialProduct && initialProduct.id === numericId) {
+      dispatch(hydrateProductDetails(initialProduct));
+    }
+    if (initialPotter) {
+      dispatch(hydratePotterDetails(initialPotter));
+    }
+    if (initialProductList) {
+      dispatch(hydrateProductsList(initialProductList));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   useEffect(() => {
     if (!id) return;
-    const numericId = Number(id);
-    // Refetch when:
-    // - we don't have a successful fetch yet, OR
-    // - the loaded product is for a different id
+    if (product?.id === numericId) return;
     if (!isLoading && (!isSuccess || product?.id !== numericId)) {
       dispatch(fetchProductDetails(id));
     }
-  }, [dispatch, id, product?.id, isLoading, isSuccess]);
+  }, [dispatch, id, product?.id, isLoading, isSuccess, numericId, product]);
 
   useEffect(() => {
-    if (isSuccess && product) {
+    if (product) {
       logViewItem({
         id: product.id,
         title: product.title[locale],
         price: product.price,
       });
     }
-  }, [isSuccess, product, locale]);
+  }, [product, locale]);
 
   useEffect(() => {
     if (
@@ -104,7 +141,7 @@ export default function ProductClient() {
           filters: { potterId: product.potterId },
           limit: 50,
           page: 1,
-        })
+        }),
       );
     }
   }, [
@@ -132,7 +169,7 @@ export default function ProductClient() {
         // simple deterministic hash -> number in [0,1)
         const h = Array.from(seedStr + idx).reduce(
           (acc, ch) => ((acc << 5) - acc + ch.charCodeAt(0)) | 0,
-          0
+          0,
         );
         // normalize hash to [0,1)
         const rand = ((h >>> 0) % 10000) / 10000;
@@ -144,9 +181,8 @@ export default function ProductClient() {
     return seeded.slice(0, 8);
   })();
 
-  // TODO: Pass potter and relatedProducts into ProductDetails once its API includes those props.
-  if (isLoading) return <p className="p-8">{t("loading")}</p>;
-  if (!isLoading && !isSuccess)
+  if (isLoading && !product) return <p className="p-8">{t("loading")}</p>;
+  if (!product && !isLoading && !isSuccess)
     return <p className="p-8 text-red-600">{error}</p>;
   if (!product) return <p className="p-8 text-red-600">{error}</p>;
 

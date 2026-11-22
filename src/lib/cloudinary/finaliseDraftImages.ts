@@ -1,5 +1,3 @@
-
-
 import { v2 as cloudinary } from "cloudinary";
 
 /**
@@ -31,7 +29,9 @@ export async function finaliseDraftImages({
 
   const renameAsset = async (url: string): Promise<string> => {
     try {
-      const matches = url.match(/upload\/(?:v\d+\/)?(.+?)\.(jpg|jpeg|png|webp)/);
+      const matches = url.match(
+        /upload\/(?:v\d+\/)?(.+?)\.(jpg|jpeg|png|webp)/,
+      );
       if (!matches) return url;
 
       const originalPublicId = matches[1];
@@ -40,9 +40,13 @@ export async function finaliseDraftImages({
       if (!originalPublicId.startsWith(`drafts/${folderType}/`)) return url;
 
       const newPublicId = `${folderType}/${finalId}/${originalPublicId.split("/").pop()}`;
-      const result = await cloudinary.uploader.rename(originalPublicId, newPublicId, {
-        overwrite: true,
-      });
+      const result = await cloudinary.uploader.rename(
+        originalPublicId,
+        newPublicId,
+        {
+          overwrite: true,
+        },
+      );
 
       return result.secure_url;
     } catch (err) {

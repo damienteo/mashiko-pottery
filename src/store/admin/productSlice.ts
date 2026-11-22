@@ -53,7 +53,7 @@ export const createAdminProduct = createAsyncThunk<Product, Partial<Product>>(
       return rejectWithValue(err.message || "Product creation failed");
     }
     return (await res.json()) as Product;
-  }
+  },
 );
 
 export const updateAdminProduct = createAsyncThunk<Product, Partial<Product>>(
@@ -69,7 +69,7 @@ export const updateAdminProduct = createAsyncThunk<Product, Partial<Product>>(
       return rejectWithValue(err.message || "Product update failed");
     }
     return (await res.json()) as Product;
-  }
+  },
 );
 
 export const deleteAdminProduct = createAsyncThunk<{ id: number }, number>(
@@ -85,7 +85,7 @@ export const deleteAdminProduct = createAsyncThunk<{ id: number }, number>(
       return rejectWithValue(err.message || "Product deletion failed");
     }
     return { id: productId };
-  }
+  },
 );
 
 export const fetchAdminProduct = createAsyncThunk<Product, number>(
@@ -97,14 +97,17 @@ export const fetchAdminProduct = createAsyncThunk<Product, number>(
       return rejectWithValue(err.message || "Failed to fetch product");
     }
     return (await res.json()) as Product;
-  }
+  },
 );
 
 const adminProductSlice = createSlice({
   name: "adminProduct",
   initialState,
   reducers: {
-    setAdminProductFilters(state, action: PayloadAction<Partial<ProductFilters>>) {
+    setAdminProductFilters(
+      state,
+      action: PayloadAction<Partial<ProductFilters>>,
+    ) {
       state.filters = { ...state.filters, ...action.payload };
       // Whenever filters change, reset to page 1 by default
       state.pagination.page = 1;
@@ -128,7 +131,7 @@ const adminProductSlice = createSlice({
       state.pagination.page = 1;
     },
     resetAdminProductState(state) {
-      state.product = null;     
+      state.product = null;
       state.products = [];
       state.isLoading = false;
       state.isSuccess = false;
@@ -156,30 +159,38 @@ const adminProductSlice = createSlice({
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(createAdminProduct.fulfilled, (state, action: PayloadAction<Product>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.product = action.payload;
-      })
+      .addCase(
+        createAdminProduct.fulfilled,
+        (state, action: PayloadAction<Product>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.product = action.payload;
+        },
+      )
       .addCase(createAdminProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(updateAdminProduct.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(updateAdminProduct.fulfilled, (state, action: PayloadAction<Product>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.product = action.payload;
-      })
+      .addCase(
+        updateAdminProduct.fulfilled,
+        (state, action: PayloadAction<Product>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.product = action.payload;
+        },
+      )
       .addCase(updateAdminProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(deleteAdminProduct.pending, (state) => {
         state.isLoading = true;
@@ -194,22 +205,27 @@ const adminProductSlice = createSlice({
       .addCase(deleteAdminProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(fetchAdminProduct.pending, (state) => {
         state.isLoading = true;
         state.isSuccess = false;
         state.error = null;
       })
-      .addCase(fetchAdminProduct.fulfilled, (state, action: PayloadAction<Product>) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.product = action.payload;
-      })
+      .addCase(
+        fetchAdminProduct.fulfilled,
+        (state, action: PayloadAction<Product>) => {
+          state.isLoading = false;
+          state.isSuccess = true;
+          state.product = action.payload;
+        },
+      )
       .addCase(fetchAdminProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isSuccess = false;
-        state.error = (action.payload as string) || action.error.message || null;
+        state.error =
+          (action.payload as string) || action.error.message || null;
       })
       .addCase(fetchProductsList.pending, (state) => {
         state.isLoading = true;
@@ -224,7 +240,7 @@ const adminProductSlice = createSlice({
             products: Product[];
             filters: ProductFilters;
             pagination: Pagination & { append?: boolean };
-          }>
+          }>,
         ) => {
           state.isLoading = false;
           state.isSuccess = true;
@@ -237,7 +253,7 @@ const adminProductSlice = createSlice({
           state.pagination = {
             ...action.payload.pagination,
           };
-        }
+        },
       )
       .addCase(fetchProductsList.rejected, (state, action) => {
         state.isLoading = false;
@@ -247,21 +263,34 @@ const adminProductSlice = createSlice({
   },
 });
 
-export const selectAdminProduct = (state: RootState) => state.adminProduct.product;
-export const selectAdminProductLoading = (state: RootState) => state.adminProduct.isLoading;
-export const selectAdminProductSuccess = (state: RootState) => state.adminProduct.isSuccess;
-export const selectAdminProductError = (state: RootState) => state.adminProduct.error;
-export const selectAdminProductItems = (state: RootState) => state.adminProduct.products;
-export const selectAdminProductFilters = (state: RootState) => state.adminProduct.filters;
-export const selectAdminProductPagination = (state: RootState) => state.adminProduct.pagination;
+export const selectAdminProduct = (state: RootState) =>
+  state.adminProduct.product;
+export const selectAdminProductLoading = (state: RootState) =>
+  state.adminProduct.isLoading;
+export const selectAdminProductSuccess = (state: RootState) =>
+  state.adminProduct.isSuccess;
+export const selectAdminProductError = (state: RootState) =>
+  state.adminProduct.error;
+export const selectAdminProductItems = (state: RootState) =>
+  state.adminProduct.products;
+export const selectAdminProductFilters = (state: RootState) =>
+  state.adminProduct.filters;
+export const selectAdminProductPagination = (state: RootState) =>
+  state.adminProduct.pagination;
 
 // Selectors for admin product list (fetchProductsList)
-export const selectAdminProductListLoading = (state: RootState) => state.adminProduct.isLoading;
-export const selectAdminProductListSuccess = (state: RootState) => state.adminProduct.isSuccess;
-export const selectAdminProductListError = (state: RootState) => state.adminProduct.error;
-export const selectAdminProductListItems = (state: RootState) => state.adminProduct.products;
-export const selectAdminProductListFilters = (state: RootState) => state.adminProduct.filters;
-export const selectAdminProductListPagination = (state: RootState) => state.adminProduct.pagination;
+export const selectAdminProductListLoading = (state: RootState) =>
+  state.adminProduct.isLoading;
+export const selectAdminProductListSuccess = (state: RootState) =>
+  state.adminProduct.isSuccess;
+export const selectAdminProductListError = (state: RootState) =>
+  state.adminProduct.error;
+export const selectAdminProductListItems = (state: RootState) =>
+  state.adminProduct.products;
+export const selectAdminProductListFilters = (state: RootState) =>
+  state.adminProduct.filters;
+export const selectAdminProductListPagination = (state: RootState) =>
+  state.adminProduct.pagination;
 
 export default adminProductSlice.reducer;
 export const {

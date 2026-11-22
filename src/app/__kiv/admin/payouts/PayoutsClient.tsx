@@ -105,7 +105,7 @@ export default function PayoutsClient() {
                               potterId: p.potterId,
                               month: p.month,
                               status: editStatus,
-                            })
+                            }),
                           );
                           setEditingId(null);
                         }}

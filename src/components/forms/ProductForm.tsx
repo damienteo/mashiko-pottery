@@ -132,7 +132,7 @@ const productSchema: yup.ObjectSchema<ProductFormValues> = yup.object({
 const schema = yup.lazy(
   (values: DraftProductFormValues | ProductFormValues) => {
     return values?.isDraft ? draftSchema : productSchema;
-  }
+  },
 );
 
 export default function ProductForm({

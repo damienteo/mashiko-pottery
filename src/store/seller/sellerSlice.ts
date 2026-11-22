@@ -11,7 +11,7 @@ export const fetchSellerProfile = createAsyncThunk<SellerProfile, void>(
     const res = await fetch("/api/seller/profile");
     if (!res.ok) throw new Error("Failed to fetch seller profile");
     return (await res.json()) as SellerProfile;
-  }
+  },
 );
 
 interface SellerState {

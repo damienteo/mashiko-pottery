@@ -1,5 +1,3 @@
-
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { Potter } from "@/types/potter";
 import type { PotterFilters, Pagination } from "@/types/common";

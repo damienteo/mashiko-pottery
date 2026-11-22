@@ -1,4 +1,4 @@
-import { createSlice,  PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import type { Product } from "@/types/product";
 
@@ -88,6 +88,21 @@ const productsListSlice = createSlice({
         totalPages: 0,
       };
     },
+    hydrateProductsList(
+      state,
+      action: PayloadAction<{
+        products: Product[];
+        filters: ProductFilters;
+        pagination: Pagination;
+      }>,
+    ) {
+      state.items = action.payload.products;
+      state.filters = { ...state.filters, ...action.payload.filters };
+      state.pagination = action.payload.pagination;
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -104,14 +119,14 @@ const productsListSlice = createSlice({
             products: Product[];
             filters: ProductFilters;
             pagination: Pagination;
-          }>
+          }>,
         ) => {
           state.isLoading = false;
           state.isSuccess = true;
           state.items = action.payload.products;
           state.filters = action.payload.filters;
           state.pagination = action.payload.pagination;
-        }
+        },
       )
       .addCase(fetchProductsList.rejected, (state, action) => {
         state.isLoading = false;
@@ -139,6 +154,7 @@ export const {
   setProductsPage,
   setProductsLimit,
   resetProductsListState,
+  hydrateProductsList,
 } = productsListSlice.actions;
 
 export default productsListSlice.reducer;

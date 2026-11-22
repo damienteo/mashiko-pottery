@@ -7,7 +7,6 @@ import { jsonErrorResponse } from "@/lib/errors/jsonErrorResponse";
 import { validateProductExists } from "@/lib/validation/validateProductExists";
 import { validatePotterExists } from "@/lib/validation/validatePotterExists";
 
-
 export async function POST(req: NextRequest) {
   try {
     await assertAdminAccess();
@@ -17,21 +16,38 @@ export async function POST(req: NextRequest) {
 
     // potterId is always required
     if (potterId == null) {
-      return NextResponse.json({ error: "Potter ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Potter ID is required" },
+        { status: 400 },
+      );
     }
 
     // If not draft, enforce required fields. In draft mode, they can be empty.
     if (!isDraft) {
       if (!title || !description) {
-        return NextResponse.json({ error: "Title and description are required when not a draft" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Title and description are required when not a draft" },
+          { status: 400 },
+        );
       }
       // Allow 0 for price/stock; only reject undefined/null
       if (price == null || stock == null) {
-        return NextResponse.json({ error: "Price and stock are required when not a draft" }, { status: 400 });
+        return NextResponse.json(
+          { error: "Price and stock are required when not a draft" },
+          { status: 400 },
+        );
       }
       // Optional: basic sanity checks (non-negative numbers)
-      if (typeof price !== "number" || typeof stock !== "number" || price < 0 || stock < 0) {
-        return NextResponse.json({ error: "Price and stock must be non-negative numbers" }, { status: 400 });
+      if (
+        typeof price !== "number" ||
+        typeof stock !== "number" ||
+        price < 0 ||
+        stock < 0
+      ) {
+        return NextResponse.json(
+          { error: "Price and stock must be non-negative numbers" },
+          { status: 400 },
+        );
       }
     }
 
@@ -60,7 +76,8 @@ export async function POST(req: NextRequest) {
       finalId: String(newProduct.id),
     });
 
-    const imageChanged = finalImages.imageUrl && finalImages.imageUrl !== data.mainImage;
+    const imageChanged =
+      finalImages.imageUrl && finalImages.imageUrl !== data.mainImage;
     const photosChanged =
       finalImages.photos &&
       JSON.stringify(finalImages.photos) !== JSON.stringify(data.photos);
@@ -94,7 +111,10 @@ export async function PATCH(req: NextRequest) {
     const { id, ...updates } = data;
 
     if (!id) {
-      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Product ID is required" },
+        { status: 400 },
+      );
     }
 
     const product = await validateProductExists(id, prisma);
@@ -112,7 +132,8 @@ export async function PATCH(req: NextRequest) {
       finalId: String(id),
     });
 
-    const imageChanged = finalImages.imageUrl && finalImages.imageUrl !== updates.mainImage;
+    const imageChanged =
+      finalImages.imageUrl && finalImages.imageUrl !== updates.mainImage;
     const photosChanged =
       finalImages.photos &&
       JSON.stringify(finalImages.photos) !== JSON.stringify(updates.photos);
@@ -150,7 +171,10 @@ export async function DELETE(req: NextRequest) {
 
     const { id } = await req.json();
     if (!id) {
-      return NextResponse.json({ error: "Product ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Product ID is required" },
+        { status: 400 },
+      );
     }
 
     const product = await validateProductExists(id, prisma);
