@@ -1,12 +1,12 @@
-import { getRequestConfig } from "next-intl/server";
-import { hasLocale } from "next-intl";
-import { routing } from "./routing";
+import { getRequestConfig } from 'next-intl/server'
+import { hasLocale } from 'next-intl'
+import { routing } from './routing'
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  const requested = await requestLocale;
+  const requested = await requestLocale
   const locale = hasLocale(routing.locales, requested)
     ? requested
-    : routing.defaultLocale;
+    : routing.defaultLocale
 
   const messages = {
     common: (await import(`../locales/${locale}/common.json`)).default,
@@ -36,10 +36,10 @@ export default getRequestConfig(async ({ requestLocale }) => {
     testimonials: (await import(`../locales/${locale}/testimonials.json`))
       .default,
     footer: (await import(`../locales/${locale}/footer.json`)).default,
-  };
+  }
 
   return {
     locale,
     messages,
-  };
-});
+  }
+})

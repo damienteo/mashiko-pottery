@@ -1,11 +1,11 @@
-export const EVENT_VIEW_ITEM = "view_item";
-export const EVENT_ADD_TO_CART = "add_to_cart";
-export const EVENT_BEGIN_CHECKOUT = "begin_checkout";
-export const EVENT_PURCHASE = "purchase";
+export const EVENT_VIEW_ITEM = 'view_item'
+export const EVENT_ADD_TO_CART = 'add_to_cart'
+export const EVENT_BEGIN_CHECKOUT = 'begin_checkout'
+export const EVENT_PURCHASE = 'purchase'
 
 declare global {
   interface Window {
-    gtag?: (...args: unknown[]) => void;
+    gtag?: (...args: unknown[]) => void
   }
 }
 
@@ -13,18 +13,18 @@ declare global {
  * Generic GA4 event sender.
  */
 export const gaEvent = (action: string, params?: Record<string, unknown>) => {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("event", action, params);
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', action, params)
   }
-};
+}
 
 /**
  * Log a product view.
  */
 export const logViewItem = (product: {
-  id: number;
-  title: string;
-  price: number;
+  id: number
+  title: string
+  price: number
 }) => {
   gaEvent(EVENT_VIEW_ITEM, {
     items: [
@@ -34,8 +34,8 @@ export const logViewItem = (product: {
         price: product.price,
       },
     ],
-  });
-};
+  })
+}
 
 /**
  * Log an add-to-cart action.
@@ -53,8 +53,8 @@ export const logAddToCart = (
         quantity,
       },
     ],
-  });
-};
+  })
+}
 
 /**
  * Log beginning of checkout.
@@ -68,25 +68,25 @@ export const logBeginCheckout = (
       quantity: i.quantity,
       price: i.price,
     })),
-  });
-};
+  })
+}
 
 /**
  * Log purchase completion.
  */
 export const logPurchase = (order: {
-  id: number;
-  total: number;
-  items: Array<{ id: number; quantity: number; price: number }>;
+  id: number
+  total: number
+  items: Array<{ id: number; quantity: number; price: number }>
 }) => {
   gaEvent(EVENT_PURCHASE, {
     transaction_id: order.id.toString(),
     value: order.total,
-    currency: "JPY",
+    currency: 'JPY',
     items: order.items.map((i) => ({
       item_id: i.id.toString(),
       quantity: i.quantity,
       price: i.price,
     })),
-  });
-};
+  })
+}

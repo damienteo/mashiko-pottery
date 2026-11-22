@@ -1,56 +1,61 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect, useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import Link from 'next/link'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchOrdersList,
   selectAllOrders,
   selectOrdersListIsLoading,
   selectOrdersListError,
-} from "@/store/orders/ordersListSlice";
-import type { OrderSummary } from "@/types/order";
-import Button from "@/components/ui/Button";
-import StatusBadge from "@/components/ui/StatusBadge";
-import type { OrderStatus } from "@/constants/orderStatus";
-import { orderStatusOptions } from "@/constants/orderStatus";
+} from '@/store/orders/ordersListSlice'
+import type { OrderSummary } from '@/types/order'
+import Button from '@/components/ui/Button'
+import StatusBadge from '@/components/ui/StatusBadge'
+import type { OrderStatus } from '@/constants/orderStatus'
+import { orderStatusOptions } from '@/constants/orderStatus'
 
 export default function OrdersClient() {
-  const t = useTranslations("admin.pages.orders");
-  const locale = useLocale();
-  const dispatch = useAppDispatch();
-  const orders = useAppSelector(selectAllOrders);
-  const isLoading = useAppSelector(selectOrdersListIsLoading);
-  const error = useAppSelector(selectOrdersListError);
+  const t = useTranslations('admin.pages.orders')
+  const locale = useLocale()
+  const dispatch = useAppDispatch()
+  const orders = useAppSelector(selectAllOrders)
+  const isLoading = useAppSelector(selectOrdersListIsLoading)
+  const error = useAppSelector(selectOrdersListError)
   // Inline edit state
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editStatus, setEditStatus] = useState<OrderStatus>("Processing");
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editStatus, setEditStatus] = useState<OrderStatus>('Processing')
 
   useEffect(() => {
     if (!isLoading && orders.length === 0) {
-      dispatch(fetchOrdersList());
+      dispatch(fetchOrdersList())
     }
-  }, [dispatch, isLoading, orders.length]);
+  }, [dispatch, isLoading, orders.length])
 
   if (isLoading) {
-    return <p className="p-8">{t("loading")}</p>;
+    return <p className="p-8">{t('loading')}</p>
   }
   if (error) {
     return (
       <div className="p-8 text-center">
-        <p className="text-red-600">{t("error")}</p>
-        <Button onClick={() => dispatch(fetchOrdersList())} className="mt-4">
-          {t("retry")}
+        <p className="text-red-600">{t('error')}</p>
+        <Button
+          onClick={() => {
+            void dispatch(fetchOrdersList())
+          }}
+          className="mt-4"
+        >
+          {t('retry')}
         </Button>
       </div>
-    );
+    )
   }
 
   return (
     <div className="p-8 bg-gray-50 border-l-4 border-yellow-500 space-y-4">
       <h2 className="text-xl font-semibold text-yellow-700 flex items-center">
-        {t("title")}
+        {t('title')}
         <span className="ml-2 px-2 py-0.5 bg-yellow-200 text-yellow-800 text-xs font-semibold rounded">
           Admin
         </span>
@@ -94,7 +99,7 @@ export default function OrdersClient() {
                 <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-600">
                   {o.createdAt
                     ? new Date(o.createdAt).toLocaleDateString(locale)
-                    : "-"}
+                    : '-'}
                 </td>
                 <td className="px-4 py-2 whitespace-nowrap text-sm">
                   {editingId === o.id ? (
@@ -122,7 +127,7 @@ export default function OrdersClient() {
                         variant="primary"
                         onClick={() => {
                           // TODO: dispatch updateOrderStatus({ id: o.id, status: editStatus })
-                          setEditingId(null);
+                          setEditingId(null)
                         }}
                       >
                         Save
@@ -139,8 +144,8 @@ export default function OrdersClient() {
                       <Button
                         variant="secondary"
                         onClick={() => {
-                          setEditingId(o.id);
-                          setEditStatus(o.status as OrderStatus);
+                          setEditingId(o.id)
+                          setEditStatus(o.status as OrderStatus)
                         }}
                       >
                         Edit
@@ -150,7 +155,7 @@ export default function OrdersClient() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button variant="secondary">{t("details")}</Button>
+                        <Button variant="secondary">{t('details')}</Button>
                       </Link>
                     </>
                   )}
@@ -161,5 +166,5 @@ export default function OrdersClient() {
         </table>
       </div>
     </div>
-  );
+  )
 }

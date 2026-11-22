@@ -1,35 +1,35 @@
-import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
-import { getTranslations } from "next-intl/server";
+import type { Metadata } from 'next'
+import { routing } from '@/i18n/routing'
+import { getTranslations } from 'next-intl/server'
 
-import SellerLayoutClient from "./SellerLayoutClient";
+import SellerLayoutClient from './SellerLayoutClient'
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic'
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale } = await params
   const t = await getTranslations({
     locale,
-    namespace: "meta.seller.profile",
-  });
+    namespace: 'meta.seller.profile',
+  })
   return {
-    title: t("title"),
-    description: t("description"),
-  };
+    title: t('title'),
+    description: t('description'),
+  }
 }
 
 export default function SellerLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  return <SellerLayoutClient>{children}</SellerLayoutClient>;
+  return <SellerLayoutClient>{children}</SellerLayoutClient>
 }

@@ -1,20 +1,20 @@
-import type { Metadata } from "next";
-import { routing } from "@/i18n/routing";
-import AdminLayoutClient from "./AdminLayoutClient";
+import type { Metadata } from 'next'
+import { routing } from '@/i18n/routing'
+import AdminLayoutClient from './AdminLayoutClient'
 
 export const metadata: Metadata = {
-  title: "Admin – Mashiko Pottery",
-  description: "Administration dashboard for Mashiko Pottery",
-};
+  title: 'Admin – Mashiko Pottery',
+  description: 'Administration dashboard for Mashiko Pottery',
+}
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export default function AdminLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
-  return <AdminLayoutClient>{children}</AdminLayoutClient>;
+  return <AdminLayoutClient>{children}</AdminLayoutClient>
 }

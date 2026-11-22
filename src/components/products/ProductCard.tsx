@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 // import { useTranslations } from "next-intl";
 
-import type { Product } from "@/types/product";
-import type { Locale } from "@/types/i18n";
-import { formatYen } from "@/utils/format";
+import type { Product } from '@/types/product'
+import type { Locale } from '@/types/i18n'
+import { formatYen } from '@/utils/format'
 
 export interface ProductCardProps {
-  product: Product;
-  locale: Locale;
-  href?: string;
+  product: Product
+  locale: Locale
+  href?: string
   //   onAddToCart?: (product: Product) => void;
 }
 
-const FALLBACK_IMG = "data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="; // 1x1 transparent pixel
+const FALLBACK_IMG = 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=' // 1x1 transparent pixel
 
 export default function ProductCard({
   product,
@@ -26,23 +26,23 @@ export default function ProductCard({
   //   const t = useTranslations();
 
   // Safely pick localized fields
-  const title = product.title?.[locale] ?? "";
-  const description = product.description?.[locale] ?? "";
+  const title = product.title?.[locale] ?? ''
+  const description = product.description?.[locale] ?? ''
 
-  const imageSrc = product.mainImage || product.photos?.[0] || FALLBACK_IMG;
-  const productHref = href ?? `/${locale}/products/${product.id}`;
+  const imageSrc = product.mainImage || product.photos?.[0] || FALLBACK_IMG
+  const productHref = href ?? `/${locale}/products/${product.id}`
 
   return (
     <article className="group flex flex-col h-full">
       <Link
         href={productHref}
         className="block"
-        aria-label={title || "Product"}
+        aria-label={title || 'Product'}
       >
         <div className="relative w-full aspect-square overflow-hidden rounded-lg bg-gray-100">
           <Image
             src={imageSrc}
-            alt={title || "Product image"}
+            alt={title || 'Product image'}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-[1.05]"
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
@@ -76,5 +76,5 @@ export default function ProductCard({
         </div>
       )} */}
     </article>
-  );
+  )
 }

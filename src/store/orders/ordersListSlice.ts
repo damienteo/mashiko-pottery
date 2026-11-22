@@ -1,13 +1,13 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../store";
-import type { OrderStatus } from "@/constants/orderStatus";
-import type { OrderSummary } from "@/types/order";
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../store'
+import type { OrderStatus } from '@/constants/orderStatus'
+import type { OrderSummary } from '@/types/order'
 
 interface OrdersListState {
-  items: OrderSummary[];
-  isLoading: boolean;
-  isSuccess: boolean;
-  error: string | null;
+  items: OrderSummary[]
+  isLoading: boolean
+  isSuccess: boolean
+  error: string | null
 }
 
 const initialState: OrdersListState = {
@@ -15,63 +15,63 @@ const initialState: OrdersListState = {
   isLoading: false,
   isSuccess: false,
   error: null,
-};
+}
 
 // Async thunk to fetch all orders
 export const fetchOrdersList = createAsyncThunk<OrderSummary[], void>(
-  "orders/fetchAll",
+  'orders/fetchAll',
   async () => {
-    const res = await fetch("/api/orders");
-    if (!res.ok) throw new Error("Failed to fetch orders");
-    return (await res.json()) as OrderSummary[];
+    const res = await fetch('/api/orders')
+    if (!res.ok) throw new Error('Failed to fetch orders')
+    return (await res.json()) as OrderSummary[]
   }
-);
+)
 
 const ordersListSlice = createSlice({
-  name: "ordersList",
+  name: 'ordersList',
   initialState,
   reducers: {
     updateOrderStatus(
       state,
       action: PayloadAction<{ id: string; status: OrderStatus }>
     ) {
-      const { id, status } = action.payload;
-      const order = state.items.find((o) => o.id === id);
+      const { id, status } = action.payload
+      const order = state.items.find((o) => o.id === id)
       if (order) {
-        order.status = status;
+        order.status = status
       }
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchOrdersList.pending, (state) => {
-        state.isLoading = true;
-        state.isSuccess = false;
-        state.error = null;
+        state.isLoading = true
+        state.isSuccess = false
+        state.error = null
       })
       .addCase(
         fetchOrdersList.fulfilled,
         (state, action: PayloadAction<OrderSummary[]>) => {
-          state.isLoading = false;
-          state.isSuccess = true;
-          state.items = action.payload;
+          state.isLoading = false
+          state.isSuccess = true
+          state.items = action.payload
         }
       )
       .addCase(fetchOrdersList.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = false;
-        state.error = action.error.message ?? "Unknown error";
-      });
+        state.isLoading = false
+        state.isSuccess = false
+        state.error = action.error.message ?? 'Unknown error'
+      })
   },
-});
+})
 
-export const selectAllOrders = (state: RootState) => state.ordersList.items;
+export const selectAllOrders = (state: RootState) => state.ordersList.items
 export const selectOrdersListIsLoading = (state: RootState) =>
-  state.ordersList.isLoading;
+  state.ordersList.isLoading
 export const selectOrdersListIsSuccess = (state: RootState) =>
-  state.ordersList.isSuccess;
+  state.ordersList.isSuccess
 export const selectOrdersListError = (state: RootState) =>
-  state.ordersList.error;
+  state.ordersList.error
 
-export const { updateOrderStatus } = ordersListSlice.actions;
-export default ordersListSlice.reducer;
+export const { updateOrderStatus } = ordersListSlice.actions
+export default ordersListSlice.reducer

@@ -1,43 +1,43 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useEffect, useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchPayoutsList,
   updatePayoutStatus,
   selectAllPayouts,
   selectPayoutsListIsLoading,
   selectPayoutsListError,
-} from "@/store/payouts/payoutsListSlice";
-import StatusBadge from "@/components/ui/StatusBadge";
-import { payoutStatusOptions, PayoutStatus } from "@/constants/payoutStatus";
-import Link from "next/link";
-import Button from "@/components/ui/Button";
+} from '@/store/payouts/payoutsListSlice'
+import StatusBadge from '@/components/ui/StatusBadge'
+import { payoutStatusOptions, PayoutStatus } from '@/constants/payoutStatus'
+import Link from 'next/link'
+import Button from '@/components/ui/Button'
 
 export default function PayoutsClient() {
-  const t = useTranslations("admin.pages.payouts");
-  const locale = useLocale();
-  const dispatch = useAppDispatch();
-  const payouts = useAppSelector(selectAllPayouts);
-  const isLoading = useAppSelector(selectPayoutsListIsLoading);
-  const error = useAppSelector(selectPayoutsListError);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editStatus, setEditStatus] = useState<PayoutStatus>("Processing");
+  const t = useTranslations('admin.pages.payouts')
+  const locale = useLocale()
+  const dispatch = useAppDispatch()
+  const payouts = useAppSelector(selectAllPayouts)
+  const isLoading = useAppSelector(selectPayoutsListIsLoading)
+  const error = useAppSelector(selectPayoutsListError)
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editStatus, setEditStatus] = useState<PayoutStatus>('Processing')
 
   useEffect(() => {
     if (!isLoading && payouts.length === 0) {
-      dispatch(fetchPayoutsList());
+      dispatch(fetchPayoutsList())
     }
-  }, [dispatch, isLoading, payouts.length]);
+  }, [dispatch, isLoading, payouts.length])
 
-  if (isLoading) return <p className="p-8">{t("loading")}</p>;
-  if (error) return <p className="p-8 text-red-600">{error}</p>;
+  if (isLoading) return <p className="p-8">{t('loading')}</p>
+  if (error) return <p className="p-8 text-red-600">{error}</p>
 
   return (
     <div className="p-8 bg-gray-50 border-l-4 border-yellow-500 space-y-4">
       <h2 className="text-xl font-semibold text-yellow-700 flex items-center">
-        {t("title")}
+        {t('title')}
         <span className="ml-2 px-2 py-0.5 bg-yellow-200 text-yellow-800 text-xs font-semibold rounded">
           Admin
         </span>
@@ -47,19 +47,19 @@ export default function PayoutsClient() {
           <thead className="bg-white">
             <tr>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("table.potterId")}
+                {t('table.potterId')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("table.month")}
+                {t('table.month')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("table.amount")}
+                {t('table.amount')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("table.status")}
+                {t('table.status')}
               </th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">
-                {t("table.actions")}
+                {t('table.actions')}
               </th>
             </tr>
           </thead>
@@ -106,17 +106,17 @@ export default function PayoutsClient() {
                               month: p.month,
                               status: editStatus,
                             })
-                          );
-                          setEditingId(null);
+                          )
+                          setEditingId(null)
                         }}
                       >
-                        {t("actions.save")}
+                        {t('actions.save')}
                       </Button>
                       <Button
                         variant="secondary"
                         onClick={() => setEditingId(null)}
                       >
-                        {t("actions.cancel")}
+                        {t('actions.cancel')}
                       </Button>
                     </>
                   ) : (
@@ -124,18 +124,18 @@ export default function PayoutsClient() {
                       <Button
                         variant="secondary"
                         onClick={() => {
-                          setEditingId(`${p.month}-${p.potterId}`);
-                          setEditStatus(p.status);
+                          setEditingId(`${p.month}-${p.potterId}`)
+                          setEditStatus(p.status)
                         }}
                       >
-                        {t("actions.edit")}
+                        {t('actions.edit')}
                       </Button>
                       <Link
                         href={`/${locale}/admin/payouts/${p.month}|${p.potterId}`}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <Button variant="secondary">{t("details.link")}</Button>
+                        <Button variant="secondary">{t('details.link')}</Button>
                       </Link>
                     </>
                   )}
@@ -146,5 +146,5 @@ export default function PayoutsClient() {
         </table>
       </div>
     </div>
-  );
+  )
 }

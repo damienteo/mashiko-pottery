@@ -1,28 +1,28 @@
-import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
-import ProductsClient from "./ProductsClient";
-import { routing } from "@/i18n/routing";
+import type { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
+import ProductsClient from './ProductsClient'
+import { routing } from '@/i18n/routing'
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({ locale }));
+  return routing.locales.map((locale) => ({ locale }))
 }
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string }>
 }): Promise<Metadata> {
-  const { locale } = await params;
+  const { locale } = await params
   const t = await getTranslations({
     locale,
-    namespace: "meta.admin.pages.products",
-  });
+    namespace: 'meta.admin.pages.products',
+  })
   return {
-    title: t("title"),
-    description: t("description"),
-  };
+    title: t('title'),
+    description: t('description'),
+  }
 }
 
 export default function AdminProductsPage() {
-  return <ProductsClient />;
+  return <ProductsClient />
 }

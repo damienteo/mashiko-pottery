@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useTranslations, useLocale } from 'next-intl'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   fetchOrderDetails,
   selectOrderDetails,
@@ -11,73 +11,75 @@ import {
   selectOrderDetailsError,
   updateOrderDetails,
   selectOrderDetailsSuccess,
-} from "@/store/orders/orderDetailsSlice";
-import { orderStatusOptions, OrderStatus } from "@/constants/orderStatus";
-import StatusBadge from "@/components/ui/StatusBadge";
-import Button from "@/components/ui/Button";
+} from '@/store/orders/orderDetailsSlice'
+import { orderStatusOptions, OrderStatus } from '@/constants/orderStatus'
+import StatusBadge from '@/components/ui/StatusBadge'
+import Button from '@/components/ui/Button'
 
 export default function AdminOrderDetailPage() {
-  const rawId = useParams().id;
-  const id = Array.isArray(rawId) ? rawId[0] : rawId;
-  const locale = useLocale();
-  const t = useTranslations("admin.pages.orders");
-  const dispatch = useAppDispatch();
+  const rawId = useParams().id
+  const id = Array.isArray(rawId) ? rawId[0] : rawId
+  const locale = useLocale()
+  const t = useTranslations('admin.pages.orders')
+  const dispatch = useAppDispatch()
 
-  const order = useAppSelector(selectOrderDetails);
-  const isLoading = useAppSelector(selectOrderDetailsIsLoading);
-  const error = useAppSelector(selectOrderDetailsError);
-  const isSuccess = useAppSelector(selectOrderDetailsSuccess);
+  const order = useAppSelector(selectOrderDetails)
+  const isLoading = useAppSelector(selectOrderDetailsIsLoading)
+  const error = useAppSelector(selectOrderDetailsError)
+  const isSuccess = useAppSelector(selectOrderDetailsSuccess)
 
-  const [editing, setEditing] = useState(false);
-  const [status, setStatus] = useState<OrderStatus>("Processing");
+  const [editing, setEditing] = useState(false)
+  const [status, setStatus] = useState<OrderStatus>('Processing')
 
   useEffect(() => {
     if (id) {
-      dispatch(fetchOrderDetails(id));
+      dispatch(fetchOrderDetails(id))
     }
-  }, [dispatch, id]);
+  }, [dispatch, id])
 
   useEffect(() => {
     if (order) {
-      setStatus(order.status as OrderStatus);
+      setStatus(order.status as OrderStatus)
     }
-  }, [order]);
+  }, [order])
 
   if (!isSuccess) {
-    return <p className="p-8">{t("loading")}</p>;
+    return <p className="p-8">{t('loading')}</p>
   }
 
   if (isLoading) {
-    return <p className="p-8">{t("loading")}</p>;
+    return <p className="p-8">{t('loading')}</p>
   }
   if (error) {
     return (
       <div className="p-8 text-center">
-        <p className="text-red-600">{t("error")}</p>
+        <p className="text-red-600">{t('error')}</p>
         <Button
-          onClick={() => id && dispatch(fetchOrderDetails(id))}
+          onClick={() => {
+            if (id) void dispatch(fetchOrderDetails(id))
+          }}
           className="mt-4"
         >
-          {t("retry")}
+          {t('retry')}
         </Button>
       </div>
-    );
+    )
   }
 
   if (!order) {
-    return <p className="p-8">{t("error")}</p>;
+    return <p className="p-8">{t('error')}</p>
   }
 
   const handleSave = () => {
-    dispatch(updateOrderDetails({ id: order.id, updates: { status } }));
-    setEditing(false);
-  };
+    dispatch(updateOrderDetails({ id: order.id, updates: { status } }))
+    setEditing(false)
+  }
 
   return (
     <div className="p-8 max-w-4xl mx-auto space-y-6 bg-gray-50 border-l-4 border-yellow-500">
       <h1 className="text-2xl font-bold text-yellow-700 flex items-center space-x-2">
         <span>
-          {t("details")} – {order.id}
+          {t('details')} – {order.id}
         </span>
         <span className="px-2 py-0.5 text-xs font-semibold bg-yellow-200 text-yellow-800 rounded">
           Admin
@@ -99,17 +101,17 @@ export default function AdminOrderDetailPage() {
               ))}
             </select>
             <Button variant="primary" onClick={handleSave}>
-              {t("actions.save")}
+              {t('actions.save')}
             </Button>
             <Button variant="secondary" onClick={() => setEditing(false)}>
-              {t("actions.cancel")}
+              {t('actions.cancel')}
             </Button>
           </>
         ) : (
           <>
             <StatusBadge status={order.status} type="order" />
             <Button variant="secondary" onClick={() => setEditing(true)}>
-              {t("actions.edit")}
+              {t('actions.edit')}
             </Button>
           </>
         )}
@@ -151,8 +153,8 @@ export default function AdminOrderDetailPage() {
       </table>
 
       <div className="text-right text-lg font-semibold">
-        {t("total")}: ¥{order.totalAmount?.toLocaleString(locale) ?? "-"}
+        {t('total')}: ¥{order.totalAmount?.toLocaleString(locale) ?? '-'}
       </div>
     </div>
-  );
+  )
 }
