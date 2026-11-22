@@ -1,4 +1,3 @@
-import React from 'react'
 import { getLocale, getTranslations } from 'next-intl/server'
 
 interface Testimonial {
@@ -9,9 +8,9 @@ interface Testimonial {
 const mockTestimonials: Testimonial[] = [
   {
     quote: {
-      en: 'I absolutely love my new Mashiko vase. The craftsmanship is exquisite!',
-      ja: '新しい益子焼の花瓶が本当に気に入りました。職人技が素晴らしいです！',
-      zh: '我非常喜欢我的新Mashiko花瓶。工艺精湛！',
+      en: 'I love my Mashiko vase. The craftsmanship is exquisite.',
+      ja: '益子焼の花瓶がとても気に入りました。仕事の細かさが伝わってきます。',
+      zh: '我很喜欢这只益子花瓶，工艺细致，耐看。',
     },
     author: {
       en: 'Aiko T.',
@@ -21,9 +20,9 @@ const mockTestimonials: Testimonial[] = [
   },
   {
     quote: {
-      en: 'Fast shipping and the pottery arrived in perfect condition. Highly recommend!',
-      ja: '迅速な配送で陶器が完璧な状態で届きました。強くおすすめします！',
-      zh: '快速发货，陶器完好无损送达。强烈推荐！',
+      en: 'The piece arrived well packed and in perfect condition. I would order again.',
+      ja: '丁寧な梱包で、作品は傷ひとつなく届きました。またお願いしたいです。',
+      zh: '包装仔细，作品完好送达。还会再买。',
     },
     author: {
       en: 'Ken W.',
@@ -33,9 +32,9 @@ const mockTestimonials: Testimonial[] = [
   },
   {
     quote: {
-      en: 'The pieces are even more beautiful in person. I will be a returning customer for sure.',
-      ja: '実物はさらに美しかったです。必ずまた購入します。',
-      zh: '实物比照片更美。我一定会再次光顾。',
+      en: 'The pieces are even more beautiful in person. I will be back.',
+      ja: '実物は写真以上に美しかったです。また伺います。',
+      zh: '实物比照片更美。我还会再来。',
     },
     author: {
       en: 'Mina S.',
