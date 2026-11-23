@@ -1,6 +1,7 @@
 import IntentLink from '@/components/ui/IntentLink'
 import { getLocale, getTranslations } from 'next-intl/server'
 import SmartImage from '@/components/ui/SmartImage'
+import { localizedText } from '@/lib/catalog/serialize'
 import type { Potter } from '@/types/potter'
 
 export default async function PotterSpotlights({
@@ -33,29 +34,37 @@ export default async function PotterSpotlights({
           {t('potterSpotlights.title')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {potters.map((potter) => (
-            <IntentLink
-              key={potter.id}
-              href={`/${locale}/potters/${potter.id}`}
-              className="block"
-            >
-              <div className="w-full aspect-square mb-4 relative rounded-lg overflow-hidden bg-gray-100">
-                <SmartImage
-                  src={potter.imageUrl ?? '/images/potter-fallback.webp'}
-                  alt={potter.name[locale as keyof typeof potter.name]}
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 768px) 33vw, 100vw"
-                />
-              </div>
-              <h3 className="text-xl md:text-2xl font-semibold text-center mb-2">
-                {potter.name[locale as keyof typeof potter.name]}
-              </h3>
-              <p className="text-gray-600 text-center">
-                {potter.bio[locale as keyof typeof potter.bio]}
-              </p>
-            </IntentLink>
-          ))}
+          {potters.map((potter) => {
+            const styleText = localizedText(potter.style, locale)
+            return (
+              <IntentLink
+                key={potter.id}
+                href={`/${locale}/potters/${potter.id}`}
+                className="block"
+              >
+                <div className="w-full aspect-square mb-4 relative rounded-lg overflow-hidden bg-gray-100">
+                  <SmartImage
+                    src={potter.imageUrl ?? '/images/potter-fallback.webp'}
+                    alt={potter.name[locale as keyof typeof potter.name]}
+                    fill
+                    className="object-cover"
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                  />
+                </div>
+                <h3 className="text-xl md:text-2xl font-semibold text-center mb-2">
+                  {potter.name[locale as keyof typeof potter.name]}
+                </h3>
+                <p className="text-gray-600 text-center">
+                  {potter.bio[locale as keyof typeof potter.bio]}
+                </p>
+                {styleText ? (
+                  <p className="text-gray-500 text-center text-sm mt-1">
+                    {styleText}
+                  </p>
+                ) : null}
+              </IntentLink>
+            )
+          })}
         </div>
       </div>
     </section>

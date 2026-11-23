@@ -44,7 +44,11 @@ describe('listPotters query parity with the former GET /api/potters handler', ()
   it('filters by style and active', async () => {
     await listPotters({ style: 'mashiko', active: true })
     expect(lastArgs().where).toEqual({
-      style: 'mashiko',
+      OR: [
+        { style: { path: ['en'], string_contains: 'mashiko' } },
+        { style: { path: ['ja'], string_contains: 'mashiko' } },
+        { style: { path: ['zh'], string_contains: 'mashiko' } },
+      ],
       active: true,
     })
   })

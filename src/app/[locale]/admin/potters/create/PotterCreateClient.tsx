@@ -34,7 +34,7 @@ export default function PotterCreateClient() {
     userId: '',
     name: { en: '', ja: '', zh: '' },
     bio: { en: '', ja: '', zh: '' },
-    style: '',
+    style: { en: '', ja: '', zh: '' },
     imageUrl: '',
     photos: [],
     active: true,

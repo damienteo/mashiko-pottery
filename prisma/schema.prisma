@@ -53,7 +53,7 @@ model Potter {
   userId    String?      @unique @db.Uuid
   name      Json?
   bio       Json?
-  style     String?
+  style     Json?
   active    Boolean   @default(true)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

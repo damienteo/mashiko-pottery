@@ -10,7 +10,8 @@
     "fields": {
       "name": "姓名",
       "bio": "简介",
-      "portfolio": "作品集"
+      "portfolio": "作品集",
+      "style": "风格"
     },
     "help": {
       "portfolio": "请输入简短的作品集描述。"

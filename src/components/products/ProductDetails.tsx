@@ -8,6 +8,7 @@ import { formatYen } from '@/utils/format'
 import { getTranslations } from 'next-intl/server'
 import Gallery from '@/components/ui/Gallery'
 import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
+import { localizedText } from '@/lib/catalog/serialize'
 
 const formatNum = (n: number, locale: Locale) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n)
@@ -38,6 +39,7 @@ export default async function ProductDetails({
   ])
 
   const title = product.title[locale]
+  const styleText = localizedText(potter?.style, locale)
 
   const L = compactNumber(product.lengthCm)
   const W = compactNumber(product.widthCm)
@@ -137,9 +139,9 @@ export default async function ProductDetails({
                 )}
                 <div className="min-w-0">
                   <div className="font-medium">{potter.name[locale]}</div>
-                  {potter.style && (
-                    <div className="text-sm text-gray-600">{potter.style}</div>
-                  )}
+                  {styleText ? (
+                    <div className="text-sm text-gray-600">{styleText}</div>
+                  ) : null}
                   {potter.bio?.[locale] && (
                     <p className="mt-2 text-sm text-gray-700 line-clamp-3 text-justify">
                       {potter.bio[locale]}

@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import type { Pagination, PotterFilters } from '@/types/common'
 import type { Potter } from '@/types/potter'
 import { isProductionBuild, withCatalogGuard } from './guard'
+import { whereJsonLocaleContains } from './jsonLocale'
 import { serializePotter, serializeProduct } from './serialize'
 
 export type PotterListQuery = {
@@ -30,7 +31,7 @@ function buildWhere(query: PotterListQuery): Prisma.PotterWhereInput {
     }
   }
   if (query.style) {
-    whereClause.style = query.style
+    Object.assign(whereClause, whereJsonLocaleContains('style', query.style))
   }
   if (query.active === true) {
     whereClause.active = true
