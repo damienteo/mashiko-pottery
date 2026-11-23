@@ -43,12 +43,20 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
         </div>
       )}
 
-      {profile?.style && (
-        <div>
-          <h2 className="font-medium">{t('fields.style')}</h2>
-          <p>{profile.style}</p>
-        </div>
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {(['en', 'ja', 'zh'] as const).map((loc) => {
+          const styleText = profile?.style?.[loc] || ''
+          if (!styleText) return null
+          return (
+            <div key={loc}>
+              <h2 className="font-medium">
+                {t('fields.style')} ({localeLabels[loc]})
+              </h2>
+              <p>{styleText}</p>
+            </div>
+          )
+        })}
+      </div>
 
       {profile?.active !== undefined && (
         <div>

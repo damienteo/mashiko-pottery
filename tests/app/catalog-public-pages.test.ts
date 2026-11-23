@@ -38,6 +38,7 @@ describe('potter works catalog', () => {
     expect(page).toMatch(/variant="compact"/)
     expect(page).toMatch(/getCachedPotterById/)
     expect(page).toMatch(/trimAtBoundary/)
+    expect(page).toMatch(/localizedText\(potter\.style/)
     expect(page).not.toMatch(/potter\.active/)
   })
 })

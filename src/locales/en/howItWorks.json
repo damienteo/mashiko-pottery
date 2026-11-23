@@ -1,7 +1,19 @@
 {
   "title": "How It Works",
-  "step1": "We partner directly with potters in Mashiko",
-  "step2": "Each piece is carefully photographed and weighed",
-  "step3": "Packaged securely by hand in Mashiko",
-  "step4": "Shipped worldwide, no middlemen"
+  "step1": {
+    "title": "Direct from Mashiko potters",
+    "description": "We partner with independent makers in Mashiko, so each piece comes from the kiln that formed it."
+  },
+  "step2": {
+    "title": "Photographed and recorded",
+    "description": "Every work is photographed in natural light and noted for size and weight before it is listed."
+  },
+  "step3": {
+    "title": "Packed by hand in Mashiko",
+    "description": "Pieces leave the studio in custom padding, packed with the same care with which they were made."
+  },
+  "step4": {
+    "title": "Shipped worldwide",
+    "description": "Orders go out with tracking, from the studio to your door, without extra hands in between."
+  }
 }

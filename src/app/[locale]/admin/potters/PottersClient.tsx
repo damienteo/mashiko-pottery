@@ -9,6 +9,7 @@ import {
   selectAdminPotterError,
 } from '@/store/admin/potterSlice'
 import { fetchPottersList } from '@/store/thunks/fetchPottersList'
+import { localizedText } from '@/lib/catalog/serialize'
 // import { useToast } from "@/components/ui/Toast";
 import Button from '@/components/ui/Button'
 import Image from 'next/image'
@@ -123,6 +124,7 @@ export default function PottersClient() {
               const name =
                 p.name[locale as keyof typeof p.name] || String(p.name)
               const desc = p.bio ? p.bio[locale as keyof typeof p.bio] : ''
+              const styleText = localizedText(p.style, locale)
 
               return (
                 <tr key={p.id}>
@@ -178,7 +180,7 @@ export default function PottersClient() {
                         className="w-full border p-1 rounded text-sm"
                       />
                     ) : (
-                      (p.style ?? '-')
+                      styleText || '-'
                     )}
                     {errors.style && editingId === p.id && (
                       <span className="text-red-600 text-xs">
@@ -220,7 +222,7 @@ export default function PottersClient() {
                             reset({
                               name,
                               bio: desc,
-                              style: p.style ?? '',
+                              style: styleText,
                             })
                             setEditingId(p.id)
                           }}

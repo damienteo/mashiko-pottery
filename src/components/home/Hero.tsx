@@ -19,7 +19,7 @@ export default async function Hero() {
           fetchPriority="high"
         />
       </div>
-      <div className="absolute inset-0 bg-black opacity-70 flex" />
+      <div className="absolute inset-0 bg-black/50" />
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
         <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
           {t('home.tagline')}

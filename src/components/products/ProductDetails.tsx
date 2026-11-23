@@ -8,6 +8,7 @@ import { formatYen } from '@/utils/format'
 import { getTranslations } from 'next-intl/server'
 import Gallery from '@/components/ui/Gallery'
 import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
+import { localizedText } from '@/lib/catalog/serialize'
 import { isNonEmptyText } from '@/lib/catalog/trimAtBoundary'
 
 const formatNum = (n: number, locale: Locale) =>
@@ -40,8 +41,7 @@ export default async function ProductDetails({
 
   const title = product.title[locale]
   const soldOut = product.stock === 0
-  const potterStyle =
-    potter && isNonEmptyText(potter.style) ? potter.style.trim() : ''
+  const styleText = localizedText(potter?.style, locale)
 
   const L = compactNumber(product.lengthCm)
   const W = compactNumber(product.widthCm)
@@ -152,8 +152,10 @@ export default async function ProductDetails({
                 )}
                 <div className="min-w-0">
                   <div className="font-medium">{potter.name[locale]}</div>
-                  {potterStyle ? (
-                    <div className="text-sm text-gray-600">{potterStyle}</div>
+                  {isNonEmptyText(styleText) ? (
+                    <div className="text-sm text-gray-600">
+                      {styleText.trim()}
+                    </div>
                   ) : null}
                   {potter.bio?.[locale] && (
                     <p className="mt-2 text-sm text-gray-700 line-clamp-3 text-justify">

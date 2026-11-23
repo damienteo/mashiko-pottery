@@ -126,6 +126,19 @@ describe('listProducts query parity with the former GET /api/products handler', 
     expect(lastWhere().where).toMatchObject({ potterId: 7 })
   })
 
+  it('filters products by potter style across locales', async () => {
+    await listProducts({ style: 'shino' })
+    expect(lastWhere().where).toMatchObject({
+      potter: {
+        OR: [
+          { style: { path: ['en'], string_contains: 'shino' } },
+          { style: { path: ['ja'], string_contains: 'shino' } },
+          { style: { path: ['zh'], string_contains: 'shino' } },
+        ],
+      },
+    })
+  })
+
   it('paginates and orders by createdAt desc', async () => {
     productCount.mockResolvedValue(23)
     productFindMany.mockResolvedValue([])

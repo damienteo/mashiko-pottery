@@ -132,7 +132,7 @@ export default async function PotterPage({
   ])
   const galleryImages =
     images.length > 0 ? images : ['/images/potter-fallback.webp']
-  const style = isNonEmptyText(potter.style) ? potter.style.trim() : ''
+  const styleText = localizedText(potter.style, typedLocale)
 
   return (
     <div className="px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -149,10 +149,10 @@ export default async function PotterPage({
             {potter.name[typedLocale]}
           </h1>
           <p className="text-gray-700 text-lg">{potter.bio[typedLocale]}</p>
-          {style ? (
+          {isNonEmptyText(styleText) ? (
             <dl className="mt-4 text-gray-600">
               <dt className="font-medium">{t('style')}</dt>
-              <dd className="mb-2">{style}</dd>
+              <dd className="mb-2">{styleText.trim()}</dd>
             </dl>
           ) : null}
         </div>

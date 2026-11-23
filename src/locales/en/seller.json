@@ -10,7 +10,8 @@
     "fields": {
       "name": "Name",
       "bio": "Bio",
-      "portfolio": "Portfolio"
+      "portfolio": "Portfolio",
+      "style": "Style"
     },
     "help": {
       "portfolio": "Enter a brief description of your portfolio."

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <!-- simple bowl shape -->
-  <!-- bowl edge -->
-  <path d="M8 32 A24 12 0 0 1 56 32" />
-  <!-- bowl base -->
-  <path d="M12 32 L52 32 L48 44 A20 8 0 0 1 16 44 Z" />
+  <path d="M10 34c0-3 2.5-6 7-7h9"/>
+  <path d="M54 34c0-3-2.5-6-7-7h-9"/>
+  <path d="M26 27c3.5 2 5 6 6 9 1-3 2.5-7 6-9"/>
+  <path d="M17 27v12c0 7 6 12 15 12s15-5 15-12V27"/>
+  <path d="M22 27c0-4 4-7 10-7s10 3 10 7"/>
 </svg>

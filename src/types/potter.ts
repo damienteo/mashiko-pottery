@@ -7,7 +7,7 @@ export interface Potter {
   userId?: string
   name: LocalizedString
   bio: LocalizedString
-  style?: string
+  style?: LocalizedString
   active: boolean
   imageUrl?: string
   photos: string[]

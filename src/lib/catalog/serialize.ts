@@ -3,6 +3,9 @@ import type { Product } from '@/types/product'
 import type { Potter } from '@/types/potter'
 
 function asLocalized(value: unknown): LocalizedString {
+  if (typeof value === 'string') {
+    return { en: value, ja: value, zh: value }
+  }
   if (value && typeof value === 'object') {
     const record = value as Record<string, unknown>
     return {
@@ -55,7 +58,7 @@ export function serializePotter(row: Record<string, unknown>): Potter {
     userId: typeof row.userId === 'string' ? row.userId : undefined,
     name: asLocalized(row.name),
     bio: asLocalized(row.bio),
-    style: typeof row.style === 'string' ? row.style : undefined,
+    style: row.style == null ? undefined : asLocalized(row.style),
     active: Boolean(row.active),
     imageUrl: typeof row.imageUrl === 'string' ? row.imageUrl : undefined,
     photos: Array.isArray(row.photos)
