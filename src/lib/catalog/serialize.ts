@@ -2,19 +2,54 @@ import type { Locale, LocalizedString } from '@/types/i18n'
 import type { Product } from '@/types/product'
 import type { Potter } from '@/types/potter'
 
-function asLocalized(value: unknown): LocalizedString {
-  if (typeof value === 'string') {
-    return { en: value, ja: value, zh: value }
+const LOCALES: Locale[] = ['en', 'ja', 'zh']
+
+function parseJsonValue(value: unknown): unknown {
+  if (typeof value !== 'string') return value
+  const trimmed = value.trim()
+  if (!trimmed.startsWith('{') || !trimmed.endsWith('}')) return value
+  try {
+    return JSON.parse(trimmed) as unknown
+  } catch {
+    return value
   }
-  if (value && typeof value === 'object') {
-    const record = value as Record<string, unknown>
-    return {
-      en: typeof record.en === 'string' ? record.en : '',
-      ja: typeof record.ja === 'string' ? record.ja : '',
-      zh: typeof record.zh === 'string' ? record.zh : '',
-    }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
+}
+
+function localeField(value: unknown, key: Locale): string {
+  const parsed = parseJsonValue(value)
+  if (typeof parsed === 'string') return parsed
+  if (!isRecord(parsed)) return ''
+  const inner = parseJsonValue(parsed[key])
+  if (typeof inner === 'string' && inner.trim()) return inner
+  for (const fallback of LOCALES) {
+    const nested = parseJsonValue(parsed[fallback])
+    if (typeof nested === 'string' && nested.trim()) return nested
   }
-  return { en: '', ja: '', zh: '' }
+  return ''
+}
+
+/**
+ * Coerce Prisma JSON (object, JSON string, or leftover plain text) into
+ * `{ en, ja, zh }`. pg/jsonb and TEXT→jsonb migrations can leave a
+ * stringified object; unwrap that so UI never renders raw JSON.
+ */
+export function asLocalized(value: unknown): LocalizedString {
+  const parsed = parseJsonValue(value)
+  if (typeof parsed === 'string') {
+    return { en: parsed, ja: parsed, zh: parsed }
+  }
+  if (!isRecord(parsed)) {
+    return { en: '', ja: '', zh: '' }
+  }
+  return {
+    en: localeField(parsed.en ?? parsed, 'en'),
+    ja: localeField(parsed.ja ?? parsed, 'ja'),
+    zh: localeField(parsed.zh ?? parsed, 'zh'),
+  }
 }
 
 function asIso(value: unknown): string | undefined {
@@ -71,12 +106,11 @@ export function serializePotter(row: Record<string, unknown>): Potter {
 }
 
 export function localizedText(
-  value: LocalizedString | undefined,
+  value: LocalizedString | string | undefined,
   locale: string
 ): string {
-  if (!value) return ''
-  if (locale in value) {
-    return value[locale as Locale] ?? ''
-  }
-  return value.ja || value.en || value.zh || ''
+  const loc = asLocalized(value)
+  const requested = locale in loc ? loc[locale as Locale] : ''
+  if (requested.trim()) return requested
+  return loc.ja || loc.en || loc.zh || ''
 }

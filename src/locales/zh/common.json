@@ -27,6 +27,9 @@
     "title": "登出"
   },
   "loading": "加载中…",
+  "gallery": {
+    "selectImage": "选择图片 {n}"
+  },
   "error": "发生错误",
   "menu": "菜单",
   "site": {

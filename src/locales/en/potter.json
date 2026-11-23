@@ -1,5 +1,11 @@
 {
   "loading": "Loading potter details...",
+  "notFound": {
+    "title": "No such potter – Mashiko Pottery",
+    "heading": "No such potter",
+    "description": "This potter could not be found.",
+    "back": "Back to potters"
+  },
   "style": "Style",
   "active": "Active",
   "yes": "Yes",

@@ -1,5 +1,11 @@
 {
   "loading": "正在加载陶艺家的详细信息…",
+  "notFound": {
+    "title": "未找到该陶艺家 – Mashiko 陶艺",
+    "heading": "未找到该陶艺家",
+    "description": "找不到该陶艺家。",
+    "back": "返回陶艺家列表"
+  },
   "style": "风格",
   "active": "活跃",
   "yes": "是",

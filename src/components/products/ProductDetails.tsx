@@ -9,6 +9,8 @@ import { getTranslations } from 'next-intl/server'
 import Gallery from '@/components/ui/Gallery'
 import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
 import { localizedText } from '@/lib/catalog/serialize'
+import { isNonEmptyText } from '@/lib/catalog/trimAtBoundary'
+import { productCategoryLabel } from '@/constants/productCategories'
 
 const formatNum = (n: number, locale: Locale) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n)
@@ -32,6 +34,7 @@ export default async function ProductDetails({
   relatedProducts,
 }: ProductDetailsProps) {
   const t = await getTranslations('product')
+  const tCategory = await getTranslations('products.categories')
 
   const images = uniqueGalleryImages([
     product.mainImage,
@@ -39,6 +42,7 @@ export default async function ProductDetails({
   ])
 
   const title = product.title[locale]
+  const soldOut = product.stock === 0
   const styleText = localizedText(potter?.style, locale)
 
   const L = compactNumber(product.lengthCm)
@@ -73,11 +77,19 @@ export default async function ProductDetails({
           <div className="text-xl font-semibold mb-4">
             {formatYen(product.price)}
           </div>
+          {soldOut ? (
+            <p className="mb-4 inline-block rounded bg-gray-900/80 px-2 py-0.5 text-sm font-medium text-white">
+              {t('soldOut')}
+            </p>
+          ) : null}
           <p className="mb-4 text-gray-700 text-justify">
             {product.description[locale]}
           </p>
           {(dimensionsStr || weightStr) && (
             <section aria-labelledby="specs-heading" className="mb-4">
+              <h2 id="specs-heading" className="sr-only">
+                {t('specs')}
+              </h2>
               <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
                 {dimensionsStr && (
                   <>
@@ -96,11 +108,14 @@ export default async function ProductDetails({
           )}
           {(product.category || (product.tags && product.tags.length > 0)) && (
             <section aria-labelledby="metadata-heading" className="mb-4">
+              <h2 id="metadata-heading" className="sr-only">
+                {t('metadata')}
+              </h2>
               <dl className="grid grid-cols-[auto,1fr] gap-x-4 gap-y-2 text-gray-700">
                 {product.category && (
                   <>
                     <dt className="text-gray-500">{t('category')}</dt>
-                    <dd>{product.category}</dd>
+                    <dd>{productCategoryLabel(tCategory, product.category)}</dd>
                   </>
                 )}
                 {product.tags && product.tags.length > 0 && (
@@ -112,12 +127,9 @@ export default async function ProductDetails({
               </dl>
             </section>
           )}
-          {/* Removed potter and related products sections from here */}
-          {/* <Button onClick={onAddToCart}>{addToCartText}</Button> */}
         </div>
       </div>
 
-      {/* Secondary section: potter + related products */}
       {(potter || (relatedProducts && relatedProducts.length > 0)) && (
         <div className="px-4 pb-4 sm:px-6 sm:pb-5 lg:px-8 lg:pb-6 max-w-5xl mx-auto">
           {potter && (
@@ -125,7 +137,10 @@ export default async function ProductDetails({
               <h2 id="potter-heading" className="text-lg font-semibold mb-3">
                 {t('aboutPotter', { default: 'About the potter' })}
               </h2>
-              <div className="flex items-start gap-4">
+              <IntentLink
+                href={`/${locale}/potters/${potter.id}`}
+                className="flex items-start gap-4"
+              >
                 {potter.imageUrl && (
                   <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded">
                     <SmartImage
@@ -139,8 +154,10 @@ export default async function ProductDetails({
                 )}
                 <div className="min-w-0">
                   <div className="font-medium">{potter.name[locale]}</div>
-                  {styleText ? (
-                    <div className="text-sm text-gray-600">{styleText}</div>
+                  {isNonEmptyText(styleText) ? (
+                    <div className="text-sm text-gray-600">
+                      {styleText.trim()}
+                    </div>
                   ) : null}
                   {potter.bio?.[locale] && (
                     <p className="mt-2 text-sm text-gray-700 line-clamp-3 text-justify">
@@ -148,7 +165,7 @@ export default async function ProductDetails({
                     </p>
                   )}
                 </div>
-              </div>
+              </IntentLink>
             </section>
           )}
 

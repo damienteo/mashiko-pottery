@@ -1,4 +1,6 @@
-import ProductCard from '@/components/products/ProductCard'
+import ProductCard, {
+  type ProductCardVariant,
+} from '@/components/products/ProductCard'
 import type { Product } from '@/types/product'
 import type { Locale } from '@/types/i18n'
 
@@ -11,7 +13,7 @@ export default function ProductGrid({
   products: Product[]
   locale: Locale
   className?: string
-  variant?: 'default' | 'compact'
+  variant?: ProductCardVariant
 }) {
   return (
     <div className={className}>

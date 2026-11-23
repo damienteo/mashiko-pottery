@@ -7,6 +7,17 @@
   "tags": "Tags",
   "aboutPotter": "About the potter",
   "moreFromThisPotter": "More from this potter",
+  "works": "Works",
+  "worksBy": "Works by {name}",
+  "soldOut": "Sold out",
+  "specs": "Specifications",
+  "metadata": "Details",
+  "notFound": {
+    "title": "No such product – Mashiko Pottery",
+    "heading": "No such product",
+    "description": "This product could not be found.",
+    "back": "Back to products"
+  },
   "loading": "Loading…",
   "addToCart": "Add to Cart",
   "create": {

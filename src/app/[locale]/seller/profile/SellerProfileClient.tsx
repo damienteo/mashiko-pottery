@@ -17,6 +17,7 @@ import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { ListNode, ListItemNode } from '@lexical/list'
 import { SellerProfileForm } from './components/SellerProfileForm'
 import { SellerProfileView } from './components/SellerProfileView'
+import { asLocalized } from '@/lib/catalog/serialize'
 
 const editorConfig = {
   namespace: 'SellerProfileBio',
@@ -92,11 +93,7 @@ export default function SellerProfileClient() {
           ja: profile.portfolio?.ja ?? '',
           zh: profile.portfolio?.['zh'] ?? '',
         },
-        style: {
-          en: profile.style?.en ?? '',
-          ja: profile.style?.ja ?? '',
-          zh: profile.style?.['zh'] ?? '',
-        },
+        style: asLocalized(profile.style),
       }
     : {
         name: { en: '', ja: '', zh: '' },

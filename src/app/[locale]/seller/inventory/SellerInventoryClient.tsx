@@ -6,6 +6,7 @@ import type { RootState, AppDispatch } from '@/store/store'
 import { fetchSellerInventory } from '@/store/seller/sellerInventorySlice'
 import { useTranslations } from 'next-intl'
 import Button from '@/components/ui/Button'
+import { productCategoryLabel } from '@/constants/productCategories'
 import EditableInventoryRow from './EditableInventoryRow'
 
 export default function SellerInventoryClient({ title }: { title: string }) {
@@ -14,6 +15,7 @@ export default function SellerInventoryClient({ title }: { title: string }) {
     (state: RootState) => state.sellerInventory
   )
   const t = useTranslations('seller.inventory')
+  const tCategory = useTranslations('products.categories')
   // Per-item editing state: set of editing item IDs
   const [editIds, setEditIds] = useState<Set<string>>(new Set())
 
@@ -115,7 +117,9 @@ export default function SellerInventoryClient({ title }: { title: string }) {
                       {item.weight ?? '-'}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
-                      {item.category ?? '-'}
+                      {item.category
+                        ? productCategoryLabel(tCategory, item.category)
+                        : '-'}
                     </td>
                     <td className="px-3 py-2 whitespace-nowrap">
                       {item.active ? (

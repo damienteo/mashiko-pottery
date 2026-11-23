@@ -22,9 +22,15 @@ export async function generateMetadata({
     locale,
     namespace: 'meta.potters',
   })
+  const title = t('title')
+  const description = t('description')
   return {
-    title: t('title'),
-    description: t('description'),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
   }
 }
 
@@ -52,7 +58,7 @@ export default async function PottersPage({
     <section className="py-12 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {t('potterSpotlights.title')}
+          {t('potters.title')}
         </h1>
         {initialData.potters.length === 0 ? (
           <p className="text-center text-gray-500">{t('potters.empty')}</p>

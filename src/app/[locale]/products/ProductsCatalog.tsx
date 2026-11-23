@@ -15,6 +15,7 @@ import {
 import type { ProductListResult } from '@/lib/catalog/products'
 import type { ProductFilters } from '@/types/common'
 import type { Locale } from '@/types/i18n'
+import { PRODUCT_CATEGORIES } from '@/constants/productCategories'
 
 export default function ProductsCatalog({
   initialData,
@@ -26,6 +27,7 @@ export default function ProductsCatalog({
   serverGrid: React.ReactNode
 }) {
   const t = useTranslations()
+  const fetchError = t('products.fetchError')
   const router = useRouter()
   const pathname = usePathname()
   const [isPending, startTransition] = useTransition()
@@ -60,13 +62,11 @@ export default function ProductsCatalog({
       setError(null)
       try {
         await load(parsed.page, parsed.limit, { ...parsed.filters, locale })
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to fetch products'
-        )
+      } catch {
+        setError(fetchError)
       }
     })
-  }, [initialData, locale, load])
+  }, [initialData, locale, load, fetchError])
 
   // SSR the catalog markup; sync query after paint and on Back/Forward (popstate).
   useEffect(() => {
@@ -93,10 +93,8 @@ export default function ProductsCatalog({
       try {
         router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
         await load(page, limit, { ...filters, locale })
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to fetch products'
-        )
+      } catch {
+        setError(fetchError)
       }
     })
   }
@@ -121,9 +119,10 @@ export default function ProductsCatalog({
           onSearch={(next) => {
             pushQuery(1, pagination.limit, next)
           }}
-          categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
-          styles={['yakishime', 'shino', 'oribe']}
+          categories={[...PRODUCT_CATEGORIES]}
           showPotterId={false}
+          showStyle={false}
+          showActive={false}
           page={pagination.page}
           totalPages={pagination.totalPages}
           limit={pagination.limit}
@@ -150,7 +149,11 @@ export default function ProductsCatalog({
               ) : showServerGrid ? (
                 serverGrid
               ) : (
-                <ProductGrid products={data.products} locale={locale} />
+                <ProductGrid
+                  products={data.products}
+                  locale={locale}
+                  variant="compact"
+                />
               )}
             </PendingSurface>
           )}

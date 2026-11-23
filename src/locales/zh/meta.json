@@ -19,8 +19,12 @@
     "title": "陶艺家简介 – Mashiko 陶艺",
     "description": "了解艺术家及其作品。"
   },
+  "products": {
+    "title": "产品 – Mashiko 陶艺",
+    "description": "浏览当地艺人手工制作的 Mashiko 陶器。"
+  },
   "potters": {
-    "title": "陶艺家聚焦 – Mashiko 陶艺",
+    "title": "陶艺家 – Mashiko 陶艺",
     "description": "认识那些为我们手工制作 Mashiko 陶器的才华横溢的艺术家。"
   },
   "admin": {

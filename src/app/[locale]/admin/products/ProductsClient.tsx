@@ -23,6 +23,10 @@ import type { Locale } from '@/types/i18n'
 import { formatYen } from '@/utils/format'
 
 import ProductsToolbar from '@/components/products/ProductsToolbar'
+import {
+  PRODUCT_CATEGORIES,
+  productCategoryLabel,
+} from '@/constants/productCategories'
 import Button from '@/components/ui/Button'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -49,6 +53,7 @@ type ProductFormValues = yup.InferType<typeof productSchema>
 
 export default function ProductsClient() {
   const t = useTranslations('product.list')
+  const tCategory = useTranslations('products.categories')
   const locale = useLocale() as Locale
   const dispatch = useAppDispatch()
   const products = useAppSelector(selectAdminProductListItems)
@@ -134,7 +139,7 @@ export default function ProductsClient() {
             })
           )
         }}
-        categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
+        categories={[...PRODUCT_CATEGORIES]}
         styles={['yakishime', 'shino', 'oribe']}
         showPotterId
         // Pagination wired into the bar
@@ -301,7 +306,9 @@ export default function ProductsClient() {
                         {p.weight ?? '-'}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap">
-                        {p.category ?? '-'}
+                        {p.category
+                          ? productCategoryLabel(tCategory, p.category)
+                          : '-'}
                       </td>
                       <td className="px-4 py-2 whitespace-nowrap text-sm font-medium space-x-2 flex items-center">
                         {editingId === p.id ? (

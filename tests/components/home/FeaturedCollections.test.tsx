@@ -12,6 +12,10 @@ jest.mock('next-intl/server', () => ({
   getLocale: async () => 'en',
 }))
 
+jest.mock('next-intl', () => ({
+  useTranslations: () => (key: string) => key,
+}))
+
 jest.mock('next/image', () => ({
   __esModule: true,
   default: function MockImage({ alt, src }: { alt?: string; src: string }) {

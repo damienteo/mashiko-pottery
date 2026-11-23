@@ -10,8 +10,14 @@ import { resetGalleryPreloadCacheForTests } from '@/lib/galleryImagePreload'
 const mockPreload = jest.fn()
 
 jest.mock('next-intl', () => ({
-  useTranslations: () => (key: string) =>
-    key === 'loading' ? 'Loading…' : key,
+  useTranslations: () => {
+    const t = (key: string, values?: { n?: number }) => {
+      if (key === 'loading') return 'Loading…'
+      if (key === 'gallery.selectImage') return `Select image ${values?.n}`
+      return key
+    }
+    return t
+  },
 }))
 
 jest.mock('react-dom', () => {

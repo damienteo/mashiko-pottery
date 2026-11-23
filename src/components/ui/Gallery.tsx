@@ -200,9 +200,9 @@ const Gallery: React.FC<GalleryProps> = ({
                         ? 'border-gray-400'
                         : 'border-transparent'
                     }`}
-                    aria-label={`Select image ${idx + 1}`}
+                    aria-label={t('gallery.selectImage', { n: idx + 1 })}
                     aria-current={idx === currentIndex ? 'true' : undefined}
-                    title={`Select image ${idx + 1}`}
+                    title={t('gallery.selectImage', { n: idx + 1 })}
                     {...thumbHandlers(img)}
                   >
                     <SmartImage
@@ -230,9 +230,9 @@ const Gallery: React.FC<GalleryProps> = ({
               className={`relative w-20 h-20 flex-shrink-0 rounded overflow-hidden border-2 focus:outline-none ${
                 idx === currentIndex ? 'border-gray-400' : 'border-transparent'
               }`}
-              aria-label={`Select image ${idx + 1}`}
+              aria-label={t('gallery.selectImage', { n: idx + 1 })}
               aria-current={idx === currentIndex ? 'true' : undefined}
-              title={`Select image ${idx + 1}`}
+              title={t('gallery.selectImage', { n: idx + 1 })}
               {...thumbHandlers(img)}
             >
               <SmartImage
