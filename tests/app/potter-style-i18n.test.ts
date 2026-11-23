@@ -22,6 +22,12 @@ describe('public potter style is localized and hidden when empty', () => {
     expect(details).toMatch(/localizedText\(potter\?\.style/)
     expect(details).toMatch(/isNonEmptyText\(styleText\)/)
   })
+
+  it('serializes public style through asLocalized rather than raw JSON', () => {
+    const serialize = read('src/lib/catalog/serialize.ts')
+    expect(serialize).toMatch(/asLocalized\(row\.style\)/)
+    expect(serialize).toMatch(/JSON\.parse/)
+  })
 })
 
 describe('admin and seller potter forms edit style in three locales', () => {

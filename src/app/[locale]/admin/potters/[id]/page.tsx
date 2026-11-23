@@ -16,6 +16,7 @@ import {
 import PotterForm from '@/components/forms/PotterForm'
 import type { PotterFormValues } from '@/components/forms/PotterForm'
 import { useToast } from '@/components/ui/Toast'
+import { asLocalized } from '@/lib/catalog/serialize'
 
 export default function AdminPotterDetail() {
   const { id } = useParams()
@@ -49,11 +50,7 @@ export default function AdminPotterDetail() {
           ja: potter.bio['ja'] ?? '',
           zh: potter.bio['zh'] ?? '',
         },
-        style: {
-          en: potter.style?.en ?? '',
-          ja: potter.style?.ja ?? '',
-          zh: potter.style?.zh ?? '',
-        },
+        style: asLocalized(potter.style),
         imageUrl: potter.imageUrl ?? '',
         photos: potter.photos ?? [],
         active: potter.active ?? true,

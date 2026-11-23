@@ -5,6 +5,7 @@ import { useAppSelector } from '@/store/hooks'
 import { selectSellerProfile } from '@/store/seller/sellerSlice'
 import { useTranslations } from 'next-intl'
 import { localeLabels } from '@/constants/localeLabels'
+import { asLocalized } from '@/lib/catalog/serialize'
 import RichTextViewer from '@/components/ui/RichTextViewer'
 import Button from '@/components/ui/Button'
 
@@ -45,7 +46,7 @@ export function SellerProfileView({ onEdit }: SellerProfileViewProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {(['en', 'ja', 'zh'] as const).map((loc) => {
-          const styleText = profile?.style?.[loc] || ''
+          const styleText = asLocalized(profile?.style)[loc]
           if (!styleText) return null
           return (
             <div key={loc}>
