@@ -1,6 +1,7 @@
 {
   "title": "Products",
   "empty": "No products found.",
+  "fetchError": "Failed to fetch products",
   "toolbar": {
     "clear": "Clear filters",
     "search": {
@@ -10,7 +11,12 @@
     },
     "category": {
       "label": "Category",
-      "all": "All"
+      "all": "All",
+      "vase": "Vase",
+      "cup": "Cup",
+      "plate": "Plate",
+      "bottle": "Bottle",
+      "bowl": "Bowl"
     },
     "style": {
       "label": "Style",

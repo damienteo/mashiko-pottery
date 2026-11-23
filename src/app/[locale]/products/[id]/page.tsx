@@ -16,6 +16,7 @@ import {
 } from '@/lib/catalog/products'
 import { getCachedPotterById } from '@/lib/catalog/potters'
 import { localizedText } from '@/lib/catalog/serialize'
+import { documentTitle, trimAtBoundary } from '@/lib/catalog/trimAtBoundary'
 import { pickRelatedProducts } from '@/lib/catalog/relatedProducts'
 import ProductDetails from '@/components/products/ProductDetails'
 import ViewItemBeacon from '@/components/analytics/ViewItemBeacon'
@@ -36,9 +37,15 @@ export async function generateMetadata({
   params: Promise<{ locale: string; id: string }>
 }): Promise<Metadata> {
   const { locale, id } = await params
+  const tNotFound = await getTranslations({
+    locale,
+    namespace: 'product.notFound',
+  })
+  const tCommon = await getTranslations({ locale, namespace: 'common' })
+  const brand = tCommon('site.title')
   const idNum = Number(id)
   if (Number.isNaN(idNum)) {
-    return { title: 'Mashiko Pottery' }
+    return { title: tNotFound('title'), description: tNotFound('description') }
   }
 
   let product
@@ -48,15 +55,15 @@ export async function generateMetadata({
     if (!isProductionBuild()) {
       throw error
     }
-    return { title: 'Mashiko Pottery' }
+    return { title: brand }
   }
   if (!product) {
-    return { title: 'Mashiko Pottery' }
+    return { title: tNotFound('title'), description: tNotFound('description') }
   }
 
   const titleText = localizedText(product.title, locale)
-  const description = localizedText(product.description, locale).slice(0, 150)
-  const title = titleText ? `${titleText} – Mashiko Pottery` : 'Mashiko Pottery'
+  const description = trimAtBoundary(localizedText(product.description, locale))
+  const title = documentTitle(titleText, brand)
   const images = [product.mainImage, ...(product.photos ?? [])].filter(
     (url): url is string => Boolean(url)
   )

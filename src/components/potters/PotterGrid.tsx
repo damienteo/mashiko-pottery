@@ -32,7 +32,9 @@ export default function PotterGrid({
           <h2 className="text-xl font-semibold text-center mb-2">
             {potter.name[locale]}
           </h2>
-          <p className="text-gray-600 text-center">{potter.bio[locale]}</p>
+          <p className="text-gray-600 text-center line-clamp-3">
+            {potter.bio[locale]}
+          </p>
         </IntentLink>
       ))}
     </div>

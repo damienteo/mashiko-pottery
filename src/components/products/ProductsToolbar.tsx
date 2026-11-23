@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { ProductFilters } from '@/types/common'
 import { useTranslations } from 'next-intl'
@@ -11,6 +11,8 @@ export type ProductsToolbarProps = {
   categories?: string[]
   styles?: string[]
   showPotterId?: boolean
+  showStyle?: boolean
+  showActive?: boolean
   page?: number
   totalPages?: number
   limit?: number
@@ -34,6 +36,8 @@ export default function ProductsToolbar({
   categories = [],
   styles = [],
   showPotterId = false,
+  showStyle = true,
+  showActive = true,
   page = 1,
   totalPages = 0,
   limit = 10,
@@ -42,7 +46,6 @@ export default function ProductsToolbar({
 }: ProductsToolbarProps) {
   const t = useTranslations('products.toolbar')
 
-  // Map incoming filters -> RHF default values
   const defaultValues = useMemo<FormValues>(
     () => ({
       q: value.q ?? '',
@@ -84,33 +87,36 @@ export default function ProductsToolbar({
     ]
   )
 
-  const initialDefaultsRef = useRef<FormValues>(defaultValues)
-
   const { register, handleSubmit, reset } = useForm<FormValues>({
-    defaultValues: initialDefaultsRef.current,
+    defaultValues,
   })
 
-  // Ensure no full-page navigation on submit
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    // RHF's handleSubmit also calls preventDefault internally, but we double-guard here
-    handleSubmit((data) => {
-      const next: ProductFilters = {
-        ...value,
-        q: data.q.trim() === '' ? null : data.q.trim(),
-        category: data.category === '' ? null : data.category,
-        style: data.style === '' ? null : data.style,
-        active:
-          data.active === '' ? null : data.active === 'true' ? true : false,
-        priceMin: data.priceMin ?? null,
-        priceMax:
-          data.priceMax === null || data.priceMax === 0 ? null : data.priceMax,
-        ...(showPotterId ? { potterId: data.potterId ?? null } : {}),
-      }
-      // Parent should set page=1 and fetch on filter changes to avoid double requests
-      onSearch(next)
-    })(e)
-  }
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
+
+  const onSubmit = handleSubmit((data) => {
+    const next: ProductFilters = {
+      ...value,
+      q: data.q.trim() === '' ? null : data.q.trim(),
+      category: data.category === '' ? null : data.category,
+      style: showStyle
+        ? data.style === ''
+          ? null
+          : data.style
+        : (value.style ?? null),
+      active: showActive
+        ? data.active === ''
+          ? null
+          : data.active === 'true'
+        : (value.active ?? null),
+      priceMin: data.priceMin ?? null,
+      priceMax:
+        data.priceMax === null || data.priceMax === 0 ? null : data.priceMax,
+      ...(showPotterId ? { potterId: data.potterId ?? null } : {}),
+    }
+    onSearch(next)
+  })
 
   const onClear = () => {
     reset({
@@ -133,9 +139,17 @@ export default function ProductsToolbar({
     })
   }
 
+  const categoryLabel = (c: string) =>
+    t.has(`category.${c}`) ? t(`category.${c}`) : c
+
   return (
     <section className="px-4 py-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur">
-      <form onSubmit={handleSearch} noValidate>
+      <form
+        onSubmit={(e) => {
+          void onSubmit(e)
+        }}
+        noValidate
+      >
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-3 items-end">
           {/* Search */}
           <div className="md:col-span-2">
@@ -149,9 +163,6 @@ export default function ProductsToolbar({
               id="pfb-name"
               type="text"
               {...register('q')}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') e.preventDefault()
-              }}
               className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
               placeholder={t('search.placeholder')}
             />
@@ -173,52 +184,54 @@ export default function ProductsToolbar({
               <option value="">{t('category.all')}</option>
               {categories.map((c) => (
                 <option key={c} value={c}>
-                  {c}
+                  {categoryLabel(c)}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Style */}
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700 mb-1"
-              htmlFor="pfb-style"
-            >
-              {t('style.label')}
-            </label>
-            <select
-              id="pfb-style"
-              {...register('style')}
-              className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
-            >
-              <option value="">{t('style.all')}</option>
-              {styles.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </div>
+          {showStyle ? (
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor="pfb-style"
+              >
+                {t('style.label')}
+              </label>
+              <select
+                id="pfb-style"
+                {...register('style')}
+                className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
+              >
+                <option value="">{t('style.all')}</option>
+                {styles.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
 
-          {/* Active */}
-          <div>
-            <label
-              className="block text-sm font-medium text-gray-700 mb-1"
-              htmlFor="pfb-active"
-            >
-              {t('active.label')}
-            </label>
-            <select
-              id="pfb-active"
-              {...register('active')}
-              className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
-            >
-              <option value="">{t('active.all')}</option>
-              <option value="true">{t('active.true')}</option>
-              <option value="false">{t('active.false')}</option>
-            </select>
-          </div>
+          {showActive ? (
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700 mb-1"
+                htmlFor="pfb-active"
+              >
+                {t('active.label')}
+              </label>
+              <select
+                id="pfb-active"
+                {...register('active')}
+                className="w-full rounded border border-gray-300 px-3 py-2 bg-white"
+              >
+                <option value="">{t('active.all')}</option>
+                <option value="true">{t('active.true')}</option>
+                <option value="false">{t('active.false')}</option>
+              </select>
+            </div>
+          ) : null}
 
           {/* Price min */}
           <div>
@@ -236,9 +249,6 @@ export default function ProductsToolbar({
               {...register('priceMin', {
                 setValueAs: (v) => (v === '' ? null : Number(v)),
               })}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') e.preventDefault()
-              }}
               className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
             />
           </div>
@@ -259,14 +269,10 @@ export default function ProductsToolbar({
               {...register('priceMax', {
                 setValueAs: (v) => (v === '' ? null : Number(v)),
               })}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') e.preventDefault()
-              }}
               className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
             />
           </div>
 
-          {/* Potter ID (optional) */}
           {showPotterId && (
             <div>
               <label
@@ -283,9 +289,6 @@ export default function ProductsToolbar({
                 {...register('potterId', {
                   setValueAs: (v) => (v === '' ? null : Number(v)),
                 })}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') e.preventDefault()
-                }}
                 className="w-full rounded border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
                 placeholder={t('potter.placeholder')}
               />
@@ -314,7 +317,6 @@ export default function ProductsToolbar({
 
         {/* Bottom row: page size + pagination */}
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 items-center">
-          {/* Page size (left) */}
           <div className="flex items-center space-x-2">
             <label
               htmlFor="page-size"
@@ -336,7 +338,6 @@ export default function ProductsToolbar({
             </select>
           </div>
 
-          {/* Pagination controls */}
           <div className="mt-3 md:mt-0 flex justify-end items-center text-sm text-gray-700">
             <button
               type="button"

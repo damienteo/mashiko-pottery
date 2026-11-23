@@ -21,15 +21,17 @@ export async function generateMetadata({
   const { locale } = await params
   const t = await getTranslations({
     locale,
-    namespace: 'products',
+    namespace: 'meta.products',
   })
-  const tHome = await getTranslations({
-    locale,
-    namespace: 'meta.home',
-  })
+  const title = t('title')
+  const description = t('description')
   return {
-    title: `${t('title')} – Mashiko Pottery`,
-    description: tHome('description'),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
   }
 }
 
@@ -53,7 +55,11 @@ export default async function ProductsPage({
       initialData={initialData}
       locale={typedLocale}
       serverGrid={
-        <ProductGrid products={initialData.products} locale={typedLocale} />
+        <ProductGrid
+          products={initialData.products}
+          locale={typedLocale}
+          variant="compact"
+        />
       }
     />
   )

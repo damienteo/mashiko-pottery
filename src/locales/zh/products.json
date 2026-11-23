@@ -1,6 +1,7 @@
 {
   "title": "产品",
   "empty": "未找到商品。",
+  "fetchError": "获取商品失败",
   "toolbar": {
     "clear": "清除筛选",
     "search": {
@@ -10,7 +11,12 @@
     },
     "category": {
       "label": "类别",
-      "all": "全部"
+      "all": "全部",
+      "vase": "花瓶",
+      "cup": "杯",
+      "plate": "盘",
+      "bottle": "瓶",
+      "bowl": "碗"
     },
     "style": {
       "label": "风格",

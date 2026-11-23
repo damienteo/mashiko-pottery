@@ -1,6 +1,7 @@
 {
   "title": "商品",
   "empty": "商品が見つかりません。",
+  "fetchError": "商品の取得に失敗しました",
   "toolbar": {
     "clear": "フィルターをクリア",
     "search": {
@@ -10,7 +11,12 @@
     },
     "category": {
       "label": "カテゴリー",
-      "all": "すべて"
+      "all": "すべて",
+      "vase": "花瓶",
+      "cup": "カップ",
+      "plate": "皿",
+      "bottle": "ボトル",
+      "bowl": "鉢"
     },
     "style": {
       "label": "スタイル",

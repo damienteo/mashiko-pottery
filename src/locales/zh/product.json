@@ -7,6 +7,17 @@
   "tags": "标签",
   "aboutPotter": "关于陶艺家",
   "moreFromThisPotter": "该陶艺家的更多作品",
+  "works": "作品",
+  "worksBy": "{name}的作品",
+  "soldOut": "售罄",
+  "specs": "规格",
+  "metadata": "详情",
+  "notFound": {
+    "title": "未找到该商品 – Mashiko 陶艺",
+    "heading": "未找到该商品",
+    "description": "找不到该商品。",
+    "back": "返回商品列表"
+  },
   "loading": "加载中…",
   "addToCart": "加入购物车",
   "create": {

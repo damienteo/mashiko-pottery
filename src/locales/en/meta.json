@@ -19,8 +19,12 @@
     "title": "Potter Profile – Mashiko Pottery",
     "description": "Learn about the artisan and their work."
   },
+  "products": {
+    "title": "Products – Mashiko Pottery",
+    "description": "Browse handmade Mashiko pottery from local artisans."
+  },
   "potters": {
-    "title": "Potter Spotlights – Mashiko Pottery",
+    "title": "Potters – Mashiko Pottery",
     "description": "Meet the talented potters behind our handmade Mashiko ceramics."
   },
   "admin": {

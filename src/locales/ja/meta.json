@@ -19,8 +19,12 @@
     "title": "陶芸家プロフィール – Mashiko Pottery",
     "description": "アーティストとその作品について詳しく知りましょう。"
   },
+  "products": {
+    "title": "商品 – Mashiko Pottery",
+    "description": "地元の職人による手作り益子焼をご覧ください。"
+  },
   "potters": {
-    "title": "陶芸家スポットライト – Mashiko Pottery",
+    "title": "陶芸家 – Mashiko Pottery",
     "description": "手作り益子焼を支える才能あふれる陶芸家たちを紹介します。"
   },
   "admin": {

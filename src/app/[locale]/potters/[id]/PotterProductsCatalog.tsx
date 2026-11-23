@@ -13,17 +13,20 @@ import type { Locale } from '@/types/i18n'
 
 export default function PotterProductsCatalog({
   potterId,
+  potterName,
   locale,
   initialData,
   serverGrid,
 }: {
   potterId: number
+  potterName?: string
   locale: Locale
   initialData: ProductListResult
   serverGrid: React.ReactNode
 }) {
   const tProduct = useTranslations('product')
   const tCommon = useTranslations('common')
+  const tProducts = useTranslations('products')
   const [isPending, startTransition] = useTransition()
   const [data, setData] = useState<ProductListResult>(initialData)
   const [filtersLocal, setFiltersLocal] = useState<ProductFilters>({
@@ -34,6 +37,8 @@ export default function PotterProductsCatalog({
   const [usingServerGrid, setUsingServerGrid] = useState(true)
 
   const pagination = data.pagination
+  const name = potterName?.trim() ?? ''
+  const worksHeading = name ? tProduct('worksBy', { name }) : tProduct('works')
 
   const load = async (
     page: number,
@@ -58,17 +63,15 @@ export default function PotterProductsCatalog({
       setError(null)
       try {
         await load(page, limit, nextFilters)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : String(err))
+      } catch {
+        setError(tProducts('fetchError'))
       }
     })
   }
 
   return (
     <section className="mt-12">
-      <h2 className="text-2xl font-semibold mb-6">
-        {tProduct('moreFromThisPotter')}
-      </h2>
+      <h2 className="text-2xl font-semibold mb-6">{worksHeading}</h2>
 
       <ProductsToolbar
         value={filtersLocal}
@@ -77,8 +80,9 @@ export default function PotterProductsCatalog({
           runLoad(1, pagination.limit || 20, next)
         }}
         categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
-        styles={['yakishime', 'shino', 'oribe']}
         showPotterId={false}
+        showStyle={false}
+        showActive={false}
         page={pagination.page || 1}
         totalPages={pagination.totalPages || 0}
         limit={pagination.limit || 20}
@@ -98,7 +102,7 @@ export default function PotterProductsCatalog({
             className="mt-2 rounded bg-gray-800 text-white px-3 py-1"
             onClick={() => runLoad(1, pagination.limit || 20, filtersLocal)}
           >
-            Retry
+            {tProduct('list.retry')}
           </button>
         </div>
       ) : (
@@ -115,6 +119,7 @@ export default function PotterProductsCatalog({
             <ProductGrid
               products={data.products}
               locale={locale}
+              variant="compact"
               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
             />
           )}
