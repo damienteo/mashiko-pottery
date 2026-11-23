@@ -2,6 +2,17 @@
   "title": "商品",
   "empty": "商品が見つかりません。",
   "fetchError": "商品の取得に失敗しました",
+  "categories": {
+    "vase": "花器",
+    "cup": "カップ",
+    "plate": "皿",
+    "bowl": "鉢",
+    "bottle": "徳利・瓶",
+    "lidded": "蓋物",
+    "teapot": "急須",
+    "planter": "植木鉢",
+    "donabe": "土鍋"
+  },
   "toolbar": {
     "clear": "フィルターをクリア",
     "search": {
@@ -11,12 +22,7 @@
     },
     "category": {
       "label": "カテゴリー",
-      "all": "すべて",
-      "vase": "花瓶",
-      "cup": "カップ",
-      "plate": "皿",
-      "bottle": "ボトル",
-      "bowl": "鉢"
+      "all": "すべて"
     },
     "style": {
       "label": "スタイル",

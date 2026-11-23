@@ -10,6 +10,7 @@ import { emptyProductFilters } from '@/lib/catalog/productListQuery'
 import type { ProductListResult } from '@/lib/catalog/products'
 import type { ProductFilters } from '@/types/common'
 import type { Locale } from '@/types/i18n'
+import { PRODUCT_CATEGORIES } from '@/constants/productCategories'
 
 export default function PotterProductsCatalog({
   potterId,
@@ -79,7 +80,7 @@ export default function PotterProductsCatalog({
           setFiltersLocal(next)
           runLoad(1, pagination.limit || 20, next)
         }}
-        categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
+        categories={[...PRODUCT_CATEGORIES]}
         showPotterId={false}
         showStyle={false}
         showActive={false}

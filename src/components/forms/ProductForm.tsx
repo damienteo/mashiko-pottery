@@ -9,6 +9,10 @@ import { v4 as uuidv4 } from 'uuid'
 import Button from '@/components/ui/Button'
 import PhotoUploadField from '@/components/forms/PhotoUploadField'
 import { useTranslations } from 'next-intl'
+import {
+  PRODUCT_CATEGORIES,
+  productCategoryLabel,
+} from '@/constants/productCategories'
 
 export interface DraftProductFormValues {
   id?: number
@@ -143,6 +147,7 @@ export default function ProductForm({
   submitText,
 }: ProductFormProps) {
   const t = useTranslations()
+  const tCategory = useTranslations('products.categories')
 
   const {
     register,
@@ -371,12 +376,18 @@ export default function ProductForm({
         <label htmlFor="category" className="block font-medium mb-1">
           {t('product.create.category')}
         </label>
-        <input
+        <select
           id="category"
-          type="text"
           {...register('category')}
-          className="w-full p-2 border rounded"
-        />
+          className="w-full p-2 border rounded bg-white"
+        >
+          <option value="" />
+          {PRODUCT_CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {productCategoryLabel(tCategory, c)}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="flex items-center space-x-2">

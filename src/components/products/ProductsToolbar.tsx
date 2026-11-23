@@ -4,6 +4,10 @@ import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import type { ProductFilters } from '@/types/common'
 import { useTranslations } from 'next-intl'
+import {
+  PRODUCT_CATEGORIES,
+  productCategoryLabel,
+} from '@/constants/productCategories'
 
 export type ProductsToolbarProps = {
   value: ProductFilters
@@ -33,7 +37,7 @@ type FormValues = {
 export default function ProductsToolbar({
   value,
   onSearch,
-  categories = [],
+  categories = [...PRODUCT_CATEGORIES],
   styles = [],
   showPotterId = false,
   showStyle = true,
@@ -45,6 +49,7 @@ export default function ProductsToolbar({
   onChangeLimit = () => {},
 }: ProductsToolbarProps) {
   const t = useTranslations('products.toolbar')
+  const tCategory = useTranslations('products.categories')
 
   const defaultValues = useMemo<FormValues>(
     () => ({
@@ -139,8 +144,7 @@ export default function ProductsToolbar({
     })
   }
 
-  const categoryLabel = (c: string) =>
-    t.has(`category.${c}`) ? t(`category.${c}`) : c
+  const categoryLabel = (c: string) => productCategoryLabel(tCategory, c)
 
   return (
     <section className="px-4 py-4 sm:px-6 lg:px-8 bg-white/60 backdrop-blur">

@@ -12,14 +12,7 @@ import { emptyProductFilters } from '@/lib/catalog/productListQuery'
 jest.mock('next-intl', () => ({
   useTranslations: () => {
     const t = (key: string) => key
-    t.has = (key: string) =>
-      [
-        'category.vase',
-        'category.cup',
-        'category.plate',
-        'category.bottle',
-        'category.bowl',
-      ].includes(key)
+    t.has = () => true
     return t
   },
 }))
@@ -113,9 +106,7 @@ describe('ProductsToolbar', () => {
     expect(screen.queryByLabelText('style.label')).not.toBeInTheDocument()
     expect(screen.queryByLabelText('active.label')).not.toBeInTheDocument()
     expect(screen.getByLabelText('category.label')).toBeInTheDocument()
-    expect(screen.getByRole('option', { name: 'category.vase' })).toHaveValue(
-      'vase'
-    )
+    expect(screen.getByRole('option', { name: 'vase' })).toHaveValue('vase')
   })
 
   it('keeps style and active controls when shown (admin)', () => {

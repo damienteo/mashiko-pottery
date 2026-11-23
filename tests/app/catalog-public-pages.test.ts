@@ -54,6 +54,7 @@ describe('product detail public copy', () => {
     expect(details).toMatch(/id="specs-heading"/)
     expect(details).toMatch(/id="metadata-heading"/)
     expect(details).toMatch(/t\('soldOut'\)/)
+    expect(details).toMatch(/productCategoryLabel/)
     expect(details).not.toMatch(/onAddToCart/)
     expect(page).toMatch(/trimAtBoundary/)
   })

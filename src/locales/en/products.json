@@ -2,6 +2,17 @@
   "title": "Products",
   "empty": "No products found.",
   "fetchError": "Failed to fetch products",
+  "categories": {
+    "vase": "Vase",
+    "cup": "Cup",
+    "plate": "Plate",
+    "bowl": "Bowl",
+    "bottle": "Bottle",
+    "lidded": "Lidded",
+    "teapot": "Teapot",
+    "planter": "Planter",
+    "donabe": "Donabe"
+  },
   "toolbar": {
     "clear": "Clear filters",
     "search": {
@@ -11,12 +22,7 @@
     },
     "category": {
       "label": "Category",
-      "all": "All",
-      "vase": "Vase",
-      "cup": "Cup",
-      "plate": "Plate",
-      "bottle": "Bottle",
-      "bowl": "Bowl"
+      "all": "All"
     },
     "style": {
       "label": "Style",

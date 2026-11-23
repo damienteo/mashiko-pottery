@@ -15,6 +15,7 @@ import {
 import type { ProductListResult } from '@/lib/catalog/products'
 import type { ProductFilters } from '@/types/common'
 import type { Locale } from '@/types/i18n'
+import { PRODUCT_CATEGORIES } from '@/constants/productCategories'
 
 export default function ProductsCatalog({
   initialData,
@@ -118,7 +119,7 @@ export default function ProductsCatalog({
           onSearch={(next) => {
             pushQuery(1, pagination.limit, next)
           }}
-          categories={['vase', 'cup', 'plate', 'bottle', 'bowl']}
+          categories={[...PRODUCT_CATEGORIES]}
           showPotterId={false}
           showStyle={false}
           showActive={false}

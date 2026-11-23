@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync } from 'fs'
 import { join } from 'path'
+import { PRODUCT_CATEGORIES } from '@/constants/productCategories'
 
 const localesDir = join(process.cwd(), 'src/locales')
 const locales = ['ja', 'en', 'zh'] as const
@@ -49,6 +50,21 @@ describe('locale key parity', () => {
       }
       expect(meta.products?.title).toEqual(expect.any(String))
       expect(meta.products?.description).toEqual(expect.any(String))
+    }
+  })
+
+  it('has translated labels for every product category in ja, en, and zh', () => {
+    for (const locale of locales) {
+      const products = load(locale, 'products.json') as {
+        categories?: Record<string, string>
+      }
+      expect(Object.keys(products.categories ?? {}).sort()).toEqual(
+        [...PRODUCT_CATEGORIES].sort()
+      )
+      for (const key of PRODUCT_CATEGORIES) {
+        expect(products.categories?.[key]).toEqual(expect.any(String))
+        expect(products.categories?.[key]?.length).toBeGreaterThan(0)
+      }
     }
   })
 

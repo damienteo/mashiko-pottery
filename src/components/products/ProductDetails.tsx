@@ -10,6 +10,7 @@ import Gallery from '@/components/ui/Gallery'
 import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
 import { localizedText } from '@/lib/catalog/serialize'
 import { isNonEmptyText } from '@/lib/catalog/trimAtBoundary'
+import { productCategoryLabel } from '@/constants/productCategories'
 
 const formatNum = (n: number, locale: Locale) =>
   new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(n)
@@ -33,6 +34,7 @@ export default async function ProductDetails({
   relatedProducts,
 }: ProductDetailsProps) {
   const t = await getTranslations('product')
+  const tCategory = await getTranslations('products.categories')
 
   const images = uniqueGalleryImages([
     product.mainImage,
@@ -113,7 +115,7 @@ export default async function ProductDetails({
                 {product.category && (
                   <>
                     <dt className="text-gray-500">{t('category')}</dt>
-                    <dd>{product.category}</dd>
+                    <dd>{productCategoryLabel(tCategory, product.category)}</dd>
                   </>
                 )}
                 {product.tags && product.tags.length > 0 && (
