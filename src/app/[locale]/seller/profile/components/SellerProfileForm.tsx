@@ -86,6 +86,25 @@ export function SellerProfileForm({
           ))}
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {(['en', 'ja', 'zh'] as const).map((loc) => (
+            <div key={loc}>
+              <label className="block text-sm font-medium">
+                {t('fields.style')} ({localeLabels[loc]})
+              </label>
+              <input
+                {...register(`style.${loc}` as Path<ProfileFormValues>)}
+                className="mt-1 block w-full border p-2 rounded"
+              />
+              {errors.style?.[loc] && (
+                <p className="text-red-600 text-xs mt-1">
+                  {errors.style[loc]?.message}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {control._formValues.createdAt && (
             <div>

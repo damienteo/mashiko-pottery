@@ -69,6 +69,11 @@ export const mockSellerProfile: SellerProfile = {
       </div>
     `,
   },
+  style: {
+    en: 'Yakishime',
+    ja: '焼き締め',
+    zh: '烧締め',
+  },
   portfolio: {
     en: 'View my handmade pottery online: https://example.com/aiko-tanaka-portfolio',
     ja: '手作りの器をオンラインでご覧いただけます： https://example.com/aiko-tanaka-portfolio',

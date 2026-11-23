@@ -10,7 +10,8 @@
     "fields": {
       "name": "名前",
       "bio": "自己紹介",
-      "portfolio": "ポートフォリオ"
+      "portfolio": "ポートフォリオ",
+      "style": "作風"
     },
     "help": {
       "portfolio": "作品集の簡単な説明を入力してください。"

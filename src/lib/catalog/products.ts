@@ -4,6 +4,7 @@ import { prisma } from '@/lib/prisma'
 import type { Pagination, ProductFilters } from '@/types/common'
 import type { Product } from '@/types/product'
 import { isProductionBuild, withCatalogGuard } from './guard'
+import { whereJsonLocaleContains } from './jsonLocale'
 import { serializePotter, serializeProduct } from './serialize'
 
 export type ProductListQuery = {
@@ -113,7 +114,9 @@ function buildWhere(query: ProductListQuery): Prisma.ProductWhereInput {
     ...(typeof query.potterId === 'number' && !Number.isNaN(query.potterId)
       ? { potterId: query.potterId }
       : {}),
-    ...(query.style ? {} : {}),
+    ...(query.style
+      ? { potter: whereJsonLocaleContains('style', query.style) }
+      : {}),
   }
 }
 

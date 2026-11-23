@@ -50,6 +50,11 @@ const profileSchema = yup.object({
       .max(1000, '最多1000个字符')
       .required('Portfolio is required'),
   }),
+  style: yup.object({
+    en: yup.string().required(),
+    ja: yup.string().required(),
+    zh: yup.string().required(),
+  }),
 })
 export type ProfileFormValues = yup.InferType<typeof profileSchema>
 
@@ -87,11 +92,17 @@ export default function SellerProfileClient() {
           ja: profile.portfolio?.ja ?? '',
           zh: profile.portfolio?.['zh'] ?? '',
         },
+        style: {
+          en: profile.style?.en ?? '',
+          ja: profile.style?.ja ?? '',
+          zh: profile.style?.['zh'] ?? '',
+        },
       }
     : {
         name: { en: '', ja: '', zh: '' },
         bio: { en: '', ja: '', zh: '' },
         portfolio: { en: '', ja: '', zh: '' },
+        style: { en: '', ja: '', zh: '' },
       }
 
   const {

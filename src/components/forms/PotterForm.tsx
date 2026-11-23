@@ -21,7 +21,11 @@ export interface PotterFormValues {
     ja: string
     zh: string
   }
-  style: string
+  style: {
+    en: string
+    ja: string
+    zh: string
+  }
   imageUrl?: string
   photos?: string[]
   active?: boolean
@@ -54,7 +58,11 @@ const schema: yup.ObjectSchema<PotterFormValues> = yup.object({
     ja: yup.string().required('Japanese bio is required'),
     zh: yup.string().required('Chinese bio is required'),
   }),
-  style: yup.string().required('Style is required'),
+  style: yup.object({
+    en: yup.string().required('English style is required'),
+    ja: yup.string().required('Japanese style is required'),
+    zh: yup.string().required('Chinese style is required'),
+  }),
   imageUrl: yup.string().optional(),
   photos: yup.array().of(yup.string().url().required()).required(),
   active: yup.boolean().optional(),
@@ -153,19 +161,29 @@ export default function PotterForm({
         ))}
       </fieldset>
 
-      <div>
-        <label htmlFor="style" className="block mb-1">
+      {/* Localized Style */}
+      <fieldset className="space-y-2">
+        <legend className="font-semibold mb-1">
           {t('potter.create.style')}
-        </label>
-        <input
-          id="style"
-          {...register('style')}
-          className="w-full p-2 border rounded"
-        />
-        {errors.style && (
-          <p className="text-red-600 text-sm">{errors.style.message}</p>
-        )}
-      </div>
+        </legend>
+        {(['en', 'ja', 'zh'] as const).map((lang) => (
+          <div key={lang}>
+            <label htmlFor={`style.${lang}`} className="block text-sm">
+              {t(`potter.create.style${lang.toUpperCase()}`)}
+            </label>
+            <input
+              id={`style.${lang}`}
+              {...register(`style.${lang}`)}
+              className="w-full p-2 border rounded"
+            />
+            {errors.style?.[lang] && (
+              <p className="text-red-600 text-sm">
+                {errors.style[lang]?.message}
+              </p>
+            )}
+          </div>
+        ))}
+      </fieldset>
 
       <PhotoUploadField<PotterFormValues>
         name="imageUrl"

@@ -9,6 +9,7 @@ import {
 import { getCachedPotterById, safeListPotterIds } from '@/lib/catalog/potters'
 import { emptyProductList, getCachedProductList } from '@/lib/catalog/products'
 import { uniqueGalleryImages } from '@/lib/catalog/galleryImages'
+import { localizedText } from '@/lib/catalog/serialize'
 import Gallery from '@/components/ui/Gallery'
 import ProductGrid from '@/components/products/ProductGrid'
 import PotterProductsCatalog from './PotterProductsCatalog'
@@ -83,6 +84,7 @@ export default async function PotterPage({
   ])
   const galleryImages =
     images.length > 0 ? images : ['/images/potter-fallback.webp']
+  const styleText = localizedText(potter.style, typedLocale)
 
   return (
     <div className="px-4 py-8 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -100,10 +102,10 @@ export default async function PotterPage({
           </h1>
           <p className="text-gray-700 text-lg">{potter.bio[typedLocale]}</p>
           <dl className="mt-4 text-gray-600">
-            {potter.style && (
+            {styleText && (
               <>
                 <dt className="font-medium">{t('style')}</dt>
-                <dd className="mb-2">{potter.style}</dd>
+                <dd className="mb-2">{styleText}</dd>
               </>
             )}
             <dt className="font-medium">{t('active')}</dt>
